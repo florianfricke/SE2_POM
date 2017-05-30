@@ -19,6 +19,8 @@ public class CustomerController {
 	@FXML private TextArea tar_Comment;
 	@FXML private Button btnSave;
 	
+	System.out.println("Knoedellwurst");
+	
 	public void init(MainMenu mainMenu) {
         this.mainMenu = mainMenu;
         this.cust = new Customer();
