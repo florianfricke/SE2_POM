@@ -38,6 +38,46 @@ public class CustomerController {
 		Bindings.bindBidirectional(tar_Comment.textProperty(),this.cust.commentProperty());
 	}
 	
+	@FXML private void handleNewAddress(ActionEvent event) {
+    	System.out.println("New Address");
+    	//Code Einfügen
+  
+    }
+	
+	@FXML private void handleNewContact(ActionEvent event) {
+    	System.out.println("New Contact");
+    	//Code Einfügen
+  
+    }
+	
+	@FXML private void handleNewBank(ActionEvent event) {
+    	System.out.println("New Bank");
+    	//Code Einfügen
+  
+    }
+	
+	@FXML private void handleDelAddress(ActionEvent event) {
+    	System.out.println("Del Address");
+    	//Code Einfügen
+  
+    }
+	
+	@FXML private void handleDelContact(ActionEvent event) {
+    	System.out.println("Del Contact");
+    	//Code Einfügen
+  
+    }
+	
+	@FXML private void handleDelBank(ActionEvent event) {
+    	System.out.println("Del Bank");
+    	//Code Einfügen
+  
+    }
+	
+	
+	
+	
+	
 	@FXML private void handleSave(ActionEvent event) {
     	System.out.println("Save");
     	mainMenu.addCustomer(this.cust);

@@ -98,14 +98,17 @@ public class MainController{
     
     @FXML private void handleNewOrder(ActionEvent event) {
     	System.out.println("New Order");
+    	//Code Einfügen
     }
     
     @FXML private void handleDelOrder(ActionEvent event) {
     	System.out.println("Delete");
+    	//Code Einfügen
     }
     
     @FXML private void handleRowClickOrder(ActionEvent event) {
     	System.out.println("RowClick");
+    	//Code Einfügen
     }
     
     @FXML private void handleDash(ActionEvent event) {
