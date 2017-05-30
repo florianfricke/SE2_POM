@@ -55,16 +55,15 @@
 				<children>
 				   <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="53.0" prefWidth="457.0" VBox.vgrow="NEVER">
 				     <items>
-				       <Button mnemonicParsing="false" onAction="#handleNew" prefHeight="9.0" prefWidth="40.0" text="New" />
-                  <Button mnemonicParsing="false" text="Modify" />
-				         <Button mnemonicParsing="false" onAction="#handleDel" text="Delete" />
+				       <Button mnemonicParsing="false" onAction="#handleNewOrder" prefHeight="9.0" prefWidth="40.0" text="New" />
+				         <Button mnemonicParsing="false" onAction="#handleDelOrder" text="Delete" />
 				         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="26.0" stroke="WHITE" strokeType="INSIDE" visible="false" width="107.0" />
 				         <ChoiceBox prefHeight="25.0" prefWidth="83.0" />
 				         <TextField prefHeight="25.0" prefWidth="97.0" />
 				         <Button mnemonicParsing="false" text="Filter" />
 				     </items>
 				   </ToolBar>
-				   <TableView fx:id="table" editable="false" onMouseClicked="#handleRowClick" prefHeight="505.0" prefWidth="680.0">
+				   <TableView fx:id="table" editable="false" onMouseClicked="#handleRowClickOrder" prefHeight="505.0" prefWidth="680.0">
 				     <columns>
 				       <TableColumn fx:id="id" prefWidth="75.0" text="ID"> 
 				       	<cellValueFactory>

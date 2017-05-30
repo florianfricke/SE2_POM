@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/marku/Downloads/postgresql-42.1.1.jar" sourcepath="C:/Users/marku/Downloads/postgresql-42.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Georg Maurer/Git/SE2_POM/POM/postgresql-42.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Georg.Maurer/Git/SE2_POM/POM/postgresql-42.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -47,7 +47,7 @@ public class MainController{
     }
     
   //MouseClick on Row and open Customer Card
-    @FXML private void handleRowClick(MouseEvent click) {
+    @FXML private void handleRowClickCust(MouseEvent click) {
     	if(click.getClickCount() != 2) return; //just Double Click
         System.out.println("clicked on Customer: " + (table.getSelectionModel().getSelectedItem()).idProperty().get());
         Customer cust = table.getSelectionModel().getSelectedItem();
@@ -68,7 +68,7 @@ public class MainController{
             logger.log(Level.SEVERE, "Failed to create new Window.", e);
         }
     }
-    @FXML private void handleNew(ActionEvent event) {
+    @FXML private void handleNewCust(ActionEvent event) {
     	System.out.println("New");
     	try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -88,9 +88,24 @@ public class MainController{
         }
     }
 
-    @FXML private void handleDel(ActionEvent event) {
+    
+ 
+    
+    @FXML private void handleDelCust(ActionEvent event) {
     	System.out.println("Delete");
     	mainMenu.deleteCustomer(table.getSelectionModel().getSelectedItem());
+    }
+    
+    @FXML private void handleNewOrder(ActionEvent event) {
+    	System.out.println("New Order");
+    }
+    
+    @FXML private void handleDelOrder(ActionEvent event) {
+    	System.out.println("Delete");
+    }
+    
+    @FXML private void handleRowClickOrder(ActionEvent event) {
+    	System.out.println("RowClick");
     }
     
     @FXML private void handleDash(ActionEvent event) {
