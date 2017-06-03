@@ -43,7 +43,7 @@
             <TextField fx:id="txt_dueDate" layoutX="512.0" layoutY="157.0" />
             <TextField fx:id="txt_price" layoutX="512.0" layoutY="191.0" />
             <TextField fx:id="txt_delveryDate" layoutX="512.0" layoutY="227.0" />
-            <TextField fx:id="txt_comment" layoutX="33.0" layoutY="296.0" prefHeight="66.0" prefWidth="640.0" />
+            <TextField fx:id="tar_comment" layoutX="33.0" layoutY="296.0" prefHeight="66.0" prefWidth="640.0" />
             
       </children>
     </AnchorPane>
