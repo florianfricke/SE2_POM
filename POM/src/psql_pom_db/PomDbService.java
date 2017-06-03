@@ -97,4 +97,27 @@ public class PomDbService implements IPomDbService {
 		}
 		return false;
 	}
+	
+	/**
+	 * @returns List of all Orders which are stored in data source
+	 * 
+	 */
+	public List<Order> getOrderList(){
+		List<Order> orderList = new ArrayList<Order>();
+		PreparedStatement stmt = null;
+		try {
+			stmt = con.prepareStatement("SELECT * FROM Order");
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next())
+			{
+			   orderList.add(new Customer(rs.getString("customerid"), rs.getString("companyname"), rs.getString("customerranking"), rs.getString("comment")));
+			}
+			rs.close();
+		    stmt.close();
+		    
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return orderList;
+	}
 }

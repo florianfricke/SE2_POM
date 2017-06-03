@@ -7,4 +7,5 @@ public interface IPomDbService {
 	public boolean addCustomer(Customer cust);
 	public List<Customer> getCustomerList();
 	public boolean deleteCustomer(String id);
+	public List<Order> getOrderList();
 }
