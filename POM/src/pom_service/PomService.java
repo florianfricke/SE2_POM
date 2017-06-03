@@ -29,4 +29,8 @@ public class PomService {
 	public boolean deleteCustomer(String id){
 		return pomPersistance.deleteCustomer(id);
 	}
+	
+	public List<Order> getOrderList() {
+		return pomPersistance.getOrderList();
+	}
 }
