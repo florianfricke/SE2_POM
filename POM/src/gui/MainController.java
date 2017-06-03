@@ -68,7 +68,8 @@ public class MainController{
             logger.log(Level.SEVERE, "Failed to create new Window.", e);
         }
     }
-    
+   
+ 
     @FXML private void handleNewCust(ActionEvent event) {
     	System.out.println("New");
     	try {
@@ -89,13 +90,15 @@ public class MainController{
         }
     }
 
-    
+
  
     
     @FXML private void handleDelCust(ActionEvent event) {
     	System.out.println("Delete");
     	mainMenu.deleteCustomer(table.getSelectionModel().getSelectedItem());
     }
+    
+    //TODO Handler öffnet OrderCard nicht
     
     @FXML private void handleNewOrder(ActionEvent event) {
     	System.out.println("New Order");
@@ -104,8 +107,8 @@ public class MainController{
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("OrderCard.fxml"));
             Parent root = fxmlLoader.load();
-            CustomerController custCtrl = (CustomerController)fxmlLoader.getController();
-            custCtrl.init(this.mainMenu);
+            OrderController orderCtrl = (OrderController)fxmlLoader.getController();
+            orderCtrl.init(this.mainMenu);
             Scene scene = new Scene(root, 600, 400);
             Stage stage = new Stage();
             stage.setTitle("New Window");
@@ -117,7 +120,7 @@ public class MainController{
             logger.log(Level.SEVERE, "Failed to create new Window.", e);
         }
     }
-    
+   
     @FXML private void handleDelOrder(ActionEvent event) {
     	System.out.println("Delete");
     	//Code Einfügen

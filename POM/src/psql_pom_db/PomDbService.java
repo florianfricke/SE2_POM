@@ -100,7 +100,9 @@ public class PomDbService implements IPomDbService {
 	
 	/**
 	 * @returns List of all Orders which are stored in data source
-	 * 
+	 * TODO (Nils Nolte): please alter column name produkt to product 
+	 * and actualdeliverysize to actualdeliverydate 
+	 * and we also need column bankaccountid as fk to bank account
 	 */
 	public List<Order> getOrderList(){
 		List<Order> orderList = new ArrayList<Order>();
@@ -110,7 +112,11 @@ public class PomDbService implements IPomDbService {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next())
 			{
-			   orderList.add(new Customer(rs.getString("customerid"), rs.getString("companyname"), rs.getString("customerranking"), rs.getString("comment")));
+			   orderList.add(new Order(rs.getString("orderno"), rs.getString("produkt"), rs.getDouble("price"),
+					   rs.getInt("volume"), rs.getString("state"), rs.getString("baselotid"), rs.getDate("orderdate"),
+					   rs.getDate("releasedate"), rs.getDate("completiondate"), rs.getDate("duedate"), rs.getInt("priority"), 
+					   rs.getString("comment"), rs.getInt("lotsize"), rs.getDate("actualdeliverysize")
+					   ));
 			}
 			rs.close();
 		    stmt.close();

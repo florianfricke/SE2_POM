@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import types.Customer;
+import types.Order;
 
 public class OrderController {
 	private MainMenu mainMenu;
@@ -27,73 +27,43 @@ public class OrderController {
     @FXML private TextField txt_price;
     @FXML private TextField txt_delveryDate;
     @FXML private TextArea tar_comment;
-
-
-	@FXML private TextArea tar_Comment;
-	@FXML private Button btnSave;
+	@FXML private Button btn_save;
+	@FXML private Button btn_cancel;
 	
 	public void init(MainMenu mainMenu) {
         this.mainMenu = mainMenu;
-        this.cust = new Customer();
+        this.order = new Order();
         setTextFields();
    }
 	
-	public void init(MainMenu mainMenu, Customer cust) {
+	public void init(MainMenu mainMenu, Order order) {
         this.mainMenu = mainMenu;
-        this.cust = cust;
+        this.order = order;
         setTextFields();
    }
 	
 	private void setTextFields(){
-		Bindings.bindBidirectional(txt_Id.textProperty(), this.cust.idProperty());
-		Bindings.bindBidirectional(txt_Name.textProperty(),this.cust.nameProperty());
-		Bindings.bindBidirectional(txt_Ranking.textProperty(),this.cust.rankingProperty());
-		Bindings.bindBidirectional(tar_Comment.textProperty(),this.cust.commentProperty());
+		Bindings.bindBidirectional(txt_Id.textProperty(), this.order.iD());
+		Bindings.bindBidirectional(txt_product.textProperty(),this.order.product());
+		Bindings.bindBidirectional(txt_priority.textProperty(),this.order.priorityProperty());
+		Bindings.bindBidirectional(txt_customer.textProperty(),this.order.customerProperty());
+		Bindings.bindBidirectional(txt_orderDate.textProperty(),this.order.orderDateProperty());
+		Bindings.bindBidirectional(txt_releaseDate.textProperty(),this.order.releaseDateProperty());
+		Bindings.bindBidirectional(txt_state.textProperty(),this.order.stateProperty());
+		Bindings.bindBidirectional(txt_baseLotID.textProperty(),this.order.baseLotIDProperty());
+		Bindings.bindBidirectional(txt_volume.textProperty(),this.order.volumeProperty());
+		Bindings.bindBidirectional(txt_dueDate.textProperty(),this.order.dueDateProperty());
+		Bindings.bindBidirectional(txt_price.textProperty(),this.order.priceProperty());
+		Bindings.bindBidirectional(txt_delveryDate.textProperty(),this.order.delveryDateProperty());
+		Bindings.bindBidirectional(tar_comment.textProperty(),this.order.commentProperty());
+		
 	}
-	
-	@FXML private void handleNewAddress(ActionEvent event) {
-    	System.out.println("New Address");
-    	//Code Einfügen
-  
-    }
-	
-	@FXML private void handleNewContact(ActionEvent event) {
-    	System.out.println("New Contact");
-    	//Code Einfügen
-  
-    }
-	
-	@FXML private void handleNewBank(ActionEvent event) {
-    	System.out.println("New Bank");
-    	//Code Einfügen
-  
-    }
-	
-	@FXML private void handleDelAddress(ActionEvent event) {
-    	System.out.println("Del Address");
-    	//Code Einfügen
-  
-    }
-	
-	@FXML private void handleDelContact(ActionEvent event) {
-    	System.out.println("Del Contact");
-    	//Code Einfügen
-  
-    }
-	
-	@FXML private void handleDelBank(ActionEvent event) {
-    	System.out.println("Del Bank");
-    	//Code Einfügen
-  
-    }
-	
-	
 	
 	
 	
 	@FXML private void handleSave(ActionEvent event) {
     	System.out.println("Save");
-    	mainMenu.addCustomer(this.cust);
+    //	mainMenu.addCustomer(this.cust);
     	closeWindow(event);
     }
 	
