@@ -104,6 +104,7 @@ public class PomDbService implements IPomDbService {
 	 */
 	public List<Order> getOrderList(){
 		List<Order> orderList = new ArrayList<Order>();
+		/*
 		PreparedStatement stmt = null;
 		try {
 			stmt = con.prepareStatement("SELECT * FROM Order");
@@ -117,7 +118,9 @@ public class PomDbService implements IPomDbService {
 		    
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		}*/
 		return orderList;
+		
 	}
+	
 }

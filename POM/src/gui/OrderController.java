@@ -9,6 +9,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import types.Customer;
+import types.Order;
 
 public class OrderController {
 	private MainMenu mainMenu;
@@ -31,7 +32,8 @@ public class OrderController {
 
 	@FXML private TextArea tar_Comment;
 	@FXML private Button btnSave;
-	
+	private Customer cust;
+/*	
 	public void init(MainMenu mainMenu) {
         this.mainMenu = mainMenu;
         this.cust = new Customer();
@@ -107,5 +109,5 @@ public class OrderController {
     	Stage stage = (Stage) currStage.getScene().getWindow();
     	stage.close(); 
 	}
-	
+	*/
 }
