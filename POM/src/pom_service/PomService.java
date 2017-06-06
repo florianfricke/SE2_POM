@@ -1,7 +1,6 @@
 package pom_service;
 import java.util.List;
 
-import javafx.collections.ObservableList;
 import pom_db_interface.*;
 import psql_pom_db.*;
 import types.*;

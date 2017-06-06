@@ -2,14 +2,17 @@ package types;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 
 public class Customer {
 
-	private final StringProperty id;
-	private final StringProperty name;
-	private final StringProperty ranking;
-	private final StringProperty comment;
-	
+	private StringProperty id;
+	private StringProperty name;
+	private StringProperty ranking;
+	private StringProperty comment;
+	private ObservableList<Address> addressList;
+	private ObservableList<Contact> contactList;
+	private ObservableList<BankAccount> bankAccountList;
 
 	public Customer(String id, String name, String ranking,String comment) {
 		this.id = new SimpleStringProperty(id);
@@ -18,7 +21,7 @@ public class Customer {
 		this.comment = new SimpleStringProperty(comment);
 	}
 	
-	public Customer() {this(null,null,null,null);}
+	public Customer() {}
 
 	public StringProperty idProperty() {
 		return id;
@@ -50,6 +53,16 @@ public class Customer {
 
 	public void setComment(String comment) {
 		this.comment.set(comment);
+	}
+	
+	public ObservableList<Address> getAddressList(){
+		return addressList;
+	}
+	public ObservableList<Contact> getContactList(){
+		return contactList;
+	}
+	public ObservableList<BankAccount> getBankAccountList(){
+		return bankAccountList;
 	}
 
 }
