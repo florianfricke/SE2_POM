@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <AnchorPane prefHeight="360.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
+      <children>
+        <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+          <font>
+            <Font size="18.0" />
+          </font>
+        </Label>
+            <TextField fx:id="txt_CustomerNo" layoutX="146.0" layoutY="83.0" />
+            <TextField fx:id="txt_customerName" layoutX="146.0" layoutY="132.0" />
+            <TextField fx:id="txt_ranking" layoutX="146.0" layoutY="175.0" />
+            <Label fx:id="lbl_CustomerNo" layoutX="33.0" layoutY="87.0" text="Customer No." />
+            <Label fx:id="lbl_customerName" layoutX="38.0" layoutY="136.0" text="Name" />
+            <Label fx:id="lbl_ranking" layoutX="38.0" layoutY="179.0" text="Ranking" />
+            <Button fx:id="btn_save" layoutX="495.0" layoutY="318.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Save" />
+            <Button fx:id="btn_cancel" layoutX="377.0" layoutY="318.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Cancel" />
+      </children>
+    </AnchorPane>
+  </children>
+</VBox>
