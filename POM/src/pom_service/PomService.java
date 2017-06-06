@@ -1,6 +1,8 @@
 package pom_service;
+import java.util.ArrayList;
 import java.util.List;
 
+import javafx.collections.FXCollections;
 import pom_db_interface.*;
 import psql_pom_db.*;
 import types.*;
@@ -29,7 +31,10 @@ public class PomService {
 		return pomPersistance.deleteCustomer(id);
 	}
 	
-	public List<Order> getOrderList() {
-		return pomPersistance.getOrderList();
+	public List<Order> getOrderList(String custId){
+		return pomPersistance.getOrderList(custId);
+	}
+	public List<Address> getAddressList(String custId){
+		return pomPersistance.getAddressList(custId);
 	}
 }

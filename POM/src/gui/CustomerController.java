@@ -41,8 +41,8 @@ public class CustomerController {
    }
 	
 	private void setTextFields(){
-        this.cust.getAddressList().add(new Address(1, "Bergblick", "11", "01896", "Pulsnitz", "Deutschland", false));
-        this.cust.getAddressList().add(new Address(2, "Steinaer Str.", "2a", "01896", "Pulsnitz", "Deutschland", true));
+        //this.cust.getAddressList().add(new Address(1, "Bergblick", "11", "01896", "Pulsnitz", "Deutschland", false));
+        //this.cust.getAddressList().add(new Address(2, "Steinaer Str.", "2a", "01896", "Pulsnitz", "Deutschland", true));
         
         
         
@@ -58,7 +58,7 @@ public class CustomerController {
 		country.setCellValueFactory(cellData -> cellData.getValue().countryProperty());
 		billingAddress.setCellValueFactory(cellData -> cellData.getValue().billingAddressProperty());
 		try{
-			addressTable.setItems(this.cust.getAddressList());	
+			addressTable.setItems(mainMenu.getAddressList(this.cust.idProperty().get()));	
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -66,37 +66,37 @@ public class CustomerController {
 	
 	@FXML private void handleNewAddress(ActionEvent event) {
     	System.out.println("New Address");
-    	//Code Einfügen
+    	//Code Einfï¿½gen
   
     }
 	
 	@FXML private void handleNewContact(ActionEvent event) {
     	System.out.println("New Contact");
-    	//Code Einfügen
+    	//Code Einfï¿½gen
   
     }
 	
 	@FXML private void handleNewBank(ActionEvent event) {
     	System.out.println("New Bank");
-    	//Code Einfügen
+    	//Code Einfï¿½gen
   
     }
 	
 	@FXML private void handleDelAddress(ActionEvent event) {
     	System.out.println("Del Address");
-    	//Code Einfügen
+    	//Code Einfï¿½gen
   
     }
 	
 	@FXML private void handleDelContact(ActionEvent event) {
     	System.out.println("Del Contact");
-    	//Code Einfügen
+    	//Code Einfï¿½gen
   
     }
 	
 	@FXML private void handleDelBank(ActionEvent event) {
     	System.out.println("Del Bank");
-    	//Code Einfügen
+    	//Code Einfï¿½gen
   
     }
 	

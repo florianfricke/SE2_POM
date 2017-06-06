@@ -1,4 +1,5 @@
 package gui;
+import types.Address;
 import types.Customer;
 import types.SaveType;
 import javafx.application.Application;
@@ -13,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import pom_service.PomService;
 import java.io.IOException;
+import java.util.List;
 
 
 public class MainMenu extends Application {
@@ -61,6 +63,9 @@ public class MainMenu extends Application {
 			customerList.remove(cust);
 		}
 		
+	}
+	public ObservableList<Address> getAddressList(String custId){
+		return FXCollections.observableList(pomService.getAddressList(custId));
 	}
 	public void changeScene(String fxml, ActionEvent event){
     	final Node currStage = (Node)event.getSource();

@@ -102,25 +102,61 @@ public class PomDbService implements IPomDbService {
 	 * @returns List of all Orders which are stored in data source
 	 * 
 	 */
-	public List<Order> getOrderList(){
+	public List<Order> getOrderList(String custId){
 		List<Order> orderList = new ArrayList<Order>();
-		/*
+		PreparedStatement stmt = null;
+		if(custId.isEmpty()){
+			try {
+				stmt = con.prepareStatement("SELECT * FROM Order");
+				ResultSet rs = stmt.executeQuery();
+				while (rs.next())
+				{
+				   //orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),rs.getString("price"),rs.getString("volume"),rs.getString("state"),rs.getString("baselotid"),rs.getString("orderdate"),rs.getString("releasedate"),rs.getString("completitiondate"),rs.getString("duedate"),rs.getString("actualdeliverydate"),rs.getString("lotsize"),rs.getString("priority"),rs.getString("comment")));
+				}
+				rs.close();
+			    stmt.close();
+			    
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}else{
+			try {
+				stmt = con.prepareStatement("SELECT * FROM Order");
+				ResultSet rs = stmt.executeQuery();
+				while (rs.next())
+				{
+				   //orderList.add(new Customer(rs.getString("customerid"), rs.getString("companyname"), rs.getString("customerranking"), rs.getString("comment")));
+				}
+				rs.close();
+			    stmt.close();
+			    
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return orderList;
+		
+	}
+	public List<Address> getAddressList(String custId){
+		List<Address> addressList = new ArrayList<Address>();
 		PreparedStatement stmt = null;
 		try {
-			stmt = con.prepareStatement("SELECT * FROM Order");
+			stmt = con.prepareStatement("SELECT * FROM address Where customerid = ? ");
+			stmt.setString(1, custId);
 			ResultSet rs = stmt.executeQuery();
+			
 			while (rs.next())
 			{
-			   orderList.add(new Customer(rs.getString("customerid"), rs.getString("companyname"), rs.getString("customerranking"), rs.getString("comment")));
+			   addressList.add(new Address(Integer.parseInt(rs.getString("id")), rs.getString("street"), rs.getString("houseno"), rs.getString("zipcode"),rs.getString("city"),rs.getString("country"),Boolean.parseBoolean(rs.getString("billingaddress"))));
 			}
 			rs.close();
 		    stmt.close();
 		    
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}*/
-		return orderList;
-		
+		}
+		return addressList;
 	}
+	
 	
 }
