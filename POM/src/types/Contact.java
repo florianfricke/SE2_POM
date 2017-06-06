@@ -5,15 +5,15 @@ import javafx.beans.property.*;
 
 public class Contact {
 	
-	private IntegerProperty id;
-	private StringProperty name;
-	private StringProperty firstName;
-	private StringProperty position;
-	private StringProperty phoneNo;
-	private StringProperty email;
+	private final IntegerProperty id;
+	private final StringProperty name;
+	private final StringProperty firstName;
+	private final StringProperty position;
+	private final StringProperty phoneNo;
+	private final StringProperty email;
 	
 	public Contact() {
-		
+		this(0,null,null,null,null,null);
 	}
 	
 	public Contact(int id, String name, String firstName, String position, String phoneNo, String email){

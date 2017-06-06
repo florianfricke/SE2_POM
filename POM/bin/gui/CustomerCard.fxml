@@ -27,9 +27,9 @@
                   <TextField fx:id="txt_Name" layoutX="145.0" layoutY="82.0" />
                   <TextField fx:id="txt_Ranking" layoutX="145.0" layoutY="125.0" />
                   <TextArea fx:id="tar_Comment" layoutX="145.0" layoutY="169.0" prefHeight="75.0" prefWidth="467.0" />
-                  <Label fx:id="lbl_Id" layoutX="33.0" layoutY="48.0" text="Customer No." />
-                  <Label fx:id="lbl_Name" layoutX="33.0" layoutY="86.0" text="Name" />
-                  <Label fx:id="lbl_Raking" layoutX="33.0" layoutY="129.0" text="Ranking" />
+                  <Label  layoutX="33.0" layoutY="48.0" text="Customer No." />
+                  <Label  layoutX="33.0" layoutY="86.0" text="Name" />
+                  <Label  layoutX="33.0" layoutY="129.0" text="Ranking" />
                   <Label layoutX="33.0" layoutY="169.0" text="Comment" />
                   
             </children>
@@ -43,36 +43,36 @@
                   <Label fx:id="lbl_addresses" layoutX="25.0" layoutY="6.0" prefHeight="17.0" prefWidth="63.0" text="Addresses" />
                   <Button fx:id="btn_newAddress" layoutX="25.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleNewAddress" prefHeight="25.0" prefWidth="100.0" text="New" />
                   <Button fx:id="btn_deleteAdress" layoutX="135.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleDelAddress" prefHeight="25.0" prefWidth="100.0" text="Delete" />
-                  <TableView fx:id="tbl_addresses" editable="false" layoutX="25.0" layoutY="55.0"  prefHeight="120.0" prefWidth="600.0">
+                  <TableView fx:id="addressTable" editable="false" layoutX="25.0" layoutY="55.0"  prefHeight="120.0" prefWidth="600.0">
                      <columns>
                         <TableColumn fx:id="street" prefWidth="75.0" text="Street">
                            <cellValueFactory>
-                              <PropertyValueFactory property="id" />
+                              <PropertyValueFactory property="street" />
                            </cellValueFactory>
                         </TableColumn>
                         <TableColumn fx:id="houseNo" prefWidth="75.0" text="House No">
                            <cellValueFactory>
-                              <PropertyValueFactory property="name" />
+                              <PropertyValueFactory property="houseNo" />
                            </cellValueFactory>
                         </TableColumn>
                         <TableColumn fx:id="zipCode" prefWidth="75.0" text="ZIP Code">
                            <cellValueFactory>
-                              <PropertyValueFactory property="ranking" />
+                              <PropertyValueFactory property="zipCode" />
                            </cellValueFactory>
                         </TableColumn>
                         <TableColumn fx:id="city" prefWidth="75.0" text="City">
                            <cellValueFactory>
-                              <PropertyValueFactory property="comment" />
+                              <PropertyValueFactory property="city" />
                            </cellValueFactory>
                         </TableColumn>
                         <TableColumn fx:id="country" prefWidth="75.0" text="Country">
                            <cellValueFactory>
-                              <PropertyValueFactory property="comment" />
+                              <PropertyValueFactory property="country" />
                            </cellValueFactory>
                         </TableColumn>
                         <TableColumn fx:id="billingAddress" prefWidth="75.0" text="Billing Address">
                            <cellValueFactory>
-                              <PropertyValueFactory property="comment" />
+                              <PropertyValueFactory property="billingAddress" />
                            </cellValueFactory>
                         </TableColumn>
                      </columns>

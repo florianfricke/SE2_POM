@@ -1,15 +1,18 @@
 package types;
 
+import java.util.ArrayList;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Customer {
 
-	private StringProperty id;
-	private StringProperty name;
-	private StringProperty ranking;
-	private StringProperty comment;
+	private final StringProperty id;
+	private final StringProperty name;
+	private final StringProperty ranking;
+	private final StringProperty comment;
 	private ObservableList<Address> addressList;
 	private ObservableList<Contact> contactList;
 	private ObservableList<BankAccount> bankAccountList;
@@ -19,9 +22,17 @@ public class Customer {
 		this.name = new SimpleStringProperty(name);
 		this.ranking = new SimpleStringProperty(ranking);
 		this.comment = new SimpleStringProperty(comment);
+		this.addressList = FXCollections.observableArrayList();
+		this.contactList = FXCollections.observableArrayList();
+		this.bankAccountList = FXCollections.observableArrayList();
 	}
 	
-	public Customer() {}
+	public Customer() {
+		this(null,null,null,null);
+		this.addressList = FXCollections.observableArrayList();
+		this.contactList = FXCollections.observableArrayList();
+		this.bankAccountList = FXCollections.observableArrayList();
+		}
 
 	public StringProperty idProperty() {
 		return id;

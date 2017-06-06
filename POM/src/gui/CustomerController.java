@@ -4,20 +4,28 @@ import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import types.Address;
 import types.Customer;
 
 public class CustomerController {
 	private MainMenu mainMenu;
 	private Customer cust;
+	@FXML private TableView<Address> addressTable;
+	@FXML private TableColumn<Address, String> street;
+    @FXML private TableColumn<Address, String> houseNo;
+    @FXML private TableColumn<Address, String> zipCode;
+    @FXML private TableColumn<Address, String> city;
+    @FXML private TableColumn<Address, String> country;
+    @FXML private TableColumn<Address, Boolean> billingAddress;
 	@FXML private TextField txt_Id;
 	@FXML private TextField txt_Name;
 	@FXML private TextField txt_Ranking;
 	@FXML private TextArea tar_Comment;
-	@FXML private Button btnSave;
 	
 	public void init(MainMenu mainMenu) {
         this.mainMenu = mainMenu;
@@ -28,14 +36,32 @@ public class CustomerController {
 	public void init(MainMenu mainMenu, Customer cust) {
         this.mainMenu = mainMenu;
         this.cust = cust;
+
         setTextFields();
    }
 	
 	private void setTextFields(){
+        this.cust.getAddressList().add(new Address(1, "Bergblick", "11", "01896", "Pulsnitz", "Deutschland", false));
+        this.cust.getAddressList().add(new Address(2, "Steinaer Str.", "2a", "01896", "Pulsnitz", "Deutschland", true));
+        
+        
+        
 		Bindings.bindBidirectional(txt_Id.textProperty(), this.cust.idProperty());
 		Bindings.bindBidirectional(txt_Name.textProperty(),this.cust.nameProperty());
 		Bindings.bindBidirectional(txt_Ranking.textProperty(),this.cust.rankingProperty());
 		Bindings.bindBidirectional(tar_Comment.textProperty(),this.cust.commentProperty());
+		
+		street.setCellValueFactory(cellData -> cellData.getValue().streetProperty());
+		houseNo.setCellValueFactory(cellData -> cellData.getValue().houseNoProperty());
+		zipCode.setCellValueFactory(cellData -> cellData.getValue().zipCodeProperty());
+		city.setCellValueFactory(cellData -> cellData.getValue().cityProperty());
+		country.setCellValueFactory(cellData -> cellData.getValue().countryProperty());
+		billingAddress.setCellValueFactory(cellData -> cellData.getValue().billingAddressProperty());
+		try{
+			addressTable.setItems(this.cust.getAddressList());	
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	@FXML private void handleNewAddress(ActionEvent event) {

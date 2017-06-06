@@ -5,29 +5,28 @@ import javafx.beans.property.*;
 
 public class Address {
 	
-	private IntegerProperty id;
-	private StringProperty street ;
-	private StringProperty houseNo;
-	private IntegerProperty zipCode;
-	private StringProperty city;
-	private StringProperty country;
-	private BooleanProperty billingAddress;
+	private final IntegerProperty id;
+	private final StringProperty street ;
+	private final StringProperty houseNo;
+	private final StringProperty zipCode;
+	private final StringProperty city;
+	private final StringProperty country;
+	private final BooleanProperty billingAddress;
 	
-	public Address() {
-		
-	}
-	
-	public Address(int id, String street, String houseNo, int zipCode, String city, String country, boolean bill ){
+	public Address(int id, String street, String houseNo, String zipCode, String city, String country, boolean bill ){
 		this.id = new SimpleIntegerProperty(id);
 		this.street = new SimpleStringProperty(street);
 		this.houseNo = new SimpleStringProperty(houseNo);
-		this.zipCode = new SimpleIntegerProperty(zipCode);
+		this.zipCode = new SimpleStringProperty(zipCode);
 		this.city = new SimpleStringProperty(city);
 		this.country = new SimpleStringProperty(country);
 		this.billingAddress = new SimpleBooleanProperty(bill);
 	}
-			
 	
+	public Address() {
+		this(0,null,null,null,null,null,false);
+	}	
+
 
 	public IntegerProperty idProperty() {
 		return id;
@@ -38,7 +37,7 @@ public class Address {
 	public StringProperty houseNoProperty() {
 		return houseNo;
 	}
-	public IntegerProperty zipCodeProperty() {
+	public StringProperty zipCodeProperty() {
 		return zipCode;
 	}
 	public StringProperty cityProperty() {

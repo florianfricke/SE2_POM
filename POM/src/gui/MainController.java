@@ -35,10 +35,7 @@ public class MainController{
 
     
 	public void initialize(URL location, ResourceBundle resources) {
-        id.setCellValueFactory(cellData -> cellData.getValue().idProperty());
-        name.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        ranking.setCellValueFactory(cellData -> cellData.getValue().rankingProperty());
-        comment.setCellValueFactory(cellData -> cellData.getValue().commentProperty());
+
     }
     
     
@@ -143,6 +140,10 @@ public class MainController{
     
     
     public void loadTable(){
+        id.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+        name.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        ranking.setCellValueFactory(cellData -> cellData.getValue().rankingProperty());
+        comment.setCellValueFactory(cellData -> cellData.getValue().commentProperty());
         table.setItems(mainMenu.getCustomerList());
     }
     

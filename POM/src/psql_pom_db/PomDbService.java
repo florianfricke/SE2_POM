@@ -45,7 +45,7 @@ public class PomDbService implements IPomDbService {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next())
 			{
-			   custList.add(new Customer(rs.getString("customerid"), rs.getString("companyname"), rs.getString("customerranking"), rs.getString("comment")));
+			   custList.add(new Customer(rs.getString("id"), rs.getString("companyname"), rs.getString("ranking"), rs.getString("comment")));
 			}
 			rs.close();
 		    stmt.close();
@@ -86,7 +86,7 @@ public class PomDbService implements IPomDbService {
 	public boolean deleteCustomer(String id) {
 		PreparedStatement stmt = null;
 		try {
-			stmt = con.prepareStatement("DELETE FROM Customer WHERE customerid = ?");
+			stmt = con.prepareStatement("DELETE FROM Customer WHERE id = ?");
 			stmt.setString(1, id);
 			stmt.executeUpdate();
 		    stmt.close();
