@@ -27,6 +27,13 @@ public class MainController{
     @FXML private TableColumn<Customer, String> name;
     @FXML private TableColumn<Customer, String> ranking;
     @FXML private TableColumn<Customer, String> comment;
+	@FXML private TableColumn<Order, String> idOrder;
+    @FXML private TableColumn<Order, String> product;
+    @FXML private TableColumn<Order, String> priority;
+    @FXML private TableColumn<Order, String> customer;
+    @FXML private TableColumn<Order, String> orderDate;
+    @FXML private TableColumn<Order, String> releaseDate;
+    @FXML private TableColumn<Order, String> state;
     @FXML private Button btnDashboard;
     @FXML private Button btnCustomers;
     @FXML private Button btnOrders;
@@ -103,7 +110,6 @@ public class MainController{
     @FXML private void handleNewOrder(ActionEvent event) {
     	System.out.println("New Order");
        	try {
-  
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("OrderCard.fxml"));
             Parent root = fxmlLoader.load();

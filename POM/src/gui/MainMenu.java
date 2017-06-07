@@ -1,5 +1,6 @@
 package gui;
 import types.Customer;
+import types.Order;
 import types.SaveType;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -18,6 +19,7 @@ import java.io.IOException;
 public class MainMenu extends Application {
 	private PomService pomService;
 	private ObservableList<Customer> customerList;
+	private ObservableList<Order> orderList;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -49,6 +51,7 @@ public class MainMenu extends Application {
 		this.customerList = FXCollections.observableList(pomService.getCustomerList());
 		return this.customerList;
 	}
+	
 	public void addCustomer(Customer cust){
 		if(pomService.addCustomer(cust)){
 			if(!customerList.contains(cust)){
@@ -62,6 +65,12 @@ public class MainMenu extends Application {
 		}
 		
 	}
+	
+	public ObservableList<Order> getOrderList() {
+		this.orderList = FXCollections.observableList(pomService.getOrderList());
+		return this.orderList;
+	}
+	
 	public void changeScene(String fxml, ActionEvent event){
     	final Node currStage = (Node)event.getSource();
     	Stage stage = (Stage) currStage.getScene().getWindow();
