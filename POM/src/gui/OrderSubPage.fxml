@@ -63,41 +63,41 @@
 				         <Button mnemonicParsing="false" text="Filter" />
 				     </items>
 				   </ToolBar>
-				   <TableView fx:id="table" editable="false" onMouseClicked="#handleRowClickOrder" prefHeight="505.0" prefWidth="680.0">
+				   <TableView fx:id="orderTable" editable="false" onMouseClicked="#handleRowClickOrder" prefHeight="505.0" prefWidth="680.0">
 				     <columns>
-				       <TableColumn fx:id="id" prefWidth="75.0" text="ID"> 
+				       <TableColumn fx:id="orderId" prefWidth="75.0" text="ID"> 
 				       	<cellValueFactory>
-				       		<PropertyValueFactory property="id" />
+				       		<PropertyValueFactory property="orderId" />
 				     	</cellValueFactory>
 				     	</TableColumn>
                   <TableColumn fx:id="product" prefWidth="75.0" text="Product">
                      <cellValueFactory>
-                        <PropertyValueFactory property="ranking" />
+                        <PropertyValueFactory property="product" />
                      </cellValueFactory>
                   </TableColumn>
                   <TableColumn fx:id="priority" prefWidth="75.0" text="Priority">
                      <cellValueFactory>
-                        <PropertyValueFactory property="ranking" />
+                        <PropertyValueFactory property="priority" />
                      </cellValueFactory>
                   </TableColumn>
 				        <TableColumn fx:id="customer" prefWidth="75.0" text="Customer">
 				<cellValueFactory>
-				       		<PropertyValueFactory property="name" />
+				       		<PropertyValueFactory property="customer" />
 				     	</cellValueFactory>
 				       </TableColumn>
                   <TableColumn fx:id="orderDate" prefWidth="75.0" text="Order Date">
                      <cellValueFactory>
-                        <PropertyValueFactory property="ranking" />
+                        <PropertyValueFactory property="orderDate" />
                      </cellValueFactory>
                   </TableColumn>
 				       <TableColumn fx:id="releaseDate" prefWidth="75.0" text="Release Date"> 
 				<cellValueFactory>
-				       		<PropertyValueFactory property="ranking" />
+				       		<PropertyValueFactory property="releaseDate" />
 				     	</cellValueFactory>
 				       </TableColumn>
 				       <TableColumn fx:id="state" prefWidth="75.0" text="State">
 				<cellValueFactory>
-				       		<PropertyValueFactory property="comment" />
+				       		<PropertyValueFactory property="state" />
 				     	</cellValueFactory>
 				       </TableColumn>
 				     </columns>

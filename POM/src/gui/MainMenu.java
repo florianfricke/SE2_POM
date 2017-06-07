@@ -79,9 +79,12 @@ public class MainMenu extends Application {
 			MainController mc = (MainController)loader.getController();
 			mc.setMainApp(this);
 			System.out.println(((Button)event.getSource()).getId());
-			if (((Button)event.getSource()).getId().equals("btnCustomers"))
-				mc.loadTable();
-			
+			if (((Button)event.getSource()).getId().equals("btnCustomers")){
+				mc.loadCustomerTable();
+			}
+			if (((Button)event.getSource()).getId().equals("btnOrders")){
+				mc.loadOrderTable();
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

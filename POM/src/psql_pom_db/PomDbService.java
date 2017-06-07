@@ -3,6 +3,7 @@ import pom_db_interface.*;
 import types.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.sql.*;
 
@@ -31,7 +32,7 @@ public class PomDbService implements IPomDbService {
 			stmt.executeUpdate();
 		    stmt.close();
 		    System.out.println("Upserted Customer "+ cust.idProperty());
-		    /* TODO sobald Tabellen gefüllt sind entweder einfügen oder Updaten
+		    /* TODO sobald Tabellen gefï¿½llt sind entweder einfï¿½gen oder Updaten
 		    if(!(cust.getAddressList().isEmpty())){
 		    	for (Address addrr : cust.getAddressList()) {
 			    	sql = "INSERT INTO address VALUES" + "('" + addr.idProperty().get() +"','"+ cust.nameProperty().get() +"','"+ 
@@ -122,45 +123,7 @@ public class PomDbService implements IPomDbService {
 		return false;
 	}
 	
-	/**
-	 * @returns List of all Orders which are stored in data source
-	 * 
-	 */
-	public List<Order> getOrderList(String custId){
-		List<Order> orderList = new ArrayList<Order>();
-		PreparedStatement stmt = null;
-		if(custId.isEmpty()){
-			try {
-				stmt = con.prepareStatement("SELECT * FROM Order");
-				ResultSet rs = stmt.executeQuery();
-				while (rs.next())
-				{
-				   //orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),rs.getString("price"),rs.getString("volume"),rs.getString("state"),rs.getString("baselotid"),rs.getString("orderdate"),rs.getString("releasedate"),rs.getString("completitiondate"),rs.getString("duedate"),rs.getString("actualdeliverydate"),rs.getString("lotsize"),rs.getString("priority"),rs.getString("comment")));
-				}
-				rs.close();
-			    stmt.close();
-			    
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}else{
-			try {
-				stmt = con.prepareStatement("SELECT * FROM Order");
-				ResultSet rs = stmt.executeQuery();
-				while (rs.next())
-				{
-				   //orderList.add(new Customer(rs.getString("customerid"), rs.getString("companyname"), rs.getString("customerranking"), rs.getString("comment")));
-				}
-				rs.close();
-			    stmt.close();
-			    
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return orderList;
-		
-	}
+
 	/**
 	 * @returns List of all addresses of a Customer 
 	 * 
@@ -234,5 +197,64 @@ public class PomDbService implements IPomDbService {
 		return bankAccountList;
 	}
 	
+	public List<Order> getOrderList(String Orderno){
+		List<Order> orderList = new ArrayList<Order>();
+		
+		PreparedStatement stmt = null;
+		try {
+			stmt = con.prepareStatement("SELECT * FROM Order");
+			ResultSet rs = stmt.executeQuery();
+			
+			while (rs.next())
+			{
+				orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),Double.parseDouble(rs.getString("price")),Integer.parseInt(rs.getString("volume")),rs.getString("state"),rs.getString("baselotid"),(rs.getString("orderdate")),(rs.getString("releasedate")),(rs.getString("completitiondate")),(rs.getString("duedate")),(rs.getString ("actualdeliverydate")),Integer.parseInt(rs.getString("lotsize")),Integer.parseInt(rs.getString("priority")),rs.getString("comment")));
+			}
+			rs.close();
+		    stmt.close();
+		    
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return orderList;
+	}	
+	/**
+	 * @returns List of all Orders which are stored in data source
+	 * 
+	 */
+	/*public List<Order> getOrderList(String custId){
+		List<Order> orderList = new ArrayList<Order>();
+		PreparedStatement stmt = null;
+		if(custId.isEmpty()){
+			try {
+				stmt = con.prepareStatement("SELECT * FROM Order");
+				ResultSet rs = stmt.executeQuery();
+				while (rs.next())
+				{
+				   //orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),rs.getString("price"),rs.getString("volume"),rs.getString("state"),rs.getString("baselotid"),rs.getString("orderdate"),rs.getString("releasedate"),rs.getString("completitiondate"),rs.getString("duedate"),rs.getString("actualdeliverydate"),rs.getString("lotsize"),rs.getString("priority"),rs.getString("comment")));
+				}
+				rs.close();
+			    stmt.close();
+			    
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}else{
+			try {
+				stmt = con.prepareStatement("SELECT * FROM Order");
+				ResultSet rs = stmt.executeQuery();
+				while (rs.next())
+				{
+				   //orderList.add(new Customer(rs.getString("customerid"), rs.getString("companyname"), rs.getString("customerranking"), rs.getString("comment")));
+				}
+				rs.close();
+			    stmt.close();
+			    
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return orderList;
+		
+	}*/
 	
 }

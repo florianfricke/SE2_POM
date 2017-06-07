@@ -22,11 +22,22 @@ import javafx.stage.Stage;
 
 public class MainController{
 	private MainMenu mainMenu;
-	@FXML private TableView<Customer> table;
-	@FXML private TableColumn<Customer, String> id;
-    @FXML private TableColumn<Customer, String> name;
-    @FXML private TableColumn<Customer, String> ranking;
-    @FXML private TableColumn<Customer, String> comment;
+	@FXML private TableView<Customer> customerTable;
+	@FXML private TableView<Customer> orderTable;
+	//Customer Table
+	@FXML private TableColumn<Customer, String> customerId;
+    @FXML private TableColumn<Customer, String> customerName;
+    @FXML private TableColumn<Customer, String> customerRanking;
+    @FXML private TableColumn<Customer, String> customerComment;
+    
+    //Order Table
+	@FXML private TableColumn<Order, String> orderId;
+    @FXML private TableColumn<Order, String> product;
+    @FXML private TableColumn<Order, Integer> priority;
+    @FXML private TableColumn<Order, String> customer; 
+    @FXML private TableColumn<Order, String> orderDate;
+    @FXML private TableColumn<Order, String> releaseDate;
+    @FXML private TableColumn<Order, String> state;
     @FXML private Button btnDashboard;
     @FXML private Button btnCustomers;
     @FXML private Button btnOrders;
@@ -46,8 +57,8 @@ public class MainController{
   //MouseClick on Row and open Customer Card
     @FXML private void handleRowClickCust(MouseEvent click) {
     	if(click.getClickCount() != 2) return; //just Double Click
-        System.out.println("clicked on Customer: " + (table.getSelectionModel().getSelectedItem()).idProperty().get());
-        Customer cust = table.getSelectionModel().getSelectedItem();
+        System.out.println("clicked on Customer: " + (customerTable.getSelectionModel().getSelectedItem()).idProperty().get());
+        Customer cust = customerTable.getSelectionModel().getSelectedItem();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("CustomerCard.fxml"));
@@ -91,7 +102,7 @@ public class MainController{
     
     @FXML private void handleDelCust(ActionEvent event) {
     	System.out.println("Delete");
-    	mainMenu.deleteCustomer(table.getSelectionModel().getSelectedItem());
+    	mainMenu.deleteCustomer(customerTable.getSelectionModel().getSelectedItem());
     }
     
     @FXML private void handleNewOrder(ActionEvent event) {
@@ -117,12 +128,12 @@ public class MainController{
     
     @FXML private void handleDelOrder(ActionEvent event) {
     	System.out.println("Delete");
-    	//Code Einfügen
+    	//Code Einfï¿½gen
     }
     
     @FXML private void handleRowClickOrder(ActionEvent event) {
     	System.out.println("RowClick");
-    	//Code Einfügen
+    	//Code Einfï¿½gen
     }
     
     @FXML private void handleDash(ActionEvent event) {
@@ -139,12 +150,23 @@ public class MainController{
     }
     
     
-    public void loadTable(){
-        id.setCellValueFactory(cellData -> cellData.getValue().idProperty());
-        name.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        ranking.setCellValueFactory(cellData -> cellData.getValue().rankingProperty());
-        comment.setCellValueFactory(cellData -> cellData.getValue().commentProperty());
-        table.setItems(mainMenu.getCustomerList());
+    public void loadCustomerTable(){
+        customerId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+        customerName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        customerRanking.setCellValueFactory(cellData -> cellData.getValue().rankingProperty());
+        customerComment.setCellValueFactory(cellData -> cellData.getValue().commentProperty());
+        customerTable.setItems(mainMenu.getCustomerList());
+    }
+    public void loadOrderTable(){
+    	/*
+        orderId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+        product.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        priority.setCellValueFactory(cellData -> cellData.getValue().rankingProperty());
+        orderDate.setCellValueFactory(cellData -> cellData.getValue().commentProperty());
+        releaseDate.setCellValueFactory(cellData -> cellData.getValue().commentProperty());
+        state.setCellValueFactory(cellData -> cellData.getValue().commentProperty());
+        customerTable.setItems(mainMenu.getCustomerList());
+        */
     }
     
     

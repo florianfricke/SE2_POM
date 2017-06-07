@@ -66,26 +66,26 @@
 				         <Button mnemonicParsing="false" text="Filter" />
 				     </items>
 				   </ToolBar>
-				   <TableView fx:id="table" editable="false" onMouseClicked="#handleRowClickCust" prefHeight="375.0" prefWidth="434.0">
+				   <TableView fx:id="customerTable" editable="false" onMouseClicked="#handleRowClickCust" prefHeight="375.0" prefWidth="434.0">
 				     <columns>
-				       <TableColumn fx:id="id" prefWidth="75.0" text="ID"> 
+				       <TableColumn fx:id="customerId" prefWidth="75.0" text="ID"> 
 				       	<cellValueFactory>
-				       		<PropertyValueFactory property="id" />
+				       		<PropertyValueFactory property="customerId" />
 				     	</cellValueFactory>
 				     	</TableColumn>
-				        <TableColumn fx:id="name" prefWidth="75.0" text="Name">
+				        <TableColumn fx:id="customerName" prefWidth="75.0" text="Name">
 				<cellValueFactory>
-				       		<PropertyValueFactory property="name" />
+				       		<PropertyValueFactory property="customerName" />
 				     	</cellValueFactory>
 				       </TableColumn>
-				       <TableColumn fx:id="ranking" prefWidth="75.0" text="Ranking"> 
+				       <TableColumn fx:id="customerRanking" prefWidth="75.0" text="Ranking"> 
 				<cellValueFactory>
-				       		<PropertyValueFactory property="ranking" />
+				       		<PropertyValueFactory property="customerRanking" />
 				     	</cellValueFactory>
 				       </TableColumn>
-				       <TableColumn fx:id="comment" prefWidth="75.0" text="Comment">
+				       <TableColumn fx:id="customerComment" prefWidth="75.0" text="Comment">
 				<cellValueFactory>
-				       		<PropertyValueFactory property="comment" />
+				       		<PropertyValueFactory property="customerComment" />
 				     	</cellValueFactory>
 				       </TableColumn>
 				     </columns>

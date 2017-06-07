@@ -4,35 +4,83 @@
 package types;
 import java.util.*;
 
+import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+
 /**
  * @author Konstantin
  *
  */
 public class Order {
 
-	private String iD;
+	private StringProperty orderno;
 	//private Address address;
 	//private Contact contact;
-	private String product;
-	private double price;
-	private int volume;
-	private String state;
-	private int baseLotId;
-	private Date orderDate;
-	private Date releaseDate;
-	private Date completionDate;
-	private Date dueDate;
-	private int priority;
-	private String comment;
-	private int lotSize;
-	private Date actualDeliveryDate;
-	//private List < Lot > lotList;
+	private StringProperty customerid;
+	private StringProperty adressid;
+	private StringProperty contactid;
+	private StringProperty product;
+	private DoubleProperty price;
+	private IntegerProperty volume;
+	private StringProperty state;
+	private StringProperty baseLotId;
+	private StringProperty orderDate;
+	private StringProperty releaseDate;
+	private StringProperty completionDate;
+	private StringProperty dueDate;
+	private StringProperty actualDeliveryDate;
+	private IntegerProperty lotSize;
+	private IntegerProperty priority;
+	private StringProperty comment;
 	
-	public Order(String iD, String product, int volume, String state, Date orderDate,
-				 Date releaseDate, Date completionDate, Date dueDate, int priority)
-	{
-		
+	
+	//private List < Lot > lotList;
+	//orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), 
+	public Order(String orderno,String customerid, String adressid, String contactid, String product, 
+			double price, int volume, String state, String baseLotId, String orderDate, String releaseDate,	 String completionDate,
+			String dueDate, String actualDeliveryDate, int lotSize, int priority, String comment) {
+		this.orderno = new SimpleStringProperty(orderno);
+		this.customerid = new SimpleStringProperty(customerid);
+		this.adressid = new SimpleStringProperty(adressid);
+		this.contactid = new SimpleStringProperty(contactid);
+		this.product = new SimpleStringProperty(product);
+		this.price = new SimpleDoubleProperty(price);
+		this.volume = new SimpleIntegerProperty(volume);
+		this.state = new SimpleStringProperty(state);
+		this.baseLotId = new SimpleStringProperty(baseLotId);
+		this.orderDate = new SimpleStringProperty(orderDate);
+		this.releaseDate = new SimpleStringProperty(releaseDate);
+		this.completionDate = new SimpleStringProperty(completionDate);
+		this.dueDate = new SimpleStringProperty(dueDate);
+		this.actualDeliveryDate = new SimpleStringProperty(actualDeliveryDate);
+		this.lotSize = new SimpleIntegerProperty(lotSize);
+		this.priority = new SimpleIntegerProperty(priority);
+		this.comment = new SimpleStringProperty(comment);
 	}
+/*	
+	public StringProperty idProperty() {
+		return id;
+	}
+	public StringProperty streetProperty() {
+		return street;
+	}
+	public StringProperty houseNoProperty() {
+		return houseNo;
+	}
+	public StringProperty zipCodeProperty() {
+		return zipCode;
+	}
+	public StringProperty cityProperty() {
+		return city;
+	}
+	public StringProperty countryProperty() {
+		return country;
+	}
+	
+	public BooleanProperty billingAddressProperty() {
+		return billingAddress;
+	}
+	
 	public List < Lot > getLots() {
 		return null;
 	}
@@ -40,5 +88,5 @@ public class Order {
 	public boolean release() {
 		return false;
 	}
-	
+*/	
 }

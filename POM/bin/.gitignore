@@ -1,3 +1,6 @@
+/.DS_Store
 /gui/
+/pom_db_interface/
+/pom_service/
 /psql_pom_db/
 /types/
