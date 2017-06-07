@@ -24,7 +24,7 @@ public class Address {
 	}
 	
 	public Address() {
-		this(0,null,null,null,null,null,false);
+		this(0,"","","","","",false);
 	}	
 
 

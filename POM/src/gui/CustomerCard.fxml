@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="812.0" prefWidth="649.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CustomerController">
+<VBox prefHeight="812.0" prefWidth="649.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CustomerController">
   <children>
       <VBox prefHeight="200.0" prefWidth="100.0">
          <children>
@@ -27,9 +27,9 @@
                   <TextField fx:id="txt_Name" layoutX="145.0" layoutY="82.0" />
                   <TextField fx:id="txt_Ranking" layoutX="145.0" layoutY="125.0" />
                   <TextArea fx:id="tar_Comment" layoutX="145.0" layoutY="169.0" prefHeight="75.0" prefWidth="467.0" />
-                  <Label  layoutX="33.0" layoutY="48.0" text="Customer No." />
-                  <Label  layoutX="33.0" layoutY="86.0" text="Name" />
-                  <Label  layoutX="33.0" layoutY="129.0" text="Ranking" />
+                  <Label layoutX="33.0" layoutY="48.0" text="Customer No." />
+                  <Label layoutX="33.0" layoutY="86.0" text="Name" />
+                  <Label layoutX="33.0" layoutY="129.0" text="Ranking" />
                   <Label layoutX="33.0" layoutY="169.0" text="Comment" />
                   
             </children>
@@ -43,7 +43,7 @@
                   <Label fx:id="lbl_addresses" layoutX="25.0" layoutY="6.0" prefHeight="17.0" prefWidth="63.0" text="Addresses" />
                   <Button fx:id="btn_newAddress" layoutX="25.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleNewAddress" prefHeight="25.0" prefWidth="100.0" text="New" />
                   <Button fx:id="btn_deleteAdress" layoutX="135.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleDelAddress" prefHeight="25.0" prefWidth="100.0" text="Delete" />
-                  <TableView fx:id="addressTable" editable="false" layoutX="25.0" layoutY="55.0"  prefHeight="120.0" prefWidth="600.0">
+                  <TableView fx:id="addressTable" editable="true" layoutX="25.0" layoutY="55.0" prefHeight="120.0" prefWidth="600.0">
                      <columns>
                         <TableColumn fx:id="street" prefWidth="75.0" text="Street">
                            <cellValueFactory>
@@ -89,33 +89,33 @@
             <AnchorPane prefHeight="78.0" prefWidth="640.0">
                <children>
                   <Label fx:id="lbl_contacts" layoutX="25.0" layoutY="6.0" prefHeight="17.0" prefWidth="63.0" text="Contacts" />
-                  <Button fx:id="btn_newContact" layoutX="25.0" layoutY="25.0" onAction="#handleNewContact" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="New" />
-                  <Button fx:id="btn_deleteContact" layoutX="135.0" layoutY="25.0" onAction="#handleDelContact" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Delete" />
-                  <TableView fx:id="table1" editable="false" layoutX="25.0" layoutY="55.0"  prefHeight="120.0" prefWidth="600.0">
+                  <Button fx:id="btn_newContact" layoutX="25.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleNewContact" prefHeight="25.0" prefWidth="100.0" text="New" />
+                  <Button fx:id="btn_deleteContact" layoutX="135.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleDelContact" prefHeight="25.0" prefWidth="100.0" text="Delete" />
+                  <TableView fx:id="contactTable" editable="true" layoutX="25.0" layoutY="55.0" prefHeight="120.0" prefWidth="600.0">
                      <columns>
                         <TableColumn fx:id="name" prefWidth="75.0" text="Name">
-                           <cellValueFactory>
-                              <PropertyValueFactory property="id" />
-                           </cellValueFactory>
-                        </TableColumn>
-                        <TableColumn fx:id="firstName" prefWidth="75.0" text="First Name">
                            <cellValueFactory>
                               <PropertyValueFactory property="name" />
                            </cellValueFactory>
                         </TableColumn>
+                        <TableColumn fx:id="firstName" prefWidth="75.0" text="First Name">
+                           <cellValueFactory>
+                              <PropertyValueFactory property="firstName" />
+                           </cellValueFactory>
+                        </TableColumn>
                         <TableColumn fx:id="position" prefWidth="75.0" text="Position">
                            <cellValueFactory>
-                              <PropertyValueFactory property="ranking" />
+                              <PropertyValueFactory property="position" />
                            </cellValueFactory>
                         </TableColumn>
                         <TableColumn fx:id="phoneNo" prefWidth="75.0" text="Phone No.">
                            <cellValueFactory>
-                              <PropertyValueFactory property="comment" />
+                              <PropertyValueFactory property="phoneNo" />
                            </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="eMail" prefWidth="75.0" text="E-Mail">
+                        <TableColumn fx:id="email" prefWidth="75.0" text="E-Mail">
                            <cellValueFactory>
-                              <PropertyValueFactory property="comment" />
+                              <PropertyValueFactory property="email" />
                            </cellValueFactory>
                         </TableColumn>
                      </columns>
@@ -132,23 +132,23 @@
             <AnchorPane prefHeight="78.0" prefWidth="640.0">
                <children>
                   <Label fx:id="lbl_bankAccounts" layoutX="25.0" layoutY="6.0" prefHeight="17.0" prefWidth="101.0" text="Bank Accounts" />
-                  <Button fx:id="btn_newBank" layoutX="25.0" layoutY="25.0" onAction="#handleNewBank" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="New" />
-                  <Button fx:id="btn_deleteBank" layoutX="135.0" layoutY="25.0" onAction="#handleDelBank" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Delete" />
-                  <TableView fx:id="table11" editable="false" layoutX="25.0" layoutY="55.0" prefHeight="120.0" prefWidth="600.0">
+                  <Button fx:id="btn_newBank" layoutX="25.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleNewBank" prefHeight="25.0" prefWidth="100.0" text="New" />
+                  <Button fx:id="btn_deleteBank" layoutX="135.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleDelBank" prefHeight="25.0" prefWidth="100.0" text="Delete" />
+                  <TableView fx:id="bankAccountTable" editable="true" layoutX="25.0" layoutY="55.0" prefHeight="120.0" prefWidth="600.0">
                      <columns>
                         <TableColumn fx:id="iban" prefWidth="75.0" text="IBAN">
                            <cellValueFactory>
-                              <PropertyValueFactory property="id" />
+                              <PropertyValueFactory property="iban" />
                            </cellValueFactory>
                         </TableColumn>
                         <TableColumn fx:id="bic" prefWidth="75.0" text="BIC">
                            <cellValueFactory>
-                              <PropertyValueFactory property="name" />
+                              <PropertyValueFactory property="bic" />
                            </cellValueFactory>
                         </TableColumn>
-                        <TableColumn fx:id="bank" prefWidth="75.0" text="Bank">
+                        <TableColumn fx:id="bankname" prefWidth="75.0" text="Bank">
                            <cellValueFactory>
-                              <PropertyValueFactory property="ranking" />
+                              <PropertyValueFactory property="bank" />
                            </cellValueFactory>
                         </TableColumn>
                      </columns>

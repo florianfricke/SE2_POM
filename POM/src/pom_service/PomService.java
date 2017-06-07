@@ -37,4 +37,10 @@ public class PomService {
 	public List<Address> getAddressList(String custId){
 		return pomPersistance.getAddressList(custId);
 	}
+	public List<Contact> getContactList(String custId){
+		return pomPersistance.getContactList(custId);
+	}
+	public List<BankAccount> getBankAccountList(String custId){
+		return pomPersistance.getBankAccountList(custId);
+	}
 }

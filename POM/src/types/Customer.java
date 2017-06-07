@@ -69,11 +69,20 @@ public class Customer {
 	public ObservableList<Address> getAddressList(){
 		return addressList;
 	}
+	public void setAddressList(ObservableList<Address> addressList){
+		this.addressList = addressList;
+	}
 	public ObservableList<Contact> getContactList(){
 		return contactList;
 	}
+	public void setContactList(ObservableList<Contact> contactList){
+		this.contactList = contactList;
+	}
 	public ObservableList<BankAccount> getBankAccountList(){
 		return bankAccountList;
+	}
+	public void setBankAccountList(ObservableList<BankAccount> bankAccountList){
+		this.bankAccountList = bankAccountList;
 	}
 
 }

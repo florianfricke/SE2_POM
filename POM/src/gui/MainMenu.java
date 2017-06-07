@@ -1,7 +1,5 @@
 package gui;
-import types.Address;
-import types.Customer;
-import types.SaveType;
+import types.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,8 +12,6 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import pom_service.PomService;
 import java.io.IOException;
-import java.util.List;
-
 
 public class MainMenu extends Application {
 	private PomService pomService;
@@ -67,6 +63,13 @@ public class MainMenu extends Application {
 	public ObservableList<Address> getAddressList(String custId){
 		return FXCollections.observableList(pomService.getAddressList(custId));
 	}
+	public ObservableList<Contact> getContactList(String custId){
+		return FXCollections.observableList(pomService.getContactList(custId));
+	}
+	public ObservableList<BankAccount> getBankAccountList(String custId){
+		return FXCollections.observableList(pomService.getBankAccountList(custId));
+	}
+	
 	public void changeScene(String fxml, ActionEvent event){
     	final Node currStage = (Node)event.getSource();
     	Stage stage = (Stage) currStage.getScene().getWindow();
