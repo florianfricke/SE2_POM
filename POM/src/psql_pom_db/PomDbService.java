@@ -231,7 +231,7 @@ public class PomDbService implements IPomDbService {
 			sql = "INSERT INTO Order VALUES" + "('" + 
 					order.ordernoProperty().get() +"','"+ 
 					order.customeridProperty().get() +"','"+ 
-					order.adressidProperty().get() +"','"+
+					order.addressidProperty().get() +"','"+
 					order.contactidProperty().get() +"','"+
 					order.productProperty().get() +"',"+
 					order.priceProperty().get() +","+

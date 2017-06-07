@@ -26,12 +26,16 @@ public class OrderController {
     @FXML private TextField txt_volume;
     @FXML private TextField txt_dueDate;
     @FXML private TextField txt_price;
-    @FXML private TextField txt_delveryDate;
-    @FXML private TextField tar_comment;
+    @FXML private TextField txt_deliveryDate;
+    @FXML private TextField txt_contact;
+    @FXML private TextField txt_address;
+    @FXML private TextArea tar_comment;
 
 	@FXML private Button btnSave;
 
 
+	
+	
 	public void init(MainMenu mainMenu) {
         this.mainMenu = mainMenu;
         this.order = new Order();
@@ -50,6 +54,8 @@ public class OrderController {
 		Bindings.bindBidirectional(txt_Id.textProperty(), this.order.ordernoProperty());
 		Bindings.bindBidirectional(txt_product.textProperty(),this.order.productProperty());
 		Bindings.bindBidirectional(txt_priority.textProperty(),this.order.priorityProperty(),new NumberStringConverter());
+		Bindings.bindBidirectional(txt_address.textProperty(),this.order.addressidProperty());
+		Bindings.bindBidirectional(txt_contact.textProperty(),this.order.contactidProperty());
 		Bindings.bindBidirectional(txt_customer.textProperty(),this.order.customeridProperty());
 		Bindings.bindBidirectional(txt_orderDate.textProperty(),this.order.orderDateProperty());
 		Bindings.bindBidirectional(txt_releaseDate.textProperty(),this.order.releaseDateProperty());
@@ -58,7 +64,7 @@ public class OrderController {
 		Bindings.bindBidirectional(txt_volume.textProperty(),this.order.volumeProperty(),new NumberStringConverter());
 		Bindings.bindBidirectional(txt_dueDate.textProperty(),this.order.dueDateProperty());
 		Bindings.bindBidirectional(txt_price.textProperty(),this.order.priceProperty(),new NumberStringConverter());
-		Bindings.bindBidirectional(txt_delveryDate.textProperty(),this.order.baseLotIdProperty());
+		Bindings.bindBidirectional(txt_deliveryDate.textProperty(),this.order.actualDeliveryDateProperty());
 		Bindings.bindBidirectional(tar_comment.textProperty(),this.order.commentProperty());
 		
 	}
@@ -69,7 +75,7 @@ public class OrderController {
 	
 	@FXML private void handleSave(ActionEvent event) {
     	System.out.println("Save");
-    //	mainMenu.addOrder(this.order);
+    	mainMenu.addOrder(this.order);
     	closeWindow(event);
     }
 	

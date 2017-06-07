@@ -16,6 +16,7 @@ import java.io.IOException;
 public class MainMenu extends Application {
 	private PomService pomService;
 	private ObservableList<Customer> customerList;
+	private ObservableList<Order> orderList;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -58,12 +59,29 @@ public class MainMenu extends Application {
 			}
 		}
 	}
+	
 	public void deleteCustomer(Customer cust){
 		if(pomService.deleteCustomer(cust.idProperty().get())){
 			customerList.remove(cust);
 		}
 		
 	}
+	
+	public void addOrder(Order order){
+		if(pomService.addOrder(order)){
+			if(!orderList.contains(order)){
+				this.orderList.add(order);
+			}
+		}
+	}
+	
+	public void deleteOrder(Order order){
+		if(pomService.deleteOrder(order.ordernoProperty().get())){
+			orderList.remove(order);
+		}
+		
+	}
+	
 	public ObservableList<Address> getAddressList(String custId){
 		return FXCollections.observableList(pomService.getAddressList(custId));
 	}

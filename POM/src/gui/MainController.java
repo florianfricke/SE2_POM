@@ -85,7 +85,7 @@ public class MainController{
             Parent root = fxmlLoader.load();
             CustomerController custCtrl = (CustomerController)fxmlLoader.getController();
             custCtrl.init(this.mainMenu);
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root, 649, 812);
             Stage stage = new Stage();
             stage.setTitle("New Window");
             stage.setScene(scene);
@@ -96,9 +96,6 @@ public class MainController{
             logger.log(Level.SEVERE, "Failed to create new Window.", e);
         }
     }
-
-    
- 
     
     @FXML private void handleDelCust(ActionEvent event) {
     	System.out.println("Delete");
@@ -128,7 +125,7 @@ public class MainController{
     
     @FXML private void handleDelOrder(ActionEvent event) {
     	System.out.println("Delete");
-    	//Code Einf�gen
+    	mainMenu.deleteOrder(orderTable.getSelectionModel().getSelectedItem());
     }
     
     @FXML private void handleRowClickOrder(MouseEvent click) {
@@ -141,7 +138,7 @@ public class MainController{
             Parent root = fxmlLoader.load();
             OrderController orderCtrl = (OrderController)fxmlLoader.getController();
             orderCtrl.init(this.mainMenu,order);
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root, 700, 450);
             Stage stage = new Stage();
             stage.setTitle("New Window");
             stage.setScene(scene);
@@ -178,6 +175,7 @@ public class MainController{
         orderId.setCellValueFactory(cellData -> cellData.getValue().ordernoProperty());
         product.setCellValueFactory(cellData -> cellData.getValue().productProperty());
         priority.setCellValueFactory(cellData -> cellData.getValue().priorityProperty());
+        customer.setCellValueFactory(cellData -> cellData.getValue().customeridProperty());
         orderDate.setCellValueFactory(cellData -> cellData.getValue().orderDateProperty());
         releaseDate.setCellValueFactory(cellData -> cellData.getValue().releaseDateProperty());
         state.setCellValueFactory(cellData -> cellData.getValue().stateProperty());

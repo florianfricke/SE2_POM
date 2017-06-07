@@ -19,7 +19,7 @@ public class Order {
 	//private Address address;
 	//private Contact contact;
 	private StringProperty customerid;
-	private StringProperty adressid;
+	private StringProperty addressid;
 	private StringProperty contactid;
 	private StringProperty product;
 	private DoubleProperty price;
@@ -44,12 +44,12 @@ public class Order {
 	}
 
 	
-	public Order(String orderno,String customerid, String adressid, String contactid, String product, 
+	public Order(String orderno,String customerid, String addressid, String contactid, String product, 
 			double price, int volume, String state, String baseLotId, String orderDate, String releaseDate,	 String completionDate,
 			String dueDate, String actualDeliveryDate, int lotSize, int priority, String comment) {
 		this.orderno = new SimpleStringProperty(orderno);
 		this.customerid = new SimpleStringProperty(customerid);
-		this.adressid = new SimpleStringProperty(adressid);
+		this.addressid = new SimpleStringProperty(addressid);
 		this.contactid = new SimpleStringProperty(contactid);
 		this.product = new SimpleStringProperty(product);
 		this.price = new SimpleDoubleProperty(price);
@@ -72,8 +72,8 @@ public class Order {
 	public StringProperty customeridProperty() {
 		return customerid;
 	}
-	public StringProperty adressidProperty() {
-		return adressid;
+	public StringProperty addressidProperty() {
+		return addressid;
 	}
 	public StringProperty contactidProperty() {
 		return contactid;
@@ -106,7 +106,7 @@ public class Order {
 	public StringProperty dueDateProperty() {
 		return dueDate;
 	}
-	public StringProperty c() {
+	public StringProperty actualDeliveryDateProperty() {
 		return actualDeliveryDate;
 	}
 	public IntegerProperty lotSizeProperty() {
@@ -118,6 +118,8 @@ public class Order {
 	public StringProperty commentProperty() {
 		return comment;
 	}
+	
+	
 	
 	public List < Lot > getLots() {
 		return null;
