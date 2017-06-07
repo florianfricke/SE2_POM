@@ -52,11 +52,13 @@ public class MainMenu extends Application {
 		return FXCollections.observableList(pomService.getOrderList());
 	}
 	
-	public void addCustomer(Customer cust){
-		if(pomService.addCustomer(cust)){
-			if(!customerList.contains(cust)){
+	public void saveCustomer(Customer cust){
+		if(cust.idProperty().get().isEmpty()){
+			if(pomService.addCustomer(cust)){
 				this.customerList.add(cust);
 			}
+		}else{
+			pomService.updateCustomer(cust);
 		}
 	}
 	

@@ -1,8 +1,6 @@
 package pom_service;
-import java.util.ArrayList;
 import java.util.List;
 
-import javafx.collections.FXCollections;
 import pom_db_interface.*;
 import psql_pom_db.*;
 import types.*;
@@ -21,6 +19,12 @@ public class PomService {
 		
 	public boolean addCustomer(Customer cust){
 		return pomPersistance.addCustomer(cust);
+	}
+	public boolean updateCustomer(Customer cust){
+		if(pomPersistance.updateCustomer(cust)){
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean addOrder(Order order){

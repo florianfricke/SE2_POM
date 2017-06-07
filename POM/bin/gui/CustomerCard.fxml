@@ -23,7 +23,7 @@
                   <Font size="18.0" />
                 </font>
               </Label>
-                  <TextField fx:id="txt_Id" layoutX="145.0" layoutY="44.0" />
+                  <TextField fx:id="txt_Id" layoutX="145.0" layoutY="44.0" editable="false"/>
                   <TextField fx:id="txt_Name" layoutX="145.0" layoutY="82.0" />
                   <TextField fx:id="txt_Ranking" layoutX="145.0" layoutY="125.0" />
                   <TextArea fx:id="tar_Comment" layoutX="145.0" layoutY="169.0" prefHeight="75.0" prefWidth="467.0" />

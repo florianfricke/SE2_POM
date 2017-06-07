@@ -1,7 +1,5 @@
 package types;
 
-import java.util.ArrayList;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -28,7 +26,7 @@ public class Customer {
 	}
 	
 	public Customer() {
-		this(null,null,null,null);
+		this("","","","");
 		this.addressList = FXCollections.observableArrayList();
 		this.contactList = FXCollections.observableArrayList();
 		this.bankAccountList = FXCollections.observableArrayList();
