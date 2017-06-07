@@ -27,6 +27,15 @@ public class PomService {
 		return false;
 	}
 	
+	public boolean addOrder(Order order){
+		return pomPersistance.addOrder(order);
+	}
+	
+	public boolean deleteOrder(String orderno){
+		return pomPersistance.deleteOrder(orderno);
+	}
+
+	
 	public List<Customer> getCustomerList() {
 		return pomPersistance.getCustomerList();
 	}

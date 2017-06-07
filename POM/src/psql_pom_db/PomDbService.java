@@ -427,6 +427,94 @@ public class PomDbService implements IPomDbService {
 		}
 		return orderList;
 	}	
+	
+	/**
+	 * Stores an Order Object on Database
+	 * @returns true on success
+	 */
+	@Override
+	public boolean addOrder(Order order) {
+		String sql = "";
+		PreparedStatement stmt = null;
+		try {
+			
+			sql = "INSERT INTO Order VALUES" + "('" + 
+					order.ordernoProperty().get() +"','"+ 
+					order.customeridProperty().get() +"','"+ 
+					order.adressidProperty().get() +"','"+
+					order.contactidProperty().get() +"','"+
+					order.productProperty().get() +"',"+
+					order.priceProperty().get() +","+
+					order.volumeProperty().get() +",'"+
+					order.stateProperty() +"','"+
+					order.baseLotIdProperty().get() +"','"+
+					order.orderDateProperty() +"',"+
+					"NULL, NULL, NULL,"+ //Additional dates are NULL 
+					order.lotSizeProperty().get() +","+
+					order.priorityProperty().get() +",'"+
+					order.commentProperty().get() +"') ";
+				    /*+ "ON CONFLICT (customerid) DO UPDATE SET customerid = ?,"
+				    + "companyname = ?, customerranking = ?, comment = ?";*/
+			stmt = this.con.prepareStatement(sql);
+			/*stmt.setString(1, cust.idProperty().get());
+			stmt.setString(2, cust.nameProperty().get());
+			stmt.setString(3, cust.rankingProperty().get());
+			stmt.setString(4, cust.commentProperty().get());*/
+			stmt.executeUpdate();
+		    stmt.close();
+		    System.out.println("Upserted Order "+ order.ordernoProperty());
+		    /* TODO sobald Tabellen gef�llt sind entweder einf�gen oder Updaten
+		    if(!(cust.getAddressList().isEmpty())){
+		    	for (Address addrr : cust.getAddressList()) {
+			    	sql = "INSERT INTO address VALUES" + "('" + addr.idProperty().get() +"','"+ cust.nameProperty().get() +"','"+ 
+				            cust.rankingProperty().get() +"','"+ 
+							cust.commentProperty().get() +"') "
+						    + "ON CONFLICT (customerid) DO UPDATE SET customerid = ?,"
+						    + "companyname = ?, customerranking = ?, comment = ?";
+					stmt = this.con.prepareStatement(sql);
+					stmt.setString(1, cust.idProperty().get());
+					stmt.setString(2, cust.nameProperty().get());
+					stmt.setString(3, cust.rankingProperty().get());
+					stmt.setString(4, cust.commentProperty().get());
+					stmt.executeUpdate();
+				    stmt.close();
+		    	}
+		    }
+			if(!(cust.getContactList().isEmpty())){
+					    	
+			}
+			if(!(cust.getBankAccountList().isEmpty())){
+				
+			}*/
+		    return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	/**
+	 * Deletes an Order Object from database by orderno
+	 * @param id of order tupel
+	 * @returns true on success
+	 */
+	@Override
+	public boolean deleteOrder(String orderno) {
+		PreparedStatement stmt = null;
+		try {
+			stmt = con.prepareStatement("DELETE FROM Order WHERE orderno = ?");
+			stmt.setString(1, orderno);
+			stmt.executeUpdate();
+		    stmt.close();
+		    return true;
+		    
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
 	/**
 	 * @returns List of all Orders which are stored in data source
 	 * 
