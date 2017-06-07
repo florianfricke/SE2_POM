@@ -112,8 +112,8 @@ public class MainController{
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("OrderCard.fxml"));
             Parent root = fxmlLoader.load();
-            CustomerController custCtrl = (CustomerController)fxmlLoader.getController();
-            custCtrl.init(this.mainMenu);
+            OrderController orderCtrl = (OrderController)fxmlLoader.getController();
+            orderCtrl.init(this.mainMenu);
             Scene scene = new Scene(root, 600, 400);
             Stage stage = new Stage();
             stage.setTitle("New Window");
@@ -131,9 +131,26 @@ public class MainController{
     	//Code Einf�gen
     }
     
-    @FXML private void handleRowClickOrder(ActionEvent event) {
-    	System.out.println("RowClick");
-    	//Code Einf�gen
+    @FXML private void handleRowClickOrder(MouseEvent click) {
+    	if(click.getClickCount() != 2) return; //just Double Click
+        System.out.println("clicked on Order: " + (orderTable.getSelectionModel().getSelectedItem()).ordernoProperty().get());
+        Order order = orderTable.getSelectionModel().getSelectedItem();
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("OrderCard.fxml"));
+            Parent root = fxmlLoader.load();
+            OrderController orderCtrl = (OrderController)fxmlLoader.getController();
+            orderCtrl.init(this.mainMenu,order);
+            Scene scene = new Scene(root, 600, 400);
+            Stage stage = new Stage();
+            stage.setTitle("New Window");
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            Logger logger = Logger.getLogger(getClass().getName());
+            logger.log(Level.SEVERE, "Failed to create new Window.", e);
+        }
     }
     
     @FXML private void handleDash(ActionEvent event) {

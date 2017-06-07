@@ -13,6 +13,8 @@ import javafx.collections.FXCollections;
  */
 public class Order {
 
+
+
 	private StringProperty orderno;
 	//private Address address;
 	//private Contact contact;
@@ -32,6 +34,15 @@ public class Order {
 	private IntegerProperty lotSize;
 	private IntegerProperty priority;
 	private StringProperty comment;
+	
+	/**
+	 * Empty Constructor
+	 */
+	
+	public Order() {
+		
+	}
+
 	
 	public Order(String orderno,String customerid, String adressid, String contactid, String product, 
 			double price, int volume, String state, String baseLotId, String orderDate, String releaseDate,	 String completionDate,
@@ -95,7 +106,7 @@ public class Order {
 	public StringProperty dueDateProperty() {
 		return dueDate;
 	}
-	public StringProperty actualDeliveryDateProperty() {
+	public StringProperty c() {
 		return actualDeliveryDate;
 	}
 	public IntegerProperty lotSizeProperty() {
