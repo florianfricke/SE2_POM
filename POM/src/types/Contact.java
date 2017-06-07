@@ -5,7 +5,7 @@ import javafx.beans.property.*;
 
 public class Contact {
 	
-	private final IntegerProperty id;
+	private final StringProperty id;
 	private final StringProperty name;
 	private final StringProperty firstName;
 	private final StringProperty position;
@@ -13,11 +13,11 @@ public class Contact {
 	private final StringProperty email;
 	
 	public Contact() {
-		this(0,null,null,null,null,null);
+		this("","","","","","");
 	}
 	
-	public Contact(int id, String name, String firstName, String position, String phoneNo, String email){
-		this.id = new SimpleIntegerProperty(id);
+	public Contact(String id, String name, String firstName, String position, String phoneNo, String email){
+		this.id = new SimpleStringProperty(id);
 		this.name = new SimpleStringProperty(name);
 		this.firstName = new SimpleStringProperty(firstName);
 		this.position = new SimpleStringProperty(position);
@@ -27,7 +27,7 @@ public class Contact {
 	
 	
 
-	public IntegerProperty idProperty() {
+	public StringProperty idProperty() {
 		return id;
 	}
 	public StringProperty nameProperty() {
@@ -44,5 +44,18 @@ public class Contact {
 	}
 	public StringProperty emailProperty() {
 		return email;
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if (o == null) return false;
+	    if (o == this) return true;
+	    if (!(o instanceof Contact)) return false;
+	    Contact otherContact = (Contact)o;
+	    if(this.id.get().equals(otherContact.id.get())){
+	    	return true;
+	    }
+		return false;
+		
 	}
 }

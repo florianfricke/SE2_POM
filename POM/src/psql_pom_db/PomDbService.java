@@ -3,7 +3,6 @@ import pom_db_interface.*;
 import types.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.sql.*;
 
@@ -16,51 +15,228 @@ public class PomDbService implements IPomDbService {
 	@Override
 	public boolean addCustomer(Customer cust) {
 		String sql = "";
+		ResultSet rs;
 		PreparedStatement stmt = null;
 		try {
 			
-			sql = "INSERT INTO Customer VALUES" + "('" + cust.idProperty().get() +"','"+ cust.nameProperty().get() +"','"+ 
+			sql = "INSERT INTO Customer (companyname, ranking, comment) VALUES" + 
+					"('"+ cust.nameProperty().get() +"','"+ 
 		            cust.rankingProperty().get() +"','"+ 
-					cust.commentProperty().get() +"') "
-				    + "ON CONFLICT (customerid) DO UPDATE SET customerid = ?,"
-				    + "companyname = ?, customerranking = ?, comment = ?";
-			stmt = this.con.prepareStatement(sql);
-			stmt.setString(1, cust.idProperty().get());
-			stmt.setString(2, cust.nameProperty().get());
-			stmt.setString(3, cust.rankingProperty().get());
-			stmt.setString(4, cust.commentProperty().get());
+					cust.commentProperty().get() +"') ";
+			stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.executeUpdate();
+			rs = stmt.getGeneratedKeys();
+			rs.next();
+			cust.idProperty().set(rs.getString("id"));
+			rs.close();
 		    stmt.close();
 		    System.out.println("Upserted Customer "+ cust.idProperty());
-		    /* TODO sobald Tabellen gefï¿½llt sind entweder einfï¿½gen oder Updaten
 		    if(!(cust.getAddressList().isEmpty())){
 		    	for (Address addrr : cust.getAddressList()) {
-			    	sql = "INSERT INTO address VALUES" + "('" + addr.idProperty().get() +"','"+ cust.nameProperty().get() +"','"+ 
-				            cust.rankingProperty().get() +"','"+ 
-							cust.commentProperty().get() +"') "
-						    + "ON CONFLICT (customerid) DO UPDATE SET customerid = ?,"
-						    + "companyname = ?, customerranking = ?, comment = ?";
-					stmt = this.con.prepareStatement(sql);
-					stmt.setString(1, cust.idProperty().get());
-					stmt.setString(2, cust.nameProperty().get());
-					stmt.setString(3, cust.rankingProperty().get());
-					stmt.setString(4, cust.commentProperty().get());
+			    	sql = "INSERT INTO public.address(customerid, street, houseno, city, zipcode, country, billingaddress) VALUES"+ 
+			    			"('" + cust.idProperty().get() +"','"+ addrr.streetProperty().get() +"','"+ 
+			    			addrr.houseNoProperty().get() +"','"+ 
+			    			addrr.cityProperty().get() +"','"+ 
+			    			addrr.zipCodeProperty().get() +"','"+ 
+			    			addrr.countryProperty().get() +"','"+ 
+			    			addrr.billingAddressProperty().get() +"')";
+			    	stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 					stmt.executeUpdate();
+					rs = stmt.getGeneratedKeys();
+					rs.next();
+					addrr.idProperty().set(rs.getString("id"));
+					rs.close();
 				    stmt.close();
 		    	}
 		    }
 			if(!(cust.getContactList().isEmpty())){
-					    	
+				for (Contact contact : cust.getContactList()) {
+			    	sql = "INSERT INTO public.contact(customerid, phoneno, name, firstname, mailadress, \"position\") VALUES"+ 
+			    			"('" + cust.idProperty().get() +"','"+ contact.phoneNoProperty().get() +"','"+ 
+			    			contact.nameProperty().get() +"','"+ 
+			    			contact.firstNameProperty().get() +"','"+ 
+			    			contact.emailProperty().get() +"','"+ 
+			    			contact.positionProperty().get() +"')";
+			    	stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+					stmt.executeUpdate();
+					rs = stmt.getGeneratedKeys();
+					rs.next();
+					contact.idProperty().set(rs.getString("id"));
+					rs.close();
+				    stmt.close();
+		    	}	    	
 			}
 			if(!(cust.getBankAccountList().isEmpty())){
-				
-			}*/
+				for (BankAccount ba  : cust.getBankAccountList()) {
+			    	sql = "INSERT INTO public.bankaccount(customerid, iban, bic, bankname) VALUES"+ 
+			    			"('" + cust.idProperty().get() +"','"+ ba.ibanProperty().get() +"','"+ 
+			    			ba.bicProperty().get() +"','"+ 
+			    			ba.bankNameProperty().get()+"')";
+			    	stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+					stmt.executeUpdate();
+					rs = stmt.getGeneratedKeys();
+					rs.next();
+					ba.idProperty().set(rs.getString("id"));
+					rs.close();
+				    stmt.close();
+		    	}	    	
+			}
 		    return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean updateCustomer(Customer cust) { //TODO Funktion noch in private Untermethoden aufteilen
+		String sql = "";
+		ResultSet rs;
+		List<Address> dbCustAddressList = getAddressList(cust.idProperty().get());
+		List<Contact> dbCustContactList = getContactList(cust.idProperty().get());
+		List<BankAccount> dbCustBankAccountList = getBankAccountList(cust.idProperty().get());
+		PreparedStatement stmt = null;
+		try {
+			
+			sql = "UPDATE public.customer SET companyname=?, ranking=?, comment = ?" + 
+			"WHERE id = ?";
+			stmt = this.con.prepareStatement(sql);
+			stmt.setString(1, cust.nameProperty().get());
+			stmt.setString(2, cust.rankingProperty().get());
+			stmt.setString(3, cust.commentProperty().get());
+			stmt.setString(4, cust.idProperty().get());
+			stmt.executeUpdate();
+		    stmt.close();
+		    System.out.println("Updated Customer "+ cust.idProperty());
+		    if(!(cust.getAddressList().equals(dbCustAddressList))){
+		    	for (Address addrr : cust.getAddressList()) {
+		    		if(addrr.idProperty().get().isEmpty()){
+		    			sql = "INSERT INTO public.address(customerid, street, houseno, city, zipcode, country, billingaddress) VALUES"+ 
+				    			"('" + cust.idProperty().get() +"','"+ addrr.streetProperty().get() +"','"+ 
+				    			addrr.houseNoProperty().get() +"','"+ 
+				    			addrr.cityProperty().get() +"','"+ 
+				    			addrr.zipCodeProperty().get() +"','"+ 
+				    			addrr.countryProperty().get() +"','"+ 
+				    			addrr.billingAddressProperty().get() +"')";
+				    	stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+						stmt.executeUpdate();
+						rs = stmt.getGeneratedKeys();
+						rs.next();
+						addrr.idProperty().set(rs.getString("id"));
+						rs.close();
+					    stmt.close();
+		    		}else{
+				    	sql = "UPDATE public.address SET street = ?, houseno = ?, city = ?, zipcode = ?, country = ?, billingaddress = ?"+ 
+				    			"WHERE id = ? AND customerid = ?";
+				    	stmt = this.con.prepareStatement(sql);
+		    			stmt.setString(1,addrr.streetProperty().get());
+		    			stmt.setString(2,addrr.houseNoProperty().get());
+		    			stmt.setString(3,addrr.cityProperty().get()); 
+		    			stmt.setString(4,addrr.zipCodeProperty().get());
+		    			stmt.setString(5,addrr.countryProperty().get());
+		    			stmt.setBoolean(6,addrr.billingAddressProperty().get());
+		    			stmt.setString(7, addrr.idProperty().get());
+		    			stmt.setString(8, cust.idProperty().get());
+				    	stmt.executeUpdate();
+					    stmt.close();
+		    		}
+		    	}
+	    		//Zu löschende Elemente heraussuchen
+	    		for (Address delAddrr : getAddressList(cust.idProperty().get())) {
+	    			if(!(cust.getAddressList().contains(delAddrr))){
+		    			sql = "DELETE FROM public.address WHERE id = ?"; // add WHERE customerID, if custID later gets PK
+				    	stmt = this.con.prepareStatement(sql);
+		    			stmt.setString(1, delAddrr.idProperty().get());
+				    	stmt.executeUpdate();
+					    stmt.close();
+	    			}
+	    		}
+		    }
+			if(!(cust.getContactList().equals(dbCustContactList))){
+				for (Contact contact : cust.getContactList()) {
+					if(contact.idProperty().get().isEmpty()){
+						sql = "INSERT INTO public.contact(customerid, phoneno, name, firstname, mailadress, \"position\") VALUES"+ 
+				    			"('" + cust.idProperty().get() +"','"+ contact.phoneNoProperty().get() +"','"+ 
+				    			contact.nameProperty().get() +"','"+ 
+				    			contact.firstNameProperty().get() +"','"+ 
+				    			contact.emailProperty().get() +"','"+ 
+				    			contact.positionProperty().get() +"')";
+				    	stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+						stmt.executeUpdate();
+						rs = stmt.getGeneratedKeys();
+						rs.next();
+						contact.idProperty().set(rs.getString("id"));
+						rs.close();
+					    stmt.close();
+					}else{
+				    	sql = "UPDATE public.contact SET phoneno = ?, name = ?, firstname = ?, mailadress = ?, position = ?"+ 
+				    			"WHERE id = ? AND customerid = ?";
+				    	stmt = this.con.prepareStatement(sql);
+						stmt.setString(1,contact.phoneNoProperty().get());
+						stmt.setString(2,contact.nameProperty().get());
+						stmt.setString(3,contact.firstNameProperty().get());
+						stmt.setString(4,contact.emailProperty().get());
+						stmt.setString(5,contact.positionProperty().get());
+						stmt.setString(6, contact.idProperty().get());
+						stmt.setString(7, cust.idProperty().get());
+						stmt.executeUpdate();
+					    stmt.close();
+					}
+				}
+				for (Contact delContact : getContactList(cust.idProperty().get())) {
+	    			if(!(cust.getContactList().contains(delContact))){
+		    			sql = "DELETE FROM public.contact WHERE id = ?"; // add WHERE customerID, if custID later gets PK
+				    	stmt = this.con.prepareStatement(sql);
+		    			stmt.setString(1, delContact.idProperty().get());
+				    	stmt.executeUpdate();
+					    stmt.close();
+	    			}
+		    	}	    	
+			}
+			if(!(cust.getBankAccountList().equals(dbCustBankAccountList))){
+				for (BankAccount ba  : cust.getBankAccountList()) {
+					if(ba.idProperty().get().isEmpty()){
+				    	sql = "INSERT INTO public.bankaccount(customerid, iban, bic, bankname) VALUES"+ 
+				    			"('" + cust.idProperty().get() +"','"+ ba.ibanProperty().get() +"','"+ 
+				    			ba.bicProperty().get() +"','"+ 
+				    			ba.bankNameProperty().get()+"')";
+				    	stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+						stmt.executeUpdate();
+						rs = stmt.getGeneratedKeys();
+						rs.next();
+						ba.idProperty().set(rs.getString("id"));
+						rs.close();
+					    stmt.close();
+					}else{
+				    	sql = "UPDATE public.bankaccount SET iban = ?, bic = ?, bankname = ?"+ 
+				    			"WHERE id = ? AND customerid = ?";
+				    	stmt = this.con.prepareStatement(sql);
+						stmt.setString(1,ba.ibanProperty().get());
+						stmt.setString(2,ba.bicProperty().get());
+						stmt.setString(3,ba.bankNameProperty().get());
+						stmt.setString(4, ba.idProperty().get());
+						stmt.setString(5, cust.idProperty().get());
+						stmt.executeUpdate();
+					    stmt.close();
+					}
+				}
+				for (BankAccount delBankAccount : getBankAccountList(cust.idProperty().get())) {
+	    			if(!(cust.getBankAccountList().contains(delBankAccount))){
+		    			sql = "DELETE FROM public.bankaccount WHERE id = ?"; // add WHERE customerID, if custID later gets PK
+				    	stmt = this.con.prepareStatement(sql);
+		    			stmt.setString(1, delBankAccount.idProperty().get());
+				    	stmt.executeUpdate();
+					    stmt.close();
+	    			}
+		    	}	    	
+			}
+		    return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	@Override
 	public List<Customer> getCustomerList(){
 		List<Customer> custList = new ArrayList<Customer>();
@@ -110,13 +286,47 @@ public class PomDbService implements IPomDbService {
 	@Override
 	public boolean deleteCustomer(String id) {
 		PreparedStatement stmt = null;
+		String sql = "";
+		List<Address> delAddressList = getAddressList(id);
+		List<Contact> delContactList = getContactList(id);
+		List<BankAccount> delBankAccountList = getBankAccountList(id);
 		try {
-			stmt = con.prepareStatement("DELETE FROM Customer WHERE id = ?");
-			stmt.setString(1, id);
-			stmt.executeUpdate();
-		    stmt.close();
-		    return true;
-		    
+			if(!delAddressList.isEmpty()){
+				for (@SuppressWarnings("unused") Address delAddrr : delAddressList) {
+					sql = "DELETE FROM public.address WHERE customerid = ?"; // add WHERE customerID, if custID later gets PK
+			    	stmt = this.con.prepareStatement(sql);
+					stmt.setString(1, id);
+			    	stmt.executeUpdate();
+				    stmt.close();
+				}
+			}
+			
+			if(!delContactList.isEmpty()){
+				for (@SuppressWarnings("unused") Contact delContact : delContactList) {
+					sql = "DELETE FROM public.contact WHERE customerid = ?"; // add WHERE customerID, if custID later gets PK
+			    	stmt = this.con.prepareStatement(sql);
+					stmt.setString(1, id);
+			    	stmt.executeUpdate();
+				    stmt.close();
+				}
+			}
+			
+			if(!delBankAccountList.isEmpty()){
+				for (@SuppressWarnings("unused") BankAccount delBa : delBankAccountList) {
+					sql = "DELETE FROM public.bankaccount WHERE customerid = ?"; // add WHERE customerID, if custID later gets PK
+			    	stmt = this.con.prepareStatement(sql);
+					stmt.setString(1, id);
+			    	stmt.executeUpdate();
+				    stmt.close();
+				}
+			}
+	
+				stmt = con.prepareStatement("DELETE FROM Customer WHERE id = ?");
+				stmt.setString(1, id);
+				stmt.executeUpdate();
+			    stmt.close();
+			    return true;
+			    
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -138,7 +348,7 @@ public class PomDbService implements IPomDbService {
 			
 			while (rs.next())
 			{
-			   addressList.add(new Address(rs.getInt("id"), rs.getString("street"), rs.getString("houseno"), rs.getString("zipcode"),rs.getString("city"),rs.getString("country"),Boolean.parseBoolean(rs.getString("billingaddress"))));
+			   addressList.add(new Address(rs.getString("id"), rs.getString("street"), rs.getString("houseno"), rs.getString("zipcode"),rs.getString("city"),rs.getString("country"),Boolean.parseBoolean(rs.getString("billingaddress"))));
 			}
 			rs.close();
 		    stmt.close();
@@ -162,7 +372,7 @@ public class PomDbService implements IPomDbService {
 			
 			while (rs.next())
 			{
-			   contactList.add(new Contact(rs.getInt("id"), rs.getString("name"), rs.getString("firstname"),rs.getString("position"),rs.getString("phoneno"),rs.getString("mailadress")));
+			   contactList.add(new Contact(rs.getString("id"), rs.getString("name"), rs.getString("firstname"),rs.getString("position"),rs.getString("phoneno"),rs.getString("mailadress")));
 			}
 			rs.close();
 		    stmt.close();
@@ -186,7 +396,7 @@ public class PomDbService implements IPomDbService {
 			
 			while (rs.next())
 			{
-				bankAccountList.add(new BankAccount(rs.getString("iban"), rs.getString("bic"), rs.getString("bankname")));
+				bankAccountList.add(new BankAccount(rs.getString("id"),rs.getString("iban"), rs.getString("bic"), rs.getString("bankname")));
 			}
 			rs.close();
 		    stmt.close();
@@ -256,5 +466,7 @@ public class PomDbService implements IPomDbService {
 		return orderList;
 		
 	}*/
+
+	
 	
 }

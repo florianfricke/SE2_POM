@@ -5,7 +5,6 @@ package types;
 import java.util.*;
 
 import javafx.beans.property.*;
-import javafx.collections.FXCollections;
 
 /**
  * @author Konstantin

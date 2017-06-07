@@ -1,5 +1,8 @@
 package gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +19,9 @@ import types.*;
 public class CustomerController {
 	private MainMenu mainMenu;
 	private Customer cust;
+	private List<Address> delAddressList;
+	private List<Contact> delContactList;
+	private List<BankAccount> delBankAccountList;
 	//TextFields
 	@FXML private TextField txt_Id;
 	@FXML private TextField txt_Name;
@@ -138,28 +144,53 @@ public class CustomerController {
     }
 	
 	@FXML private void handleDelAddress(ActionEvent event) {
-    	System.out.println("Del Address");
-    	this.cust.getAddressList().remove(addressTable.getSelectionModel().getSelectedItem());
+		System.out.println("Del Address");
+		Address tmpAddress = addressTable.getSelectionModel().getSelectedItem();
+    	this.delAddressList = new ArrayList<Address>();
+    	this.delAddressList.add(tmpAddress);
+    	this.cust.getAddressList().remove(tmpAddress);
     }
 	
 	@FXML private void handleDelContact(ActionEvent event) {
     	System.out.println("Del Contact");
-    	this.cust.getContactList().remove(contactTable.getSelectionModel().getSelectedItem());
+    	Contact tmpContact = contactTable.getSelectionModel().getSelectedItem();
+    	this.delContactList = new ArrayList<Contact>();
+    	this.delContactList.add(tmpContact);
+    	this.cust.getContactList().remove(tmpContact);
     }
 	
 	@FXML private void handleDelBank(ActionEvent event) {
     	System.out.println("Del Bank");
-    	this.cust.getBankAccountList().remove(bankAccountTable.getSelectionModel().getSelectedItem());
+    	BankAccount tmpBankAccount = bankAccountTable.getSelectionModel().getSelectedItem();
+    	this.delBankAccountList = new ArrayList<BankAccount>();
+    	this.delBankAccountList.add(tmpBankAccount);
+    	this.cust.getBankAccountList().remove(tmpBankAccount);
     }
 		
 	@FXML private void handleSave(ActionEvent event) {
     	System.out.println("Save");
-    	mainMenu.addCustomer(this.cust);
+    	mainMenu.saveCustomer(this.cust);
     	closeWindow(event);
     }
 	
 	@FXML private void handleCancel(ActionEvent event) {
     	System.out.println("Cancel");
+    	if(this.delAddressList != null){
+	    	for (Address address : delAddressList) {
+	    		this.cust.getAddressList().add(address);
+			}
+    	}
+    	if(this.delContactList != null){
+	    	for (Contact contact : delContactList) {
+	    		this.cust.getContactList().add(contact);
+			}
+    	}
+    	
+    	if(this.delBankAccountList != null){
+	    	for (BankAccount bankAccount : delBankAccountList) {
+	    		this.cust.getBankAccountList().add(bankAccount);
+			}
+    	}
     	closeWindow(event);
     }
 	
