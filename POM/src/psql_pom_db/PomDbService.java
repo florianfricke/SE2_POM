@@ -197,12 +197,12 @@ public class PomDbService implements IPomDbService {
 		return bankAccountList;
 	}
 	
-	public List<Order> getOrderList(String Orderno){
+	public List<Order> getOrderList(){
 		List<Order> orderList = new ArrayList<Order>();
 		
 		PreparedStatement stmt = null;
 		try {
-			stmt = con.prepareStatement("SELECT * FROM Order");
+			stmt = con.prepareStatement("SELECT * FROM public.order");
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next())

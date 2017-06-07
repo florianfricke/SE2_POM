@@ -31,8 +31,8 @@ public class PomService {
 		return pomPersistance.deleteCustomer(id);
 	}
 	
-	public List<Order> getOrderList(String custId){
-		return pomPersistance.getOrderList(custId);
+	public List<Order> getOrderList(){
+		return pomPersistance.getOrderList();
 	}
 	public List<Address> getAddressList(String custId){
 		return pomPersistance.getAddressList(custId);

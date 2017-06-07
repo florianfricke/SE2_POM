@@ -33,9 +33,6 @@ public class Order {
 	private IntegerProperty priority;
 	private StringProperty comment;
 	
-	
-	//private List < Lot > lotList;
-	//orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), 
 	public Order(String orderno,String customerid, String adressid, String contactid, String product, 
 			double price, int volume, String state, String baseLotId, String orderDate, String releaseDate,	 String completionDate,
 			String dueDate, String actualDeliveryDate, int lotSize, int priority, String comment) {
@@ -57,28 +54,58 @@ public class Order {
 		this.priority = new SimpleIntegerProperty(priority);
 		this.comment = new SimpleStringProperty(comment);
 	}
-/*	
-	public StringProperty idProperty() {
-		return id;
+	
+	public StringProperty ordernoProperty() {
+		return orderno;
 	}
-	public StringProperty streetProperty() {
-		return street;
+	public StringProperty customeridProperty() {
+		return customerid;
 	}
-	public StringProperty houseNoProperty() {
-		return houseNo;
+	public StringProperty adressidProperty() {
+		return adressid;
 	}
-	public StringProperty zipCodeProperty() {
-		return zipCode;
+	public StringProperty contactidProperty() {
+		return contactid;
 	}
-	public StringProperty cityProperty() {
-		return city;
+	public StringProperty productProperty() {
+		return product;
 	}
-	public StringProperty countryProperty() {
-		return country;
+	public DoubleProperty priceProperty() {
+		return price;
 	}
 	
-	public BooleanProperty billingAddressProperty() {
-		return billingAddress;
+	public IntegerProperty volumeProperty() {
+		return volume;
+	}
+	public StringProperty stateProperty() {
+		return state;
+	}
+	public StringProperty baseLotIdProperty() {
+		return baseLotId;
+	}
+	public StringProperty orderDateProperty() {
+		return orderDate;
+	}
+	public StringProperty releaseDateProperty() {
+		return releaseDate;
+	}
+	public StringProperty completionDateProperty() {
+		return completionDate;
+	}
+	public StringProperty dueDateProperty() {
+		return dueDate;
+	}
+	public StringProperty actualDeliveryDateProperty() {
+		return actualDeliveryDate;
+	}
+	public IntegerProperty lotSizeProperty() {
+		return lotSize;
+	}
+	public IntegerProperty priorityProperty() {
+		return priority;
+	}
+	public StringProperty commentProperty() {
+		return comment;
 	}
 	
 	public List < Lot > getLots() {
@@ -88,5 +115,4 @@ public class Order {
 	public boolean release() {
 		return false;
 	}
-*/	
 }

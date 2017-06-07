@@ -47,6 +47,10 @@ public class MainMenu extends Application {
 		this.customerList = FXCollections.observableList(pomService.getCustomerList());
 		return this.customerList;
 	}
+	public ObservableList<Order> getOrderList() {
+		return FXCollections.observableList(pomService.getOrderList());
+	}
+	
 	public void addCustomer(Customer cust){
 		if(pomService.addCustomer(cust)){
 			if(!customerList.contains(cust)){

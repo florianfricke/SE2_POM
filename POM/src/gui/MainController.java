@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 public class MainController{
 	private MainMenu mainMenu;
 	@FXML private TableView<Customer> customerTable;
-	@FXML private TableView<Customer> orderTable;
+	@FXML private TableView<Order> orderTable;
 	//Customer Table
 	@FXML private TableColumn<Customer, String> customerId;
     @FXML private TableColumn<Customer, String> customerName;
@@ -33,7 +33,7 @@ public class MainController{
     //Order Table
 	@FXML private TableColumn<Order, String> orderId;
     @FXML private TableColumn<Order, String> product;
-    @FXML private TableColumn<Order, Integer> priority;
+    @FXML private TableColumn<Order, Number> priority;
     @FXML private TableColumn<Order, String> customer; 
     @FXML private TableColumn<Order, String> orderDate;
     @FXML private TableColumn<Order, String> releaseDate;
@@ -158,15 +158,13 @@ public class MainController{
         customerTable.setItems(mainMenu.getCustomerList());
     }
     public void loadOrderTable(){
-    	/*
-        orderId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
-        product.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        priority.setCellValueFactory(cellData -> cellData.getValue().rankingProperty());
-        orderDate.setCellValueFactory(cellData -> cellData.getValue().commentProperty());
-        releaseDate.setCellValueFactory(cellData -> cellData.getValue().commentProperty());
-        state.setCellValueFactory(cellData -> cellData.getValue().commentProperty());
-        customerTable.setItems(mainMenu.getCustomerList());
-        */
+        orderId.setCellValueFactory(cellData -> cellData.getValue().ordernoProperty());
+        product.setCellValueFactory(cellData -> cellData.getValue().productProperty());
+        priority.setCellValueFactory(cellData -> cellData.getValue().priorityProperty());
+        orderDate.setCellValueFactory(cellData -> cellData.getValue().orderDateProperty());
+        releaseDate.setCellValueFactory(cellData -> cellData.getValue().releaseDateProperty());
+        state.setCellValueFactory(cellData -> cellData.getValue().stateProperty());
+        orderTable.setItems(mainMenu.getOrderList());
     }
     
     
