@@ -515,7 +515,7 @@ public class PomDbService implements IPomDbService {
 	public boolean deleteOrder(String orderno) {
 		PreparedStatement stmt = null;
 		try {
-			stmt = con.prepareStatement("DELETE FROM Order WHERE orderno = ?");
+			stmt = con.prepareStatement("DELETE FROM public.order WHERE orderno = ?");
 			stmt.setString(1, orderno);
 			stmt.executeUpdate();
 		    stmt.close();
