@@ -438,7 +438,7 @@ public class PomDbService implements IPomDbService {
 		PreparedStatement stmt = null;
 		try {
 			
-			sql = "INSERT INTO Order VALUES" + "('" + 
+			sql = "INSERT INTO public.order VALUES" + "('" + 
 					order.ordernoProperty().get() +"','"+ 
 					order.customeridProperty().get() +"','"+ 
 					order.addressidProperty().get() +"','"+
@@ -446,46 +446,59 @@ public class PomDbService implements IPomDbService {
 					order.productProperty().get() +"',"+
 					order.priceProperty().get() +","+
 					order.volumeProperty().get() +",'"+
-					order.stateProperty() +"','"+
+					order.stateProperty().get() +"','"+
 					order.baseLotIdProperty().get() +"','"+
-					order.orderDateProperty() +"',"+
-					"NULL, NULL, NULL,"+ //Additional dates are NULL 
+					order.orderDateProperty().get() +"',"+
+					"NULL, NULL, '"+ //Additional dates are NULL 
+					order.dueDateProperty().get() +"',NULL,"+
 					order.lotSizeProperty().get() +","+
 					order.priorityProperty().get() +",'"+
-					order.commentProperty().get() +"') ";
-				    /*+ "ON CONFLICT (customerid) DO UPDATE SET customerid = ?,"
-				    + "companyname = ?, customerranking = ?, comment = ?";*/
+					order.commentProperty().get() +"') "
+				    + "ON CONFLICT (orderno) DO UPDATE SET "
+				    + "orderno = ?, customerid = ?, adressid = ?, contactid = ?, product = ?, "
+				    + "price = ?, volume = ?, state = ?, baselotid = ?, orderdate = ?, releasedate = ?, "
+				    + "completitiondate = ?, duedate = ?, actualdeliverydate = ?, lotsize = ?, priority = ?, comment = ?";
 			stmt = this.con.prepareStatement(sql);
-			/*stmt.setString(1, cust.idProperty().get());
-			stmt.setString(2, cust.nameProperty().get());
-			stmt.setString(3, cust.rankingProperty().get());
-			stmt.setString(4, cust.commentProperty().get());*/
+			stmt.setString(1,order.ordernoProperty().get());
+			stmt.setString(2,order.customeridProperty().get());
+			stmt.setString(3,order.addressidProperty().get());
+			stmt.setString(4,order.contactidProperty().get());
+			stmt.setString(5,order.productProperty().get());
+			stmt.setDouble(6,order.priceProperty().get());
+			stmt.setInt(7,order.volumeProperty().get());
+			stmt.setString(8,order.stateProperty().get());
+			stmt.setString(9,order.baseLotIdProperty().get());
+			stmt.setDate(10,java.sql.Date.valueOf(order.orderDateProperty().get()));
+			
+			if(order.releaseDateProperty().get().isEmpty())
+				stmt.setNull(11, java.sql.Types.DATE);
+			else
+				stmt.setDate(11,java.sql.Date.valueOf(order.releaseDateProperty().get()));
+			
+			if(order.completionDateProperty().get().isEmpty())
+				stmt.setNull(12, java.sql.Types.DATE);
+			else
+				stmt.setDate(12,java.sql.Date.valueOf(order.completionDateProperty().get()));
+			
+			if(order.dueDateProperty().get().isEmpty())
+				stmt.setNull(13, java.sql.Types.DATE);
+			else
+				stmt.setDate(13,java.sql.Date.valueOf(order.dueDateProperty().get()));
+			
+			if(order.actualDeliveryDateProperty().get().isEmpty())
+				stmt.setNull(14, java.sql.Types.DATE);
+			else
+				stmt.setDate(14,java.sql.Date.valueOf(order.actualDeliveryDateProperty().get()));
+			
+			stmt.setInt(15,order.lotSizeProperty().get());
+			stmt.setInt(16,order.priorityProperty().get());
+			stmt.setString(17,order.commentProperty().get());
+
+			System.out.println(sql);
 			stmt.executeUpdate();
 		    stmt.close();
-		    System.out.println("Upserted Order "+ order.ordernoProperty());
-		    /* TODO sobald Tabellen gef�llt sind entweder einf�gen oder Updaten
-		    if(!(cust.getAddressList().isEmpty())){
-		    	for (Address addrr : cust.getAddressList()) {
-			    	sql = "INSERT INTO address VALUES" + "('" + addr.idProperty().get() +"','"+ cust.nameProperty().get() +"','"+ 
-				            cust.rankingProperty().get() +"','"+ 
-							cust.commentProperty().get() +"') "
-						    + "ON CONFLICT (customerid) DO UPDATE SET customerid = ?,"
-						    + "companyname = ?, customerranking = ?, comment = ?";
-					stmt = this.con.prepareStatement(sql);
-					stmt.setString(1, cust.idProperty().get());
-					stmt.setString(2, cust.nameProperty().get());
-					stmt.setString(3, cust.rankingProperty().get());
-					stmt.setString(4, cust.commentProperty().get());
-					stmt.executeUpdate();
-				    stmt.close();
-		    	}
-		    }
-			if(!(cust.getContactList().isEmpty())){
-					    	
-			}
-			if(!(cust.getBankAccountList().isEmpty())){
-				
-			}*/
+		    System.out.println("Updated Order "+ order.ordernoProperty());
+		    
 		    return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -502,7 +515,7 @@ public class PomDbService implements IPomDbService {
 	public boolean deleteOrder(String orderno) {
 		PreparedStatement stmt = null;
 		try {
-			stmt = con.prepareStatement("DELETE FROM Order WHERE orderno = ?");
+			stmt = con.prepareStatement("DELETE FROM public.order WHERE orderno = ?");
 			stmt.setString(1, orderno);
 			stmt.executeUpdate();
 		    stmt.close();
@@ -513,48 +526,5 @@ public class PomDbService implements IPomDbService {
 		}
 		return false;
 	}
-	
-	
-	/**
-	 * @returns List of all Orders which are stored in data source
-	 * 
-	 */
-	/*public List<Order> getOrderList(String custId){
-		List<Order> orderList = new ArrayList<Order>();
-		PreparedStatement stmt = null;
-		if(custId.isEmpty()){
-			try {
-				stmt = con.prepareStatement("SELECT * FROM Order");
-				ResultSet rs = stmt.executeQuery();
-				while (rs.next())
-				{
-				   //orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),rs.getString("price"),rs.getString("volume"),rs.getString("state"),rs.getString("baselotid"),rs.getString("orderdate"),rs.getString("releasedate"),rs.getString("completitiondate"),rs.getString("duedate"),rs.getString("actualdeliverydate"),rs.getString("lotsize"),rs.getString("priority"),rs.getString("comment")));
-				}
-				rs.close();
-			    stmt.close();
-			    
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}else{
-			try {
-				stmt = con.prepareStatement("SELECT * FROM Order");
-				ResultSet rs = stmt.executeQuery();
-				while (rs.next())
-				{
-				   //orderList.add(new Customer(rs.getString("customerid"), rs.getString("companyname"), rs.getString("customerranking"), rs.getString("comment")));
-				}
-				rs.close();
-			    stmt.close();
-			    
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return orderList;
-		
-	}*/
-
-	
 	
 }
