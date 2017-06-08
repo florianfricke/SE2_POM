@@ -2,6 +2,8 @@
  * 
  */
 package types;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javafx.beans.property.*;
@@ -39,9 +41,10 @@ public class Order {
 	 */
 	
 	public Order() {
-		this("","","","","",0,0,"","","","","","","",0,0,"");
+		this("","","","","",0,0,"PLANNED","",GetCurrentDate(),"","","","",10,0,"");
 	}
 
+	
 	
 	public Order(String orderno,String customerid, String addressid, String contactid, String product, 
 			double price, int volume, String state, String baseLotId, String orderDate, String releaseDate,	 String completionDate,
@@ -64,6 +67,17 @@ public class Order {
 		this.priority = new SimpleIntegerProperty(priority);
 		this.comment = new SimpleStringProperty(comment);
 	}
+	
+	
+	public static String GetCurrentDate(){
+		//wo gehört diese methode hin?
+		DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+		Date date = new Date();
+		
+		return dateFormat.format(date);
+		
+	}
+	
 	
 	public StringProperty ordernoProperty() {
 		return orderno;
@@ -118,6 +132,12 @@ public class Order {
 		return comment;
 	}
 	
+	//Test
+	
+	public StringProperty priorityPropertyTest() {
+		
+		return orderno;
+	}
 	
 	
 	public List < Lot > getLots() {
@@ -127,4 +147,8 @@ public class Order {
 	public boolean release() {
 		return false;
 	}
+
+
+
+
 }
