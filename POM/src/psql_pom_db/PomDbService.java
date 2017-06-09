@@ -34,7 +34,7 @@ public class PomDbService implements IPomDbService {
 		    if(!(cust.getAddressList().isEmpty())){
 		    	for (Address addrr : cust.getAddressList()) {
 			    	sql = "INSERT INTO public.address(customerid, street, houseno, city, zipcode, country, billingaddress) VALUES"+ 
-			    			"('" + cust.idProperty().get() +"','"+ addrr.streetProperty().get() +"','"+ 
+			    			"('" + cust.idProperty().get() +"','"+ addrr.streetProperty().get() +"','"+  //hier kann für customer id DEFAULT eingetragen werden?
 			    			addrr.houseNoProperty().get() +"','"+ 
 			    			addrr.cityProperty().get() +"','"+ 
 			    			addrr.zipCodeProperty().get() +"','"+ 
@@ -72,7 +72,7 @@ public class PomDbService implements IPomDbService {
 			    			"('" + cust.idProperty().get() +"','"+ ba.ibanProperty().get() +"','"+ 
 			    			ba.bicProperty().get() +"','"+ 
 			    			ba.bankNameProperty().get()+"')";
-			    	stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			    	stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); // ist da seine java methode? wo ist die implemtiert?
 					stmt.executeUpdate();
 					rs = stmt.getGeneratedKeys();
 					rs.next();
@@ -101,14 +101,14 @@ public class PomDbService implements IPomDbService {
 			sql = "UPDATE public.customer SET companyname=?, ranking=?, comment = ?" + 
 			"WHERE id = ?";
 			stmt = this.con.prepareStatement(sql);
-			stmt.setString(1, cust.nameProperty().get());
+			stmt.setString(1, cust.nameProperty().get()); // wenn ein Attribut nicht gesetzt wird wird automatisch NULL eingetragen?
 			stmt.setString(2, cust.rankingProperty().get());
 			stmt.setString(3, cust.commentProperty().get());
 			stmt.setString(4, cust.idProperty().get());
 			stmt.executeUpdate();
 		    stmt.close();
 		    System.out.println("Updated Customer "+ cust.idProperty());
-		    if(!(cust.getAddressList().equals(dbCustAddressList))){
+		    if(!(cust.getAddressList().equals(dbCustAddressList))){ // wenn die Adresse sich geändert hat aber welche sind die beiden listen
 		    	for (Address addrr : cust.getAddressList()) {
 		    		if(addrr.idProperty().get().isEmpty()){
 		    			sql = "INSERT INTO public.address(customerid, street, houseno, city, zipcode, country, billingaddress) VALUES"+ 
@@ -125,7 +125,7 @@ public class PomDbService implements IPomDbService {
 						addrr.idProperty().set(rs.getString("id"));
 						rs.close();
 					    stmt.close();
-		    		}else{
+		    		}else{ // dieses else ist wenn welche adressen zusammenpassen? und was ist hier die erste id vor customer id wenn das upadte customer ist
 				    	sql = "UPDATE public.address SET street = ?, houseno = ?, city = ?, zipcode = ?, country = ?, billingaddress = ?"+ 
 				    			"WHERE id = ? AND customerid = ?";
 				    	stmt = this.con.prepareStatement(sql);
@@ -141,8 +141,8 @@ public class PomDbService implements IPomDbService {
 					    stmt.close();
 		    		}
 		    	}
-	    		//Zu l�schende Elemente heraussuchen
-	    		for (Address delAddrr : getAddressList(cust.idProperty().get())) {
+	    		//Zu loeschende Elemente heraussuchen
+	    		for (Address delAddrr : getAddressList(cust.idProperty().get())) { // was macht das for (für jeden durchgang wird die id in delAddrr eingespeichert?)
 	    			if(!(cust.getAddressList().contains(delAddrr))){
 		    			sql = "DELETE FROM public.address WHERE id = ?"; // add WHERE customerID, if custID later gets PK
 				    	stmt = this.con.prepareStatement(sql);
@@ -168,7 +168,7 @@ public class PomDbService implements IPomDbService {
 						contact.idProperty().set(rs.getString("id"));
 						rs.close();
 					    stmt.close();
-					}else{
+					}else{ // das else ist wenn?
 				    	sql = "UPDATE public.contact SET phoneno = ?, name = ?, firstname = ?, mailadress = ?, position = ?"+ 
 				    			"WHERE id = ? AND customerid = ?";
 				    	stmt = this.con.prepareStatement(sql);
@@ -193,7 +193,7 @@ public class PomDbService implements IPomDbService {
 	    			}
 		    	}	    	
 			}
-			if(!(cust.getBankAccountList().equals(dbCustBankAccountList))){
+			if(!(cust.getBankAccountList().equals(dbCustBankAccountList))){ // was ist der unterschied zws cust... und dbCust...
 				for (BankAccount ba  : cust.getBankAccountList()) {
 					if(ba.idProperty().get().isEmpty()){
 				    	sql = "INSERT INTO public.bankaccount(customerid, iban, bic, bankname) VALUES"+ 
@@ -284,7 +284,7 @@ public class PomDbService implements IPomDbService {
 	  }
 
 	@Override
-	public boolean deleteCustomer(String id) {
+	public boolean deleteCustomer(String id) { // wird die funktion hier quasi als oberfunktion genommen in der adresse, contact... gelöscht werden kann was in der geprüft wird?
 		PreparedStatement stmt = null;
 		String sql = "";
 		List<Address> delAddressList = getAddressList(id);
@@ -406,6 +406,10 @@ public class PomDbService implements IPomDbService {
 		}
 		return bankAccountList;
 	}
+	/**
+	 * @returns List of all orders of a Customer 
+	 * 
+	 */
 	
 	public List<Order> getOrderList(){
 		List<Order> orderList = new ArrayList<Order>();
@@ -506,12 +510,35 @@ public class PomDbService implements IPomDbService {
 		return false;
 	}
 	
+	//funktion update order muss getestet werden
+	/*
+	public boolean updateOrder(Order order) {
+		PreparedStatement stmt = null;
+		try {	//Orderno nicht im update inbegriffen da diese nicht geändert werden kann? richtig?
+			stmt = con.prepareStatement("Update Order set customerid = ?,adressid=?,contactid=?,product=?,price=?,volume=?,state=?,baselotid=?,orderdate=?");
+					stmt.setString(1,order.customeridProperty().get());
+					stmt.setString(2,order.addressidProperty().get());
+					stmt.setString(3,order.contactidProperty().get());
+					stmt.setString(4,order.productProperty().get());
+					stmt.setDouble(5,order.priceProperty().get());
+					stmt.setInt(6,order.volumeProperty().get());
+					stmt.setString(7,order.stateProperty().get());
+					stmt.setString(8,order.baseLotIdProperty().get());
+					stmt.setDate(9,java.sql.Date.valueOf(order.orderDateProperty().get()));		
+					//es fehlen die restlichen variablen des Datums wie kann man diese hier einbinden
+			ResultSet rs = stmt.executeQuery();
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+		return true;
+	}*/
+	
 	/**
 	 * Deletes an Order Object from database by orderno
-	 * @param id of order tupel
+	 * @param id of order tuple
 	 * @returns true on success
 	 */
-	@Override
+	@Override // wieso hier das @Override
 	public boolean deleteOrder(String orderno) {
 		PreparedStatement stmt = null;
 		try {
@@ -525,6 +552,23 @@ public class PomDbService implements IPomDbService {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	//get Customer neu muss getestet werden
+	public Customer getCustomer(String customerID){
+		Customer customerToReturn = new Customer();
+		PreparedStatement stmt = null;
+		try {
+			stmt = con.prepareStatement("SELECT * FROM Customer WHERE id = ?");
+			stmt.setString(1, customerID);
+			ResultSet rs = stmt.executeQuery();
+			customerToReturn = new Customer( rs.getString("id"),  rs.getString("companyname"), rs.getString("ranking"),rs.getString("comment")); // customer erstellen
+			rs.close();
+		    stmt.close();
+		    
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return customerToReturn;
 	}
 	
 }
