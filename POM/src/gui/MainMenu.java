@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import pom_service.PomService;
 import java.io.IOException;
@@ -40,6 +41,7 @@ public class MainMenu extends Application {
 		
 		Scene scene = new Scene(root);
 		stage.setTitle("POM");
+		stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
         stage.setScene(scene);
         stage.show();
 	}
