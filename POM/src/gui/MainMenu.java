@@ -39,7 +39,7 @@ public class MainMenu extends Application {
 			System.out.println("Das war wohl nix.");
 		}
 		
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(root, 900, 600);
 		stage.setTitle("POM");
 		stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
         stage.setScene(scene);
@@ -101,7 +101,7 @@ public class MainMenu extends Application {
     	Stage stage = (Stage) currStage.getScene().getWindow();
     	try {
     		FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-			stage.setScene(new Scene(loader.load()));
+			stage.setScene(new Scene(loader.load(), 900, 600));
 			MainController mc = (MainController)loader.getController();
 			mc.setMainApp(this);
 			System.out.println(((Button)event.getSource()).getId());

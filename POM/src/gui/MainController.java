@@ -67,9 +67,9 @@ public class MainController{
             Parent root = fxmlLoader.load();
             CustomerController custCtrl = (CustomerController)fxmlLoader.getController();
             custCtrl.init(this.mainMenu,cust);
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root, 800, 500);
             Stage stage = new Stage();
-            stage.setTitle("New Window");
+            stage.setTitle("Customer");
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
@@ -87,9 +87,9 @@ public class MainController{
             Parent root = fxmlLoader.load();
             CustomerController custCtrl = (CustomerController)fxmlLoader.getController();
             custCtrl.init(this.mainMenu);
-            Scene scene = new Scene(root, 649, 812);
+            Scene scene = new Scene(root, 800, 500);
             Stage stage = new Stage();
-            stage.setTitle("New Window");
+            stage.setTitle("New Customer");
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
@@ -113,9 +113,9 @@ public class MainController{
             Parent root = fxmlLoader.load();
             OrderController orderCtrl = (OrderController)fxmlLoader.getController();
             orderCtrl.init(this.mainMenu);
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root, 800, 500);
             Stage stage = new Stage();
-            stage.setTitle("New Window");
+            stage.setTitle("New Order");
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
@@ -140,9 +140,9 @@ public class MainController{
             Parent root = fxmlLoader.load();
             OrderController orderCtrl = (OrderController)fxmlLoader.getController();
             orderCtrl.init(this.mainMenu,order);
-            Scene scene = new Scene(root, 700, 450);
+            Scene scene = new Scene(root, 800, 500);
             Stage stage = new Stage();
-            stage.setTitle("New Window");
+            stage.setTitle("Order");
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
