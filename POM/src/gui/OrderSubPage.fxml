@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Menu?>
@@ -16,7 +23,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="577.0" prefWidth="823.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="577.0" prefWidth="823.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -63,7 +70,7 @@
 				         <Button mnemonicParsing="false" text="Filter" />
 				     </items>
 				   </ToolBar>
-				   <TableView fx:id="orderTable" editable="false" onMouseClicked="#handleRowClickOrder" prefHeight="505.0" prefWidth="680.0">
+				   <TableView fx:id="orderTable" editable="false" onMouseClicked="#handleRowClickOrder" prefHeight="505.0" prefWidth="680.0" VBox.vgrow="ALWAYS">
 				     <columns>
 				       <TableColumn fx:id="orderId" prefWidth="75.0" text="ID"> 
 				       	<cellValueFactory>
