@@ -13,8 +13,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import pom_service.PomService;
 
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 
 public class MainMenu extends Application {
@@ -29,7 +27,7 @@ public class MainMenu extends Application {
 	
 	@Override
 	public void start(Stage stage) {
-		pomService = new PomService(SaveType.postgres);
+		pomService = new PomService(SaveType.postgres, SaveType.postgres);
 		Parent root = null;
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenu.fxml"));
