@@ -501,18 +501,26 @@ public class PomDbService implements IPomDbService {
 	
 	public boolean updateOrder(Order order) {
 		PreparedStatement stmt = null;
-		try {	//Orderno nicht im update inbegriffen da diese nicht geändert werden kann? richtig?
-			stmt = con.prepareStatement("Update Order set customerid = ?,adressid=?,contactid=?,product=?,price=?,volume=?,state=?,baselotid=?,orderdate=?");
-					stmt.setString(1,order.customeridProperty().get());
-					stmt.setString(2,order.addressidProperty().get());
-					stmt.setString(3,order.contactidProperty().get());
-					stmt.setString(4,order.productProperty().get());
-					stmt.setDouble(5,order.priceProperty().get());
-					stmt.setInt(6,order.volumeProperty().get());
-					stmt.setString(7,order.stateProperty().get());
-					stmt.setString(8,order.baseLotIdProperty().get());
-					stmt.setDate(9,java.sql.Date.valueOf(order.orderDateProperty().toString()));		
-					//es fehlen die restlichen variablen des Datums wie kann man diese hier einbinden
+		try {	//Orderno nicht im update inbegriffen da diese nicht geändert werden kann? richtig? !-> doch im where wird die ben�tigt!
+			stmt = con.prepareStatement("Update Order set customerid = ?,adressid=?,contactid=?,product=?,price=?,volume=?,state=?,baselotid=?,orderdate=?, releasedate=?, completiondate=?, duedate=?, actualdeliverydate=?, lotsize=?, priority=?, comment=? where orderno = ? ");
+			stmt.setString(1,order.customeridProperty().get());
+			stmt.setString(2,order.addressidProperty().get());
+			stmt.setString(3,order.contactidProperty().get());
+			stmt.setString(4,order.productProperty().get());
+			stmt.setDouble(5,order.priceProperty().get());
+			stmt.setInt(6, order.volumeProperty().get());
+			stmt.setString(7, order.stateProperty().get());
+			stmt.setString(8, order.baseLotIdProperty().get());
+			stmt.setDate(9, java.sql.Date.valueOf(order.orderDateProperty().toString()));
+			stmt.setDate(10, java.sql.Date.valueOf(order.releaseDateProperty().get()));
+			stmt.setDate(11, java.sql.Date.valueOf(order.completionDateProperty().get()));
+			stmt.setDate(12, java.sql.Date.valueOf(order.dueDateProperty().get()));
+			stmt.setDate(13, java.sql.Date.valueOf(order.actualDeliveryDateProperty().get()));
+			stmt.setInt(14, order.lotSizeProperty().get());
+			stmt.setInt(15, order.priorityProperty().get());
+			stmt.setString(16, order.commentProperty().get());
+			stmt.setString(17, order.ordernoProperty().get());
+					
 			ResultSet rs = stmt.executeQuery();
 			return true;
 	} catch (SQLException e) {
