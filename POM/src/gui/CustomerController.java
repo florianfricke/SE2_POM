@@ -12,7 +12,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import types.*;
 
@@ -47,6 +46,7 @@ public class CustomerController {
 	@FXML private TableColumn<BankAccount, String> iban;
     @FXML private TableColumn<BankAccount, String> bic;
     @FXML private TableColumn<BankAccount, String> bankname;
+    
 
 	public void init(MainMenu mainMenu) {
         this.mainMenu = mainMenu;
@@ -68,15 +68,15 @@ public class CustomerController {
 		Bindings.bindBidirectional(tar_Comment.textProperty(),this.cust.commentProperty());
 		//Address Table
 		street.setCellValueFactory(cellData -> cellData.getValue().streetProperty());
-		street.setCellFactory(TextFieldTableCell.forTableColumn());
+		street.setCellFactory(column -> EditingCell.createStringEditCell());
 		houseNo.setCellValueFactory(cellData -> cellData.getValue().houseNoProperty());
-		houseNo.setCellFactory(TextFieldTableCell.forTableColumn());
+		houseNo.setCellFactory(column -> EditingCell.createStringEditCell());
 		zipCode.setCellValueFactory(cellData -> cellData.getValue().zipCodeProperty());
-		zipCode.setCellFactory(TextFieldTableCell.forTableColumn());
+		zipCode.setCellFactory(column -> EditingCell.createStringEditCell());
 		city.setCellValueFactory(cellData -> cellData.getValue().cityProperty());
-		city.setCellFactory(TextFieldTableCell.forTableColumn());
+		city.setCellFactory(column -> EditingCell.createStringEditCell());
 		country.setCellValueFactory(cellData -> cellData.getValue().countryProperty());
-		country.setCellFactory(TextFieldTableCell.forTableColumn());
+		country.setCellFactory(column -> EditingCell.createStringEditCell());
 		billingAddress.setCellValueFactory(cellData -> cellData.getValue().billingAddressProperty());
 		billingAddress.setCellFactory(CheckBoxTableCell.forTableColumn(billingAddress));
 		if(this.cust.getAddressList().isEmpty()){
@@ -90,15 +90,15 @@ public class CustomerController {
 		}
 		//Contact Table
 		name.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		name.setCellFactory(TextFieldTableCell.forTableColumn());
+		name.setCellFactory(column -> EditingCell.createStringEditCell());
 		firstName.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
-		firstName.setCellFactory(TextFieldTableCell.forTableColumn());
+		firstName.setCellFactory(column -> EditingCell.createStringEditCell());
 		position.setCellValueFactory(cellData -> cellData.getValue().positionProperty());
-		position.setCellFactory(TextFieldTableCell.forTableColumn());
+		position.setCellFactory(column -> EditingCell.createStringEditCell());
 		phoneNo.setCellValueFactory(cellData -> cellData.getValue().phoneNoProperty());
-		phoneNo.setCellFactory(TextFieldTableCell.forTableColumn());
+		phoneNo.setCellFactory(column -> EditingCell.createStringEditCell());
 		email.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
-		email.setCellFactory(TextFieldTableCell.forTableColumn());
+		email.setCellFactory(column -> EditingCell.createStringEditCell());
 		if(this.cust.getContactList().isEmpty()){
 			this.cust.setContactList(mainMenu.getContactList(this.cust.idProperty().get()));
 		}
@@ -111,11 +111,12 @@ public class CustomerController {
 		
 		//BankAccount Table
 		iban.setCellValueFactory(cellData -> cellData.getValue().ibanProperty());
-		iban.setCellFactory(TextFieldTableCell.forTableColumn());
+		iban.setCellFactory(column -> EditingCell.createStringEditCell());
 		bic.setCellValueFactory(cellData -> cellData.getValue().bicProperty());
-		bic.setCellFactory(TextFieldTableCell.forTableColumn());
+		bic.setCellFactory(column -> EditingCell.createStringEditCell());
 		bankname.setCellValueFactory(cellData -> cellData.getValue().bankNameProperty());
-		bankname.setCellFactory(TextFieldTableCell.forTableColumn());
+		//bankname.setCellFactory(column -> EditingCell.createStringEditCell());
+		bankname.setCellFactory(column -> EditingCell.createStringEditCell());
 		if(this.cust.getBankAccountList().isEmpty()){
 			this.cust.setBankAccountList(mainMenu.getBankAccountList(this.cust.idProperty().get()));
 		}
