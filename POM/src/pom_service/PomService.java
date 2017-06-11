@@ -40,6 +40,10 @@ public class PomService {
 		return pomPersistance.getCustomerList();
 	}
 	
+	public List<Customer> getCustomerNameList() {
+		return pomPersistance.getCustomerList();
+	}
+	
 	public boolean deleteCustomer(String id){
 		return pomPersistance.deleteCustomer(id);
 	}

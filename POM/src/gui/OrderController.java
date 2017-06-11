@@ -1,7 +1,10 @@
 package gui; 
  
 
+import java.util.List;
+
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.ObjectBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent; 
@@ -12,14 +15,23 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea; 
 import javafx.scene.control.TextField; 
 import javafx.stage.Stage; 
-import javafx.util.converter.NumberStringConverter; 
-import types.Order; 
+import javafx.util.converter.NumberStringConverter;
+import pom_service.PomService;
+import types.Customer;
+import types.Order;
+import types.SaveType; 
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
 
 public class OrderController {
 	private MainMenu mainMenu;
 	private Order order;
+	private PomService pomService;
+	private ObservableList<Customer> custList;
 	
     @FXML private TextField txt_Id;
     @FXML private TextField txt_product;
@@ -36,6 +48,7 @@ public class OrderController {
     @FXML private TextField txt_address;
     @FXML private TextArea tar_comment;
     @FXML private ComboBox<String> comboBox_priority;
+    @FXML private ComboBox<Customer> combobox_customer;
 
 	@FXML private Button btnSave;
 
@@ -47,10 +60,21 @@ public class OrderController {
 		comboBox_priority.setItems(listPriority);
 	}
 	
+
+	public void comboBoxCustomer(){
+			
+		this.custList = FXCollections.observableList(this.pomService.getCustomerList());
+		System.out.println(custList);
+		combobox_customer.setItems(this.custList);
+		combobox_customer.getSelectionModel().select(2);
+	}
+	
 	
 	public void init(MainMenu mainMenu) {
         this.mainMenu = mainMenu;
         this.order = new Order();
+        this.pomService = new PomService(SaveType.postgres);
+        comboBoxCustomer();
         comboBoxPriority();
         setTextFields();
         
@@ -59,6 +83,7 @@ public class OrderController {
 	public void init(MainMenu mainMenu, Order order) {
         this.mainMenu = mainMenu;
         this.order = order;
+        comboBoxCustomer();
         comboBoxPriority();
         setTextFields();
    }
@@ -74,7 +99,15 @@ public class OrderController {
 		Bindings.bindBidirectional(comboBox_priority.valueProperty(), this.order.priorityProperty(), new NumberStringConverter());
 		Bindings.bindBidirectional(txt_address.textProperty(),this.order.addressidProperty());
 		Bindings.bindBidirectional(txt_contact.textProperty(),this.order.contactidProperty());
-		Bindings.bindBidirectional(txt_customer.textProperty(),this.order.customeridProperty());
+		//Bindings.bindBidirectional(txt_customer.textProperty(),this.order.customeridProperty());
+		//Bindings.bindBidirectional(combobox_customer.getSelectionModel().getSelectedItem().idProperty(),this.order.customeridProperty());
+		combobox_customer.getSelectionModel().getSelectedItem().idProperty().bindBidirectional(this.order.customeridProperty());
+		// Bindings.bindBidirectional(combobox_customer.getSelectionModel().selectedItemProperty().get().idProperty(),this.order.customeridProperty());
+		//System.out.println(combobox_customer.getSelectionModel().getSelectedItem().rankingProperty());
+		//System.out.println(combobox_customer.getSelectionModel().getSelectedItem().idProperty());
+		
+
+		
 		Bindings.bindBidirectional(txt_orderDate.textProperty(),this.order.orderDateProperty());
 		Bindings.bindBidirectional(txt_releaseDate.textProperty(),this.order.releaseDateProperty());
 		Bindings.bindBidirectional(txt_state.textProperty(),this.order.stateProperty());
@@ -85,6 +118,9 @@ public class OrderController {
 		Bindings.bindBidirectional(txt_deliveryDate.textProperty(),this.order.actualDeliveryDateProperty());
 		Bindings.bindBidirectional(tar_comment.textProperty(),this.order.commentProperty());
 	
+		
+		
+		
 		
 	}
 	
