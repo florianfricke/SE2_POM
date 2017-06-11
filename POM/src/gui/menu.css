@@ -1,0 +1,12 @@
+.menu_button {
+  -fx-background-radius: 0;
+  -fx-effect: innershadow(three-pass-box, transparent, 10, 0, 0, 0);
+  -fx-border-color: #b5b5b5;
+  -fx-border-width: 0 1 0 1;
+  -fx-focus-color: transparent;
+  -fx-faint-focus-color:transparent;
+}
+
+.menu_button:focused {
+  -fx-border-width: 1 1 1 1;
+}
