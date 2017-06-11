@@ -22,7 +22,10 @@ public class Lot {
 		this.orderNo = new SimpleStringProperty(orderNo);
 		this.dueDate = new SimpleStringProperty(dueDate);
 	}
-	
+	//eingefügt um Lot am anfang erstellen zu können
+	public Lot() {
+		this("",0 ,0 ,"","","","","");
+	}
 	public StringProperty idProperty() {
 		return id;
 	}
