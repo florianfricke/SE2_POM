@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
@@ -56,15 +57,22 @@
    <center>
    			<VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
 				<children>
-				   <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="53.0" prefWidth="457.0" VBox.vgrow="NEVER">
+				   <ToolBar nodeOrientation="LEFT_TO_RIGHT" VBox.vgrow="NEVER">
 				     <items>
-				       <Button mnemonicParsing="false" onAction="#handleNewOrder" prefHeight="9.0" prefWidth="40.0" text="New" />
-				         <Button mnemonicParsing="false" onAction="#handleDelOrder" text="Delete" />
-				         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="26.0" stroke="WHITE" strokeType="INSIDE" visible="false" width="107.0" />
-				         <ChoiceBox prefHeight="25.0" prefWidth="83.0" />
-				         <TextField prefHeight="25.0" prefWidth="97.0" />
-				         <Button mnemonicParsing="false" text="Filter" />
+                  <HBox spacing="8.0">
+                     <children>
+      				       <Button mnemonicParsing="false" onAction="#handleNewOrder" prefHeight="9.0" prefWidth="40.0" text="New" />
+      				         <Button mnemonicParsing="false" onAction="#handleDelOrder" text="Delete" />
+                        <Region prefWidth="20.0" />
+      				         <ChoiceBox prefHeight="25.0" prefWidth="100.0" />
+      				         <TextField prefHeight="25.0" prefWidth="150.0" />
+      				         <Button mnemonicParsing="false" text="Filter" />
+                     </children>
+                  </HBox>
 				     </items>
+               <padding>
+                  <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+               </padding>
 				   </ToolBar>
 				   <TableView fx:id="orderTable" editable="false" onMouseClicked="#handleRowClickOrder" prefHeight="505.0" prefWidth="680.0" VBox.vgrow="ALWAYS">
 				     <columns>
