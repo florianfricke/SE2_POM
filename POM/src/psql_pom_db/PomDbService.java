@@ -446,7 +446,7 @@ public class PomDbService implements IPomDbService {
 			
 			while (rs.next())
 			{
-				orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),Double.parseDouble(rs.getString("price")),Integer.parseInt(rs.getString("volume")),rs.getString("state"),rs.getString("baselotid"),(rs.getString("orderdate")),(rs.getString("releasedate")),(rs.getString("completitiondate")),(rs.getString("duedate")),(rs.getString ("actualdeliverydate")),Integer.parseInt(rs.getString("lotsize")),Integer.parseInt(rs.getString("priority")),rs.getString("comment")));
+				orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),Double.parseDouble(rs.getString("price")),Integer.parseInt(rs.getString("volume")),rs.getString("state"),rs.getString("baselotid"),(rs.getDate("orderdate")),(rs.getString("releasedate")),(rs.getString("completitiondate")),(rs.getString("duedate")),(rs.getString ("actualdeliverydate")),Integer.parseInt(rs.getString("lotsize")),Integer.parseInt(rs.getString("priority")),rs.getString("comment")));
 			}
 			rs.close();
 		    stmt.close();
@@ -465,78 +465,40 @@ public class PomDbService implements IPomDbService {
 	public boolean addOrder(Order order) {
 		String sql = "";
 		PreparedStatement stmt = null;
+		ResultSet rs;
 		try {
-			
-			sql = "INSERT INTO public.order VALUES" + "('" + 
-					order.ordernoProperty().get() +"','"+ 
-					order.customeridProperty().get() +"','"+ 
-					order.addressidProperty().get() +"','"+
-					order.contactidProperty().get() +"','"+
-					order.productProperty().get() +"',"+
-					order.priceProperty().get() +","+
-					order.volumeProperty().get() +",'"+
-					order.stateProperty().get() +"','"+
-					order.baseLotIdProperty().get() +"','"+
-					order.orderDateProperty().get() +"',"+
-					"NULL, NULL, '"+ //Additional dates are NULL 
-					order.dueDateProperty().get() +"',NULL,"+
-					order.lotSizeProperty().get() +","+
-					order.priorityProperty().get() +",'"+
-					order.commentProperty().get() +"') "
-				    + "ON CONFLICT (orderno) DO UPDATE SET "
-				    + "orderno = ?, customerid = ?, adressid = ?, contactid = ?, product = ?, "
-				    + "price = ?, volume = ?, state = ?, baselotid = ?, orderdate = ?, releasedate = ?, "
-				    + "completitiondate = ?, duedate = ?, actualdeliverydate = ?, lotsize = ?, priority = ?, comment = ?";
-			stmt = this.con.prepareStatement(sql);
-			stmt.setString(1,order.ordernoProperty().get());
-			stmt.setString(2,order.customeridProperty().get());
-			stmt.setString(3,order.addressidProperty().get());
-			stmt.setString(4,order.contactidProperty().get());
-			stmt.setString(5,order.productProperty().get());
-			stmt.setDouble(6,order.priceProperty().get());
-			stmt.setInt(7,order.volumeProperty().get());
-			stmt.setString(8,order.stateProperty().get());
-			stmt.setString(9,order.baseLotIdProperty().get());
-			stmt.setDate(10,java.sql.Date.valueOf(order.orderDateProperty().get()));
-			
-			if(order.releaseDateProperty().get().isEmpty())
-				stmt.setNull(11, java.sql.Types.DATE);
-			else
-				stmt.setDate(11,java.sql.Date.valueOf(order.releaseDateProperty().get()));
-			
-			if(order.completionDateProperty().get().isEmpty())
-				stmt.setNull(12, java.sql.Types.DATE);
-			else
-				stmt.setDate(12,java.sql.Date.valueOf(order.completionDateProperty().get()));
-			
-			if(order.dueDateProperty().get().isEmpty())
-				stmt.setNull(13, java.sql.Types.DATE);
-			else
-				stmt.setDate(13,java.sql.Date.valueOf(order.dueDateProperty().get()));
-			
-			if(order.actualDeliveryDateProperty().get().isEmpty())
-				stmt.setNull(14, java.sql.Types.DATE);
-			else
-				stmt.setDate(14,java.sql.Date.valueOf(order.actualDeliveryDateProperty().get()));
-			
-			stmt.setInt(15,order.lotSizeProperty().get());
-			stmt.setInt(16,order.priorityProperty().get());
-			stmt.setString(17,order.commentProperty().get());
-
-			System.out.println(sql);
+			sql= "INSERT INTO public.order(VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+			stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1,order.customeridProperty().get());
+			stmt.setString(2,order.addressidProperty().get());
+			stmt.setString(3,order.contactidProperty().get());
+			stmt.setString(4,order.productProperty().get());
+			stmt.setDouble(5,order.priceProperty().get());
+			stmt.setInt(6, order.volumeProperty().get());
+			stmt.setString(7, order.stateProperty().get());
+			stmt.setString(8, order.baseLotIdProperty().get());
+			stmt.setDate(9, java.sql.Date.valueOf(order.orderDateProperty().toString()));
+			stmt.setDate(10, java.sql.Date.valueOf("NULL"));
+			stmt.setDate(11, java.sql.Date.valueOf("NULL"));
+			stmt.setDate(12, java.sql.Date.valueOf(order.dueDateProperty().get()));
+			stmt.setDate(13, java.sql.Date.valueOf("NULL"));
+			stmt.setInt(14, order.lotSizeProperty().get());
+			stmt.setInt(15, order.priorityProperty().get());
+			stmt.setString(16, order.commentProperty().get());
 			stmt.executeUpdate();
+			rs = stmt.getGeneratedKeys();
+			rs.next();
+			order.ordernoProperty().set(rs.getString("id"));
+			rs.close();
 		    stmt.close();
-		    System.out.println("Updated Order "+ order.ordernoProperty());
-		    
-		    return true;
+		    stmt.close();
+					
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
 	
-	//funktion update order muss getestet werden
-	/*
 	public boolean updateOrder(Order order) {
 		PreparedStatement stmt = null;
 		try {	//Orderno nicht im update inbegriffen da diese nicht geändert werden kann? richtig?
@@ -549,14 +511,15 @@ public class PomDbService implements IPomDbService {
 					stmt.setInt(6,order.volumeProperty().get());
 					stmt.setString(7,order.stateProperty().get());
 					stmt.setString(8,order.baseLotIdProperty().get());
-					stmt.setDate(9,java.sql.Date.valueOf(order.orderDateProperty().get()));		
+					stmt.setDate(9,java.sql.Date.valueOf(order.orderDateProperty().toString()));		
 					//es fehlen die restlichen variablen des Datums wie kann man diese hier einbinden
 			ResultSet rs = stmt.executeQuery();
+			return true;
 	} catch (SQLException e) {
 		e.printStackTrace();
 	}
-		return true;
-	}*/
+		return false;
+	}
 	
 	/**
 	 * Deletes an Order Object from database by orderno

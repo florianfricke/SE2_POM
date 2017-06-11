@@ -38,20 +38,10 @@ public class OrderController {
     @FXML private ComboBox<String> comboBox_priority;
 
 	@FXML private Button btnSave;
-
-
-	
-	public void comboBoxPriority(){
-		//Wo muss diese Methode hin?
-		ObservableList<String> listPriority = FXCollections.observableArrayList("1","2","3","5","6","7","8","9","10");
-		comboBox_priority.setItems(listPriority);
-	}
-	
 	
 	public void init(MainMenu mainMenu) {
         this.mainMenu = mainMenu;
         this.order = new Order();
-        comboBoxPriority();
         setTextFields();
         
    }
@@ -59,14 +49,8 @@ public class OrderController {
 	public void init(MainMenu mainMenu, Order order) {
         this.mainMenu = mainMenu;
         this.order = order;
-        comboBoxPriority();
         setTextFields();
    }
-
-	
-
-	
-	
 	
 	private void setTextFields(){
 		Bindings.bindBidirectional(txt_Id.textProperty(), this.order.ordernoProperty());
@@ -75,7 +59,7 @@ public class OrderController {
 		Bindings.bindBidirectional(txt_address.textProperty(),this.order.addressidProperty());
 		Bindings.bindBidirectional(txt_contact.textProperty(),this.order.contactidProperty());
 		Bindings.bindBidirectional(txt_customer.textProperty(),this.order.customeridProperty());
-		Bindings.bindBidirectional(txt_orderDate.textProperty(),this.order.orderDateProperty());
+		//Bindings.bindBidirectional(txt_orderDate.textProperty(),this.order.orderDateProperty());
 		Bindings.bindBidirectional(txt_releaseDate.textProperty(),this.order.releaseDateProperty());
 		Bindings.bindBidirectional(txt_state.textProperty(),this.order.stateProperty());
 		Bindings.bindBidirectional(txt_baseLotID.textProperty(),this.order.baseLotIdProperty());
@@ -85,12 +69,11 @@ public class OrderController {
 		Bindings.bindBidirectional(txt_deliveryDate.textProperty(),this.order.actualDeliveryDateProperty());
 		Bindings.bindBidirectional(tar_comment.textProperty(),this.order.commentProperty());
 	
+		//ComboBoxen
+		ObservableList<String> listPriority = FXCollections.observableArrayList("1","2","3","5","6","7","8","9","10");
+		comboBox_priority.setItems(listPriority);
 		
 	}
-	
-	
-	
-	
 	
 	@FXML private void handleSave(ActionEvent event) {
     	System.out.println("Save");
