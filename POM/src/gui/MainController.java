@@ -3,10 +3,13 @@ import types.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -41,7 +44,7 @@ public class MainController{
     @FXML private TableColumn<Order, String> product;
     @FXML private TableColumn<Order, Number> priority;
     @FXML private TableColumn<Order, String> customer; 
-    @FXML private TableColumn<Order, String> orderDate;
+    @FXML private TableColumn<Order, Date> orderDate;
     @FXML private TableColumn<Order, String> releaseDate;
     @FXML private TableColumn<Order, String> state;
     @FXML private Button btnDashboard;
@@ -80,9 +83,9 @@ public class MainController{
             Parent root = fxmlLoader.load();
             CustomerController custCtrl = (CustomerController)fxmlLoader.getController();
             custCtrl.init(this.mainMenu,cust);
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root, 800, 500);
             Stage stage = new Stage();
-            stage.setTitle("New Window");
+            stage.setTitle("Customer");
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
@@ -100,9 +103,9 @@ public class MainController{
             Parent root = fxmlLoader.load();
             CustomerController custCtrl = (CustomerController)fxmlLoader.getController();
             custCtrl.init(this.mainMenu);
-            Scene scene = new Scene(root, 649, 812);
+            Scene scene = new Scene(root, 800, 500);
             Stage stage = new Stage();
-            stage.setTitle("New Window");
+            stage.setTitle("New Customer");
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
@@ -126,9 +129,9 @@ public class MainController{
             Parent root = fxmlLoader.load();
             OrderController orderCtrl = (OrderController)fxmlLoader.getController();
             orderCtrl.init(this.mainMenu);
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root, 800, 500);
             Stage stage = new Stage();
-            stage.setTitle("New Window");
+            stage.setTitle("New Order");
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
@@ -153,9 +156,9 @@ public class MainController{
             Parent root = fxmlLoader.load();
             OrderController orderCtrl = (OrderController)fxmlLoader.getController();
             orderCtrl.init(this.mainMenu,order);
-            Scene scene = new Scene(root, 700, 450);
+            Scene scene = new Scene(root, 800, 500);
             Stage stage = new Stage();
-            stage.setTitle("New Window");
+            stage.setTitle("Order");
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
@@ -246,7 +249,15 @@ public class MainController{
         product.setCellValueFactory(cellData -> cellData.getValue().productProperty());
         priority.setCellValueFactory(cellData -> cellData.getValue().priorityProperty());
         customer.setCellValueFactory(cellData -> cellData.getValue().customeridProperty());
+        /*TODO muss mit Date funktionieren
         orderDate.setCellValueFactory(cellData -> cellData.getValue().orderDateProperty());
+        orderDate.setCellValueFactory(
+        		   orderDateProperty -> {
+        		      SimpleStringProperty property = new SimpleStringProperty();
+        		      DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        		      property.setValue(dateFormat.format(orderDateProperty.getValue().getCreatedDate()));
+        		      return property;
+        		   });*/
         releaseDate.setCellValueFactory(cellData -> cellData.getValue().releaseDateProperty());
         state.setCellValueFactory(cellData -> cellData.getValue().stateProperty());
         comboBoxSearchListOrder();

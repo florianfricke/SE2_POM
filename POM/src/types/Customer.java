@@ -36,32 +36,16 @@ public class Customer {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id.set(id);
-	}
-
 	public StringProperty nameProperty() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name.set(name);
 	}
 
 	public StringProperty rankingProperty() {
 		return ranking;
 	}
 
-	public void setRanking(String ranking) {
-		this.ranking.set(ranking);
-	}
-
 	public StringProperty commentProperty() {
 		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment.set(comment);
 	}
 	
 	public ObservableList<Address> getAddressList(){

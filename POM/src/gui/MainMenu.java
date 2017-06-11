@@ -9,8 +9,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import pom_service.PomService;
+
 import java.io.IOException;
 
 public class MainMenu extends Application {
@@ -25,7 +27,7 @@ public class MainMenu extends Application {
 	
 	@Override
 	public void start(Stage stage) {
-		pomService = new PomService(SaveType.postgres);
+		pomService = new PomService(SaveType.postgres, SaveType.postgres);
 		Parent root = null;
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenu.fxml"));
@@ -38,8 +40,9 @@ public class MainMenu extends Application {
 			System.out.println("Das war wohl nix.");
 		}
 		
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(root, 900, 600);
 		stage.setTitle("POM");
+		stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
         stage.setScene(scene);
         stage.show();
 	}
@@ -99,7 +102,7 @@ public class MainMenu extends Application {
     	Stage stage = (Stage) currStage.getScene().getWindow();
     	try {
     		FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-			stage.setScene(new Scene(loader.load()));
+			stage.setScene(new Scene(loader.load(),(stage.getWidth()-13), (stage.getHeight()-35)));
 			MainController mc = (MainController)loader.getController();
 			mc.setMainApp(this);
 			System.out.println(((Button)event.getSource()).getId());

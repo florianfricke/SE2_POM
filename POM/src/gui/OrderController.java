@@ -51,8 +51,6 @@ public class OrderController {
     @FXML private ComboBox<Customer> combobox_customer;
 
 	@FXML private Button btnSave;
-
-
 	
 	public void comboBoxPriority(){
 		//Wo muss diese Methode hin?
@@ -87,11 +85,6 @@ public class OrderController {
         comboBoxPriority();
         setTextFields();
    }
-
-	
-
-	
-	
 	
 	private void setTextFields(){
 		Bindings.bindBidirectional(txt_Id.textProperty(), this.order.ordernoProperty());
@@ -99,14 +92,13 @@ public class OrderController {
 		Bindings.bindBidirectional(comboBox_priority.valueProperty(), this.order.priorityProperty(), new NumberStringConverter());
 		Bindings.bindBidirectional(txt_address.textProperty(),this.order.addressidProperty());
 		Bindings.bindBidirectional(txt_contact.textProperty(),this.order.contactidProperty());
-		//Bindings.bindBidirectional(txt_customer.textProperty(),this.order.customeridProperty());
+		
+		Bindings.bindBidirectional(txt_customer.textProperty(),this.order.customeridProperty());
 		//Bindings.bindBidirectional(combobox_customer.getSelectionModel().getSelectedItem().idProperty(),this.order.customeridProperty());
-		combobox_customer.getSelectionModel().getSelectedItem().idProperty().bindBidirectional(this.order.customeridProperty());
+		//combobox_customer.getSelectionModel().getSelectedItem().idProperty().bindBidirectional(this.order.customeridProperty());
 		// Bindings.bindBidirectional(combobox_customer.getSelectionModel().selectedItemProperty().get().idProperty(),this.order.customeridProperty());
 		//System.out.println(combobox_customer.getSelectionModel().getSelectedItem().rankingProperty());
 		//System.out.println(combobox_customer.getSelectionModel().getSelectedItem().idProperty());
-		
-
 		
 		Bindings.bindBidirectional(txt_orderDate.textProperty(),this.order.orderDateProperty());
 		Bindings.bindBidirectional(txt_releaseDate.textProperty(),this.order.releaseDateProperty());
@@ -118,15 +110,14 @@ public class OrderController {
 		Bindings.bindBidirectional(txt_deliveryDate.textProperty(),this.order.actualDeliveryDateProperty());
 		Bindings.bindBidirectional(tar_comment.textProperty(),this.order.commentProperty());
 	
+		//ComboBoxen
+		ObservableList<String> listPriority = FXCollections.observableArrayList("1","2","3","5","6","7","8","9","10");
+		comboBox_priority.setItems(listPriority);
 		
 		
 		
 		
 	}
-	
-	
-	
-	
 	
 	@FXML private void handleSave(ActionEvent event) {
     	System.out.println("Save");

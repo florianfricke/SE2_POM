@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Menu?>
@@ -16,7 +24,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="577.0" prefWidth="823.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="577.0" prefWidth="823.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -39,30 +47,34 @@
    <left>
       <VBox alignment="BOTTOM_CENTER" prefHeight="375.0" prefWidth="143.0" style="-fx-border-style: solid;" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnDashboard" alignment="BASELINE_LEFT" defaultButton="true" mnemonicParsing="false" onAction="#handleDash" prefHeight="35.0" prefWidth="147.0" style="-fx-font: bold 15px System, serif;" styleClass="menuButton" text="Dashboard">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnCustomers" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleCust" prefHeight="35.0" prefWidth="151.0" styleClass="menuButton" text="Customers" />
-            <Button fx:id="btnOrders" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleOrder" prefHeight="35.0" prefWidth="153.0" styleClass="menuButton" text="Orders" />
-            <Button fx:id="btnSetUp" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="35.0" prefWidth="162.0" text="Set Up" />
+            <Button fx:id="btnDashboard" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleDash" prefHeight="35.0" prefWidth="147.0" style="-fx-font: bold 15px System, serif;" styleClass="menu_button" stylesheets="@menu.css" text="Dashboard" />
+            <Button fx:id="btnCustomers" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleCust" prefHeight="35.0" prefWidth="151.0" styleClass="menu_button" stylesheets="@menu.css" text="Customers" />
+            <Button fx:id="btnOrders" alignment="BASELINE_LEFT" defaultButton="true" mnemonicParsing="false" onAction="#handleOrder" prefHeight="35.0" prefWidth="153.0" styleClass="menu_button" stylesheets="@menu.css" text="Orders" />
+            <Button fx:id="btnSetUp" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="35.0" prefWidth="162.0" styleClass="menu_button" stylesheets="@menu.css" text="Set Up" />
          </children>
       </VBox>
    </left>
    <center>
    			<VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
 				<children>
-				   <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="53.0" prefWidth="457.0" VBox.vgrow="NEVER">
+				   <ToolBar nodeOrientation="LEFT_TO_RIGHT" VBox.vgrow="NEVER">
 				     <items>
-				       <Button mnemonicParsing="false" onAction="#handleNewOrder" prefHeight="9.0" prefWidth="40.0" text="New" />
-				         <Button mnemonicParsing="false" onAction="#handleDelOrder" text="Delete" />
-				         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="26.0" stroke="WHITE" strokeType="INSIDE" visible="false" width="107.0" />
-                  <ComboBox fx:id="comboBox_searchOrder" prefWidth="150.0" />
+                  <HBox spacing="8.0">
+                     <children>
+      				       <Button mnemonicParsing="false" onAction="#handleNewOrder" prefHeight="9.0" prefWidth="40.0" text="New" />
+      				         <Button mnemonicParsing="false" onAction="#handleDelOrder" text="Delete" />
+                        <Region prefWidth="20.0" />
+                                          <ComboBox fx:id="comboBox_searchOrder" prefWidth="150.0" />
 				         <TextField fx:id="txt_searchFieldOrder" prefHeight="25.0" prefWidth="97.0" />
+
+                     </children>
+                  </HBox>
 				     </items>
+               <padding>
+                  <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+               </padding>
 				   </ToolBar>
-				   <TableView fx:id="orderTable" editable="false" onMouseClicked="#handleRowClickOrder" prefHeight="505.0" prefWidth="680.0">
+				   <TableView fx:id="orderTable" editable="false" onMouseClicked="#handleRowClickOrder" prefHeight="505.0" prefWidth="680.0" VBox.vgrow="ALWAYS">
 				     <columns>
 				       <TableColumn fx:id="orderId" prefWidth="75.0" text="ID"> 
 				       	<cellValueFactory>
