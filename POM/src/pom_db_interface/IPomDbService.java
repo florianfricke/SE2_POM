@@ -1,6 +1,7 @@
 package pom_db_interface;
 import java.util.List;
 
+
 import types.*;
 
 public interface IPomDbService {
@@ -14,8 +15,8 @@ public interface IPomDbService {
 	public List<BankAccount> getBankAccountList(String custId);
 	public boolean addOrder(Order order);
 	public boolean updateOrder(Order order);
-	public boolean deleteOrder(String orderno);
+	boolean deleteOrder(String orderno);
 	public int getDayCapacity();
 	public Customer getCustomer(String customerId);
-
+	public boolean updateOrder(Order order);
 }

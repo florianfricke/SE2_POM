@@ -91,9 +91,10 @@ public class MesDbService implements IMesDBService {
 		PreparedStatement stmt = null;
 		int workload = 0;
 		try {
-			stmt = con.prepareStatement("SELECT count(*) FROM lot WHERE startday = ?");
-			stmt.setDate(1,(Date) date);
+			stmt = con.prepareStatement("SELECT count(*) FROM lot WHERE startdate = ?");
+			stmt.setDate(1,new java.sql.Date(date.getTime()));
 			ResultSet rs = stmt.executeQuery();
+			rs.next();
 			workload = rs.getInt(1);
 			rs.close();
 		    stmt.close();
