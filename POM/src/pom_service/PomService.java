@@ -125,7 +125,7 @@ public class PomService {
 		boolean success = false;
 		int i = 1;
 		
-		Lot lotTemplate = new Lot(null, order.priorityProperty().get(), order.lotSizeProperty().get(), order.stateProperty().get(), order.productProperty().get(), order.customeridProperty().get(), order.ordernoProperty().get(), order.dueDateProperty().get(),c.getTime().toString());
+		Lot lotTemplate = new Lot(null, order.priorityProperty().get(), order.lotSizeProperty().get(), "RDY", order.productProperty().get(), order.customeridProperty().get(), order.ordernoProperty().get(), order.dueDateProperty().get(),c.getTime().toString());
 		
 		while(remainingVolume > 0)
 		{		
@@ -149,6 +149,12 @@ public class PomService {
 			c.add(Calendar.DATE, 1);
 			lotTemplate.startDateProperty().set(c.getTime().toString());
 		}
+		
+		//set Status and ReleaseDate
+		order.stateProperty().set(State.IN_PROCESS.name());
+		order.releaseDateProperty().set(new Date().toString());
+		
+		pomPersistance.updateOrder(order);
 		
 		return success;
 	}

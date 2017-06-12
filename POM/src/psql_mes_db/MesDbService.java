@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import mes_db_interface.IMesDBService;
@@ -104,7 +105,30 @@ public class MesDbService implements IMesDBService {
 	}
 	@Override
 	public boolean addLot(Lot lot) {
-		
+		String sql = "";
+		PreparedStatement stmt = null;
+		ResultSet rs;
+		try {
+			sql= "INSERT INTO lot(lotid, priority, pieces, state, product, customer, ORDER, duedate, startdate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1,lot.idProperty().get());
+			stmt.setInt(2,lot.priorityProperty().get());
+			stmt.setInt(3,lot.piecesProperty().get());
+			stmt.setString(4,lot.stateProperty().get());
+			stmt.setString(5,lot.productProperty().get());
+			stmt.setString(6, lot.productProperty().get());
+			stmt.setString(7, lot.customerIdProperty().get());
+			stmt.setString(8, lot.orderNoProperty().get());
+			stmt.setString(9, lot.dueDateProperty().get());
+			stmt.setString(10, lot.startDateProperty().get());
+			stmt.executeUpdate();
+			rs = stmt.getGeneratedKeys();
+			rs.next();
+			rs.close();
+		    stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 }
