@@ -91,7 +91,7 @@ public class PomService {
 	public boolean updateLots(Order order) {
 		int newVolumne = order.volumeProperty().get();
 		int oldVolume = order.getOrderLotChanges().volumeProperty().get();
-		Lot lot = new Lot("DEFAULT", order.priorityProperty().get(),order.lotSizeProperty().get(),order.stateProperty().get(),order.productProperty().get(),order.customeridProperty().get(), order.ordernoProperty().get(),order.dueDateProperty().get());
+		Lot lot = new Lot("DEFAULT", order.priorityProperty().get(),order.lotSizeProperty().get(),order.stateProperty().get(),order.productProperty().get(),order.customeridProperty().get(), order.ordernoProperty().get(),order.dueDateProperty().get(), order.stateProperty().get());
 		if (newVolumne > oldVolume){
 			int LotCapacity = 10;
 			int lotsToinsert;
@@ -137,13 +137,13 @@ public class PomService {
 				n--;
 				if(remainingVolume < order.lotSizeProperty().get()) //remaining Volume is smaller than lotSize
 				{	
-					lotTemplate.lotSizeProperty().set(remainingVolume);
+					lotTemplate.piecesProperty().set(remainingVolume);
 					n=0;
 				}
 				
 				lotTemplate.idProperty().set(order.baseLotIdProperty().get()+Integer.toString(i++));
 				success = addLot(lotTemplate);
-				remainingVolume -= lotTemplate.lotSizeProperty().get();
+				remainingVolume -= lotTemplate.piecesProperty().get();
 				
 			}
 			c.add(Calendar.DATE, 1);

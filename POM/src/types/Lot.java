@@ -13,7 +13,7 @@ public class Lot {
 	private StringProperty dueDate;
 	private StringProperty startDate;
 	
-	public Lot(String id, int priority, int pieces, String state, String product, String customerId, String orderNo, String dueDate){
+	public Lot(String id, int priority, int pieces, String state, String product, String customerId, String orderNo, String dueDate, String startDate){
 		this.id = new SimpleStringProperty(id);
 		this.priority = new SimpleIntegerProperty(priority);
 		this.pieces = new SimpleIntegerProperty(pieces);
