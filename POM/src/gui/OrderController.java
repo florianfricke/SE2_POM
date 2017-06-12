@@ -43,6 +43,7 @@ public class OrderController {
     @FXML private ComboBox<String> cbxPriority;
     @FXML private DatePicker dpkOrderDate;
     @FXML private DatePicker dpkDueDate;
+    @FXML private Button btnRelease;
 
 	@FXML private Button btnSave;
 	
@@ -152,6 +153,11 @@ public class OrderController {
     	mainMenu.saveOrder(this.order);
     	closeWindow(event);
     }
+	
+	@FXML private void handleRelease(ActionEvent event){
+		
+		
+	}
 	
 	@FXML private void handleCancel(ActionEvent event) {
     	System.out.println(this.order.priorityProperty());

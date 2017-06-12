@@ -41,7 +41,7 @@ public class Order {
 	 */
 	
 	public Order() {
-		this("","","","","",0,0,State.PLANNED.toString(),"","2017-06-11","","",emptyDate,"",10,0,"");
+		this("","","","","",0,0,State.PLANNED.toString(),"",LocalDate.now(),"","",emptyDate,"",10,0,"");
 	}
 
 	
