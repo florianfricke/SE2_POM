@@ -17,5 +17,5 @@ public interface IPomDbService {
 	boolean deleteOrder(String orderno);
 	public int getDayCapacity();
 	public Customer getCustomer(String customerId);
-	
+	public boolean updateOrder(Order order);
 }
