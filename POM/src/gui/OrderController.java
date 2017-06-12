@@ -13,8 +13,11 @@ import javafx.fxml.FXML;
 import javafx.scene.Node; 
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea; 
-import javafx.scene.control.TextField; 
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.stage.Stage; 
 import javafx.util.converter.NumberStringConverter;
 import types.*; 
@@ -36,10 +39,23 @@ public class OrderController {
     @FXML private TextField txt_dueDate;
     @FXML private TextField txt_price;
     @FXML private TextField txt_deliveryDate;
+    @FXML private TextField txtLotSize;
     @FXML private ComboBox<CbxItemObservable> cbxContact;
     @FXML private ComboBox<CbxItemObservable> cbxAddress;
     @FXML private TextArea tar_comment;
     @FXML private ComboBox<String> cbxPriority;
+    
+    //Lot Table
+    @FXML private TableView<Lot> lotTable;
+	@FXML private TableColumn<Lot, String> id;
+    @FXML private TableColumn<Lot, String> customerId;
+    @FXML private TableColumn<Lot, Number> pieces;
+    @FXML private TableColumn<Lot, String> state;
+    @FXML private TableColumn<Lot, String> product;
+    @FXML private TableColumn<Lot, Number> priority;
+    @FXML private TableColumn<Lot, String> orderNo;
+    @FXML private TableColumn<Lot, String> startDate;
+    @FXML private TableColumn<Lot, String> dueDate;
 
 	@FXML private Button btnSave;
 	
@@ -117,33 +133,43 @@ public class OrderController {
 		Bindings.bindBidirectional(txt_Id.textProperty(), this.order.ordernoProperty());
 		Bindings.bindBidirectional(txt_product.textProperty(),this.order.productProperty());
 		Bindings.bindBidirectional(cbxPriority.valueProperty(), this.order.priorityProperty(), new NumberStringConverter());
-		//Bindings.bindBidirectional(cbxAddress.textProperty(),this.order.addressidProperty());
-		//Bindings.bindBidirectional(cbxContact.textProperty(),this.order.contactidProperty());
-		//Bindings.bindBidirectional(cbxCustomer.getSelectionModel().getSelectedItem().get().idProperty(),this.order.customeridProperty());
 		cbxCustomer.accessibleTextProperty().bindBidirectional(this.order.customeridProperty());
 		Bindings.bindBidirectional(txt_orderDate.textProperty(),this.order.orderDateProperty());
 		Bindings.bindBidirectional(txt_releaseDate.textProperty(),this.order.releaseDateProperty());
 		Bindings.bindBidirectional(txt_state.textProperty(),this.order.stateProperty());
-		//txt_state.textProperty().set(this.order.stateProperty().toString());
 		Bindings.bindBidirectional(txt_baseLotID.textProperty(),this.order.baseLotIdProperty());
 		Bindings.bindBidirectional(txt_volume.textProperty(),this.order.volumeProperty(),new NumberStringConverter());
 		Bindings.bindBidirectional(txt_dueDate.textProperty(),this.order.dueDateProperty());
 		Bindings.bindBidirectional(txt_price.textProperty(),this.order.priceProperty(),new NumberStringConverter());
 		Bindings.bindBidirectional(txt_deliveryDate.textProperty(),this.order.actualDeliveryDateProperty());
 		Bindings.bindBidirectional(tar_comment.textProperty(),this.order.commentProperty());
-		//ComboBoxen
-
+		Bindings.bindBidirectional(txtLotSize.textProperty(),this.order.lotSizeProperty(), new NumberStringConverter());
 		
+		//LotTable
+		id.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+		customerId.setCellValueFactory(cellData -> cellData.getValue().customerIdProperty());
+        pieces.setCellValueFactory(cellData -> cellData.getValue().piecesProperty());
+        state.setCellValueFactory(cellData -> cellData.getValue().stateProperty());
+        product.setCellValueFactory(cellData -> cellData.getValue().productProperty());
+        priority.setCellValueFactory(cellData -> cellData.getValue().priorityProperty());
+        orderNo.setCellValueFactory(cellData -> cellData.getValue().orderNoProperty());
+        startDate.setCellValueFactory(cellData -> cellData.getValue().startDateProperty());
+        dueDate.setCellValueFactory(cellData -> cellData.getValue().dueDateProperty());
 	}
 	
 	
 	@FXML private void handleSave(ActionEvent event) {
-    	System.out.println("Save");
-    	System.out.println(cbxCustomer.getSelectionModel().getSelectedItem().get().idProperty());
-    	this.order.customeridProperty().set(cbxCustomer.getSelectionModel().getSelectedItem().get().idProperty().get());
+		this.order.customeridProperty().set(cbxCustomer.getSelectionModel().getSelectedItem().get().idProperty().get());
     	this.order.addressidProperty().set(cbxAddress.getSelectionModel().getSelectedItem().get().idProperty().get());
     	this.order.contactidProperty().set(cbxContact.getSelectionModel().getSelectedItem().get().idProperty().get());
-    	mainMenu.addOrder(this.order);
+		
+    	if(order.ordernoProperty().get().isEmpty()){
+			System.out.println("Save Insert");
+	    	mainMenu.addOrder(this.order);
+    	}else{
+    		System.out.println("Save Update");
+    		mainMenu.updateOrder(order);
+    	}
     	closeWindow(event);
     }
 	
@@ -151,6 +177,17 @@ public class OrderController {
     	System.out.println(this.order.priorityProperty());
     	closeWindow(event);
     }
+	
+	@FXML private void handleRelease(ActionEvent event) {
+    	System.out.println("Release Order");
+    	if(order.stateProperty().get() == State.PLANNED.name()){
+    		mainMenu.releaseOrder(order);
+    	}else{
+    		//TODO open Dialog 
+    	}
+    	closeWindow(event);
+    }
+
 	
 	@FXML private void handleUpdate(ActionEvent event) {
     	System.out.println("Update MES Lots");

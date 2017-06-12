@@ -66,7 +66,8 @@ public class MainMenu extends Application {
 	}
 	
 	public void deleteCustomer(Customer cust){
-		//if (!cust.)
+		if (cust.idProperty().get().isEmpty())
+			return;
 		if(pomService.deleteCustomer(cust.idProperty().get())){
 			customerList.remove(cust);
 		}
@@ -75,10 +76,11 @@ public class MainMenu extends Application {
 	
 	public void addOrder(Order order){
 		if(pomService.addOrder(order)){
-			if(!orderList.contains(order)){
-				this.orderList.add(order);
-			}
+			this.orderList.add(order);
 		}
+	}
+	public void updateOrder(Order order){
+		pomService.updateOrder(order);
 	}
 	
 	public void deleteOrder(Order order){
@@ -121,7 +123,9 @@ public class MainMenu extends Application {
 	public Customer getCustomer(String customerId){
 		return pomService.getCustomer(customerId);
 	}
-	
+	public boolean releaseOrder(Order order) {
+		return pomService.releaseOrder(order);
+	}
 	public boolean updateLots(Order order) {
 		return pomService.updateLots(order);
 	}

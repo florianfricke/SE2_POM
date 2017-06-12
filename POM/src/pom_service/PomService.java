@@ -56,6 +56,9 @@ public class PomService {
 	public boolean addOrder(Order order){
 		return pomPersistance.addOrder(order);
 	}
+	public boolean updateOrder(Order order){
+		return pomPersistance.updateOrder(order);
+	}
 
 	public boolean deleteOrder(String orderno){
 		return pomPersistance.deleteOrder(orderno);
@@ -89,7 +92,7 @@ public class PomService {
 	}
 	
 	public boolean updateLots(Order order) {
-		int newVolumne = order.volumeProperty().get();
+		/*int newVolumne = order.volumeProperty().get();
 		int oldVolume = order.getOrderLotChanges().volumeProperty().get();
 		Lot lot = new Lot("DEFAULT", order.priorityProperty().get(),order.lotSizeProperty().get(),order.stateProperty().get(),order.productProperty().get(),order.customeridProperty().get(), order.ordernoProperty().get(),order.dueDateProperty().get(), order.stateProperty().get());
 		if (newVolumne > oldVolume){
@@ -104,7 +107,7 @@ public class PomService {
 		if (order.dueDateProperty().get() != order.getOrderLotChanges().getdueDate().toString()){
 			
 		}
-		order.setOrderLotChange();
+		order.setOrderLotChange();*/
 		return false;
 	}
 	
