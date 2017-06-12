@@ -117,11 +117,10 @@ public class MesDbService implements IMesDBService {
 			stmt.setInt(3,lot.piecesProperty().get());
 			stmt.setString(4,lot.stateProperty().get());
 			stmt.setString(5,lot.productProperty().get());
-			stmt.setString(6, lot.productProperty().get());
-			stmt.setString(7, lot.customerIdProperty().get());
-			stmt.setString(8, lot.orderNoProperty().get());
-			stmt.setString(9, lot.dueDateProperty().get());
-			stmt.setString(10, lot.startDateProperty().get());
+			stmt.setString(6, lot.customerIdProperty().get());
+			stmt.setString(7, lot.orderNoProperty().get());
+			stmt.setString(8, lot.dueDateProperty().get());
+			stmt.setString(9, lot.startDateProperty().get());
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
