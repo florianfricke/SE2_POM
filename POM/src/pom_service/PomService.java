@@ -80,9 +80,6 @@ public class PomService {
 	}
 	
 	//MES Methods
-	public boolean addLot(Lot lot) {
-		return mesPersistance.addLot(lot);
-	}
 	
 	public List<Lot> getLots(String OrderNo) {
 		return mesPersistance.getLots(OrderNo);
@@ -142,7 +139,7 @@ public class PomService {
 				}
 				
 				lotTemplate.idProperty().set(order.baseLotIdProperty().get()+Integer.toString(i++));
-				success = addLot(lotTemplate);
+				success = mesPersistance.addLot(lotTemplate);
 				remainingVolume -= lotTemplate.piecesProperty().get();
 				
 			}
