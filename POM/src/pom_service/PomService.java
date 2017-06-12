@@ -57,6 +57,13 @@ public class PomService {
 		return pomPersistance.addOrder(order);
 	}
 
+	public boolean updateOrder(Order order){
+		if(pomPersistance.updateOrder(order)){
+			return true;
+		}
+		return false;
+	}
+	
 	public boolean deleteOrder(String orderno){
 		return pomPersistance.deleteOrder(orderno);
 	}

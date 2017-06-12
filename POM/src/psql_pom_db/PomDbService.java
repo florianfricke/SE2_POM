@@ -5,6 +5,7 @@ import types.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import javafx.collections.FXCollections;
 
 import java.sql.*;
@@ -453,7 +454,7 @@ public class PomDbService implements IPomDbService {
 			
 			while (rs.next())
 			{
-				orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),Double.parseDouble(rs.getString("price")),Integer.parseInt(rs.getString("volume")),rs.getString("state"),rs.getString("baselotid"),(rs.getString("orderdate")),(rs.getString("releasedate")),(rs.getString("completitiondate")),(rs.getString("duedate")),(rs.getString ("actualdeliverydate")),Integer.parseInt(rs.getString("lotsize")),Integer.parseInt(rs.getString("priority")),rs.getString("comment")));
+				orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),Double.parseDouble(rs.getString("price")),Integer.parseInt(rs.getString("volume")),rs.getString("state"),rs.getString("baselotid"),(rs.getDate("orderdate").toLocalDate()),(rs.getString("releasedate")),(rs.getString("completitiondate")),(rs.getDate("duedate").toLocalDate()),(rs.getString ("actualdeliverydate")),Integer.parseInt(rs.getString("lotsize")),Integer.parseInt(rs.getString("priority")),rs.getString("comment")));
 			}
 			rs.close();
 		    stmt.close();
@@ -484,10 +485,10 @@ public class PomDbService implements IPomDbService {
 			stmt.setInt(6, order.volumeProperty().get());
 			stmt.setString(7, order.stateProperty().get().toString());
 			stmt.setString(8, order.baseLotIdProperty().get());
-			stmt.setDate(9, java.sql.Date.valueOf(order.orderDateProperty().get()));
+			stmt.setDate(9, java.sql.Date.valueOf(order.getOrderDate()));
 			stmt.setDate(10, java.sql.Date.valueOf("2017-03-12"));
 			stmt.setDate(11, java.sql.Date.valueOf("2017-06-11"));
-			stmt.setDate(12, java.sql.Date.valueOf(order.dueDateProperty().get()));
+			stmt.setDate(12, java.sql.Date.valueOf("2017-06-11"));
 			stmt.setDate(13, java.sql.Date.valueOf("2017-06-11"));
 			stmt.setInt(14, order.lotSizeProperty().get());
 			stmt.setInt(15, order.priorityProperty().get());
@@ -504,6 +505,7 @@ public class PomDbService implements IPomDbService {
 		return false;
 	}
 	
+
 	public boolean updateOrder(Order order) {
 		PreparedStatement stmt = null;
 		try {	//Orderno nicht im update inbegriffen da diese nicht geÃ¤ndert werden kann? richtig? !-> doch im where wird die benötigt!
@@ -516,17 +518,18 @@ public class PomDbService implements IPomDbService {
 			stmt.setInt(6, order.volumeProperty().get());
 			stmt.setString(7, order.stateProperty().toString());
 			stmt.setString(8, order.baseLotIdProperty().get());
-			stmt.setDate(9, java.sql.Date.valueOf(order.orderDateProperty().toString()));
+			stmt.setDate(9, java.sql.Date.valueOf(order.getOrderDate()));
 			stmt.setDate(10, java.sql.Date.valueOf(order.releaseDateProperty().get()));
 			stmt.setDate(11, java.sql.Date.valueOf(order.completionDateProperty().get()));
-			stmt.setDate(12, java.sql.Date.valueOf(order.dueDateProperty().get()));
+			stmt.setDate(12, java.sql.Date.valueOf(order.getDueDate()));
 			stmt.setDate(13, java.sql.Date.valueOf(order.actualDeliveryDateProperty().get()));
 			stmt.setInt(14, order.lotSizeProperty().get());
 			stmt.setInt(15, order.priorityProperty().get());
 			stmt.setString(16, order.commentProperty().get());
 			stmt.setString(17, order.ordernoProperty().get());
-					
-			ResultSet rs = stmt.executeQuery();
+			
+			stmt.executeUpdate();	
+			//ResultSet rs = stmt.executeQuery();
 			return true;
 	} catch (SQLException e) {
 		e.printStackTrace();

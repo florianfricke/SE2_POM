@@ -13,7 +13,8 @@ public interface IPomDbService {
 	public List<Contact> getContactList(String custId);
 	public List<BankAccount> getBankAccountList(String custId);
 	public boolean addOrder(Order order);
-	boolean deleteOrder(String orderno);
+	public boolean updateOrder(Order order);
+	public boolean deleteOrder(String orderno);
 	public int getDayCapacity();
 	public Customer getCustomer(String customerId);
 	public boolean updateOrder(Order order);
