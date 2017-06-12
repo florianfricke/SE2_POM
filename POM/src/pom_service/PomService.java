@@ -54,7 +54,9 @@ public class PomService {
 	public boolean deleteOrder(String orderno){
 		return pomPersistance.deleteOrder(orderno);
 	}
-
+	public Customer getCustomer(String customerId){
+		return pomPersistance.getCustomer(customerId);
+	}
 	public List<Customer> getCustomerList() {
 		return pomPersistance.getCustomerList();
 	}

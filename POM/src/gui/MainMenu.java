@@ -117,4 +117,7 @@ public class MainMenu extends Application {
 			e.printStackTrace();
 		}
     }
+	public Customer getCustomer(String customerId){
+		return pomService.getCustomer(customerId);
+	}
 }

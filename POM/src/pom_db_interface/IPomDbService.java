@@ -14,5 +14,6 @@ public interface IPomDbService {
 	public List<BankAccount> getBankAccountList(String custId);
 	public boolean addOrder(Order order);
 	boolean deleteOrder(String orderno);
+	public Customer getCustomer(String customerId);
 	
 }

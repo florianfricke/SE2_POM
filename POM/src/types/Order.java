@@ -25,7 +25,7 @@ public class Order {
 	private IntegerProperty volume;
 	private StringProperty state;
 	private StringProperty baseLotId;
-	private Date orderDate;
+	private StringProperty orderDate;
 	private StringProperty releaseDate;
 	private StringProperty completionDate;
 	private StringProperty dueDate;
@@ -39,13 +39,13 @@ public class Order {
 	 */
 	
 	public Order() {
-		this("","","","","",0,0,"PLANNED","",new Date(),"","","","",10,0,"");
+		this("","","","","",0,0,"PLANNED","","2017-06-11","","","","",10,0,"");
 	}
 
 	
 	
 	public Order(String orderno,String customerid, String addressid, String contactid, String product, 
-			double price, int volume, String state, String baseLotId, Date orderDate, String releaseDate,	 String completionDate,
+			double price, int volume, String state, String baseLotId, String orderDate, String releaseDate,	 String completionDate,
 			String dueDate, String actualDeliveryDate, int lotSize, int priority, String comment) {
 		this.orderno = new SimpleStringProperty(orderno);
 		this.customerid = new SimpleStringProperty(customerid);
@@ -56,7 +56,7 @@ public class Order {
 		this.volume = new SimpleIntegerProperty(volume);
 		this.state = new SimpleStringProperty(state);
 		this.baseLotId = new SimpleStringProperty(baseLotId);
-		this.orderDate = orderDate;
+		this.orderDate = new SimpleStringProperty(orderDate);
 		this.releaseDate = new SimpleStringProperty(releaseDate);
 		this.completionDate = new SimpleStringProperty(completionDate);
 		this.dueDate = new SimpleStringProperty(dueDate);
@@ -105,7 +105,7 @@ public class Order {
 	public StringProperty baseLotIdProperty() {
 		return baseLotId;
 	}
-	public Date orderDateProperty() {
+	public StringProperty orderDateProperty() {
 		return orderDate;
 	}
 	public StringProperty releaseDateProperty() {

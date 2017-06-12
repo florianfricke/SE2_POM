@@ -11,9 +11,11 @@ public class Contact {
 	private final StringProperty position;
 	private final StringProperty phoneNo;
 	private final StringProperty email;
+	private CbxItemObservable comboBoxItem;
 	
 	public Contact() {
 		this("","","","","","");
+		this.comboBoxItem = new CbxItemObservable("", "");
 	}
 	
 	public Contact(String id, String name, String firstName, String position, String phoneNo, String email){
@@ -23,6 +25,7 @@ public class Contact {
 		this.position = new SimpleStringProperty(position);
 		this.phoneNo = new SimpleStringProperty(phoneNo);
 		this.email = new SimpleStringProperty(email);
+		this.comboBoxItem = new CbxItemObservable(id, name+" "+ firstName);
 	}
 	
 	
@@ -44,6 +47,9 @@ public class Contact {
 	}
 	public StringProperty emailProperty() {
 		return email;
+	}
+	public CbxItemObservable comboBoxProperty(){
+		return comboBoxItem;
 	}
 	
 	@Override

@@ -446,7 +446,7 @@ public class PomDbService implements IPomDbService {
 			
 			while (rs.next())
 			{
-				orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),Double.parseDouble(rs.getString("price")),Integer.parseInt(rs.getString("volume")),rs.getString("state"),rs.getString("baselotid"),(rs.getDate("orderdate")),(rs.getString("releasedate")),(rs.getString("completitiondate")),(rs.getString("duedate")),(rs.getString ("actualdeliverydate")),Integer.parseInt(rs.getString("lotsize")),Integer.parseInt(rs.getString("priority")),rs.getString("comment")));
+				orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),Double.parseDouble(rs.getString("price")),Integer.parseInt(rs.getString("volume")),rs.getString("state"),rs.getString("baselotid"),(rs.getString("orderdate")),(rs.getString("releasedate")),(rs.getString("completitiondate")),(rs.getString("duedate")),(rs.getString ("actualdeliverydate")),Integer.parseInt(rs.getString("lotsize")),Integer.parseInt(rs.getString("priority")),rs.getString("comment")));
 			}
 			rs.close();
 		    stmt.close();
@@ -467,7 +467,7 @@ public class PomDbService implements IPomDbService {
 		PreparedStatement stmt = null;
 		ResultSet rs;
 		try {
-			sql= "INSERT INTO public.order(VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+			sql= "INSERT INTO public.order VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1,order.customeridProperty().get());
 			stmt.setString(2,order.addressidProperty().get());
@@ -477,22 +477,20 @@ public class PomDbService implements IPomDbService {
 			stmt.setInt(6, order.volumeProperty().get());
 			stmt.setString(7, order.stateProperty().get());
 			stmt.setString(8, order.baseLotIdProperty().get());
-			stmt.setDate(9, java.sql.Date.valueOf(order.orderDateProperty().toString()));
-			stmt.setDate(10, java.sql.Date.valueOf("NULL"));
-			stmt.setDate(11, java.sql.Date.valueOf("NULL"));
+			stmt.setDate(9, java.sql.Date.valueOf(order.orderDateProperty().get()));
+			stmt.setDate(10, java.sql.Date.valueOf("2017-03-12"));
+			stmt.setDate(11, java.sql.Date.valueOf("2017-06-11"));
 			stmt.setDate(12, java.sql.Date.valueOf(order.dueDateProperty().get()));
-			stmt.setDate(13, java.sql.Date.valueOf("NULL"));
+			stmt.setDate(13, java.sql.Date.valueOf("2017-06-11"));
 			stmt.setInt(14, order.lotSizeProperty().get());
 			stmt.setInt(15, order.priorityProperty().get());
 			stmt.setString(16, order.commentProperty().get());
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
-			order.ordernoProperty().set(rs.getString("id"));
+			order.ordernoProperty().set(rs.getString("orderno"));
 			rs.close();
 		    stmt.close();
-		    stmt.close();
-					
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -550,13 +548,14 @@ public class PomDbService implements IPomDbService {
 		return false;
 	}
 	//get Customer neu muss getestet werden
-	public Customer getCustomer(String customerID){
+	public Customer getCustomer(String customerId){
 		Customer customerToReturn = new Customer();
 		PreparedStatement stmt = null;
 		try {
 			stmt = con.prepareStatement("SELECT * FROM Customer WHERE id = ?");
-			stmt.setString(1, customerID);
+			stmt.setString(1, customerId);
 			ResultSet rs = stmt.executeQuery();
+			rs.next();
 			customerToReturn = new Customer( rs.getString("id"),  rs.getString("companyname"), rs.getString("ranking"),rs.getString("comment")); // customer erstellen
 			rs.close();
 		    stmt.close();
@@ -564,9 +563,9 @@ public class PomDbService implements IPomDbService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		customerToReturn.setAddressList(FXCollections.observableList(this.getAddressList(customerID)));
-		customerToReturn.setBankAccountList(FXCollections.observableList(this.getBankAccountList(customerID)));
-		customerToReturn.setContactList(FXCollections.observableList(this.getContactList(customerID)));
+		customerToReturn.setAddressList(FXCollections.observableList(this.getAddressList(customerId)));
+		customerToReturn.setBankAccountList(FXCollections.observableList(this.getBankAccountList(customerId)));
+		customerToReturn.setContactList(FXCollections.observableList(this.getContactList(customerId)));
 		
 		return customerToReturn;
 	}
