@@ -1,8 +1,8 @@
 package gui; 
 
 
-import java.util.function.Predicate;
 
+import java.util.function.Predicate;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea; 
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
@@ -56,6 +57,8 @@ public class OrderController {
     @FXML private TableColumn<Lot, String> orderNo;
     @FXML private TableColumn<Lot, String> startDate;
     @FXML private TableColumn<Lot, String> dueDate;
+    @FXML private DatePicker dpkOrderDate;
+    @FXML private DatePicker dpkDueDate;
 
 	@FXML private Button btnSave;
 	
@@ -126,6 +129,11 @@ public class OrderController {
 			cbxAddress.getSelectionModel().select(new CbxItemObservable("", ""));
 			cbxContact.getSelectionModel().select(new CbxItemObservable("", ""));
 		}
+		
+		
+		dpkOrderDate.setValue(this.order.getOrderDate());
+		dpkDueDate.setValue(this.order.getDueDate());
+		
 		ObservableList<String> listPriority = FXCollections.observableArrayList("1","2","3","5","6","7","8","9","10");
 		cbxPriority.setItems(listPriority);
 		
@@ -134,12 +142,12 @@ public class OrderController {
 		Bindings.bindBidirectional(txt_product.textProperty(),this.order.productProperty());
 		Bindings.bindBidirectional(cbxPriority.valueProperty(), this.order.priorityProperty(), new NumberStringConverter());
 		cbxCustomer.accessibleTextProperty().bindBidirectional(this.order.customeridProperty());
-		Bindings.bindBidirectional(txt_orderDate.textProperty(),this.order.orderDateProperty());
+	
 		Bindings.bindBidirectional(txt_releaseDate.textProperty(),this.order.releaseDateProperty());
 		Bindings.bindBidirectional(txt_state.textProperty(),this.order.stateProperty());
 		Bindings.bindBidirectional(txt_baseLotID.textProperty(),this.order.baseLotIdProperty());
 		Bindings.bindBidirectional(txt_volume.textProperty(),this.order.volumeProperty(),new NumberStringConverter());
-		Bindings.bindBidirectional(txt_dueDate.textProperty(),this.order.dueDateProperty());
+		//Bindings.bindBidirectional(txt_dueDate.textProperty(),this.order.dueDateProperty());
 		Bindings.bindBidirectional(txt_price.textProperty(),this.order.priceProperty(),new NumberStringConverter());
 		Bindings.bindBidirectional(txt_deliveryDate.textProperty(),this.order.actualDeliveryDateProperty());
 		Bindings.bindBidirectional(tar_comment.textProperty(),this.order.commentProperty());
@@ -162,16 +170,16 @@ public class OrderController {
 		this.order.customeridProperty().set(cbxCustomer.getSelectionModel().getSelectedItem().get().idProperty().get());
     	this.order.addressidProperty().set(cbxAddress.getSelectionModel().getSelectedItem().get().idProperty().get());
     	this.order.contactidProperty().set(cbxContact.getSelectionModel().getSelectedItem().get().idProperty().get());
-		
-    	if(order.ordernoProperty().get().isEmpty()){
-			System.out.println("Save Insert");
-	    	mainMenu.addOrder(this.order);
-    	}else{
-    		System.out.println("Save Update");
-    		mainMenu.updateOrder(order);
-    	}
+    	this.order.setOrderDate(dpkOrderDate.getValue());
+    	this.order.setDueDate(dpkDueDate.getValue());
+    	mainMenu.saveOrder(this.order);
     	closeWindow(event);
     }
+	
+	@FXML private void handleRelease(ActionEvent event){
+		
+		
+	}
 	
 	@FXML private void handleCancel(ActionEvent event) {
     	System.out.println(this.order.priorityProperty());

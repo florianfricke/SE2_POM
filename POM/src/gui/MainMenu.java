@@ -74,10 +74,22 @@ public class MainMenu extends Application {
 		
 	}
 	
+	public void saveOrder(Order order){
+		if(order.ordernoProperty().get().isEmpty()){
+			if(pomService.addOrder(order)){
+				this.orderList.add(order);
+			}
+		}else {
+			pomService.updateOrder(order);
+
+		}
+	}
+	
 	public void addOrder(Order order){
 		if(pomService.addOrder(order)){
 			this.orderList.add(order);
 		}
+		    
 	}
 	public void updateOrder(Order order){
 		pomService.updateOrder(order);
