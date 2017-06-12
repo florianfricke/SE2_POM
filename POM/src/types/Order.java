@@ -5,6 +5,7 @@ package types;
 import java.util.*;
 
 import javafx.beans.property.*;
+import javafx.util.converter.LocalDateStringConverter;
 
 /**
  * @author Konstantin
@@ -15,17 +16,15 @@ public class Order {
 
 
 	private StringProperty orderno;
-	//private Address address;
-	//private Contact contact;
 	private StringProperty customerid;
 	private StringProperty addressid;
 	private StringProperty contactid;
 	private StringProperty product;
 	private DoubleProperty price;
 	private IntegerProperty volume;
-	private StringProperty state;
+	private State state;
 	private StringProperty baseLotId;
-	private Date orderDate;
+	private StringProperty orderDate;
 	private StringProperty releaseDate;
 	private StringProperty completionDate;
 	private StringProperty dueDate;
@@ -33,19 +32,20 @@ public class Order {
 	private IntegerProperty lotSize;
 	private IntegerProperty priority;
 	private StringProperty comment;
+	private OrderLotChanges orderLotChanges;
 	
 	/**
 	 * Empty Constructor
 	 */
 	
 	public Order() {
-		this("","","","","",0,0,"PLANNED","",new Date(),"","","","",10,0,"");
+		this("","","","","",0,0,State.PLANNED.toString(),"","2017-06-11","","","","",10,0,"");
 	}
 
 	
 	
 	public Order(String orderno,String customerid, String addressid, String contactid, String product, 
-			double price, int volume, String state, String baseLotId, Date orderDate, String releaseDate,	 String completionDate,
+			double price, int volume, String state, String baseLotId, String orderDate, String releaseDate,	 String completionDate,
 			String dueDate, String actualDeliveryDate, int lotSize, int priority, String comment) {
 		this.orderno = new SimpleStringProperty(orderno);
 		this.customerid = new SimpleStringProperty(customerid);
@@ -54,9 +54,9 @@ public class Order {
 		this.product = new SimpleStringProperty(product);
 		this.price = new SimpleDoubleProperty(price);
 		this.volume = new SimpleIntegerProperty(volume);
-		this.state = new SimpleStringProperty(state);
+		this.state = State.valueOf(state);
 		this.baseLotId = new SimpleStringProperty(baseLotId);
-		this.orderDate = orderDate;
+		this.orderDate = new SimpleStringProperty(orderDate);
 		this.releaseDate = new SimpleStringProperty(releaseDate);
 		this.completionDate = new SimpleStringProperty(completionDate);
 		this.dueDate = new SimpleStringProperty(dueDate);
@@ -64,11 +64,12 @@ public class Order {
 		this.lotSize = new SimpleIntegerProperty(lotSize);
 		this.priority = new SimpleIntegerProperty(priority);
 		this.comment = new SimpleStringProperty(comment);
+		setOrderLotChange();
 	}
 	
 	
 	/*public static String GetCurrentDate(){
-		//wo gehört diese methode hin?
+		//wo gehï¿½rt diese methode hin?
 		DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 		Date date = new Date();
 		
@@ -100,12 +101,12 @@ public class Order {
 		return volume;
 	}
 	public StringProperty stateProperty() {
-		return state;
+		return new SimpleStringProperty(state.name());
 	}
 	public StringProperty baseLotIdProperty() {
 		return baseLotId;
 	}
-	public Date orderDateProperty() {
+	public StringProperty orderDateProperty() {
 		return orderDate;
 	}
 	public StringProperty releaseDateProperty() {
@@ -129,6 +130,9 @@ public class Order {
 	public StringProperty commentProperty() {
 		return comment;
 	}
+	public OrderLotChanges getOrderLotChanges(){
+		return this.orderLotChanges;
+	}
 	
 	//Test
 	
@@ -140,6 +144,10 @@ public class Order {
 	
 	public List < Lot > getLots() {
 		return null;
+	}
+	
+	public void setOrderLotChange(){
+		//this.orderLotChanges = new OrderLotChanges(this.volume.get(), this.priority.get(), new Date(this.dueDate.get()));
 	}
 
 

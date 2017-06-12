@@ -12,6 +12,7 @@ public class Address {
 	private final StringProperty city;
 	private final StringProperty country;
 	private final BooleanProperty billingAddress;
+	private CbxItemObservable comboBoxItem;
 	
 	public Address(String id, String street, String houseNo, String zipCode, String city, String country, boolean bill ){
 		this.id = new SimpleStringProperty(id);
@@ -21,10 +22,12 @@ public class Address {
 		this.city = new SimpleStringProperty(city);
 		this.country = new SimpleStringProperty(country);
 		this.billingAddress = new SimpleBooleanProperty(bill);
+		this.comboBoxItem = new CbxItemObservable(id, street+" "+houseNo);
 	}
 	
 	public Address() {
 		this("","","","","","",false);
+		this.comboBoxItem = new CbxItemObservable("", "");
 	}	
 
 
@@ -49,6 +52,9 @@ public class Address {
 	
 	public BooleanProperty billingAddressProperty() {
 		return billingAddress;
+	}
+	public CbxItemObservable comboBoxProperty(){
+		return comboBoxItem;
 	}
 	
 	@Override

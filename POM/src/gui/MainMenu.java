@@ -117,4 +117,11 @@ public class MainMenu extends Application {
 			e.printStackTrace();
 		}
     }
+	public Customer getCustomer(String customerId){
+		return pomService.getCustomer(customerId);
+	}
+	
+	public boolean updateLots(Order order) {
+		return pomService.updateLots(order);
+	}
 }
