@@ -75,5 +75,10 @@ public class Customer {
 	public void setBankAccountList(ObservableList<BankAccount> bankAccountList){
 		this.bankAccountList = bankAccountList;
 	}
+	
+	
+	public String toString(){
+		return nameProperty().get();
+	}
 
 }
