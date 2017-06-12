@@ -1,15 +1,13 @@
 package psql_mes_db;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import javafx.collections.FXCollections;
 import mes_db_interface.IMesDBService;
 import types.*;
 
@@ -45,11 +43,6 @@ public class MesDbService implements IMesDBService {
 	  }
 	
 	@Override
-	public boolean addLots(Lot lotTemplate, int n) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
 	public List<Lot> getLots(String OrderNo) {
 		List<Lot> lotList = new ArrayList<Lot>();
 		PreparedStatement stmt = null;
@@ -59,7 +52,7 @@ public class MesDbService implements IMesDBService {
 			
 			while (rs.next())
 			{
-			   lotList.add(new Lot(rs.getString("id"), rs.getInt("priority"), rs.getInt("lotSize"),rs.getString("state"),rs.getString("product"),rs.getString("customerId"),rs.getString("orderNo"),rs.getString("dueDate")));
+			   lotList.add(new Lot(rs.getString("id"), rs.getInt("priority"), rs.getInt("lotSize"),rs.getString("state"),rs.getString("product"),rs.getString("customerId"),rs.getString("orderNo"),rs.getString("dueDate"),rs.getString("startDate")));
 			}
 			rs.close();
 		    stmt.close();
@@ -70,14 +63,14 @@ public class MesDbService implements IMesDBService {
 		return lotList;
 	}
 	@Override	
-	public Lot getLot(String orderNo){
+	public Lot getLot(String lotId){
 		Lot lotToReturn = new Lot();
 		PreparedStatement stmt = null;
 		try {
-			stmt = con.prepareStatement("SELECT * FROM lot WHERE orderno = ?");
-			stmt.setString(1, orderNo);
+			stmt = con.prepareStatement("SELECT * FROM lot WHERE lotid = ?");
+			stmt.setString(1, lotId);
 			ResultSet rs = stmt.executeQuery();
-			lotToReturn =(new Lot(rs.getString("id"), rs.getInt("priority"), rs.getInt("lotSize"),rs.getString("state"),rs.getString("product"),rs.getString("customerId"),rs.getString("orderNo"),rs.getString("dueDate")));
+			lotToReturn =(new Lot(rs.getString("id"), rs.getInt("priority"), rs.getInt("lotSize"),rs.getString("state"),rs.getString("product"),rs.getString("customerId"),rs.getString("orderNo"),rs.getString("dueDate"),rs.getString("startDate")));
 			rs.close();
 		    stmt.close();
 		    
@@ -89,6 +82,29 @@ public class MesDbService implements IMesDBService {
 	@Override
 	public boolean updateLots(String baseLotId, int newPrio) {
 		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public int getDayWorkload(java.util.Date date) {
+		PreparedStatement stmt = null;
+		int workload = 0;
+		try {
+			stmt = con.prepareStatement("SELECT count(*) FROM lot WHERE startday = ?");
+			stmt.setDate(1,(Date) date);
+			ResultSet rs = stmt.executeQuery();
+			workload = rs.getInt(1);
+			rs.close();
+		    stmt.close();
+		    
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return workload;
+	}
+	@Override
+	public boolean addLot(Lot lot) {
+		
 		return false;
 	}
 }

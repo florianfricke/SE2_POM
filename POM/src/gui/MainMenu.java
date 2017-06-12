@@ -66,6 +66,7 @@ public class MainMenu extends Application {
 	}
 	
 	public void deleteCustomer(Customer cust){
+		//if (!cust.)
 		if(pomService.deleteCustomer(cust.idProperty().get())){
 			customerList.remove(cust);
 		}

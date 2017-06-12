@@ -577,4 +577,9 @@ public class PomDbService implements IPomDbService {
 		return customerToReturn;
 	}
 	
+	public int getDayCapacity()
+	{
+		return 10; //TODO: implement query 
+	}
+	
 }

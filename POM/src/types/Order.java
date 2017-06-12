@@ -69,7 +69,7 @@ public class Order {
 	
 	
 	/*public static String GetCurrentDate(){
-		//wo gehört diese methode hin?
+		//wo gehï¿½rt diese methode hin?
 		DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 		Date date = new Date();
 		
@@ -144,10 +144,6 @@ public class Order {
 	
 	public List < Lot > getLots() {
 		return null;
-	}
-	
-	public boolean release() {
-		return false;
 	}
 	
 	public void setOrderLotChange(){
