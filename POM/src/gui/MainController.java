@@ -112,16 +112,6 @@ public class MainController{
         }
     }
     
-    @FXML private void handleShowCurrentOrders(ActionEvent event) {
-    	System.out.println("Show Current Orders");
-
-    }
-    
-    @FXML private void handleShowOrderHistory(ActionEvent event) {
-    	System.out.println("Show Order History");
-
-    }
-    
     @FXML private void handleDelCust(ActionEvent event) {
     	System.out.println("Delete");
     	mainMenu.deleteCustomer(customerTable.getSelectionModel().getSelectedItem());
