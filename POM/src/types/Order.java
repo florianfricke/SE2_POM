@@ -141,10 +141,6 @@ public class Order {
 	public List < Lot > getLots() {
 		return null;
 	}
-	
-	public boolean release() {
-		return false;
-	}
 
 
 

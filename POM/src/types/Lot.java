@@ -11,8 +11,9 @@ public class Lot {
 	private StringProperty customerId;
 	private StringProperty orderNo;
 	private StringProperty dueDate;
+	private StringProperty startDate;
 	
-	public Lot(String id, int priority, int lotSize, String state, String product, String customerId, String orderNo, String dueDate){
+	public Lot(String id, int priority, int lotSize, String state, String product, String customerId, String orderNo, String dueDate, String startDate){
 		this.id = new SimpleStringProperty(id);
 		this.priority = new SimpleIntegerProperty(priority);
 		this.lotSize = new SimpleIntegerProperty(lotSize);
@@ -21,10 +22,11 @@ public class Lot {
 		this.customerId = new SimpleStringProperty(customerId);
 		this.orderNo = new SimpleStringProperty(orderNo);
 		this.dueDate = new SimpleStringProperty(dueDate);
+		this.startDate = new SimpleStringProperty(startDate);
 	}
 	//eingefügt um Lot am anfang erstellen zu können
 	public Lot() {
-		this("",0 ,0 ,"","","","","");
+		this("",0 ,0 ,"","","","","","");
 	}
 	public StringProperty idProperty() {
 		return id;
@@ -49,6 +51,9 @@ public class Lot {
 	}
 	public StringProperty dueDateProperty() {
 		return dueDate;
+	}	
+	public StringProperty startDateProperty() {
+		return startDate;
 	}	
 	
 }
