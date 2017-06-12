@@ -63,12 +63,12 @@ public class MesDbService implements IMesDBService {
 		return lotList;
 	}
 	@Override	
-	public Lot getLot(String orderNo){
+	public Lot getLot(String lotId){
 		Lot lotToReturn = new Lot();
 		PreparedStatement stmt = null;
 		try {
-			stmt = con.prepareStatement("SELECT * FROM lot WHERE orderno = ?");
-			stmt.setString(1, orderNo);
+			stmt = con.prepareStatement("SELECT * FROM lot WHERE lotid = ?");
+			stmt.setString(1, lotId);
 			ResultSet rs = stmt.executeQuery();
 			lotToReturn =(new Lot(rs.getString("id"), rs.getInt("priority"), rs.getInt("lotSize"),rs.getString("state"),rs.getString("product"),rs.getString("customerId"),rs.getString("orderNo"),rs.getString("dueDate"),rs.getString("startDate")));
 			rs.close();

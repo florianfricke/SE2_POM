@@ -91,6 +91,7 @@ public class PomService {
 	public boolean updateLots(Order order) {
 		int newVolumne = order.volumeProperty().get();
 		int oldVolume = order.getOrderLotChanges().volumeProperty().get();
+		Lot lot = new Lot("DEFAULT", order.priorityProperty().get(),order.lotSizeProperty().get(),order.stateProperty().get(),order.productProperty().get(),order.customeridProperty().get(), order.ordernoProperty().get(),order.dueDateProperty().get());
 		if (newVolumne > oldVolume){
 			int LotCapacity = 10;
 			int lotsToinsert;

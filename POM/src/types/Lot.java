@@ -5,7 +5,7 @@ import javafx.beans.property.*;
 public class Lot {
 	private StringProperty id;
 	private IntegerProperty priority;
-	private IntegerProperty lotSize;
+	private IntegerProperty pieces;
 	private StringProperty state;
 	private StringProperty product;
 	private StringProperty customerId;
@@ -13,10 +13,10 @@ public class Lot {
 	private StringProperty dueDate;
 	private StringProperty startDate;
 	
-	public Lot(String id, int priority, int lotSize, String state, String product, String customerId, String orderNo, String dueDate, String startDate){
+	public Lot(String id, int priority, int pieces, String state, String product, String customerId, String orderNo, String dueDate){
 		this.id = new SimpleStringProperty(id);
 		this.priority = new SimpleIntegerProperty(priority);
-		this.lotSize = new SimpleIntegerProperty(lotSize);
+		this.pieces = new SimpleIntegerProperty(pieces);
 		this.state = new SimpleStringProperty(state);
 		this.product = new SimpleStringProperty(product);
 		this.customerId = new SimpleStringProperty(customerId);
@@ -34,8 +34,8 @@ public class Lot {
 	public IntegerProperty priorityProperty() {
 		return priority;
 	}
-	public IntegerProperty lotSizeProperty() {
-		return lotSize;
+	public IntegerProperty piecesProperty() {
+		return pieces;
 	}
 	public StringProperty stateProperty() {
 		return state;
