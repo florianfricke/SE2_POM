@@ -64,11 +64,11 @@
       				       <Button mnemonicParsing="false" onAction="#handleNewCust" prefHeight="9.0" prefWidth="40.0" text="New" />
       				         <Button mnemonicParsing="false" onAction="#handleDelCust" text="Delete" />
                         <Region prefWidth="20.0" />
-                        <ComboBox fx:id="comboBox_searchCustomer" prefWidth="150.0" />
+                                          <ComboBox fx:id="comboBox_searchCustomer" prefWidth="150.0" />
 				         <TextField fx:id="txt_searchFieldCustomer" prefHeight="25.0" prefWidth="97.0" />
+
                      </children>
                   </HBox>
-                  
 				     </items>
                <padding>
                   <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />

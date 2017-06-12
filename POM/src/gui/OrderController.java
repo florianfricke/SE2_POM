@@ -124,6 +124,7 @@ public class OrderController {
 		Bindings.bindBidirectional(txt_orderDate.textProperty(),this.order.orderDateProperty());
 		Bindings.bindBidirectional(txt_releaseDate.textProperty(),this.order.releaseDateProperty());
 		Bindings.bindBidirectional(txt_state.textProperty(),this.order.stateProperty());
+		//txt_state.textProperty().set(this.order.stateProperty().toString());
 		Bindings.bindBidirectional(txt_baseLotID.textProperty(),this.order.baseLotIdProperty());
 		Bindings.bindBidirectional(txt_volume.textProperty(),this.order.volumeProperty(),new NumberStringConverter());
 		Bindings.bindBidirectional(txt_dueDate.textProperty(),this.order.dueDateProperty());
@@ -148,6 +149,16 @@ public class OrderController {
 	
 	@FXML private void handleCancel(ActionEvent event) {
     	System.out.println(this.order.priorityProperty());
+    	closeWindow(event);
+    }
+	
+	@FXML private void handleUpdate(ActionEvent event) {
+    	System.out.println("Update MES Lots");
+    	if(order.stateProperty().get() == State.IN_PROCESS.name()){
+    		mainMenu.updateLots(order);
+    	}else{
+    		//TODO open Dialog 
+    	}
     	closeWindow(event);
     }
 

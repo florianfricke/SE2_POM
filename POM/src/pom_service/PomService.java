@@ -82,7 +82,22 @@ public class PomService {
 		return mesPersistance.getLots(OrderNo);
 	}
 	
-	public boolean updateLots(String baseLotId, int newPrio) {
-		return mesPersistance.updateLots(baseLotId, newPrio);
+	public boolean updateLots(Order order) {
+		int newVolumne = order.volumeProperty().get();
+		int oldVolume = order.getOrderLotChanges().volumeProperty().get();
+		if (newVolumne > oldVolume){
+			int LotCapacity = 10;
+			int lotsToinsert;
+			//Calculate No. of new Lots for insertion
+			lotsToinsert = (newVolumne - oldVolume)/order.lotSizeProperty().get();//TODO ROUND to int
+		}
+		if (order.priorityProperty().get() != order.getOrderLotChanges().priorityProperty().get()){
+					
+		}
+		if (order.dueDateProperty().get() != order.getOrderLotChanges().getdueDate().toString()){
+			
+		}
+		order.setOrderLotChange();
+		return false;
 	}
 }

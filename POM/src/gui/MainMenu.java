@@ -120,4 +120,8 @@ public class MainMenu extends Application {
 	public Customer getCustomer(String customerId){
 		return pomService.getCustomer(customerId);
 	}
+	
+	public boolean updateLots(Order order) {
+		return pomService.updateLots(order);
+	}
 }

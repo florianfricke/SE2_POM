@@ -312,6 +312,13 @@ public class PomDbService implements IPomDbService {
 	public boolean deleteCustomer(String id) { // wird die funktion hier quasi als oberfunktion genommen in der adresse, contact... gelöscht werden kann was in der geprüft wird?
 		PreparedStatement stmt = null;
 		String sql = "";
+		for (Order order : getOrderList()) {
+			if (order.customeridProperty().get().equals(id)){
+				System.out.println("There already existing Orders for Customer " +id);
+				//TODO show Dialog, in MainController
+				return false;
+			}
+		}
 		List<Address> delAddressList = getAddressList(id);
 		List<Contact> delContactList = getContactList(id);
 		List<BankAccount> delBankAccountList = getBankAccountList(id);
@@ -475,7 +482,7 @@ public class PomDbService implements IPomDbService {
 			stmt.setString(4,order.productProperty().get());
 			stmt.setDouble(5,order.priceProperty().get());
 			stmt.setInt(6, order.volumeProperty().get());
-			stmt.setString(7, order.stateProperty().get());
+			stmt.setString(7, order.stateProperty().get().toString());
 			stmt.setString(8, order.baseLotIdProperty().get());
 			stmt.setDate(9, java.sql.Date.valueOf(order.orderDateProperty().get()));
 			stmt.setDate(10, java.sql.Date.valueOf("2017-03-12"));
@@ -507,7 +514,7 @@ public class PomDbService implements IPomDbService {
 			stmt.setString(4,order.productProperty().get());
 			stmt.setDouble(5,order.priceProperty().get());
 			stmt.setInt(6, order.volumeProperty().get());
-			stmt.setString(7, order.stateProperty().get());
+			stmt.setString(7, order.stateProperty().toString());
 			stmt.setString(8, order.baseLotIdProperty().get());
 			stmt.setDate(9, java.sql.Date.valueOf(order.orderDateProperty().toString()));
 			stmt.setDate(10, java.sql.Date.valueOf(order.releaseDateProperty().get()));
