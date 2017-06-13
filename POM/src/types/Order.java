@@ -107,6 +107,9 @@ public class Order {
 	public StringProperty stateProperty() {
 		return new SimpleStringProperty(state.name());
 	}
+	public void setState(State s){
+		this.state = s;
+	}
 	public StringProperty baseLotIdProperty() {
 		return baseLotId;
 	}
@@ -170,7 +173,7 @@ public class Order {
 	}
 	
 	public void setOrderLotChange(){
-		//this.orderLotChanges = new OrderLotChanges(this.volume.get(), this.priority.get(), new Date(this.dueDate.get()));
+		this.orderLotChanges = new OrderLotChanges(this.volume.get(), this.priority.get(), this.dueDate);
 	}
 
 

@@ -7,9 +7,9 @@ import types.*;
 
 public interface IMesDBService {
 	public List < Lot > getLotList(String OrderNo);
-	public boolean updateLots(String baseLotId, int newPrio);
-	public Lot getLot(String orderNo);
-	public int getDayWorkload(Date date);
 	public boolean addLot(Lot lot);
+	public boolean updateLots(Order order);
+	public int getLotCount(String orderNo);
+	public int getDayWorkload(Date date);
 	public List<String> getProductList();
 }

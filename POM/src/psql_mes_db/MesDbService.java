@@ -64,27 +64,41 @@ public class MesDbService implements IMesDBService {
 		}
 		return lotList;
 	}
-	@Override	
-	public Lot getLot(String lotId){
-		Lot lotToReturn = new Lot();
+	@Override
+	public boolean updateLots(Order order) {
+		String sql = "";
 		PreparedStatement stmt = null;
 		try {
-			stmt = con.prepareStatement("SELECT * FROM lot WHERE lotid = ?");
-			stmt.setString(1, lotId);
-			ResultSet rs = stmt.executeQuery();
-			lotToReturn =(new Lot(rs.getString("id"), rs.getInt("priority"), rs.getInt("lotSize"),rs.getString("state"),rs.getString("product"),rs.getString("customerId"),rs.getString("orderNo"),rs.getDate("dueDate").toLocalDate(),rs.getDate("startDate").toLocalDate()));
-			rs.close();
+			sql= "UPDATE lot SET priority = ?, duedate = ? WHERE \"ORDER\"= ?";
+			stmt = this.con.prepareStatement(sql);
+			stmt.setInt(1,order.priorityProperty().get());
+			stmt.setDate(2, java.sql.Date.valueOf(order.getDueDate()));
+			stmt.setString(3,order.ordernoProperty().get());
+			stmt.executeUpdate();
 		    stmt.close();
-		    
+		    return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return lotToReturn;
-	}
-	@Override
-	public boolean updateLots(String baseLotId, int newPrio) {
-		// TODO Auto-generated method stub
 		return false;
+	}
+	public int getLotCount(String orderNo){
+		String sql = "";
+		PreparedStatement stmt = null;
+		int count = 0;
+		ResultSet rs;
+		try {
+			sql= "SELECT COUNT(*) FROM lot WHERE \"ORDER\"= ?";
+			stmt = this.con.prepareStatement(sql);
+			stmt.setString(1, orderNo);
+			rs = stmt.executeQuery();
+		    if(rs.next())
+		    	count = rs.getInt(1);
+		    stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 	
 	@Override
@@ -107,7 +121,6 @@ public class MesDbService implements IMesDBService {
 	}
 	@Override
 	public boolean addLot(Lot lot) {
-		//TODO route aus (MES)prodflow und oper aus (MES)workflow holen
 		String sql = "";
 		PreparedStatement stmt = null;
 		ResultSet rs;
@@ -130,6 +143,7 @@ public class MesDbService implements IMesDBService {
 			rs.next();
 			rs.close();
 		    stmt.close();
+		    return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
