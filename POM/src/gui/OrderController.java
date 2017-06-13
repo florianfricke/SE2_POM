@@ -167,16 +167,20 @@ public class OrderController {
 		
 		//DatePicker
 		dpkDeliveryDate.setValue(this.order.getActualDeliveryDate());
-		dpkDeliveryDate.setEditable(false);
 		dpkDeliveryDate.setConverter(converter);
+		dpkDeliveryDate.setDisable(true);
+		dpkDeliveryDate.setStyle("-fx-opacity: 1");
+		dpkDeliveryDate.getEditor().setStyle("-fx-opacity: 1");		
 		
 		dpkReleaseDate.setValue(this.order.getReleaseDate());
 		dpkReleaseDate.setEditable(false);
 		dpkReleaseDate.setConverter(converter);
 		
 		dpkOrderDate.setValue(this.order.getOrderDate());
-		dpkOrderDate.setEditable(false);
 		dpkOrderDate.setConverter(converter);
+		dpkOrderDate.setDisable(true);
+		dpkOrderDate.setStyle("-fx-opacity: 1");
+		dpkOrderDate.getEditor().setStyle("-fx-opacity: 1");
 		
 		dpkDueDate.setValue(this.order.getDueDate());
 		dpkDueDate.setEditable(false);
