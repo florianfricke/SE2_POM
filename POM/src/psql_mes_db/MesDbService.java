@@ -169,4 +169,9 @@ public class MesDbService implements IMesDBService {
 		}
 		return "";
 	}
+	@Override
+	public List<String> getProductList() {
+		// TODO Nils: implement query  SELECT DISTINCT product from prodflow
+		return null;
+	}
 }
