@@ -2,7 +2,11 @@ package gui;
 
 
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.function.Predicate;
+
+
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -18,9 +22,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea; 
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.stage.Stage; 
+import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
+
 import types.*; 
 
 
@@ -130,9 +135,21 @@ public class OrderController {
 			cbxContact.getSelectionModel().select(new CbxItemObservable("", ""));
 		}
 		
+
 		
+	
 		dpkOrderDate.setValue(this.order.getOrderDate());
+		dpkOrderDate.setEditable(false);
+		dpkOrderDate.setConverter(converter);
 		dpkDueDate.setValue(this.order.getDueDate());
+		dpkDueDate.setEditable(false);
+		dpkDueDate.setConverter(converter);
+		
+		
+
+		
+		
+		
 		
 		ObservableList<String> listPriority = FXCollections.observableArrayList("1","2","3","5","6","7","8","9","10");
 		cbxPriority.setItems(listPriority);
@@ -164,6 +181,30 @@ public class OrderController {
         startDate.setCellValueFactory(cellData -> cellData.getValue().startDateProperty());
         dueDate.setCellValueFactory(cellData -> cellData.getValue().dueDateProperty());
 	}
+	
+	//Wohin mit dem Converter?
+    StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
+        DateTimeFormatter dateFormatter =
+                  DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        
+        @Override
+        public String toString(LocalDate date) {
+            if (date != null) {
+                return dateFormatter.format(date);
+            } else {
+                return "";
+            }
+        }
+        @Override
+        public LocalDate fromString(String string) {
+            if (string != null && !string.isEmpty()) {
+                return LocalDate.parse(string, dateFormatter);
+            } else {
+                return null;
+            }
+        }
+    };
+	
 	
 	
 	@FXML private void handleSave(ActionEvent event) {
