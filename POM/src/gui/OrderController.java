@@ -228,8 +228,10 @@ public class OrderController {
     }
 	
 	@FXML private void handleCancel(ActionEvent event) {
-    	System.out.println(this.order.priorityProperty());
-    	closeWindow(event);
+		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel?") == true){ 
+	    	System.out.println(this.order.priorityProperty());
+	    	closeWindow(event);
+		}
     }
 	
 	@FXML private void handleRelease(ActionEvent event) {

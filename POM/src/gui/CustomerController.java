@@ -1,21 +1,16 @@
 package gui;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import types.*;
 
@@ -149,27 +144,33 @@ public class CustomerController {
     }
 	
 	@FXML private void handleDelAddress(ActionEvent event) {
-		System.out.println("Del Address");
-		Address tmpAddress = addressTable.getSelectionModel().getSelectedItem();
-    	this.delAddressList = new ArrayList<Address>();
-    	this.delAddressList.add(tmpAddress);
-    	this.cust.getAddressList().remove(tmpAddress);
+		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete?") == true){
+			System.out.println("Del Address");
+			Address tmpAddress = addressTable.getSelectionModel().getSelectedItem();
+	    	this.delAddressList = new ArrayList<Address>();
+	    	this.delAddressList.add(tmpAddress);
+	    	this.cust.getAddressList().remove(tmpAddress);
+		}
     }
 	
 	@FXML private void handleDelContact(ActionEvent event) {
-    	System.out.println("Del Contact");
-    	Contact tmpContact = contactTable.getSelectionModel().getSelectedItem();
-    	this.delContactList = new ArrayList<Contact>();
-    	this.delContactList.add(tmpContact);
-    	this.cust.getContactList().remove(tmpContact);
+		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete?") == true){
+	    	System.out.println("Del Contact");
+	    	Contact tmpContact = contactTable.getSelectionModel().getSelectedItem();
+	    	this.delContactList = new ArrayList<Contact>();
+	    	this.delContactList.add(tmpContact);
+	    	this.cust.getContactList().remove(tmpContact);
+		}
     }
 	
 	@FXML private void handleDelBank(ActionEvent event) {
-    	System.out.println("Del Bank");
-    	BankAccount tmpBankAccount = bankAccountTable.getSelectionModel().getSelectedItem();
-    	this.delBankAccountList = new ArrayList<BankAccount>();
-    	this.delBankAccountList.add(tmpBankAccount);
-    	this.cust.getBankAccountList().remove(tmpBankAccount);
+		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete?") == true){
+	    	System.out.println("Del Bank");
+	    	BankAccount tmpBankAccount = bankAccountTable.getSelectionModel().getSelectedItem();
+	    	this.delBankAccountList = new ArrayList<BankAccount>();
+	    	this.delBankAccountList.add(tmpBankAccount);
+	    	this.cust.getBankAccountList().remove(tmpBankAccount);
+		}
     }
 		
 	@FXML private void handleSave(ActionEvent event) {
@@ -179,26 +180,26 @@ public class CustomerController {
     }
 	
 	@FXML private void handleCancel(ActionEvent event) {
-		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel") == true){ 
-		System.out.println("Cancel");
-    	
-    	if(this.delAddressList != null){
-	    	for (Address address : delAddressList) {
-	    		this.cust.getAddressList().add(address);
-			}
-    	}
-    	if(this.delContactList != null){
-	    	for (Contact contact : delContactList) {
-	    		this.cust.getContactList().add(contact);
-			}
-    	}
-    	
-    	if(this.delBankAccountList != null){
-	    	for (BankAccount bankAccount : delBankAccountList) {
-	    		this.cust.getBankAccountList().add(bankAccount);
-			}
-    	}
-    	closeWindow(event);
+		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel?") == true){ 
+			System.out.println("Cancel");
+	    	
+	    	if(this.delAddressList != null){
+		    	for (Address address : delAddressList) {
+		    		this.cust.getAddressList().add(address);
+				}
+	    	}
+	    	if(this.delContactList != null){
+		    	for (Contact contact : delContactList) {
+		    		this.cust.getContactList().add(contact);
+				}
+	    	}
+	    	
+	    	if(this.delBankAccountList != null){
+		    	for (BankAccount bankAccount : delBankAccountList) {
+		    		this.cust.getBankAccountList().add(bankAccount);
+				}
+	    	}
+	    	closeWindow(event);
 		}
     }
 	
