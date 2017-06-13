@@ -113,16 +113,14 @@ public class PomService {
 		boolean succes = false;
 		// new higher Volume - old Volume from initialize => Volume to insert in Lot Table
 		int remainingVolume = order.volumeProperty().get() - order.getOrderLotChanges().volumeProperty().get(); 
-		//Check Volume raised
 		if (remainingVolume > 0){
 			succes = insertLotDayBalanced(order, remainingVolume);
 		}
-		//Check Priority changed
-		if ((order.priceProperty().get() != order.getOrderLotChanges().priorityProperty().get())||(!order.getDueDate().toString().equals(order.getOrderLotChanges().getdueDate().toString()))){
+		if ((order.priorityProperty().get() != order.getOrderLotChanges().priorityProperty().get())||(!order.getDueDate().toString().equals(order.getOrderLotChanges().getdueDate().toString()))){
 			succes = mesPersistance.updateLots(order);
 		}
-		//Set LotChangeObject in Order like new Order
-		order.setOrderLotChange();
+		if(succes)
+			order.setOrderLotChange();
 		return succes;
 	}
 
@@ -151,6 +149,7 @@ public class PomService {
 		c.setTime(Date.from(order.getStartDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		boolean success = false;
 		int i = mesPersistance.getLotCount(order.ordernoProperty().get());
+		i+=1;
 
 		Lot lotTemplate = new Lot(null, order.priorityProperty().get(), order.lotSizeProperty().get(), "RDY",
 				order.productProperty().get(), order.customeridProperty().get(), order.ordernoProperty().get(),
@@ -161,12 +160,7 @@ public class PomService {
 
 			while (n > 0 && remainingVolume > 0) {
 				n--;
-				if (remainingVolume < order.lotSizeProperty().get()) // remaining
-																		// Volume
-																		// is
-																		// smaller
-																		// than
-																		// lotSize
+				if (remainingVolume < order.lotSizeProperty().get())
 				{
 					lotTemplate.piecesProperty().set(remainingVolume);
 					n = 0;
