@@ -20,7 +20,7 @@
 
 <ScrollPane fitToWidth="true" pannable="true" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CustomerController">
    <content>
-      <VBox prefHeight="812.0" prefWidth="649.0">
+      <VBox prefHeight="812.0" prefWidth="649.0" VBox.vgrow="ALWAYS">
         <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
@@ -41,6 +41,15 @@
                               <TextField fx:id="txt_Ranking" maxWidth="150.0" prefWidth="150.0" />
                               <TextArea fx:id="tar_Comment" minHeight="75.0" minWidth="460.0" prefHeight="200.0" prefWidth="210.0" />
                            </children>
+                        </VBox>
+                        <VBox alignment="TOP_RIGHT" spacing="15.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Button fx:id="btn_ShowCurrentOrders" mnemonicParsing="false" prefHeight="25.0" prefWidth="160.0" text="Show Current Orders" />
+                              <Button fx:id="btn_ShowOrderHistory" mnemonicParsing="false" prefHeight="25.0" prefWidth="160.0" text="Show Order History" />
+                           </children>
+                           <HBox.margin>
+                              <Insets left="30.0" />
+                           </HBox.margin>
                         </VBox>
                      </children>
                      <VBox.margin>

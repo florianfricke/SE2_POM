@@ -11,6 +11,7 @@ public class Customer {
 	private final StringProperty name;
 	private final StringProperty ranking;
 	private final StringProperty comment;
+	private CbxItemObservable comboBoxItem;
 	private ObservableList<Address> addressList;
 	private ObservableList<Contact> contactList;
 	private ObservableList<BankAccount> bankAccountList;
@@ -23,6 +24,8 @@ public class Customer {
 		this.addressList = FXCollections.observableArrayList();
 		this.contactList = FXCollections.observableArrayList();
 		this.bankAccountList = FXCollections.observableArrayList();
+		this.comboBoxItem = new CbxItemObservable(id, name);
+		
 	}
 	
 	public Customer() {
@@ -30,8 +33,13 @@ public class Customer {
 		this.addressList = FXCollections.observableArrayList();
 		this.contactList = FXCollections.observableArrayList();
 		this.bankAccountList = FXCollections.observableArrayList();
+		this.comboBoxItem = new CbxItemObservable("", "");
+		
 		}
 
+	public CbxItemObservable comboBoxProperty(){
+		return comboBoxItem;
+	}
 	public StringProperty idProperty() {
 		return id;
 	}
@@ -65,6 +73,11 @@ public class Customer {
 	}
 	public void setBankAccountList(ObservableList<BankAccount> bankAccountList){
 		this.bankAccountList = bankAccountList;
+	}
+	
+	
+	public String toString(){
+		return nameProperty().get();
 	}
 
 }
