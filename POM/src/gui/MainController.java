@@ -131,13 +131,29 @@ public class MainController{
             Logger logger = Logger.getLogger(getClass().getName());
             logger.log(Level.SEVERE, "Failed to create new Window.", e);
         } 
-    
-    	
-    	
 	}
+    
+    
 	@FXML private void handleShowOrderHistory(ActionEvent event) {
-
-    }     
+		System.out.println("Selected Customer: " + (customerTable.getSelectionModel().getSelectedItem()).idProperty().get());
+        Customer cust = customerTable.getSelectionModel().getSelectedItem();
+            
+        System.out.println("OrderHistory");
+        try {
+        	FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("ShowOrderHistory.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root, 800, 500);
+            Stage stage = new Stage();
+            stage.setTitle("Show Order History");
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            Logger logger = Logger.getLogger(getClass().getName());
+            logger.log(Level.SEVERE, "Failed to create new Window.", e);
+        	} 
+    }
     
     @FXML private void handleNewOrder(ActionEvent event) {
     	System.out.println("New Order");

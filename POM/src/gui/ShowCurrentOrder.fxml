@@ -20,7 +20,7 @@
 
 <BorderPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
    <center>
-      <TableView fx:id="showOrderTable" editable="true" BorderPane.alignment="CENTER">
+      <TableView fx:id="showOrderTable" editable="false" BorderPane.alignment="CENTER">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>

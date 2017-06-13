@@ -11,6 +11,7 @@ public interface IPomDbService {
 	public boolean deleteCustomer(String id);
 	public List<Order> getOrderList();
 	public List<Order> getCustomerOrder(String customerID);
+	public List<Order> getCustomerOrderHistory(String customerID);
 	public List<Address> getAddressList(String custId);
 	public List<Contact> getContactList(String custId);
 	public List<BankAccount> getBankAccountList(String custId);
