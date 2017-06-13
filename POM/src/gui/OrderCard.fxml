@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -16,15 +22,22 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToWidth="true" pannable="true" prefHeight="1050.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.OrderController">
+<ScrollPane fitToWidth="true" pannable="true" prefHeight="1050.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.OrderController">
    <content>
       <VBox prefHeight="1050.0" prefWidth="885.0">
         <children>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
               <items>
-                <Button mnemonicParsing="false" onAction="#handleRelease" text="Release" />
-                  <Button mnemonicParsing="false" onAction="#handleUpdate" text="Update" />
+                  <HBox spacing="20.0">
+                     <children>
+                      <Button mnemonicParsing="false" onAction="#handleRelease" text="Release" />
+                        <Button mnemonicParsing="false" onAction="#handleUpdate" text="Update" />
+                     </children>
+                  </HBox>
               </items>
+               <padding>
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+               </padding>
             </ToolBar>
           <AnchorPane prefHeight="1050.0" prefWidth="682.0" VBox.vgrow="ALWAYS">
             <children>
