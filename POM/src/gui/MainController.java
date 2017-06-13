@@ -271,16 +271,6 @@ public class MainController{
         product.setCellValueFactory(cellData -> cellData.getValue().productProperty());
         priority.setCellValueFactory(cellData -> cellData.getValue().priorityProperty());
         customer.setCellValueFactory(cellData -> cellData.getValue().customeridProperty());
-        /*TODO muss mit Date funktionieren*
-        orderDate.setCellValueFactory(cellData -> cellData.getValue().orderDateProperty());
-        orderDate.setCellValueFactory(
-        		   orderDateProperty -> {
-        		      SimpleStringProperty property = new SimpleStringProperty();
-        		      DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        		      property.setValue(dateFormat.format(orderDateProperty.getValue().getCreatedDate()));
-        		      return property;
-        		   });*/
-        //releaseDate.setCellValueFactory(cellData -> cellData.getValue().releaseDateProperty());
         state.setCellValueFactory(cellData -> cellData.getValue().stateProperty());
         comboBoxSearchListOrder();
         // Wrap the ObservableList in a FilteredList (initially display all data).

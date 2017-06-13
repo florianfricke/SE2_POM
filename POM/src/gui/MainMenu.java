@@ -53,7 +53,8 @@ public class MainMenu extends Application {
 		return this.customerList;
 	}
 	public ObservableList<Order> getOrderList() {
-		return FXCollections.observableList(pomService.getOrderList());
+		this.orderList = FXCollections.observableList(pomService.getOrderList());
+		return this.orderList;
 	}
 	
 	public ObservableList<Order> getCustomerOrder(String customerID) {
@@ -104,7 +105,7 @@ public class MainMenu extends Application {
 		if (order.ordernoProperty().get().isEmpty())
 			return;
 		if(pomService.deleteOrder(order.ordernoProperty().get())){
-			orderList.remove(order);
+			this.orderList.remove(order);
 		}
 		
 	}
