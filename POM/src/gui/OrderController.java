@@ -14,13 +14,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent; 
 import javafx.fxml.FXML; 
-import javafx.scene.Node; 
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea; 
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
@@ -235,19 +237,24 @@ public class OrderController {
     	if(order.stateProperty().get() == State.PLANNED.name()){
     		mainMenu.releaseOrder(order);
     	}else{
-    		//TODO open Dialog 
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("State have to be PLANNED!");
+        	alert.show();
     	}
-    	closeWindow(event);
     }
 	
 	@FXML private void handleUpdate(ActionEvent event) {
     	System.out.println("Update MES Lots");
     	if(order.stateProperty().get() == State.IN_PROCESS.name()){
     		mainMenu.updateLots(order);
+    		handleSave(event);
     	}else{
-    		//TODO open Dialog 
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("State have to be IN PROCESS!");
+        	alert.show();
     	}
-    	closeWindow(event);
     }
 	
 	private void closeWindow(ActionEvent e){

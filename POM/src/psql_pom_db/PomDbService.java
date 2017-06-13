@@ -506,8 +506,8 @@ public class PomDbService implements IPomDbService {
 				ResultSet rs = stmt.executeQuery();
 				
 				while (rs.next())
-				{
-					orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),Double.parseDouble(rs.getString("price")),Integer.parseInt(rs.getString("volume")),rs.getString("state"),rs.getString("baselotid"),(rs.getDate("orderdate")),(rs.getString("releasedate")),(rs.getString("completitiondate")),(rs.getString("duedate")),(rs.getString ("actualdeliverydate")),Integer.parseInt(rs.getString("lotsize")),Integer.parseInt(rs.getString("priority")),rs.getString("comment")));
+				{ 
+					orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),Double.parseDouble(rs.getString("price")),Integer.parseInt(rs.getString("volume")),rs.getString("state"),rs.getString("baselotid"),getNullDate(rs,"orderdate"),getNullDate(rs,"startdate"),getNullDate(rs,"releasedate"),getNullDate(rs,"completitiondate"),getNullDate(rs,"duedate"),getNullDate(rs,"actualdeliverydate"),Integer.parseInt(rs.getString("lotsize")),Integer.parseInt(rs.getString("priority")),rs.getString("comment")));
 				}
 				rs.close();
 			    stmt.close();
@@ -561,7 +561,7 @@ public class PomDbService implements IPomDbService {
 
 	public boolean updateOrder(Order order) {
 		PreparedStatement stmt = null;
-		try {	//Orderno nicht im update inbegriffen da diese nicht geändert werden kann? richtig? !-> doch im where wird die ben�tigt!
+		try {	
 			stmt = con.prepareStatement("Update public.order set customerid = ?,adressid=?,contactid=?,product=?,price=?,volume=?,state=?,baselotid=?,orderdate=?, startdate=?, releasedate=?, completiondate=?, duedate=?, actualdeliverydate=?, lotsize=?, priority=?, comment=? where orderno = ? ");
 			stmt.setString(1,order.customeridProperty().get());
 			stmt.setString(2,order.addressidProperty().get());
@@ -583,7 +583,6 @@ public class PomDbService implements IPomDbService {
 			stmt.setString(18, order.ordernoProperty().get());
 			
 			stmt.executeUpdate();	
-			//ResultSet rs = stmt.executeQuery();
 			return true;
 	} catch (SQLException e) {
 		e.printStackTrace();
@@ -596,7 +595,7 @@ public class PomDbService implements IPomDbService {
 	 * @param id of order tuple
 	 * @returns true on success
 	 */
-	@Override // wieso hier das @Override
+	@Override 
 	public boolean deleteOrder(String orderno) {
 		PreparedStatement stmt = null;
 		try {
@@ -611,7 +610,7 @@ public class PomDbService implements IPomDbService {
 		}
 		return false;
 	}
-	//get Customer neu muss getestet werden
+
 	public Customer getCustomer(String customerId){
 		Customer customerToReturn = new Customer();
 		PreparedStatement stmt = null;

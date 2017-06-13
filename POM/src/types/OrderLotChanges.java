@@ -1,13 +1,13 @@
 package types;
 
-import java.util.Date;
+import java.time.LocalDate;
 import javafx.beans.property.*;
 
 public class OrderLotChanges {
 	private IntegerProperty volume;
 	private IntegerProperty priority;
-	private Date dueDate;
-	public OrderLotChanges(int volume,int priority, Date date){
+	private LocalDate dueDate;
+	public OrderLotChanges(int volume,int priority, LocalDate date){
 		this.volume = new SimpleIntegerProperty(volume);
 		this.priority = new SimpleIntegerProperty(priority);
 		this.dueDate = date;
@@ -19,7 +19,7 @@ public class OrderLotChanges {
 	public IntegerProperty priorityProperty(){
 		return priority;
 	}
-	public Date getdueDate(){
+	public LocalDate getdueDate(){
 		return dueDate;
 	}
 }
