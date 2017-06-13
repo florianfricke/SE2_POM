@@ -1,7 +1,5 @@
 package gui; 
 
-
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Predicate;
@@ -30,8 +28,6 @@ import javafx.scene.control.Label;
 
 
 import types.*; 
-
-
 
 public class OrderController {
 	private MainMenu mainMenu;
@@ -422,8 +418,10 @@ public class OrderController {
     }
 	
 	@FXML private void handleCancel(ActionEvent event) {
-    	System.out.println(this.order.priorityProperty());
-    	closeWindow(event);
+		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel?") == true){ 
+	    	System.out.println(this.order.priorityProperty());
+	    	closeWindow(event);
+		}
     }
 	
 	@FXML private void handleRelease(ActionEvent event) {
@@ -440,6 +438,7 @@ public class OrderController {
 	@FXML private void handleUpdate(ActionEvent event) {
     	System.out.println("Update MES Lots");
     	if(order.stateProperty().get() == State.IN_PROCESS.name()){
+    		this.order.setDueDate(dpkDueDate.getValue());
     		mainMenu.updateLots(order);
     		handleSave(event);
     	}else{
