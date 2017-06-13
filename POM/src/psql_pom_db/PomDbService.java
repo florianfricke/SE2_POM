@@ -496,6 +496,27 @@ public class PomDbService implements IPomDbService {
 		}
 	}
 	
+	public List<Order> getCustomerOrder(String customerID){
+		List<Order> orderList = new ArrayList<Order>();
+			
+			PreparedStatement stmt = null;
+			try {
+				stmt = con.prepareStatement("SELECT * FROM public.order WHERE Customerid = ?");
+				stmt.setString(1,customerID);
+				ResultSet rs = stmt.executeQuery();
+				
+				while (rs.next())
+				{
+					orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),Double.parseDouble(rs.getString("price")),Integer.parseInt(rs.getString("volume")),rs.getString("state"),rs.getString("baselotid"),(rs.getDate("orderdate")),(rs.getString("releasedate")),(rs.getString("completitiondate")),(rs.getString("duedate")),(rs.getString ("actualdeliverydate")),Integer.parseInt(rs.getString("lotsize")),Integer.parseInt(rs.getString("priority")),rs.getString("comment")));
+				}
+				rs.close();
+			    stmt.close();
+			    
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return orderList;
+	}
 	/**
 	 * Stores an Order Object on Database
 	 * @returns true on success
@@ -540,7 +561,7 @@ public class PomDbService implements IPomDbService {
 
 	public boolean updateOrder(Order order) {
 		PreparedStatement stmt = null;
-		try {	//Orderno nicht im update inbegriffen da diese nicht geändert werden kann? richtig? !-> doch im where wird die ben�tigt!
+		try {	//Orderno nicht im update inbegriffen da diese nicht geändert werden kann? richtig? !-> doch im where wird die ben�tigt!
 			stmt = con.prepareStatement("Update public.order set customerid = ?,adressid=?,contactid=?,product=?,price=?,volume=?,state=?,baselotid=?,orderdate=?, startdate=?, releasedate=?, completiondate=?, duedate=?, actualdeliverydate=?, lotsize=?, priority=?, comment=? where orderno = ? ");
 			stmt.setString(1,order.customeridProperty().get());
 			stmt.setString(2,order.addressidProperty().get());
