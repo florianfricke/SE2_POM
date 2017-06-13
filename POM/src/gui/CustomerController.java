@@ -1,5 +1,4 @@
 package gui;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -180,36 +179,27 @@ public class CustomerController {
     }
 	
 	@FXML private void handleCancel(ActionEvent event) {
-    	System.out.println("Cancel");
+		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel") == true){ 
+		System.out.println("Cancel");
     	
-    	Alert alert = new Alert(AlertType.CONFIRMATION);
-    	alert.setTitle("Confirmation Dialog");
-    	alert.setHeaderText("Do you really want to cancel?");
+    	if(this.delAddressList != null){
+	    	for (Address address : delAddressList) {
+	    		this.cust.getAddressList().add(address);
+			}
+    	}
+    	if(this.delContactList != null){
+	    	for (Contact contact : delContactList) {
+	    		this.cust.getContactList().add(contact);
+			}
+    	}
     	
-    	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-    	stage.getIcons().add(new Image(this.getClass().getResource("Cinderella_Icon.png").toString()));
-
-    	Optional<ButtonType> result = alert.showAndWait();
-    	
-    	if (result.get() == ButtonType.OK){
-        	if(this.delAddressList != null){
-    	    	for (Address address : delAddressList) {
-    	    		this.cust.getAddressList().add(address);
-    			}
-        	}
-        	if(this.delContactList != null){
-    	    	for (Contact contact : delContactList) {
-    	    		this.cust.getContactList().add(contact);
-    			}
-        	}
-        	
-        	if(this.delBankAccountList != null){
-    	    	for (BankAccount bankAccount : delBankAccountList) {
-    	    		this.cust.getBankAccountList().add(bankAccount);
-    			}
-        	}
-        	closeWindow(event);
-    	} 
+    	if(this.delBankAccountList != null){
+	    	for (BankAccount bankAccount : delBankAccountList) {
+	    		this.cust.getBankAccountList().add(bankAccount);
+			}
+    	}
+    	closeWindow(event);
+		}
     }
 	
 	private void closeWindow(ActionEvent e){
