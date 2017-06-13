@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import pom_service.PomService;
 
 import java.io.IOException;
-import java.util.List;
 
 public class MainMenu extends Application {
 	private PomService pomService;
@@ -97,6 +96,8 @@ public class MainMenu extends Application {
 	}
 	
 	public void deleteOrder(Order order){
+		if (order.ordernoProperty().get().isEmpty())
+			return;
 		if(pomService.deleteOrder(order.ordernoProperty().get())){
 			orderList.remove(order);
 		}
