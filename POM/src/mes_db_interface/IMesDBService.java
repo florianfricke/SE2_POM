@@ -6,7 +6,7 @@ import java.util.List;
 import types.*;
 
 public interface IMesDBService {
-	public List < Lot > getLots(String OrderNo);
+	public List < Lot > getLotList(String OrderNo);
 	public boolean updateLots(String baseLotId, int newPrio);
 	public Lot getLot(String orderNo);
 	public int getDayWorkload(Date date);

@@ -44,16 +44,17 @@ public class MesDbService implements IMesDBService {
 	  }
 	
 	@Override
-	public List<Lot> getLots(String OrderNo) {
+	public List<Lot> getLotList(String orderNo) {
 		List<Lot> lotList = new ArrayList<Lot>();
 		PreparedStatement stmt = null;
 		try {
-			stmt = con.prepareStatement("SELECT * FROM public.lot");
+			stmt = con.prepareStatement("SELECT * FROM public.lot WHERE \"ORDER\" = ?");
+			stmt.setString(1, orderNo);
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next())
 			{
-			   lotList.add(new Lot(rs.getString("id"), rs.getInt("priority"), rs.getInt("lotSize"),rs.getString("state"),rs.getString("product"),rs.getString("customerId"),rs.getString("orderNo"),rs.getDate("dueDate").toLocalDate(),rs.getString("startDate")));
+			   lotList.add(new Lot(rs.getString("lotid"), rs.getInt("priority"), rs.getInt("pieces"),rs.getString("state"),rs.getString("product"),rs.getString("customer"),rs.getString("ORDER"),rs.getDate("dueDate").toLocalDate(),rs.getDate("startDate").toLocalDate()));
 			}
 			rs.close();
 		    stmt.close();
@@ -71,7 +72,7 @@ public class MesDbService implements IMesDBService {
 			stmt = con.prepareStatement("SELECT * FROM lot WHERE lotid = ?");
 			stmt.setString(1, lotId);
 			ResultSet rs = stmt.executeQuery();
-			lotToReturn =(new Lot(rs.getString("id"), rs.getInt("priority"), rs.getInt("lotSize"),rs.getString("state"),rs.getString("product"),rs.getString("customerId"),rs.getString("orderNo"),rs.getDate("dueDate").toLocalDate(),rs.getString("startDate")));
+			lotToReturn =(new Lot(rs.getString("id"), rs.getInt("priority"), rs.getInt("lotSize"),rs.getString("state"),rs.getString("product"),rs.getString("customerId"),rs.getString("orderNo"),rs.getDate("dueDate").toLocalDate(),rs.getDate("startDate").toLocalDate()));
 			rs.close();
 		    stmt.close();
 		    
@@ -123,7 +124,6 @@ public class MesDbService implements IMesDBService {
 			stmt.setString(8, lot.customerIdProperty().get());
 			stmt.setString(9, lot.orderNoProperty().get());
 			stmt.setDate(10, java.sql.Date.valueOf(lot.dueDateProperty().get()));
-			String s = lot.startDateProperty().toString();
 			stmt.setDate(11, java.sql.Date.valueOf(lot.startDateProperty().get()));
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -146,7 +146,8 @@ public class MesDbService implements IMesDBService {
 			stmt.setString(1,product);
 			rs = stmt.executeQuery();
 			rs.next();
-			return rs.getString("route");
+			if(rs.next())
+				return rs.getString("route");
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -162,8 +163,8 @@ public class MesDbService implements IMesDBService {
 			stmt = this.con.prepareStatement(sql);
 			stmt.setString(1,route);
 			rs = stmt.executeQuery();
-			rs.next();
-			return rs.getString("oper");
+			if(rs.next())
+				return rs.getString("oper");
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -171,7 +172,21 @@ public class MesDbService implements IMesDBService {
 	}
 	@Override
 	public List<String> getProductList() {
-		// TODO Nils: implement query  SELECT DISTINCT product from prodflow
-		return null;
+		String sql = "";
+		List<String> productList = new ArrayList<>();
+		PreparedStatement stmt = null;
+		ResultSet rs;
+		try{
+			sql= "SELECT * FROM public.prodflow";
+			stmt = this.con.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				productList.add(rs.getString("product"));
+			}
+
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return productList;
 	}
 }

@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import pom_service.PomService;
 
 import java.io.IOException;
+import java.util.List;
 
 public class MainMenu extends Application {
 	private PomService pomService;
@@ -140,5 +141,12 @@ public class MainMenu extends Application {
 	}
 	public boolean updateLots(Order order) {
 		return pomService.updateLots(order);
+	}
+	public ObservableList<String> getProductList(){
+		return FXCollections.observableList(pomService.getProductList());
+	}
+	
+	public ObservableList<Lot> getLotList(String orderNo){
+		return FXCollections.observableList(pomService.getLotList(orderNo));
 	}
 }

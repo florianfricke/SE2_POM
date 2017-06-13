@@ -10,11 +10,7 @@ import pom_db_interface.*;
 import psql_mes_db.MesDbService; 
 import psql_pom_db.*; 
 import types.*; 
- 
-/** 
- * @author Konstantin 
- * 
- */ 
+
 public class PomService { 
   private IPomDbService pomPersistance; 
   private IMesDBService mesPersistance; 
@@ -83,11 +79,14 @@ public class PomService {
   public List<Order> getOrderList(){ 
     return pomPersistance.getOrderList(); 
   } 
+  public List<String> getProductList(){
+	  return mesPersistance.getProductList();
+  }
    
   //MES Methods 
    
-  public List<Lot> getLots(String OrderNo) { 
-    return mesPersistance.getLots(OrderNo); 
+  public List<Lot> getLotList(String OrderNo) { 
+    return mesPersistance.getLotList(OrderNo); 
   } 
    
   public boolean updateLots(Order order) { 
@@ -123,11 +122,11 @@ public class PomService {
     int remainingVolume = order.volumeProperty().get(); 
     int n; 
     Calendar c = Calendar.getInstance(); 
-    c.setTime(new Date()); 
+    c.setTime(Date.from(order.getStartDate().atStartOfDay(ZoneId.systemDefault()).toInstant())); 
     boolean success = false; 
     int i = 1; 
      
-    Lot lotTemplate = new Lot(null, order.priorityProperty().get(), order.lotSizeProperty().get(), "RDY", order.productProperty().get(), order.customeridProperty().get(), order.ordernoProperty().get(), order.getDueDate(),LocalDate.of(c.get(Calendar.YEAR),c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH)).toString()); 
+    Lot lotTemplate = new Lot(null, order.priorityProperty().get(), order.lotSizeProperty().get(), "RDY", order.productProperty().get(), order.customeridProperty().get(), order.ordernoProperty().get(), order.getDueDate(), order.getStartDate()); 
      
     while(remainingVolume > 0) 
     {     
@@ -149,12 +148,14 @@ public class PomService {
          
       } 
       c.add(Calendar.DATE, 1); 
-      lotTemplate.startDateProperty().set(LocalDate.of(c.get(Calendar.YEAR),c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH)).toString()); 
+      LocalDate d = LocalDate.of(c.get(Calendar.YEAR),c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+      System.out.println(d.toString());
+      lotTemplate.setStartDate(d); 
     } 
      
     //set Status and ReleaseDate 
     order.stateProperty().set(State.IN_PROCESS.name()); 
-    order.releaseDateProperty().set(LocalDate.now().toString()); 
+    order.setReleaseDate(LocalDate.now()); 
      
     pomPersistance.updateOrder(order); 
      

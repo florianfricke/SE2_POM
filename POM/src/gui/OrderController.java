@@ -15,7 +15,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent; 
 import javafx.fxml.FXML; 
 import javafx.scene.Node; 
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -35,8 +34,6 @@ public class OrderController {
 	private Order order;
 	
     @FXML private TextField txt_Id;
-    @FXML private TextField txt_product;
-    @FXML private ComboBox<CbxItemObservable> cbxCustomer;
     @FXML private TextField txt_orderDate;
     @FXML private TextField txt_releaseDate;
     @FXML private TextField txt_state;
@@ -46,9 +43,11 @@ public class OrderController {
     @FXML private TextField txt_price;
     @FXML private TextField txt_deliveryDate;
     @FXML private TextField txtLotSize;
+    @FXML private TextArea tar_comment;
+    @FXML private ComboBox<String> cbxProduct;
+    @FXML private ComboBox<CbxItemObservable> cbxCustomer;
     @FXML private ComboBox<CbxItemObservable> cbxContact;
     @FXML private ComboBox<CbxItemObservable> cbxAddress;
-    @FXML private TextArea tar_comment;
     @FXML private ComboBox<String> cbxPriority;
     
     //Lot Table
@@ -62,10 +61,34 @@ public class OrderController {
     @FXML private TableColumn<Lot, String> orderNo;
     @FXML private TableColumn<Lot, String> startDate;
     @FXML private TableColumn<Lot, String> dueDate;
+    @FXML private DatePicker dpkDeliveryDate;
+    @FXML private DatePicker dpkReleaseDate;
     @FXML private DatePicker dpkOrderDate;
     @FXML private DatePicker dpkDueDate;
-
-	@FXML private Button btnSave;
+    @FXML private DatePicker dpkStartDate;
+	
+	//String Converter for DatePicker
+    private StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
+        DateTimeFormatter dateFormatter =
+                  DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        
+        @Override
+        public String toString(LocalDate date) {
+            if (date != null) {
+                return dateFormatter.format(date);
+            } else {
+                return "";
+            }
+        }
+        @Override
+        public LocalDate fromString(String string) {
+            if (string != null && !string.isEmpty()) {
+                return LocalDate.parse(string, dateFormatter);
+            } else {
+                return null;
+            }
+        }
+    };
 	
 	public void init(MainMenu mainMenu) {
         this.mainMenu = mainMenu;
@@ -81,6 +104,10 @@ public class OrderController {
    }
 	
 	private void setTextFields(){
+		
+		//ComboBoxen
+		cbxProduct.setItems(mainMenu.getProductList());
+		
 		ObservableList<CbxItemObservable> custIdList = FXCollections.observableArrayList();
 		ObservableList<CbxItemObservable> addrIdList = FXCollections.observableArrayList();
 		ObservableList<CbxItemObservable> contactIdList = FXCollections.observableArrayList();
@@ -135,38 +162,39 @@ public class OrderController {
 			cbxContact.getSelectionModel().select(new CbxItemObservable("", ""));
 		}
 		
-
+		ObservableList<String> listPriority = FXCollections.observableArrayList("1","2","3","5","6","7","8","9","10");
+		cbxPriority.setItems(listPriority);
 		
-	
+		//DatePicker
+		dpkDeliveryDate.setValue(this.order.getActualDeliveryDate());
+		dpkDeliveryDate.setEditable(false);
+		dpkDeliveryDate.setConverter(converter);
+		
+		dpkReleaseDate.setValue(this.order.getReleaseDate());
+		dpkReleaseDate.setEditable(false);
+		dpkReleaseDate.setConverter(converter);
+		
 		dpkOrderDate.setValue(this.order.getOrderDate());
 		dpkOrderDate.setEditable(false);
 		dpkOrderDate.setConverter(converter);
+		
 		dpkDueDate.setValue(this.order.getDueDate());
 		dpkDueDate.setEditable(false);
 		dpkDueDate.setConverter(converter);
 		
+		dpkStartDate.setValue(this.order.getStartDate());
+		dpkStartDate.setEditable(false);
+		dpkStartDate.setConverter(converter);
 		
-
-		
-		
-		
-		
-		ObservableList<String> listPriority = FXCollections.observableArrayList("1","2","3","5","6","7","8","9","10");
-		cbxPriority.setItems(listPriority);
-		
-		
-		Bindings.bindBidirectional(txt_Id.textProperty(), this.order.ordernoProperty());
-		Bindings.bindBidirectional(txt_product.textProperty(),this.order.productProperty());
-		Bindings.bindBidirectional(cbxPriority.valueProperty(), this.order.priorityProperty(), new NumberStringConverter());
-		cbxCustomer.accessibleTextProperty().bindBidirectional(this.order.customeridProperty());
 	
-		Bindings.bindBidirectional(txt_releaseDate.textProperty(),this.order.releaseDateProperty());
+		//Bindings
+		Bindings.bindBidirectional(txt_Id.textProperty(), this.order.ordernoProperty());
+		Bindings.bindBidirectional(cbxPriority.valueProperty(), this.order.priorityProperty(), new NumberStringConverter());
+		Bindings.bindBidirectional(cbxProduct.valueProperty(), this.order.productProperty());
 		Bindings.bindBidirectional(txt_state.textProperty(),this.order.stateProperty());
 		Bindings.bindBidirectional(txt_baseLotID.textProperty(),this.order.baseLotIdProperty());
 		Bindings.bindBidirectional(txt_volume.textProperty(),this.order.volumeProperty(),new NumberStringConverter());
-		//Bindings.bindBidirectional(txt_dueDate.textProperty(),this.order.dueDateProperty());
 		Bindings.bindBidirectional(txt_price.textProperty(),this.order.priceProperty(),new NumberStringConverter());
-		Bindings.bindBidirectional(txt_deliveryDate.textProperty(),this.order.actualDeliveryDateProperty());
 		Bindings.bindBidirectional(tar_comment.textProperty(),this.order.commentProperty());
 		Bindings.bindBidirectional(txtLotSize.textProperty(),this.order.lotSizeProperty(), new NumberStringConverter());
 		
@@ -180,39 +208,19 @@ public class OrderController {
         orderNo.setCellValueFactory(cellData -> cellData.getValue().orderNoProperty());
         startDate.setCellValueFactory(cellData -> cellData.getValue().startDateProperty());
         dueDate.setCellValueFactory(cellData -> cellData.getValue().dueDateProperty());
+        lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
 	}
 	
-	//Wohin mit dem Converter?
-    StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
-        DateTimeFormatter dateFormatter =
-                  DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        
-        @Override
-        public String toString(LocalDate date) {
-            if (date != null) {
-                return dateFormatter.format(date);
-            } else {
-                return "";
-            }
-        }
-        @Override
-        public LocalDate fromString(String string) {
-            if (string != null && !string.isEmpty()) {
-                return LocalDate.parse(string, dateFormatter);
-            } else {
-                return null;
-            }
-        }
-    };
-	
-	
-	
+	//Button Handler
 	@FXML private void handleSave(ActionEvent event) {
+		//Set ComboBoxes
 		this.order.customeridProperty().set(cbxCustomer.getSelectionModel().getSelectedItem().get().idProperty().get());
     	this.order.addressidProperty().set(cbxAddress.getSelectionModel().getSelectedItem().get().idProperty().get());
     	this.order.contactidProperty().set(cbxContact.getSelectionModel().getSelectedItem().get().idProperty().get());
+    	//Set DatePicker
     	this.order.setOrderDate(dpkOrderDate.getValue());
     	this.order.setDueDate(dpkDueDate.getValue());
+    	this.order.setStartDate(dpkStartDate.getValue());
     	mainMenu.saveOrder(this.order);
     	closeWindow(event);
     }
@@ -231,7 +239,6 @@ public class OrderController {
     	}
     	closeWindow(event);
     }
-
 	
 	@FXML private void handleUpdate(ActionEvent event) {
     	System.out.println("Update MES Lots");
@@ -242,7 +249,6 @@ public class OrderController {
     	}
     	closeWindow(event);
     }
-
 	
 	private void closeWindow(ActionEvent e){
     	final Node currStage = (Node)e.getSource();

@@ -236,7 +236,7 @@ public class MainController{
         		      property.setValue(dateFormat.format(orderDateProperty.getValue().getCreatedDate()));
         		      return property;
         		   });*/
-        releaseDate.setCellValueFactory(cellData -> cellData.getValue().releaseDateProperty());
+        //releaseDate.setCellValueFactory(cellData -> cellData.getValue().releaseDateProperty());
         state.setCellValueFactory(cellData -> cellData.getValue().stateProperty());
         comboBoxSearchListOrder();
         // Wrap the ObservableList in a FilteredList (initially display all data).
@@ -259,7 +259,7 @@ public class MainController{
                 		return true;
                 	} else if (order.getOrderDate().toString().toLowerCase().contains(lowerCaseFilter)) {
                         return true;  
-                	} else if (order.releaseDateProperty().toString().toLowerCase().contains(lowerCaseFilter)) {
+                	} else if (order.getReleaseDate().toString().toLowerCase().contains(lowerCaseFilter)) {
                         return true;  
 	                } else if (order.stateProperty().toString().toLowerCase().contains(lowerCaseFilter)) {
 	                    return true;  
@@ -291,7 +291,7 @@ public class MainController{
                         }
                 }
                 if(comboBox_searchOrder.getSelectionModel().getSelectedItem() == "Release Date"){
-                	if (order.releaseDateProperty().toString().toLowerCase().contains(lowerCaseFilter)) {
+                	if (order.getReleaseDate().toString().toLowerCase().contains(lowerCaseFilter)) {
                         return true;
                         }
                 }

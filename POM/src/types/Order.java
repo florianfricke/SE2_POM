@@ -27,10 +27,11 @@ public class Order {
 	private State state;
 	private StringProperty baseLotId;
 	private LocalDate orderDate;
-	private StringProperty releaseDate;
-	private StringProperty completionDate;
+	private LocalDate releaseDate;
+	private LocalDate completionDate;
 	private LocalDate dueDate;
-	private StringProperty actualDeliveryDate;
+	private LocalDate startDate;
+	private LocalDate actualDeliveryDate;
 	private IntegerProperty lotSize;
 	private IntegerProperty priority;
 	private StringProperty comment;
@@ -41,14 +42,14 @@ public class Order {
 	 */
 	
 	public Order() {
-		this("","","","","",0,0,State.PLANNED.toString(),"",LocalDate.now(),"","",emptyDate,"",10,0,"");
+		this("","","","","",0,0,State.PLANNED.toString(),"",LocalDate.now(),emptyDate,emptyDate,emptyDate,emptyDate,emptyDate,10,0,"");
 	}
 
 	
 	
 	public Order(String orderno,String customerid, String addressid, String contactid, String product, 
-			double price, int volume, String state, String baseLotId, LocalDate orderdate, String releaseDate, String completionDate,
-			LocalDate dueDate, String actualDeliveryDate, int lotSize, int priority, String comment) {
+			double price, int volume, String state, String baseLotId, LocalDate orderdate, LocalDate startDate, LocalDate releaseDate, LocalDate completionDate,
+			LocalDate dueDate, LocalDate actualDeliveryDate, int lotSize, int priority, String comment) {
 		this.orderno = new SimpleStringProperty(orderno);
 		this.customerid = new SimpleStringProperty(customerid);
 		this.addressid = new SimpleStringProperty(addressid);
@@ -59,10 +60,11 @@ public class Order {
 		this.state = State.valueOf(state);
 		this.baseLotId = new SimpleStringProperty(baseLotId);
 		this.orderDate = orderdate;
-		this.releaseDate = new SimpleStringProperty(releaseDate);
-		this.completionDate = new SimpleStringProperty(completionDate);
+		this.startDate = startDate;
+		this.releaseDate = releaseDate;
+		this.completionDate = completionDate;
 		this.dueDate = dueDate;
-		this.actualDeliveryDate = new SimpleStringProperty(actualDeliveryDate);
+		this.actualDeliveryDate = actualDeliveryDate;
 		this.lotSize = new SimpleIntegerProperty(lotSize);
 		this.priority = new SimpleIntegerProperty(priority);
 		this.comment = new SimpleStringProperty(comment);
@@ -114,11 +116,27 @@ public class Order {
 	public void setOrderDate(LocalDate date) {
 		this.orderDate = date;
 	}
-	public StringProperty releaseDateProperty() {
+	
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(LocalDate date) {
+		this.startDate = date;
+	}
+	
+	public LocalDate getReleaseDate() {
 		return releaseDate;
 	}
-	public StringProperty completionDateProperty() {
+	public void setReleaseDate(LocalDate date) {
+		this.releaseDate = date;
+	}
+	
+	public LocalDate getCompletionDate() {
 		return completionDate;
+	}
+	
+	public void setCompletionDate(LocalDate date) {
+		this.completionDate = date;
 	}
 
 	public LocalDate getDueDate() {
@@ -127,9 +145,13 @@ public class Order {
 	public void setDueDate(LocalDate date) {
 		this.dueDate = date;
 	}
-	public StringProperty actualDeliveryDateProperty() {
+	public LocalDate getActualDeliveryDate() {
 		return actualDeliveryDate;
 	}
+	public void setActualDeliveryDate(LocalDate date) {
+		this.actualDeliveryDate = date;
+	}
+	
 	public IntegerProperty lotSizeProperty() {
 		return lotSize;
 	}
