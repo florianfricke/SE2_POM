@@ -509,18 +509,28 @@ public class PomDbService implements IPomDbService {
 	public boolean updateOrder(Order order) {
 		PreparedStatement stmt = null;
 		try {	//Orderno nicht im update inbegriffen da diese nicht geÃ¤ndert werden kann? richtig? !-> doch im where wird die benötigt!
-			stmt = con.prepareStatement("Update Order set customerid = ?,adressid=?,contactid=?,product=?,price=?,volume=?,state=?,baselotid=?,orderdate=?, releasedate=?, completiondate=?, duedate=?, actualdeliverydate=?, lotsize=?, priority=?, comment=? where orderno = ? ");
+			stmt = con.prepareStatement("Update public.order set customerid = ?,adressid=?,contactid=?,product=?,price=?,volume=?,state=?,baselotid=?,orderdate=?, releasedate=?, completitiondate=?, duedate=?, actualdeliverydate=?, lotsize=?, priority=?, comment=? where orderno = ? ");
 			stmt.setString(1,order.customeridProperty().get());
 			stmt.setString(2,order.addressidProperty().get());
 			stmt.setString(3,order.contactidProperty().get());
 			stmt.setString(4,order.productProperty().get());
 			stmt.setDouble(5,order.priceProperty().get());
 			stmt.setInt(6, order.volumeProperty().get());
-			stmt.setString(7, order.stateProperty().toString());
+			stmt.setString(7, order.stateProperty().get());
 			stmt.setString(8, order.baseLotIdProperty().get());
 			stmt.setDate(9, java.sql.Date.valueOf(order.getOrderDate()));
-			stmt.setDate(10, java.sql.Date.valueOf(order.releaseDateProperty().get()));
-			stmt.setDate(11, java.sql.Date.valueOf(order.completionDateProperty().get()));
+			if(order.releaseDateProperty().get().isEmpty()){
+				stmt.setNull(10, java.sql.Types.DATE);
+			}else{
+				stmt.setDate(10, java.sql.Date.valueOf(order.releaseDateProperty().get()));
+			}
+			
+			if(order.releaseDateProperty().get().isEmpty()){
+				stmt.setNull(11, java.sql.Types.DATE);
+			}else{
+				stmt.setDate(11, java.sql.Date.valueOf(order.completionDateProperty().get()));
+			}
+
 			stmt.setDate(12, java.sql.Date.valueOf(order.getDueDate()));
 			stmt.setDate(13, java.sql.Date.valueOf(order.actualDeliveryDateProperty().get()));
 			stmt.setInt(14, order.lotSizeProperty().get());

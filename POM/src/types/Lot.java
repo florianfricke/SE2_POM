@@ -1,5 +1,9 @@
 package types;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 import javafx.beans.property.*;
 
 public class Lot {
@@ -10,10 +14,11 @@ public class Lot {
 	private StringProperty product;
 	private StringProperty customerId;
 	private StringProperty orderNo;
-	private StringProperty dueDate;
+	private LocalDate dueDate;
 	private StringProperty startDate;
+	private static final LocalDate emptyDate = null;
 	
-	public Lot(String id, int priority, int pieces, String state, String product, String customerId, String orderNo, String dueDate, String startDate){
+	public Lot(String id, int priority, int pieces, String state, String product, String customerId, String orderNo, LocalDate dueDate, String startDate){
 		this.id = new SimpleStringProperty(id);
 		this.priority = new SimpleIntegerProperty(priority);
 		this.pieces = new SimpleIntegerProperty(pieces);
@@ -21,12 +26,12 @@ public class Lot {
 		this.product = new SimpleStringProperty(product);
 		this.customerId = new SimpleStringProperty(customerId);
 		this.orderNo = new SimpleStringProperty(orderNo);
-		this.dueDate = new SimpleStringProperty(dueDate);
+		this.dueDate = dueDate;
 		this.startDate = new SimpleStringProperty(startDate);
 	}
 	//eingefügt um Lot am anfang erstellen zu können
 	public Lot() {
-		this("",0 ,0 ,"","","","","","");
+		this("",0 ,0 ,"","","","",emptyDate,"");
 	}
 	public StringProperty idProperty() {
 		return id;
@@ -50,7 +55,7 @@ public class Lot {
 		return orderNo;
 	}
 	public StringProperty dueDateProperty() {
-		return dueDate;
+		return new SimpleStringProperty(dueDate.toString());
 	}	
 	public StringProperty startDateProperty() {
 		return startDate;
