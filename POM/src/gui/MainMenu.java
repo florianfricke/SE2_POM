@@ -19,6 +19,7 @@ public class MainMenu extends Application {
 	private PomService pomService;
 	private ObservableList<Customer> customerList;
 	private ObservableList<Order> orderList;
+	private ObservableList<Order> getCustomerOrder;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -53,6 +54,10 @@ public class MainMenu extends Application {
 	}
 	public ObservableList<Order> getOrderList() {
 		return FXCollections.observableList(pomService.getOrderList());
+	}
+	
+	public ObservableList<Order> getCustomerOrder(String customerID) {
+		return FXCollections.observableList(pomService.getCustomerOrder(customerID));
 	}
 	
 	public void saveCustomer(Customer cust){
@@ -125,6 +130,9 @@ public class MainMenu extends Application {
 			System.out.println(((Button)event.getSource()).getId());
 			if (((Button)event.getSource()).getId().equals("btnCustomers")){
 				mc.loadCustomerTable();
+			}
+			if (((Button)event.getSource()).getId().equals("btn_ShowCurrentOrders")){
+				mc.loadCustomerOrder();
 			}
 			if (((Button)event.getSource()).getId().equals("btnOrders")){
 				mc.loadOrderTable();

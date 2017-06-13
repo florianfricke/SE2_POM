@@ -459,7 +459,23 @@ public class PomDbService implements IPomDbService {
 			
 			while (rs.next())
 			{
-				orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),Double.parseDouble(rs.getString("price")),Integer.parseInt(rs.getString("volume")),rs.getString("state"),rs.getString("baselotid"),getNullDate(rs, "orderdate"),getNullDate(rs, "startdate"),getNullDate(rs, "releasedate"),getNullDate(rs, "completiondate"),getNullDate(rs, "duedate"),getNullDate(rs, "actualdeliverydate"),Integer.parseInt(rs.getString("lotsize")),Integer.parseInt(rs.getString("priority")),rs.getString("comment")));
+				orderList.add(new Order(rs.getString("orderno"), 
+						rs.getString("customerid"), 
+						rs.getString("adressid"), 
+						rs.getString("contactid"),
+						rs.getString("product"), 
+						Double.parseDouble(rs.getString("price")),
+						Integer.parseInt(rs.getString("volume")),
+						rs.getString("state"),rs.getString("baselotid"),
+						getNullDate(rs, "orderdate"),
+						getNullDate(rs, "startdate"),
+						getNullDate(rs, "releasedate"),
+						getNullDate(rs, "completiondate"),
+						getNullDate(rs, "duedate"),
+						getNullDate(rs, "actualdeliverydate"),
+						Integer.parseInt(rs.getString("lotsize")),
+						Integer.parseInt(rs.getString("priority")),
+						rs.getString("comment")));
 			}
 			rs.close();
 		    stmt.close();
@@ -507,7 +523,23 @@ public class PomDbService implements IPomDbService {
 				
 				while (rs.next())
 				{ 
-					orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),Double.parseDouble(rs.getString("price")),Integer.parseInt(rs.getString("volume")),rs.getString("state"),rs.getString("baselotid"),getNullDate(rs,"orderdate"),getNullDate(rs,"startdate"),getNullDate(rs,"releasedate"),getNullDate(rs,"completitiondate"),getNullDate(rs,"duedate"),getNullDate(rs,"actualdeliverydate"),Integer.parseInt(rs.getString("lotsize")),Integer.parseInt(rs.getString("priority")),rs.getString("comment")));
+					orderList.add(new Order(rs.getString("orderno"), 
+							rs.getString("customerid"), 
+							rs.getString("adressid"), 
+							rs.getString("contactid"),
+							rs.getString("product"),
+							Double.parseDouble(rs.getString("price")),
+							Integer.parseInt(rs.getString("volume")),
+							rs.getString("state"),rs.getString("baselotid"),
+							getNullDate(rs,"orderdate"),
+							getNullDate(rs,"startdate"),
+							getNullDate(rs,"releasedate"),
+							getNullDate(rs,"completitiondate"),
+							getNullDate(rs,"duedate"),
+							getNullDate(rs,"actualdeliverydate"),
+							Integer.parseInt(rs.getString("lotsize")),
+							Integer.parseInt(rs.getString("priority")),
+							rs.getString("comment")));
 				}
 				rs.close();
 			    stmt.close();

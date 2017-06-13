@@ -45,6 +45,8 @@ public class MainController{
     @FXML private Button btnCustomers;
     @FXML private Button btnOrders;
     @FXML private Button btnSetUp;
+    @FXML private Button btn_ShowCurrentOrders;
+    @FXML private Button btn_ShowOrderHistory;
     @FXML private Pane content;
     //Filter Table
     @FXML private TextField txt_searchFieldOrder;
@@ -109,6 +111,33 @@ public class MainController{
     	mainMenu.deleteCustomer(customerTable.getSelectionModel().getSelectedItem());
     	}
     }
+    
+    @FXML private void handleShowCurrentOrder(ActionEvent event) {
+    	System.out.println("Selected Customer: " + (customerTable.getSelectionModel().getSelectedItem()).idProperty().get());
+        Customer cust = customerTable.getSelectionModel().getSelectedItem();
+        
+    	System.out.println("CurrentOrder");
+    	try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("ShowCurrentOrder.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root, 800, 500);
+            Stage stage = new Stage();
+            stage.setTitle("Show Current Order");
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            Logger logger = Logger.getLogger(getClass().getName());
+            logger.log(Level.SEVERE, "Failed to create new Window.", e);
+        } 
+    
+    	
+    	
+	}
+	@FXML private void handleShowOrderHistory(ActionEvent event) {
+
+    }     
     
     @FXML private void handleNewOrder(ActionEvent event) {
     	System.out.println("New Order");
@@ -226,6 +255,17 @@ public class MainController{
         sortedData.comparatorProperty().bind(customerTable.comparatorProperty());
         customerTable.setItems(sortedData);
     }
+    
+    public void loadCustomerOrder(){
+    	orderId.setCellValueFactory(cellData -> cellData.getValue().ordernoProperty());
+        product.setCellValueFactory(cellData -> cellData.getValue().productProperty());
+        priority.setCellValueFactory(cellData -> cellData.getValue().priorityProperty());
+        customer.setCellValueFactory(cellData -> cellData.getValue().customeridProperty());
+        //orderDate.setCellValueFactory(cellData -> cellData.getValue().orderDateProperty());
+        //releaseDate.setCellValueFactory(cellData -> cellData.getValue().releaseDateProperty());
+        state.setCellValueFactory(cellData -> cellData.getValue().stateProperty());
+    }
+    
     public void loadOrderTable(){
         orderId.setCellValueFactory(cellData -> cellData.getValue().ordernoProperty());
         product.setCellValueFactory(cellData -> cellData.getValue().productProperty());
