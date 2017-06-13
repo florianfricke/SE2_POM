@@ -1,7 +1,5 @@
 package gui; 
 
-
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Predicate;
@@ -28,8 +26,6 @@ import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 
 import types.*; 
-
-
 
 public class OrderController {
 	private MainMenu mainMenu;
@@ -251,6 +247,7 @@ public class OrderController {
 	@FXML private void handleUpdate(ActionEvent event) {
     	System.out.println("Update MES Lots");
     	if(order.stateProperty().get() == State.IN_PROCESS.name()){
+    		this.order.setDueDate(dpkDueDate.getValue());
     		mainMenu.updateLots(order);
     		handleSave(event);
     	}else{
