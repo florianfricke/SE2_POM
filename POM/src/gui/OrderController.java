@@ -207,6 +207,7 @@ public class OrderController {
 				}
 				//Only numbers, letters and spaces are allowed.
 				else if(txt_volume.getText().matches("[A-ZÖÄÜa-zöäüß0-9 _]*[A-ZÖÄÜa-zöäüß0-9 _][A-ZÖÄÜa-zäüöß0-9 _]*$")) { 
+						bool_txt_volume = true;
 						txt_volume.setText(localString); 
 						txt_volume.setStyle("text-field");
 						txt_errorMessage.setText("");
@@ -235,6 +236,7 @@ public class OrderController {
 				}
 				//Allows double numbers separated by a comma or dot. The length is not limited
 				else if(txt_price.getText().matches("(\\d+(?:[\\.\\,]\\d*)?)$")) {
+						bool_txt_price = true;
 						txt_price.setText(localString);
 						txt_price.setStyle("text-field");
 						txt_errorMessage.setText("");
@@ -295,6 +297,7 @@ public class OrderController {
 				txt_errorMessage.getStyleClass().add("label_error");
 				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
 			}else{
+				bool_cbxCustomer = true;
 				cbxCustomer.setStyle("combo-box");
 				txt_errorMessage.setText("");
 			}
@@ -310,6 +313,7 @@ public class OrderController {
 				txt_errorMessage.getStyleClass().add("label_error");
 				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
 			}else{
+				bool_cbxContact = true;
 				cbxContact.setStyle("combo-box");
 				txt_errorMessage.setText("");
 			}
@@ -325,6 +329,7 @@ public class OrderController {
 				txt_errorMessage.getStyleClass().add("label_error");
 				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
 			}else{
+				bool_cbxAddress = true;
 				cbxAddress.setStyle("combo-box");
 				txt_errorMessage.setText("");
 			}
@@ -340,6 +345,7 @@ public class OrderController {
 				txt_errorMessage.getStyleClass().add("label_error");
 				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
 			}else{
+				bool_cbxPriority = true;
 				cbxPriority.setStyle("combo-box");
 				txt_errorMessage.setText("");
 			}

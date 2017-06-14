@@ -705,7 +705,20 @@ public class PomDbService implements IPomDbService {
 	
 	public int getDayCapacity()
 	{
-		return 10; //TODO: implement query 
+		PreparedStatement stmt = null;
+		int cpcty = Integer.MAX_VALUE; //return Max-Integer value if attribute is not set in DB
+		try {
+			stmt = con.prepareStatement("SELECT value FROM setup WHERE attribute = 'DAYCAPACITY'");
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			cpcty = rs.getInt(1);
+			rs.close();
+		    stmt.close();
+		    
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cpcty;
 	}
 	
 }
