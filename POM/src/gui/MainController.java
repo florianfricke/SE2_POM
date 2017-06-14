@@ -107,8 +107,8 @@ public class MainController{
     
     @FXML private void handleDelCust(ActionEvent event) {
     	if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete: " +customerTable.getSelectionModel().getSelectedItem().nameProperty().get().toString()) == true){
-    	System.out.println("Delete");
-    	mainMenu.deleteCustomer(customerTable.getSelectionModel().getSelectedItem());
+    		System.out.println("Delete");
+    		mainMenu.deleteCustomer(customerTable.getSelectionModel().getSelectedItem());
     	}
     }
     
@@ -176,10 +176,10 @@ public class MainController{
     }
     
     @FXML private void handleDelOrder(ActionEvent event) {
-    	
-    	System.out.println("Delete");
-    	
-    	mainMenu.deleteOrder(orderTable.getSelectionModel().getSelectedItem());
+    	if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete: order " +orderTable.getSelectionModel().getSelectedItem().ordernoProperty().get().toString()) == true){
+    		System.out.println("Delete");
+    		mainMenu.deleteOrder(orderTable.getSelectionModel().getSelectedItem());
+    	}
     }
     
     @FXML private void handleRowClickOrder(MouseEvent click) {

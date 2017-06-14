@@ -24,6 +24,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
+import javafx.scene.control.Label;
+
 
 import types.*; 
 
@@ -47,7 +49,10 @@ public class OrderController {
     @FXML private ComboBox<CbxItemObservable> cbxContact;
     @FXML private ComboBox<CbxItemObservable> cbxAddress;
     @FXML private ComboBox<String> cbxPriority;
-    
+    @FXML private Label txt_errorMessage;
+    private boolean bool_txt_releaseDate, bool_txt_state, bool_txt_volume;
+    private boolean bool_txt_price, bool_txt_orderDate, bool_cbxPriority;
+    private boolean bool_cbxAddress, bool_cbxCustomer, bool_cbxContact, bool_cbxProduct;
     //Lot Table
     @FXML private TableView<Lot> lotTable;
 	@FXML private TableColumn<Lot, String> id;
@@ -188,7 +193,185 @@ public class OrderController {
 		dpkStartDate.setEditable(false);
 		dpkStartDate.setConverter(converter);
 		
-	
+/************************************************************************************/	
+		txt_volume.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+		String localString;
+		localString = txt_volume.getText();
+		if(!newValue){
+				if(txt_volume.getText().length() == 0 || txt_volume.getText() == "0") {
+					bool_txt_volume = false;
+					txt_volume.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+					txt_errorMessage.setVisible(true);
+					txt_errorMessage.getStyleClass().add("label_error");
+					txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+				}
+				//Only allows an integer number, the length is not limited
+				else if(txt_volume.getText().matches("[0-9]*")) { 
+						txt_volume.setText(localString); 
+						txt_volume.setStyle("text-field");
+						txt_errorMessage.setText("");
+				}
+				else{
+					bool_txt_volume = false;
+					txt_volume.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+					txt_volume.setText("");
+					txt_errorMessage.setVisible(true);
+					txt_errorMessage.getStyleClass().add("label_error");
+					txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+				} 
+			}
+		});  
+/************************************************************************************/
+		txt_price.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+		String localString;
+		localString = txt_price.getText();
+		if(!newValue){
+				if(txt_price.getText().length() == 0 || txt_price.getText() == "0"){
+					bool_txt_price = false;
+					txt_price.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+					txt_errorMessage.setVisible(true);
+					txt_errorMessage.getStyleClass().add("label_error");
+					txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+				}
+				//Allows double numbers separated by a comma or dot. The length is not limited
+				else if(txt_price.getText().matches("(\\d+(?:[\\.\\,]\\d*)?)$")) {
+						txt_price.setText(localString);
+						txt_price.setStyle("text-field");
+						txt_errorMessage.setText("");
+				}
+				else{ 
+					bool_txt_price = false;
+					txt_price.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+					txt_price.setText(""); 
+					txt_errorMessage.setVisible(true);
+					txt_errorMessage.getStyleClass().add("label_error");
+					txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+				} 
+			}
+		});  
+/************************************************************************************/
+		tar_comment.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+		String localString;
+		localString = tar_comment.getText();
+		if(!newValue){
+			if(tar_comment.getText().length() > 250){
+				tar_comment.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				tar_comment.setText("");
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.getStyleClass().add("label_error");
+				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+				}
+			else{
+				tar_comment.setText(localString);
+				tar_comment.setStyle("text-field");
+				txt_errorMessage.setText("");
+				}
+			}
+		});
+/***************************************************************************************/
+		cbxProduct.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			boolean localBool;
+			localBool = cbxProduct.getSelectionModel().isEmpty();
+			if(localBool == true){
+				bool_cbxProduct = false;
+				cbxProduct.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.getStyleClass().add("label_error");
+				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+			}else{
+				bool_cbxProduct = true;
+				cbxProduct.setStyle("combo-box");
+				txt_errorMessage.setText("");
+			}
+		});
+/***************************************************************************************/
+		cbxCustomer.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			boolean localBool;
+			localBool = cbxCustomer.getSelectionModel().isEmpty();
+			if(localBool == true){
+				bool_cbxCustomer = false;
+				cbxCustomer.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.getStyleClass().add("label_error");
+				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+			}else{
+				cbxCustomer.setStyle("combo-box");
+				txt_errorMessage.setText("");
+			}
+		});
+/***************************************************************************************/
+		cbxContact.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			boolean localBool;
+			localBool = cbxContact.getSelectionModel().isEmpty();
+			if(localBool == true){
+				bool_cbxContact = false;
+				cbxContact.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.getStyleClass().add("label_error");
+				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+			}else{
+				cbxContact.setStyle("combo-box");
+				txt_errorMessage.setText("");
+			}
+		});
+/***************************************************************************************/
+		cbxAddress.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			boolean localBool;
+			localBool = cbxAddress.getSelectionModel().isEmpty();
+			if(localBool == true){
+				bool_cbxAddress = false;
+				cbxAddress.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.getStyleClass().add("label_error");
+				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+			}else{
+				cbxAddress.setStyle("combo-box");
+				txt_errorMessage.setText("");
+			}
+		});
+/***************************************************************************************/
+		cbxPriority.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			boolean localBool;
+			localBool = cbxPriority.getSelectionModel().isEmpty();
+			if(localBool == true){
+				bool_cbxPriority = false;
+				cbxPriority.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.getStyleClass().add("label_error");
+				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+			}else{
+				cbxPriority.setStyle("combo-box");
+				txt_errorMessage.setText("");
+			}
+		});
+/***************************************************************************************/
+	/*	txt_orderDate.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			if(txt_orderDate.getText().length() == 0){
+				bool_txt_orderDate = false;
+				txt_orderDate.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.getStyleClass().add("label_error");
+				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+			}else{
+				txt_orderDate.setStyle("combo-box");
+				txt_errorMessage.setText("");
+			}
+		});  */
+/***************************************************************************************/
+		/*txt_releaseDate.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			if(txt_releaseDate.getText().trim().isEmpty()){
+				bool_txt_releaseDate = false;
+				txt_releaseDate.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.getStyleClass().add("label_error");
+				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+			}else{
+				txt_releaseDate.setStyle("combo-box");
+				txt_errorMessage.setText("");
+			}
+		});   */
+/***************************************************************************************/
+		
 		//Bindings
 		Bindings.bindBidirectional(txt_Id.textProperty(), this.order.ordernoProperty());
 		Bindings.bindBidirectional(cbxPriority.valueProperty(), this.order.priorityProperty(), new NumberStringConverter());
@@ -216,6 +399,12 @@ public class OrderController {
 	//Button Handler
 	@FXML private void handleSave(ActionEvent event) {
 		//Set ComboBoxes
+    	 if(!( bool_cbxAddress && bool_txt_volume && bool_txt_price && bool_cbxCustomer && bool_cbxContact && bool_cbxProduct)){
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Warning");
+        	alert.setHeaderText("Please correctly fill all the red bordered fields and lists.");
+        	alert.show();
+    	}else{
 		this.order.customeridProperty().set(cbxCustomer.getSelectionModel().getSelectedItem().get().idProperty().get());
     	this.order.addressidProperty().set(cbxAddress.getSelectionModel().getSelectedItem().get().idProperty().get());
     	this.order.contactidProperty().set(cbxContact.getSelectionModel().getSelectedItem().get().idProperty().get());
@@ -225,11 +414,14 @@ public class OrderController {
     	this.order.setStartDate(dpkStartDate.getValue());
     	mainMenu.saveOrder(this.order);
     	closeWindow(event);
+    	}
     }
 	
 	@FXML private void handleCancel(ActionEvent event) {
-    	System.out.println(this.order.priorityProperty());
-    	closeWindow(event);
+		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel?") == true){ 
+	    	System.out.println(this.order.priorityProperty());
+	    	closeWindow(event);
+		}
     }
 	
 	@FXML private void handleRelease(ActionEvent event) {
@@ -243,7 +435,6 @@ public class OrderController {
         	alert.show();
     	}
     }
-	
 	@FXML private void handleUpdate(ActionEvent event) {
     	System.out.println("Update MES Lots");
     	if(order.stateProperty().get() == State.IN_PROCESS.name()){
