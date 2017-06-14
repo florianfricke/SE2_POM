@@ -7,9 +7,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import com.sun.javafx.scene.control.skin.TableViewSkin;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
+
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Label;
@@ -46,37 +50,48 @@ public class ShowOrderController {
         //statistic();
         //showDelay();        
     }
+    
+    private int getNumberOfVisibleRows()
+    {
+      VirtualFlow<?> vf = loadVirtualFlow();
+      return vf.getLastVisibleCell().getIndex() - vf.getFirstVisibleCell().getIndex();
+    }
+
+    
+    
+    private VirtualFlow<?> loadVirtualFlow()
+    {
+      return (VirtualFlow<?>) ( (TableViewSkin<?>) delayOrderTable.getSkin() ).getChildren().get( 1 );
+    }
+    
     public void loadCustomerOrder(){   	
        	orderno.setCellValueFactory(cellData -> cellData.getValue().ordernoProperty());
        	
         if(!showHistory){
         	orderTable.setItems(mainMenu.getCustomerOrder(customerId));
-        }else{
-        	int fintime = 1;	//Anzahl finished in time order
-        	int findelay = 1;	//Anzahl finished on delay order
-        	int finsum = 2;		//Anzahl order
-        	LocalDate dueDate = LocalDate.of(2014, 6, 28);
-        	LocalDate actualDeliveryDate = LocalDate.of(2014, 7, 1);
-        	
-        	//dueDate und acutalDeliveryDate hierher übergeben bzw woanders berechnen und delay übergeben
-        	long daysBewteen = ChronoUnit.DAYS.between(dueDate, actualDeliveryDate);
-        	       	
+        }else{       	
         	List<Order> inTimeOrders = mainMenu.getCustomerOrderHistory(customerId).stream().filter(p -> p.stateProperty().get() == State.FINISHED_IN_TIME.name()).collect(Collectors.toList());
         	List<Order> delayOrders = mainMenu.getCustomerOrderHistory(customerId).stream().filter(p -> p.stateProperty().get() == State.FINISHED_DELAY.name()).collect(Collectors.toList());
         	orderTable.setItems(FXCollections.observableList(inTimeOrders));
-        	//delay.setCellValueFactory(cellData -> cellData.getValue().delayProperty());
         	delayOrderTable.setItems(FXCollections.observableList(delayOrders));
-        	        	
-        	//Finished in Time Text
-        	lbl_statistic2.setText(fintime + "/" + finsum +" ");
-        	//Finished on Delay Text
-        	lbl_statistic4.setText(findelay + "/" + finsum);
-        	        	
+        	
+        	//Finished in Time Row Count 
+        	lbl_statistic2.setText(orderTable.getItems().size() + "/" + (delayOrderTable.getItems().size()+orderTable.getItems().size()) +" ");
+        	//Finished on Delay Row Count
+        	lbl_statistic4.setText(delayOrderTable.getItems().size() + "/" + (delayOrderTable.getItems().size()+orderTable.getItems().size()));
+        	
+        	LocalDate dueDate = LocalDate.of(2014, 6, 28);
+        	LocalDate actualDeliveryDate = LocalDate.of(2014, 7, 1);
+        	//LocalDate test = dueDate.getCellObservableValue(delayOrderTable.getItems().get()).getValue();
+        	     	
+        	//dueDate und acutalDeliveryDate hierher übergeben bzw woanders berechnen und delay übergeben
+        	long daysBewteen = ChronoUnit.DAYS.between(dueDate, actualDeliveryDate);       
+        	//delayOrderTable.getItems().dueDate();
         	//Delay Text
         	if (daysBewteen >= 0)
         		lbl_delay2.setText(daysBewteen + " Days");
         	else
         		lbl_delay2.setText("0 Days");
         }
-    } 	
+    }
 }
