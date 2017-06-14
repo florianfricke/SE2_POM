@@ -34,7 +34,22 @@
                                  </font>
                               </Label>
                               <Region HBox.hgrow="ALWAYS" />
-                              <Label fx:id="lbl_statistik" text="Finished in Time:">
+                              <Label fx:id="lbl_statistic1" text="Finished in Time: ">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                               <Label fx:id="lbl_statistic2">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                               <Label fx:id="lbl_statistic3" text="		Finished on Delay: ">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                               <Label fx:id="lbl_statistic4" text="4/5">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -93,7 +108,15 @@
                                  </font>
                               </Label>
                               <Region HBox.hgrow="ALWAYS" />
-                              <Label fx:id="lbl_delay" text="Delay:">
+                              <Label fx:id="lbl_delay1" text="Delay:">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="lbl_delay2">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
