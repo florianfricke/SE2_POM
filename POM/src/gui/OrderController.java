@@ -32,6 +32,7 @@ import types.*;
 public class OrderController {
 	private MainMenu mainMenu;
 	private Order order;
+	private boolean [] emptyFields;
 	
     @FXML private TextField txt_Id;
     @FXML private TextField txt_orderDate;
@@ -50,7 +51,7 @@ public class OrderController {
     @FXML private ComboBox<CbxItemObservable> cbxAddress;
     @FXML private ComboBox<String> cbxPriority;
     @FXML private Label txt_errorMessage;
-    private boolean bool_txt_releaseDate, bool_txt_state, bool_txt_volume;
+    private boolean issetReleaseDate, issetState, bool_txt_volume;
     private boolean bool_txt_price, bool_txt_orderDate, bool_cbxPriority;
     private boolean bool_cbxAddress, bool_cbxCustomer, bool_cbxContact, bool_cbxProduct;
     //Lot Table
@@ -197,6 +198,12 @@ public class OrderController {
 		txt_volume.focusedProperty().addListener((arg0, oldValue, newValue) -> {
 		String localString;
 		localString = txt_volume.getText();
+		System.out.println("Change Voulme");
+		if(this.order.stateProperty().get() == State.IN_PROCESS.name()){
+			//if(newVolume < oldVolume){
+				// geht nicht
+			//}
+		}
 		if(!newValue){
 				if(txt_volume.getText().length() == 0 || txt_volume.getText() == "0") {
 					bool_txt_volume = false;
@@ -206,7 +213,7 @@ public class OrderController {
 					txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
 				}
 				//Only numbers, letters and spaces are allowed.
-				else if(txt_volume.getText().matches("[A-ZÖÄÜa-zöäüß0-9 _]*[A-ZÖÄÜa-zöäüß0-9 _][A-ZÖÄÜa-zäüöß0-9 _]*$")) { 
+				else if(txt_volume.getText().matches("[0-9]*")) { 
 						bool_txt_volume = true;
 						txt_volume.setText(localString); 
 						txt_volume.setStyle("text-field");
@@ -401,15 +408,43 @@ public class OrderController {
         dueDate.setCellValueFactory(cellData -> cellData.getValue().dueDateProperty());
         lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
 	}
-	
+	private boolean checkFiledsFilled(String action){
+
+		boolean [] emptyFields	= { cbxProduct.getValue() == "", 
+				cbxPriority.getValue().equals("0"),
+				cbxCustomer.getValue().getValue().getId().isEmpty(),
+				cbxAddress.getValue().getValue().getId().isEmpty(),
+				cbxContact.getValue().getValue().getId().isEmpty(),
+				dpkStartDate.getValue() == null,
+				txt_baseLotID.getText().isEmpty(),
+				txt_volume.getText().equals("0"),
+				dpkDueDate.getValue() == null,
+				txt_price.getText().equals("0"),
+				txtLotSize.getText().isEmpty()
+				};
+		this.emptyFields = emptyFields;
+
+		switch (action) {
+		case "save":
+			if(cbxCustomer.getValue().getValue().getId().isEmpty() || cbxAddress.getValue().getValue().getId().isEmpty() || cbxContact.getValue().getValue().getId().isEmpty())
+				return false;
+			break;
+		case "release":return createErrorMessage();
+		case "update":return createErrorMessage();
+		default:
+			return true;	
+		}
+	return true;
+	}
 	//Button Handler
 	@FXML private void handleSave(ActionEvent event) {
 		//Set ComboBoxes
-    	 if(!( bool_cbxAddress && bool_txt_volume && bool_txt_price && bool_cbxCustomer && bool_cbxContact && bool_cbxProduct)){
-    		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Warning");
-        	alert.setHeaderText("Please correctly fill all the red bordered fields and lists.");
-        	alert.show();
+		if(checkFiledsFilled("save") == false)
+		{
+			Alert alert = new Alert(AlertType.ERROR);
+	    	alert.setTitle("Warning");
+	    	alert.setHeaderText("Please correctly fill all the red bordered fields and lists.");
+	    	alert.show();
     	}else{
 		this.order.customeridProperty().set(cbxCustomer.getSelectionModel().getSelectedItem().get().idProperty().get());
     	this.order.addressidProperty().set(cbxAddress.getSelectionModel().getSelectedItem().get().idProperty().get());
@@ -432,7 +467,7 @@ public class OrderController {
 	
 	@FXML private void handleRelease(ActionEvent event) {
     	System.out.println("Release Order");
-    	if(order.stateProperty().get() == State.PLANNED.name()){
+    	if(order.stateProperty().get() == State.PLANNED.name() && checkFiledsFilled("release")){
     		mainMenu.releaseOrder(order);
     	}else{
     		Alert alert = new Alert(AlertType.ERROR);
@@ -443,7 +478,7 @@ public class OrderController {
     }
 	@FXML private void handleUpdate(ActionEvent event) {
     	System.out.println("Update MES Lots");
-    	if(order.stateProperty().get() == State.IN_PROCESS.name()){
+    	if(order.stateProperty().get() == State.IN_PROCESS.name() && checkFiledsFilled("update")){
     		this.order.setDueDate(dpkDueDate.getValue());
     		mainMenu.updateLots(order);
     		handleSave(event);
@@ -459,6 +494,54 @@ public class OrderController {
     	final Node currStage = (Node)e.getSource();
     	Stage stage = (Stage) currStage.getScene().getWindow();
     	stage.close(); 
+	}
+	
+	public boolean createErrorMessage(){
+		String error = "";
+		int c = 0;
+		if(emptyFields[0] ||
+				emptyFields[1] ||
+				emptyFields[2] ||
+				emptyFields[3] ||
+				emptyFields[4] ||
+				emptyFields[5] ||
+				emptyFields[6] ||
+				emptyFields[7] ||
+				emptyFields[8] ||
+				emptyFields[9] ||
+				emptyFields[10]){ 
+
+			for(int i = 0; i< 11;i++){
+				boolean b = emptyFields[i];
+
+				if(b){
+					switch (i) {
+					case 0:	error += "Product, ";c++; break;
+					case 1:	error += "Priority, "; c++; break;
+					case 2:	error += "Customer, "; c++; break;
+					case 3:	error += "Address, "; c++; break;
+					case 4:	error += "Contact, "; c++; break;
+					case 5:	error += "StartDate, "; c++; break;
+					case 6:	error += "Base Lot Id, "; c++; break;
+					case 7:	error += "Volume, "; c++; break;
+					case 8:	error += "Due Date, "; c++; break;
+					case 9:	error += "Price, "; c++; break;
+					case 10:error += "LotSize, "; c++; break;
+					}
+				}
+			}
+			if(c == 1){
+				error = "Field " + error + "must be set.";
+				txt_errorMessage.setText(error);
+			}else if(c > 1){
+				error = "Fields " + error + "must be set.";
+				txt_errorMessage.setText(error);
+				
+			}
+			txt_errorMessage.setVisible(true);
+			return false;
+		}
+		return true;
 	}
 	
 }
