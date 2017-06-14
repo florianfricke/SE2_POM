@@ -205,8 +205,8 @@ public class OrderController {
 					txt_errorMessage.getStyleClass().add("label_error");
 					txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
 				}
-				//Only allows an integer number, the length is not limited
-				else if(txt_volume.getText().matches("[0-9]*")) { 
+				//Only numbers, letters and spaces are allowed.
+				else if(txt_volume.getText().matches("[A-ZÖÄÜa-zöäüß0-9 _]*[A-ZÖÄÜa-zöäüß0-9 _][A-ZÖÄÜa-zäüöß0-9 _]*$")) { 
 						txt_volume.setText(localString); 
 						txt_volume.setStyle("text-field");
 						txt_errorMessage.setText("");
