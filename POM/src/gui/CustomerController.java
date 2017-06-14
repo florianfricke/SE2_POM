@@ -1,16 +1,25 @@
 package gui;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import types.*;
 
@@ -126,6 +135,47 @@ public class CustomerController {
 			e.printStackTrace();
 		}
 	}
+	
+	@FXML private void handleShowCurrentOrder(ActionEvent event) {       
+    	System.out.println("CurrentOrder");
+    	try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("ShowCurrentOrder.fxml"));
+            Parent root = fxmlLoader.load();
+            ShowOrderController showOrderCtrl = (ShowOrderController)fxmlLoader.getController();
+            showOrderCtrl.init(this.mainMenu, cust.idProperty().get(), false);
+            Scene scene = new Scene(root, 800, 500);
+            Stage stage = new Stage();
+            stage.setTitle("Show Current Order");
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            Logger logger = Logger.getLogger(getClass().getName());
+            logger.log(Level.SEVERE, "Failed to create new Window.", e);
+        } 
+	}
+    
+    
+	@FXML private void handleShowOrderHistory(ActionEvent event) {
+        System.out.println("OrderHistory");
+        try {
+        	FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("ShowOrderHistory.fxml"));
+            Parent root = fxmlLoader.load();
+            ShowOrderController showOrderCtrl = (ShowOrderController)fxmlLoader.getController();
+            showOrderCtrl.init(this.mainMenu, cust.idProperty().get(), true);
+            Scene scene = new Scene(root, 800, 500);
+            Stage stage = new Stage();
+            stage.setTitle("Show Order History");
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            Logger logger = Logger.getLogger(getClass().getName());
+            logger.log(Level.SEVERE, "Failed to create new Window.", e);
+        	} 
+    }
 	
 	@FXML private void handleNewAddress(ActionEvent event) {
     	System.out.println("New Address");

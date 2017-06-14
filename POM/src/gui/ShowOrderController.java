@@ -7,15 +7,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import com.sun.javafx.scene.control.skin.TableViewSkin;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
-
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Label;
 import types.Customer;
 import types.Order;
@@ -36,34 +31,19 @@ public class ShowOrderController {
     @FXML private TableColumn<Order, LocalDate> dueDate;
     @FXML private TableColumn<Order, LocalDate> actualDeliveryDate;
     @FXML private TableColumn<Order, String> state;
-    @FXML private TableColumn<Order, Integer> delay;
+    @FXML private TableColumn<Order, String> delay;
     
 	public void initialize(URL location, ResourceBundle resources) {
-		//delay.setCellValueFactory(new PropertyValueFactory<Order, Double>("25"));
+		
     }
 	
     public void init(MainMenu mainMenu, String customerId, boolean showHistory) {
         this.mainMenu = mainMenu;
         this.customerId = customerId;
         this.showHistory = showHistory;
-        loadCustomerOrder();
-        //statistic();
-        //showDelay();        
-    }
-    
-    private int getNumberOfVisibleRows()
-    {
-      VirtualFlow<?> vf = loadVirtualFlow();
-      return vf.getLastVisibleCell().getIndex() - vf.getFirstVisibleCell().getIndex();
+        loadCustomerOrder();     
     }
 
-    
-    
-    private VirtualFlow<?> loadVirtualFlow()
-    {
-      return (VirtualFlow<?>) ( (TableViewSkin<?>) delayOrderTable.getSkin() ).getChildren().get( 1 );
-    }
-    
     public void loadCustomerOrder(){   	
        	orderno.setCellValueFactory(cellData -> cellData.getValue().ordernoProperty());
        	
@@ -82,11 +62,20 @@ public class ShowOrderController {
         	
         	LocalDate dueDate = LocalDate.of(2014, 6, 28);
         	LocalDate actualDeliveryDate = LocalDate.of(2014, 7, 1);
+
         	//LocalDate test = dueDate.getCellObservableValue(delayOrderTable.getItems().get()).getValue();
-        	     	
-        	//dueDate und acutalDeliveryDate hierher übergeben bzw woanders berechnen und delay übergeben
+        	//delayOrderTable.getSelectionModel().clearAndSelect(2,delayOrderTable.getVisibleLeafColumn(0));
+        	orderTable.getSelectionModel().clearAndSelect(1);
+        	orderTable.getSelectionModel().getSelectedItem();
+        
+        	//delayOrderTable.getSelectionModel().selectedItemProperty();
+        	//order.getReleaseDate().toString();
+        	//System.out.println(TableColumn dueDate.getValue());
+        	
+           	//dueDate und acutalDeliveryDate hierher übergeben bzw woanders berechnen und delay ï¿½bergeben
         	long daysBewteen = ChronoUnit.DAYS.between(dueDate, actualDeliveryDate);       
         	//delayOrderTable.getItems().dueDate();
+        	
         	//Delay Text
         	if (daysBewteen >= 0)
         		lbl_delay2.setText(daysBewteen + " Days");

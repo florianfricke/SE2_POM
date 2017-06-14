@@ -47,8 +47,6 @@ public class MainController{
     @FXML private Button btnCustomers;
     @FXML private Button btnOrders;
     @FXML private Button btnSetUp;
-    @FXML private Button btn_ShowCurrentOrders;
-    @FXML private Button btn_ShowOrderHistory;
     @FXML private Pane content;
     //Filter Table
     @FXML private TextField txt_searchFieldOrder;
