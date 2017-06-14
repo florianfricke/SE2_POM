@@ -14,11 +14,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -113,7 +115,13 @@ public class MainController{
     }
     
     @FXML private void handleShowCurrentOrder(ActionEvent event) {
-    	System.out.println("Selected Customer: " + (customerTable.getSelectionModel().getSelectedItem()).idProperty().get());
+    	if(customerTable.getSelectionModel().getSelectedItem() == null){
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("Select Customer!");
+        	alert.show();
+        	return;
+    	}
         Customer cust = customerTable.getSelectionModel().getSelectedItem();
         
     	System.out.println("CurrentOrder");
@@ -121,6 +129,8 @@ public class MainController{
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("ShowCurrentOrder.fxml"));
             Parent root = fxmlLoader.load();
+            ShowOrderController showOrderCtrl = (ShowOrderController)fxmlLoader.getController();
+            showOrderCtrl.init(this.mainMenu, cust.idProperty().get(), false);
             Scene scene = new Scene(root, 800, 500);
             Stage stage = new Stage();
             stage.setTitle("Show Current Order");
@@ -135,7 +145,13 @@ public class MainController{
     
     
 	@FXML private void handleShowOrderHistory(ActionEvent event) {
-		System.out.println("Selected Customer: " + (customerTable.getSelectionModel().getSelectedItem()).idProperty().get());
+    	if(customerTable.getSelectionModel().getSelectedItem() == null){
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("Select Customer!");
+        	alert.show();
+        	return;
+    	}
         Customer cust = customerTable.getSelectionModel().getSelectedItem();
             
         System.out.println("OrderHistory");
@@ -143,6 +159,8 @@ public class MainController{
         	FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("ShowOrderHistory.fxml"));
             Parent root = fxmlLoader.load();
+            ShowOrderController showOrderCtrl = (ShowOrderController)fxmlLoader.getController();
+            showOrderCtrl.init(this.mainMenu, cust.idProperty().get(), true);
             Scene scene = new Scene(root, 800, 500);
             Stage stage = new Stage();
             stage.setTitle("Show Order History");
@@ -270,16 +288,6 @@ public class MainController{
         SortedList<Customer> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(customerTable.comparatorProperty());
         customerTable.setItems(sortedData);
-    }
-    
-    public void loadCustomerOrder(){
-    	orderId.setCellValueFactory(cellData -> cellData.getValue().ordernoProperty());
-        product.setCellValueFactory(cellData -> cellData.getValue().productProperty());
-        priority.setCellValueFactory(cellData -> cellData.getValue().priorityProperty());
-        customer.setCellValueFactory(cellData -> cellData.getValue().customeridProperty());
-        //orderDate.setCellValueFactory(cellData -> cellData.getValue().orderDateProperty());
-        //releaseDate.setCellValueFactory(cellData -> cellData.getValue().releaseDateProperty());
-        state.setCellValueFactory(cellData -> cellData.getValue().stateProperty());
     }
     
     public void loadOrderTable(){
