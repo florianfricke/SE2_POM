@@ -1,16 +1,22 @@
 package psql_pom_db;
 import pom_db_interface.*;
+
 import types.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 import javafx.collections.FXCollections;
 
 import java.sql.*;
+import java.time.LocalDate;
+
+
 
 public class PomDbService implements IPomDbService {
 	private Connection con = null;
+	private static final LocalDate emptyDate = null;
 	public PomDbService(){
 		openConnection();
 	}
@@ -312,6 +318,13 @@ public class PomDbService implements IPomDbService {
 	public boolean deleteCustomer(String id) { // wird die funktion hier quasi als oberfunktion genommen in der adresse, contact... gelöscht werden kann was in der geprüft wird?
 		PreparedStatement stmt = null;
 		String sql = "";
+		for (Order order : getOrderList()) {
+			if (order.customeridProperty().get().equals(id)){
+				System.out.println("There already existing Orders for Customer " +id);
+				//TODO show Dialog, in MainController
+				return false;
+			}
+		}
 		List<Address> delAddressList = getAddressList(id);
 		List<Contact> delContactList = getContactList(id);
 		List<BankAccount> delBankAccountList = getBankAccountList(id);
@@ -446,7 +459,7 @@ public class PomDbService implements IPomDbService {
 			
 			while (rs.next())
 			{
-				orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),Double.parseDouble(rs.getString("price")),Integer.parseInt(rs.getString("volume")),rs.getString("state"),rs.getString("baselotid"),(rs.getString("orderdate")),(rs.getString("releasedate")),(rs.getString("completitiondate")),(rs.getString("duedate")),(rs.getString ("actualdeliverydate")),Integer.parseInt(rs.getString("lotsize")),Integer.parseInt(rs.getString("priority")),rs.getString("comment")));
+				orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),Double.parseDouble(rs.getString("price")),Integer.parseInt(rs.getString("volume")),rs.getString("state"),rs.getString("baselotid"),getNullDate(rs, "orderdate"),getNullDate(rs, "startdate"),getNullDate(rs, "releasedate"),getNullDate(rs, "completiondate"),getNullDate(rs, "duedate"),getNullDate(rs, "actualdeliverydate"),Integer.parseInt(rs.getString("lotsize")),Integer.parseInt(rs.getString("priority")),rs.getString("comment")));
 			}
 			rs.close();
 		    stmt.close();
@@ -457,6 +470,53 @@ public class PomDbService implements IPomDbService {
 		return orderList;
 	}	
 	
+	private LocalDate getNullDate(ResultSet rs, String columnName){
+		try {
+			if(rs.getDate(columnName) == null){
+				return emptyDate;
+			}else{
+				return rs.getDate(columnName).toLocalDate();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return emptyDate;
+		}
+	}
+
+	private void setNullDate(PreparedStatement stmt, int index, LocalDate d){
+		try{
+			if(d == null){
+				stmt.setNull(index, java.sql.Types.DATE);
+			}else{
+				stmt.setDate(index, java.sql.Date.valueOf(d));
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public List<Order> getCustomerOrder(String customerID){
+		List<Order> orderList = new ArrayList<Order>();
+			
+			PreparedStatement stmt = null;
+			try {
+				stmt = con.prepareStatement("SELECT * FROM public.order WHERE Customerid = ?");
+				stmt.setString(1,customerID);
+				ResultSet rs = stmt.executeQuery();
+				
+				while (rs.next())
+				{ 
+					orderList.add(new Order(rs.getString("orderno"), rs.getString("customerid"), rs.getString("adressid"), rs.getString("contactid"),rs.getString("product"),Double.parseDouble(rs.getString("price")),Integer.parseInt(rs.getString("volume")),rs.getString("state"),rs.getString("baselotid"),getNullDate(rs,"orderdate"),getNullDate(rs,"startdate"),getNullDate(rs,"releasedate"),getNullDate(rs,"completitiondate"),getNullDate(rs,"duedate"),getNullDate(rs,"actualdeliverydate"),Integer.parseInt(rs.getString("lotsize")),Integer.parseInt(rs.getString("priority")),rs.getString("comment")));
+				}
+				rs.close();
+			    stmt.close();
+			    
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return orderList;
+	}
 	/**
 	 * Stores an Order Object on Database
 	 * @returns true on success
@@ -467,7 +527,7 @@ public class PomDbService implements IPomDbService {
 		PreparedStatement stmt = null;
 		ResultSet rs;
 		try {
-			sql= "INSERT INTO public.order VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			sql= "INSERT INTO public.order VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1,order.customeridProperty().get());
 			stmt.setString(2,order.addressidProperty().get());
@@ -475,16 +535,17 @@ public class PomDbService implements IPomDbService {
 			stmt.setString(4,order.productProperty().get());
 			stmt.setDouble(5,order.priceProperty().get());
 			stmt.setInt(6, order.volumeProperty().get());
-			stmt.setString(7, order.stateProperty().get());
+			stmt.setString(7, order.stateProperty().get().toString());
 			stmt.setString(8, order.baseLotIdProperty().get());
-			stmt.setDate(9, java.sql.Date.valueOf(order.orderDateProperty().get()));
-			stmt.setDate(10, java.sql.Date.valueOf("2017-03-12"));
-			stmt.setDate(11, java.sql.Date.valueOf("2017-06-11"));
-			stmt.setDate(12, java.sql.Date.valueOf(order.dueDateProperty().get()));
-			stmt.setDate(13, java.sql.Date.valueOf("2017-06-11"));
-			stmt.setInt(14, order.lotSizeProperty().get());
-			stmt.setInt(15, order.priorityProperty().get());
-			stmt.setString(16, order.commentProperty().get());
+			setNullDate(stmt, 9, order.getOrderDate());//OrderDate
+			setNullDate(stmt, 10, order.getStartDate());//starDate
+			setNullDate(stmt, 11, order.getReleaseDate());//releaseDate
+			setNullDate(stmt, 12, order.getCompletionDate());//completionDate
+			setNullDate(stmt, 13, order.getDueDate());//DueDate
+			setNullDate(stmt, 14, order.getActualDeliveryDate());//ActualDeliveryDate
+			stmt.setInt(15, order.lotSizeProperty().get());
+			stmt.setInt(16, order.priorityProperty().get());
+			stmt.setString(17, order.commentProperty().get());
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 			rs.next();
@@ -497,10 +558,11 @@ public class PomDbService implements IPomDbService {
 		return false;
 	}
 	
+
 	public boolean updateOrder(Order order) {
 		PreparedStatement stmt = null;
-		try {	//Orderno nicht im update inbegriffen da diese nicht geändert werden kann? richtig? !-> doch im where wird die ben�tigt!
-			stmt = con.prepareStatement("Update Order set customerid = ?,adressid=?,contactid=?,product=?,price=?,volume=?,state=?,baselotid=?,orderdate=?, releasedate=?, completiondate=?, duedate=?, actualdeliverydate=?, lotsize=?, priority=?, comment=? where orderno = ? ");
+		try {	
+			stmt = con.prepareStatement("Update public.order set customerid = ?,adressid=?,contactid=?,product=?,price=?,volume=?,state=?,baselotid=?,orderdate=?, startdate=?, releasedate=?, completiondate=?, duedate=?, actualdeliverydate=?, lotsize=?, priority=?, comment=? where orderno = ? ");
 			stmt.setString(1,order.customeridProperty().get());
 			stmt.setString(2,order.addressidProperty().get());
 			stmt.setString(3,order.contactidProperty().get());
@@ -509,17 +571,18 @@ public class PomDbService implements IPomDbService {
 			stmt.setInt(6, order.volumeProperty().get());
 			stmt.setString(7, order.stateProperty().get());
 			stmt.setString(8, order.baseLotIdProperty().get());
-			stmt.setDate(9, java.sql.Date.valueOf(order.orderDateProperty().toString()));
-			stmt.setDate(10, java.sql.Date.valueOf(order.releaseDateProperty().get()));
-			stmt.setDate(11, java.sql.Date.valueOf(order.completionDateProperty().get()));
-			stmt.setDate(12, java.sql.Date.valueOf(order.dueDateProperty().get()));
-			stmt.setDate(13, java.sql.Date.valueOf(order.actualDeliveryDateProperty().get()));
-			stmt.setInt(14, order.lotSizeProperty().get());
-			stmt.setInt(15, order.priorityProperty().get());
-			stmt.setString(16, order.commentProperty().get());
-			stmt.setString(17, order.ordernoProperty().get());
-					
-			ResultSet rs = stmt.executeQuery();
+			setNullDate(stmt, 9, order.getOrderDate());//OrderDate
+			setNullDate(stmt, 10, order.getStartDate());//starDate
+			setNullDate(stmt, 11, order.getReleaseDate());//releaseDate
+			setNullDate(stmt, 12, order.getCompletionDate());//completionDate
+			setNullDate(stmt, 13, order.getDueDate());//DueDate
+			setNullDate(stmt, 14, order.getActualDeliveryDate());//ActualDeliveryDate
+			stmt.setInt(15, order.lotSizeProperty().get());
+			stmt.setInt(16, order.priorityProperty().get());
+			stmt.setString(17, order.commentProperty().get());
+			stmt.setString(18, order.ordernoProperty().get());
+			
+			stmt.executeUpdate();	
 			return true;
 	} catch (SQLException e) {
 		e.printStackTrace();
@@ -532,7 +595,7 @@ public class PomDbService implements IPomDbService {
 	 * @param id of order tuple
 	 * @returns true on success
 	 */
-	@Override // wieso hier das @Override
+	@Override 
 	public boolean deleteOrder(String orderno) {
 		PreparedStatement stmt = null;
 		try {
@@ -547,7 +610,7 @@ public class PomDbService implements IPomDbService {
 		}
 		return false;
 	}
-	//get Customer neu muss getestet werden
+
 	public Customer getCustomer(String customerId){
 		Customer customerToReturn = new Customer();
 		PreparedStatement stmt = null;
@@ -568,6 +631,11 @@ public class PomDbService implements IPomDbService {
 		customerToReturn.setContactList(FXCollections.observableList(this.getContactList(customerId)));
 		
 		return customerToReturn;
+	}
+	
+	public int getDayCapacity()
+	{
+		return 10; //TODO: implement query 
 	}
 	
 }

@@ -2,9 +2,11 @@
  * 
  */
 package types;
+import java.time.LocalDate;
 import java.util.*;
 
 import javafx.beans.property.*;
+import javafx.util.converter.LocalDateStringConverter;
 
 /**
  * @author Konstantin
@@ -14,39 +16,40 @@ public class Order {
 
 
 
+	private static final LocalDate emptyDate = null;
 	private StringProperty orderno;
-	//private Address address;
-	//private Contact contact;
 	private StringProperty customerid;
 	private StringProperty addressid;
 	private StringProperty contactid;
 	private StringProperty product;
 	private DoubleProperty price;
 	private IntegerProperty volume;
-	private StringProperty state;
+	private State state;
 	private StringProperty baseLotId;
-	private StringProperty orderDate;
-	private StringProperty releaseDate;
-	private StringProperty completionDate;
-	private StringProperty dueDate;
-	private StringProperty actualDeliveryDate;
+	private LocalDate orderDate;
+	private LocalDate releaseDate;
+	private LocalDate completionDate;
+	private LocalDate dueDate;
+	private LocalDate startDate;
+	private LocalDate actualDeliveryDate;
 	private IntegerProperty lotSize;
 	private IntegerProperty priority;
 	private StringProperty comment;
+	private OrderLotChanges orderLotChanges;
 	
 	/**
 	 * Empty Constructor
 	 */
 	
 	public Order() {
-		this("","","","","",0,0,"PLANNED","","2017-06-11","","","","",10,0,"");
+		this("","","","","",0,0,State.PLANNED.toString(),"",LocalDate.now(),emptyDate,emptyDate,emptyDate,emptyDate,emptyDate,10,0,"");
 	}
 
 	
 	
 	public Order(String orderno,String customerid, String addressid, String contactid, String product, 
-			double price, int volume, String state, String baseLotId, String orderDate, String releaseDate,	 String completionDate,
-			String dueDate, String actualDeliveryDate, int lotSize, int priority, String comment) {
+			double price, int volume, String state, String baseLotId, LocalDate orderdate, LocalDate startDate, LocalDate releaseDate, LocalDate completionDate,
+			LocalDate dueDate, LocalDate actualDeliveryDate, int lotSize, int priority, String comment) {
 		this.orderno = new SimpleStringProperty(orderno);
 		this.customerid = new SimpleStringProperty(customerid);
 		this.addressid = new SimpleStringProperty(addressid);
@@ -54,21 +57,23 @@ public class Order {
 		this.product = new SimpleStringProperty(product);
 		this.price = new SimpleDoubleProperty(price);
 		this.volume = new SimpleIntegerProperty(volume);
-		this.state = new SimpleStringProperty(state);
+		this.state = State.valueOf(state);
 		this.baseLotId = new SimpleStringProperty(baseLotId);
-		this.orderDate = new SimpleStringProperty(orderDate);
-		this.releaseDate = new SimpleStringProperty(releaseDate);
-		this.completionDate = new SimpleStringProperty(completionDate);
-		this.dueDate = new SimpleStringProperty(dueDate);
-		this.actualDeliveryDate = new SimpleStringProperty(actualDeliveryDate);
+		this.orderDate = orderdate;
+		this.startDate = startDate;
+		this.releaseDate = releaseDate;
+		this.completionDate = completionDate;
+		this.dueDate = dueDate;
+		this.actualDeliveryDate = actualDeliveryDate;
 		this.lotSize = new SimpleIntegerProperty(lotSize);
 		this.priority = new SimpleIntegerProperty(priority);
 		this.comment = new SimpleStringProperty(comment);
+		setOrderLotChange();
 	}
 	
 	
 	/*public static String GetCurrentDate(){
-		//wo gehört diese methode hin?
+		//wo gehï¿½rt diese methode hin?
 		DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 		Date date = new Date();
 		
@@ -100,26 +105,56 @@ public class Order {
 		return volume;
 	}
 	public StringProperty stateProperty() {
-		return state;
+		return new SimpleStringProperty(state.name());
+	}
+	public void setState(State s){
+		this.state = s;
 	}
 	public StringProperty baseLotIdProperty() {
 		return baseLotId;
 	}
-	public StringProperty orderDateProperty() {
+	public LocalDate getOrderDate() {
 		return orderDate;
 	}
-	public StringProperty releaseDateProperty() {
+	public void setOrderDate(LocalDate date) {
+		this.orderDate = date;
+	}
+	
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(LocalDate date) {
+		this.startDate = date;
+	}
+	
+	public LocalDate getReleaseDate() {
 		return releaseDate;
 	}
-	public StringProperty completionDateProperty() {
+	public void setReleaseDate(LocalDate date) {
+		this.releaseDate = date;
+	}
+	
+	public LocalDate getCompletionDate() {
 		return completionDate;
 	}
-	public StringProperty dueDateProperty() {
+	
+	public void setCompletionDate(LocalDate date) {
+		this.completionDate = date;
+	}
+
+	public LocalDate getDueDate() {
 		return dueDate;
 	}
-	public StringProperty actualDeliveryDateProperty() {
+	public void setDueDate(LocalDate date) {
+		this.dueDate = date;
+	}
+	public LocalDate getActualDeliveryDate() {
 		return actualDeliveryDate;
 	}
+	public void setActualDeliveryDate(LocalDate date) {
+		this.actualDeliveryDate = date;
+	}
+	
 	public IntegerProperty lotSizeProperty() {
 		return lotSize;
 	}
@@ -129,21 +164,16 @@ public class Order {
 	public StringProperty commentProperty() {
 		return comment;
 	}
-	
-	//Test
-	
-	public StringProperty priorityPropertyTest() {
-		
-		return orderno;
+	public OrderLotChanges getOrderLotChanges(){
+		return this.orderLotChanges;
 	}
-	
 	
 	public List < Lot > getLots() {
 		return null;
 	}
 	
-	public boolean release() {
-		return false;
+	public void setOrderLotChange(){
+		this.orderLotChanges = new OrderLotChanges(this.volume.get(), this.priority.get(), this.dueDate);
 	}
 
 

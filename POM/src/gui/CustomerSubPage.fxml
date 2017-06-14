@@ -24,7 +24,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -64,8 +64,11 @@
       				       <Button mnemonicParsing="false" onAction="#handleNewCust" prefHeight="9.0" prefWidth="40.0" text="New" />
       				         <Button mnemonicParsing="false" onAction="#handleDelCust" text="Delete" />
                         <Region prefWidth="20.0" />
-                                          <ComboBox fx:id="comboBox_searchCustomer" prefWidth="150.0" />
-				         <TextField fx:id="txt_searchFieldCustomer" prefHeight="25.0" prefWidth="97.0" />
+                                          <ComboBox fx:id="comboBox_searchCustomer" prefWidth="100.0" />
+				         <TextField fx:id="txt_searchFieldCustomer" prefHeight="25.0" prefWidth="160.0" />
+                        <Region prefWidth="20.0" />
+                        <Button fx:id="btn_ShowCurrentOrders" mnemonicParsing="false" prefHeight="25.0" text="Show Current Orders" />
+                        <Button fx:id="btn_ShowOrderHistory" mnemonicParsing="false" prefHeight="25.0" text="Show Order History" />
 
                      </children>
                   </HBox>

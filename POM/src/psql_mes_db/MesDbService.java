@@ -1,6 +1,7 @@
 package psql_mes_db;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,8 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import javafx.collections.FXCollections;
 import mes_db_interface.IMesDBService;
 import types.*;
 
@@ -45,21 +44,17 @@ public class MesDbService implements IMesDBService {
 	  }
 	
 	@Override
-	public boolean addLots(Lot lotTemplate, int n) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public List<Lot> getLots(String OrderNo) {
+	public List<Lot> getLotList(String orderNo) {
 		List<Lot> lotList = new ArrayList<Lot>();
 		PreparedStatement stmt = null;
 		try {
-			stmt = con.prepareStatement("SELECT * FROM public.lot");
+			stmt = con.prepareStatement("SELECT * FROM public.lot WHERE \"ORDER\" = ?");
+			stmt.setString(1, orderNo);
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next())
 			{
-			   lotList.add(new Lot(rs.getString("id"), rs.getInt("priority"), rs.getInt("lotSize"),rs.getString("state"),rs.getString("product"),rs.getString("customerId"),rs.getString("orderNo"),rs.getString("dueDate")));
+			   lotList.add(new Lot(rs.getString("lotid"), rs.getInt("priority"), rs.getInt("pieces"),rs.getString("state"),rs.getString("product"),rs.getString("customer"),rs.getString("ORDER"),rs.getDate("dueDate").toLocalDate(),rs.getDate("startDate").toLocalDate()));
 			}
 			rs.close();
 		    stmt.close();
@@ -69,26 +64,143 @@ public class MesDbService implements IMesDBService {
 		}
 		return lotList;
 	}
-	@Override	
-	public Lot getLot(String orderNo){
-		Lot lotToReturn = new Lot();
+	@Override
+	public boolean updateLots(Order order) {
+		String sql = "";
 		PreparedStatement stmt = null;
 		try {
-			stmt = con.prepareStatement("SELECT * FROM lot WHERE orderno = ?");
+			sql= "UPDATE lot SET priority = ?, duedate = ? WHERE \"ORDER\"= ?";
+			stmt = this.con.prepareStatement(sql);
+			stmt.setInt(1,order.priorityProperty().get());
+			stmt.setDate(2, java.sql.Date.valueOf(order.getDueDate()));
+			stmt.setString(3,order.ordernoProperty().get());
+			stmt.executeUpdate();
+		    stmt.close();
+		    return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	public int getLotCount(String orderNo){
+		String sql = "";
+		PreparedStatement stmt = null;
+		int count = 0;
+		ResultSet rs;
+		try {
+			sql= "SELECT COUNT(*) FROM lot WHERE \"ORDER\"= ?";
+			stmt = this.con.prepareStatement(sql);
 			stmt.setString(1, orderNo);
+			rs = stmt.executeQuery();
+		    if(rs.next())
+		    	count = rs.getInt(1);
+		    stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	@Override
+	public int getDayWorkload(java.util.Date date) {
+		PreparedStatement stmt = null;
+		int workload = 0;
+		try {
+			stmt = con.prepareStatement("SELECT count(*) FROM lot WHERE startdate = ?");
+			stmt.setDate(1,new java.sql.Date(date.getTime()));
 			ResultSet rs = stmt.executeQuery();
-			lotToReturn =(new Lot(rs.getString("id"), rs.getInt("priority"), rs.getInt("lotSize"),rs.getString("state"),rs.getString("product"),rs.getString("customerId"),rs.getString("orderNo"),rs.getString("dueDate")));
+			rs.next();
+			workload = rs.getInt(1);
 			rs.close();
 		    stmt.close();
 		    
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return lotToReturn;
+		return workload;
 	}
 	@Override
-	public boolean updateLots(String baseLotId, int newPrio) {
-		// TODO Auto-generated method stub
+	public boolean addLot(Lot lot) {
+		String sql = "";
+		PreparedStatement stmt = null;
+		ResultSet rs;
+		try {
+			sql= "INSERT INTO lot(lotid, priority, pieces, state, product, route, oper, customer, \"ORDER\", duedate, startdate) VALUES (?, ?, ?, ?, ?,?,?, ?, ?, ?, ?)";
+			stmt = this.con.prepareStatement(sql);
+			stmt.setString(1,lot.idProperty().get());
+			stmt.setInt(2,lot.priorityProperty().get());
+			stmt.setInt(3,lot.piecesProperty().get());
+			stmt.setString(4,lot.stateProperty().get());
+			stmt.setString(5,lot.productProperty().get());
+			stmt.setString(6, getRoute(lot.productProperty().get()));
+			stmt.setString(7, getOper(getRoute(lot.productProperty().get())));
+			stmt.setString(8, lot.customerIdProperty().get());
+			stmt.setString(9, lot.orderNoProperty().get());
+			stmt.setDate(10, java.sql.Date.valueOf(lot.dueDateProperty().get()));
+			stmt.setDate(11, java.sql.Date.valueOf(lot.startDateProperty().get()));
+			stmt.executeUpdate();
+			rs = stmt.getGeneratedKeys();
+			rs.next();
+			rs.close();
+		    stmt.close();
+		    return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
+	}
+	
+	public String getRoute(String product){
+		String sql = "";
+		PreparedStatement stmt = null;
+		ResultSet rs;
+		try{
+			sql= "SELECT * FROM public.prodflow WHERE product = ?";
+			stmt = this.con.prepareStatement(sql);
+			stmt.setString(1,product);
+			rs = stmt.executeQuery();
+			rs.next();
+			if(rs.next())
+				return rs.getString("route");
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public String getOper(String route){
+		String sql = "";
+		PreparedStatement stmt = null;
+		ResultSet rs;
+		try{
+			sql= "SELECT * FROM public.workflow WHERE route = ?";
+			stmt = this.con.prepareStatement(sql);
+			stmt.setString(1,route);
+			rs = stmt.executeQuery();
+			if(rs.next())
+				return rs.getString("oper");
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	@Override
+	public List<String> getProductList() {
+		String sql = "";
+		List<String> productList = new ArrayList<>();
+		PreparedStatement stmt = null;
+		ResultSet rs;
+		try{
+			sql= "SELECT * FROM public.prodflow";
+			stmt = this.con.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				productList.add(rs.getString("product"));
+			}
+
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return productList;
 	}
 }

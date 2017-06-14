@@ -1,15 +1,10 @@
 package gui;
 import types.*;
-
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -38,7 +33,6 @@ public class MainController{
     @FXML private TableColumn<Customer, String> customerName;
     @FXML private TableColumn<Customer, String> customerRanking;
     @FXML private TableColumn<Customer, String> customerComment;
-    
     //Order Table
 	@FXML private TableColumn<Order, String> orderId;
     @FXML private TableColumn<Order, String> product;
@@ -52,7 +46,6 @@ public class MainController{
     @FXML private Button btnOrders;
     @FXML private Button btnSetUp;
     @FXML private Pane content;
-    
     //Filter Table
     @FXML private TextField txt_searchFieldOrder;
     @FXML private TextField txt_searchFieldCustomer;
@@ -62,12 +55,7 @@ public class MainController{
     private ObservableList<String> list_searchCustomer;
     
 	public void initialize(URL location, ResourceBundle resources) {
-
     }
-    
-	
-
-    
     public void setMainApp(MainMenu mainMenu) {
         this.mainMenu = mainMenu;
     }
@@ -116,14 +104,15 @@ public class MainController{
     }
     
     @FXML private void handleDelCust(ActionEvent event) {
-    	System.out.println("Delete");
-    	mainMenu.deleteCustomer(customerTable.getSelectionModel().getSelectedItem());
+    	if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete: " +customerTable.getSelectionModel().getSelectedItem().nameProperty().get().toString()) == true){
+    		System.out.println("Delete");
+    		mainMenu.deleteCustomer(customerTable.getSelectionModel().getSelectedItem());
+    	}
     }
     
     @FXML private void handleNewOrder(ActionEvent event) {
     	System.out.println("New Order");
        	try {
-  
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("OrderCard.fxml"));
             Parent root = fxmlLoader.load();
@@ -142,8 +131,10 @@ public class MainController{
     }
     
     @FXML private void handleDelOrder(ActionEvent event) {
-    	System.out.println("Delete");
-    	mainMenu.deleteOrder(orderTable.getSelectionModel().getSelectedItem());
+    	if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete: order " +orderTable.getSelectionModel().getSelectedItem().ordernoProperty().get().toString()) == true){
+    		System.out.println("Delete");
+    		mainMenu.deleteOrder(orderTable.getSelectionModel().getSelectedItem());
+    	}
     }
     
     @FXML private void handleRowClickOrder(MouseEvent click) {
@@ -172,15 +163,16 @@ public class MainController{
     	System.out.println("Menu Dashboard");
     	mainMenu.changeScene("DashboardSubPage.fxml", event); 
     }
+    
     @FXML private void handleCust(ActionEvent event) {
     	System.out.println("Menu Customers");
     	mainMenu.changeScene("CustomerSubPage.fxml", event);
     }
+    
     @FXML private void handleOrder(ActionEvent event) {
     	System.out.println("Menu Orders");
     	mainMenu.changeScene("OrderSubPage.fxml", event);
     }
-    
     
     public void loadCustomerTable(){
         customerId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
@@ -188,22 +180,15 @@ public class MainController{
         customerRanking.setCellValueFactory(cellData -> cellData.getValue().rankingProperty());
         customerComment.setCellValueFactory(cellData -> cellData.getValue().commentProperty());
         comboBoxSearchListCustomer();
-        
         FilteredList<Customer> filteredData = new FilteredList<>(mainMenu.getCustomerList(), p -> true);
-        
         txt_searchFieldCustomer.textProperty().addListener((observable, oldValue, newValue) -> {
-        	
         	filteredData.setPredicate(customer -> {
-  
                 if (newValue == null || newValue.isEmpty()) {
                 	// If filter text is empty, display all orders.
                     return true;
                 }
-        	
                 String lowerCaseFilter = newValue.toLowerCase();
-                
                 if(comboBox_searchCustomer.getSelectionModel().getSelectedItem() == "All"){
-                	
                 	if (customer.idProperty().toString().toLowerCase().contains(lowerCaseFilter)) {
                         return true;
                 	} else if (customer.nameProperty().toString().toLowerCase().contains(lowerCaseFilter)) {
@@ -234,50 +219,30 @@ public class MainController{
                         return true;
                         }
                 }
-           
                 return false;
-                
         });
         });
         SortedList<Customer> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(customerTable.comparatorProperty());
         customerTable.setItems(sortedData);
-  
     }
     public void loadOrderTable(){
         orderId.setCellValueFactory(cellData -> cellData.getValue().ordernoProperty());
         product.setCellValueFactory(cellData -> cellData.getValue().productProperty());
         priority.setCellValueFactory(cellData -> cellData.getValue().priorityProperty());
         customer.setCellValueFactory(cellData -> cellData.getValue().customeridProperty());
-        /*TODO muss mit Date funktionieren
-        orderDate.setCellValueFactory(cellData -> cellData.getValue().orderDateProperty());
-        orderDate.setCellValueFactory(
-        		   orderDateProperty -> {
-        		      SimpleStringProperty property = new SimpleStringProperty();
-        		      DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        		      property.setValue(dateFormat.format(orderDateProperty.getValue().getCreatedDate()));
-        		      return property;
-        		   });*/
-        releaseDate.setCellValueFactory(cellData -> cellData.getValue().releaseDateProperty());
         state.setCellValueFactory(cellData -> cellData.getValue().stateProperty());
         comboBoxSearchListOrder();
-        
         // Wrap the ObservableList in a FilteredList (initially display all data).
         FilteredList<Order> filteredData = new FilteredList<>(mainMenu.getOrderList(), p -> true);
-        
         txt_searchFieldOrder.textProperty().addListener((observable, oldValue, newValue) -> {
-        	
         	filteredData.setPredicate(order -> {
-  
                 if (newValue == null || newValue.isEmpty()) {
                 	// If filter text is empty, display all orders.
                     return true;
                 }
-        	
                 String lowerCaseFilter = newValue.toLowerCase();
-                
                 if(comboBox_searchOrder.getSelectionModel().getSelectedItem() == "All"){
-                	
                 	if (order.ordernoProperty().toString().toLowerCase().contains(lowerCaseFilter)) {
                         return true;
                 	} else if (order.productProperty().toString().toLowerCase().contains(lowerCaseFilter)) {
@@ -286,9 +251,9 @@ public class MainController{
                         return true;
                 	} else if (order.customeridProperty().toString().toLowerCase().contains(lowerCaseFilter)) {
                 		return true;
-                	} else if (order.orderDateProperty().toString().toLowerCase().contains(lowerCaseFilter)) {
+                	} else if (order.getOrderDate().toString().toLowerCase().contains(lowerCaseFilter)) {
                         return true;  
-                	} else if (order.releaseDateProperty().toString().toLowerCase().contains(lowerCaseFilter)) {
+                	} else if (order.getReleaseDate().toString().toLowerCase().contains(lowerCaseFilter)) {
                         return true;  
 	                } else if (order.stateProperty().toString().toLowerCase().contains(lowerCaseFilter)) {
 	                    return true;  
@@ -315,12 +280,12 @@ public class MainController{
                         }
                 }
                 if(comboBox_searchOrder.getSelectionModel().getSelectedItem() == "Order Date"){
-                	if (order.orderDateProperty().toString().toLowerCase().contains(lowerCaseFilter)) {
+                	if (order.getOrderDate().toString().toLowerCase().contains(lowerCaseFilter)) {
                         return true;
                         }
                 }
                 if(comboBox_searchOrder.getSelectionModel().getSelectedItem() == "Release Date"){
-                	if (order.releaseDateProperty().toString().toLowerCase().contains(lowerCaseFilter)) {
+                	if (order.getReleaseDate().toString().toLowerCase().contains(lowerCaseFilter)) {
                         return true;
                         }
                 }
@@ -329,32 +294,23 @@ public class MainController{
                         return true;
                         }
                 }
-  
                 return false;
-                
         });
         });
-        
         SortedList<Order> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(orderTable.comparatorProperty());
-        
         orderTable.setItems(sortedData);
     }
-    
 	public void comboBoxSearchListOrder(){
 		//Wo muss diese Methode hin?
 		list_searchOrder = FXCollections.observableArrayList("All","ID","Product","Priority","Customer","Order Date","Release Date","State");
 		comboBox_searchOrder.setItems(list_searchOrder);
 		comboBox_searchOrder.getSelectionModel().select(0);
 	}
-	
 	public void comboBoxSearchListCustomer(){
 		//Wo muss diese Methode hin?
 		list_searchCustomer = FXCollections.observableArrayList("All","ID","Name","Ranking","Comment");
 		comboBox_searchCustomer.setItems(list_searchCustomer);
 		comboBox_searchCustomer.getSelectionModel().select(0);
 	}
-    
-    
-    
 }
