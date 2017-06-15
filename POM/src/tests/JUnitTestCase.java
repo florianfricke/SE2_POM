@@ -124,7 +124,7 @@ public class JUnitTestCase {
 	}
 	
 	//Prove if customer data are inserted to DB 
-	//@Test
+	@Test
 	public void dataTestAddCustomer(){
 			Customer testCustomer = addTestCustomer();
 			IPomDbService pomPersistance = new PomDbService();		
