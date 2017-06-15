@@ -191,7 +191,7 @@ public class MesDbService implements IMesDBService {
 		PreparedStatement stmt = null;
 		ResultSet rs;
 		try{
-			sql= "SELECT * FROM public.prodflow";
+			sql= "SELECT DISTINCT product FROM public.prodflow";
 			stmt = this.con.prepareStatement(sql);
 			rs = stmt.executeQuery();
 			while(rs.next()){
