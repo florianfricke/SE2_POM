@@ -19,6 +19,7 @@ public class MainMenu extends Application {
 	private PomService pomService;
 	private ObservableList<Customer> customerList;
 	private ObservableList<Order> orderList;
+	private MainController mc;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -32,7 +33,7 @@ public class MainMenu extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenu.fxml"));
 			root = loader.load();
-			MainController mc = (MainController)loader.getController(); 
+			mc = (MainController)loader.getController(); 
 			System.out.println("FXML wurde geladen.");
 			mc.setMainApp(this);
 		} catch (IOException e) {
@@ -150,5 +151,8 @@ public class MainMenu extends Application {
 	
 	public ObservableList<Lot> getLotList(String orderNo){
 		return FXCollections.observableList(pomService.getLotList(orderNo));
+	}
+	public MainController getMainController(){
+		return this.mc;
 	}
 }

@@ -143,8 +143,9 @@ public class MainController{
     
     @FXML private void handleRowClickOrder(MouseEvent click) {
     	if(click.getClickCount() != 2) return; //just Double Click
-        System.out.println("clicked on Order: " + (orderTable.getSelectionModel().getSelectedItem()).ordernoProperty().get());
-        Order order = orderTable.getSelectionModel().getSelectedItem();
+        openOrderCard(orderTable.getSelectionModel().getSelectedItem());
+    }
+    public void openOrderCard(Order order){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("OrderCard.fxml"));
@@ -153,7 +154,7 @@ public class MainController{
             orderCtrl.init(this.mainMenu,order);
             Scene scene = new Scene(root, 800, 500);
             Stage stage = new Stage();
-            stage.setTitle("Order");
+            stage.setTitle("Order "+ order.ordernoProperty().get());
             stage.setScene(scene);
 			stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
             stage.initModality(Modality.APPLICATION_MODAL);

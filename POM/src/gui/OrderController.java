@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML; 
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -51,9 +52,7 @@ public class OrderController {
     @FXML private ComboBox<CbxItemObservable> cbxAddress;
     @FXML private ComboBox<String> cbxPriority;
     @FXML private Label txt_errorMessage;
-    private boolean issetReleaseDate, issetState, bool_txt_volume;
-    private boolean bool_txt_price, bool_txt_orderDate, bool_cbxPriority;
-    private boolean bool_cbxAddress, bool_cbxCustomer, bool_cbxContact, bool_cbxProduct;
+    
     //Lot Table
     @FXML private TableView<Lot> lotTable;
 	@FXML private TableColumn<Lot, String> id;
@@ -177,8 +176,10 @@ public class OrderController {
 		dpkDeliveryDate.getEditor().setStyle("-fx-opacity: 1");		
 		
 		dpkReleaseDate.setValue(this.order.getReleaseDate());
-		dpkReleaseDate.setEditable(false);
+		dpkReleaseDate.setDisable(true);
 		dpkReleaseDate.setConverter(converter);
+		dpkReleaseDate.setStyle("-fx-opacity: 1");
+		dpkReleaseDate.getEditor().setStyle("-fx-opacity: 1");
 		
 		dpkOrderDate.setValue(this.order.getOrderDate());
 		dpkOrderDate.setConverter(converter);
@@ -206,7 +207,7 @@ public class OrderController {
 		}
 		if(!newValue){
 				if(txt_volume.getText().length() == 0 || txt_volume.getText() == "0") {
-					bool_txt_volume = false;
+
 					txt_volume.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 					txt_errorMessage.setVisible(true);
 					txt_errorMessage.getStyleClass().add("label_error");
@@ -214,13 +215,13 @@ public class OrderController {
 				}
 				//Only numbers, letters and spaces are allowed.
 				else if(txt_volume.getText().matches("[0-9]*")) { 
-						bool_txt_volume = true;
+
 						txt_volume.setText(localString); 
 						txt_volume.setStyle("text-field");
 						txt_errorMessage.setText("");
 				}
 				else{
-					bool_txt_volume = false;
+
 					txt_volume.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 					txt_volume.setText("");
 					txt_errorMessage.setVisible(true);
@@ -235,7 +236,7 @@ public class OrderController {
 		localString = txt_price.getText();
 		if(!newValue){
 				if(txt_price.getText().length() == 0 || txt_price.getText() == "0"){
-					bool_txt_price = false;
+
 					txt_price.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 					txt_errorMessage.setVisible(true);
 					txt_errorMessage.getStyleClass().add("label_error");
@@ -243,13 +244,13 @@ public class OrderController {
 				}
 				//Allows double numbers separated by a comma or dot. The length is not limited
 				else if(txt_price.getText().matches("(\\d+(?:[\\.\\,]\\d*)?)$")) {
-						bool_txt_price = true;
+
 						txt_price.setText(localString);
 						txt_price.setStyle("text-field");
 						txt_errorMessage.setText("");
 				}
 				else{ 
-					bool_txt_price = false;
+
 					txt_price.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 					txt_price.setText(""); 
 					txt_errorMessage.setVisible(true);
@@ -282,13 +283,13 @@ public class OrderController {
 			boolean localBool;
 			localBool = cbxProduct.getSelectionModel().isEmpty();
 			if(localBool == true){
-				bool_cbxProduct = false;
+
 				cbxProduct.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 				txt_errorMessage.setVisible(true);
 				txt_errorMessage.getStyleClass().add("label_error");
 				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
 			}else{
-				bool_cbxProduct = true;
+
 				cbxProduct.setStyle("combo-box");
 				txt_errorMessage.setText("");
 			}
@@ -298,13 +299,13 @@ public class OrderController {
 			boolean localBool;
 			localBool = cbxCustomer.getSelectionModel().isEmpty();
 			if(localBool == true){
-				bool_cbxCustomer = false;
+
 				cbxCustomer.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 				txt_errorMessage.setVisible(true);
 				txt_errorMessage.getStyleClass().add("label_error");
 				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
 			}else{
-				bool_cbxCustomer = true;
+
 				cbxCustomer.setStyle("combo-box");
 				txt_errorMessage.setText("");
 			}
@@ -314,13 +315,13 @@ public class OrderController {
 			boolean localBool;
 			localBool = cbxContact.getSelectionModel().isEmpty();
 			if(localBool == true){
-				bool_cbxContact = false;
+
 				cbxContact.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 				txt_errorMessage.setVisible(true);
 				txt_errorMessage.getStyleClass().add("label_error");
 				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
 			}else{
-				bool_cbxContact = true;
+
 				cbxContact.setStyle("combo-box");
 				txt_errorMessage.setText("");
 			}
@@ -330,13 +331,13 @@ public class OrderController {
 			boolean localBool;
 			localBool = cbxAddress.getSelectionModel().isEmpty();
 			if(localBool == true){
-				bool_cbxAddress = false;
+
 				cbxAddress.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 				txt_errorMessage.setVisible(true);
 				txt_errorMessage.getStyleClass().add("label_error");
 				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
 			}else{
-				bool_cbxAddress = true;
+
 				cbxAddress.setStyle("combo-box");
 				txt_errorMessage.setText("");
 			}
@@ -346,13 +347,13 @@ public class OrderController {
 			boolean localBool;
 			localBool = cbxPriority.getSelectionModel().isEmpty();
 			if(localBool == true){
-				bool_cbxPriority = false;
+
 				cbxPriority.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 				txt_errorMessage.setVisible(true);
 				txt_errorMessage.getStyleClass().add("label_error");
 				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
 			}else{
-				bool_cbxPriority = true;
+
 				cbxPriority.setStyle("combo-box");
 				txt_errorMessage.setText("");
 			}
@@ -408,8 +409,8 @@ public class OrderController {
         dueDate.setCellValueFactory(cellData -> cellData.getValue().dueDateProperty());
         lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
 	}
-	private boolean checkFiledsFilled(String action){
-
+	private boolean checkFieldsFilled(String action){
+		setDateFields();
 		boolean [] emptyFields	= { cbxProduct.getValue() == "", 
 				cbxPriority.getValue().equals("0"),
 				cbxCustomer.getValue().getValue().getId().isEmpty(),
@@ -437,26 +438,32 @@ public class OrderController {
 	return true;
 	}
 	//Button Handler
-	@FXML private void handleSave(ActionEvent event) {
+	@FXML private void handleSave(ActionEvent e) {
 		//Set ComboBoxes
-		if(checkFiledsFilled("save") == false)
+		if(checkFieldsFilled("save") == false)
 		{
 			Alert alert = new Alert(AlertType.ERROR);
 	    	alert.setTitle("Warning");
 	    	alert.setHeaderText("Please correctly fill all the red bordered fields and lists.");
 	    	alert.show();
     	}else{
-		this.order.customeridProperty().set(cbxCustomer.getSelectionModel().getSelectedItem().get().idProperty().get());
-    	this.order.addressidProperty().set(cbxAddress.getSelectionModel().getSelectedItem().get().idProperty().get());
-    	this.order.contactidProperty().set(cbxContact.getSelectionModel().getSelectedItem().get().idProperty().get());
-    	//Set DatePicker
+			this.order.customeridProperty().set(cbxCustomer.getSelectionModel().getSelectedItem().get().idProperty().get());
+	    	this.order.addressidProperty().set(cbxAddress.getSelectionModel().getSelectedItem().get().idProperty().get());
+	    	this.order.contactidProperty().set(cbxContact.getSelectionModel().getSelectedItem().get().idProperty().get());
+	    	//Save Date Fields in Order
+	    	setDateFields();
+	    	mainMenu.saveOrder(this.order);
+	    	String s = ((Button) e.getSource()).getText();
+	    	if(s.equals("Save")){
+	        	closeWindow(e);
+	    	}
+    	}
+    }
+	private void setDateFields(){
     	this.order.setOrderDate(dpkOrderDate.getValue());
     	this.order.setDueDate(dpkDueDate.getValue());
     	this.order.setStartDate(dpkStartDate.getValue());
-    	mainMenu.saveOrder(this.order);
-    	closeWindow(event);
-    	}
-    }
+	}
 	
 	@FXML private void handleCancel(ActionEvent event) {
 		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel?") == true){ 
@@ -467,8 +474,13 @@ public class OrderController {
 	
 	@FXML private void handleRelease(ActionEvent event) {
     	System.out.println("Release Order");
-    	if(order.stateProperty().get() == State.PLANNED.name() && checkFiledsFilled("release")){
-    		mainMenu.releaseOrder(order);
+    	if(order.stateProperty().get() == State.PLANNED.name()){
+    		if(checkFieldsFilled("release")){ 
+    			handleSave(event);
+    			mainMenu.releaseOrder(order);
+    			lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
+    			getDateFields();
+    		}
     	}else{
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
@@ -478,10 +490,14 @@ public class OrderController {
     }
 	@FXML private void handleUpdate(ActionEvent event) {
     	System.out.println("Update MES Lots");
-    	if(order.stateProperty().get() == State.IN_PROCESS.name() && checkFiledsFilled("update")){
-    		this.order.setDueDate(dpkDueDate.getValue());
-    		mainMenu.updateLots(order);
-    		handleSave(event);
+    	if(order.stateProperty().get() == State.IN_PROCESS.name()){
+    		if(checkFieldsFilled("update")){
+        		if(mainMenu.updateLots(order)){
+	        		handleSave(event);
+	    			lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
+	    			getDateFields();
+        		}
+    		}
     	}else{
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
@@ -544,4 +560,9 @@ public class OrderController {
 		return true;
 	}
 	
+	private void getDateFields(){
+		dpkDeliveryDate.setValue(this.order.getActualDeliveryDate());
+		dpkReleaseDate.setValue(this.order.getReleaseDate());
+		txt_state.setText(this.order.stateProperty().get());
+	}
 }

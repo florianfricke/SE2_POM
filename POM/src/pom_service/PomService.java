@@ -138,6 +138,7 @@ public class PomService {
 			order.setState(State.IN_PROCESS);
 			order.setReleaseDate(LocalDate.now());
 			pomPersistance.updateOrder(order);
+			order.setOrderLotChange();
 			return true;
 		}
 		return false;
@@ -146,6 +147,7 @@ public class PomService {
 	private boolean insertLotDayBalanced(Order order, int remainingVolume) {
 		int n;
 		Calendar c = Calendar.getInstance();
+		Date du=Date.from(order.getStartDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
 		c.setTime(Date.from(order.getStartDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		boolean success = false;
 		int i = mesPersistance.getLotCount(order.ordernoProperty().get());
