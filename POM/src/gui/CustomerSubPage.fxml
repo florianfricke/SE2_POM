@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
@@ -67,9 +65,8 @@
                                           <ComboBox fx:id="comboBox_searchCustomer" prefWidth="100.0" />
 				         <TextField fx:id="txt_searchFieldCustomer" prefHeight="25.0" prefWidth="160.0" />
                         <Region prefWidth="20.0" />
-                        <Button fx:id="btn_ShowCurrentOrders" mnemonicParsing="false" prefHeight="25.0" text="Show Current Orders" />
-                        <Button fx:id="btn_ShowOrderHistory" mnemonicParsing="false" prefHeight="25.0" text="Show Order History" />
-
+                        <Button fx:id="btn_ShowCurrentOrder" mnemonicParsing="false" onAction="#handleShowCurrentOrder" prefHeight="25.0" text="Show Current Order" /> 
+                        <Button fx:id="btn_ShowOrderHistory" mnemonicParsing="false" onAction="#handleShowOrderHistory" prefHeight="25.0" text="Show Order History" /> 
                      </children>
                   </HBox>
 				     </items>

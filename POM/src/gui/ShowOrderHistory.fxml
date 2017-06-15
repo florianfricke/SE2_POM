@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CustomerController">
+<ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ShowOrderController">
    <content>
       <VBox VBox.vgrow="ALWAYS">
         <children>
@@ -28,49 +28,64 @@
                      <children>
                         <HBox>
                            <children>
-                              <Label fx:id="lbl_addresses" text="Finished in Time">
+                              <Label fx:id="lbl_finishedintime" text="Finished in Time">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
                               <Region HBox.hgrow="ALWAYS" />
-                              <Label fx:id="lbl_finished" text="Finished in Time:">
+                              <Label fx:id="lbl_statistic1" text="Finished in Time: ">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                               <Label fx:id="lbl_statistic2">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                               <Label fx:id="lbl_statistic3" text="		Finished on Delay: ">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                               <Label fx:id="lbl_statistic4" text="4/5">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
                            </children>
                         </HBox>
-                        <TableView fx:id="addressTable" editable="true">
+                        <TableView fx:id="orderTable" editable="false">
                            <columns>
-                              <TableColumn fx:id="orderId" prefWidth="75.0" text="ID">
+                              <TableColumn fx:id="orderno" prefWidth="75.0" text="ID">
                                  <cellValueFactory>
-                                    <PropertyValueFactory property="street" />
+                                    <PropertyValueFactory property="orderno" />
                                  </cellValueFactory>
                               </TableColumn>
                               <TableColumn fx:id="product" prefWidth="75.0" text="Product">
                                  <cellValueFactory>
-                                    <PropertyValueFactory property="houseNo" />
+                                    <PropertyValueFactory property="product" />
                                  </cellValueFactory>
                               </TableColumn>
                               <TableColumn fx:id="priority" prefWidth="75.0" text="Priority">
                                  <cellValueFactory>
-                                    <PropertyValueFactory property="zipCode" />
+                                    <PropertyValueFactory property="priority" />
                                  </cellValueFactory>
                               </TableColumn>
                               <TableColumn fx:id="orderDate" prefWidth="75.0" text="Order Date">
                                  <cellValueFactory>
-                                    <PropertyValueFactory property="city" />
+                                    <PropertyValueFactory property="orderDate" />
                                  </cellValueFactory>
                               </TableColumn>
-                              <TableColumn fx:id="releaseDate" prefWidth="75.0" text="Realease Date">
+                              <TableColumn fx:id="releaseDate" prefWidth="75.0" text="Release Date">
                                  <cellValueFactory>
-                                    <PropertyValueFactory property="country" />
+                                    <PropertyValueFactory property="releaseDate" />
                                  </cellValueFactory>
                               </TableColumn>
                               <TableColumn fx:id="state" prefWidth="75.0" text="State">
                                  <cellValueFactory>
-                                    <PropertyValueFactory property="billingAddress" />
+                                    <PropertyValueFactory property="state" />
                                  </cellValueFactory>
                               </TableColumn>
                            </columns>
@@ -87,13 +102,21 @@
                      <children>
                         <HBox>
                            <children>
-                              <Label fx:id="lbl_contacts" text="Finished on Delay">
+                              <Label fx:id="lbl_finishedondelay" text="Finished on Delay">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
                               <Region HBox.hgrow="ALWAYS" />
-                              <Label fx:id="lbl_delay" text="Delay:">
+                              <Label fx:id="lbl_delay1" text="Delay:">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="lbl_delay2">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -103,36 +126,51 @@
                               </Label>
                            </children>
                         </HBox>
-                        <TableView fx:id="contactTable" editable="true">
+                        <TableView fx:id="delayOrderTable" editable="false">
                            <columns>
-                              <TableColumn fx:id="orderId" prefWidth="75.0" text="ID">
+                              <TableColumn fx:id="orderno" prefWidth="75.0" text="ID">
                                  <cellValueFactory>
-                                    <PropertyValueFactory property="name" />
+                                    <PropertyValueFactory property="orderno" />
                                  </cellValueFactory>
                               </TableColumn>
                               <TableColumn fx:id="product" prefWidth="75.0" text="Product">
                                  <cellValueFactory>
-                                    <PropertyValueFactory property="firstName" />
+                                    <PropertyValueFactory property="product" />
                                  </cellValueFactory>
                               </TableColumn>
                               <TableColumn fx:id="priority" prefWidth="75.0" text="Priority">
                                  <cellValueFactory>
-                                    <PropertyValueFactory property="position" />
+                                    <PropertyValueFactory property="priority" />
                                  </cellValueFactory>
                               </TableColumn>
                               <TableColumn fx:id="orderDate" prefWidth="75.0" text="Order Date">
                                  <cellValueFactory>
-                                    <PropertyValueFactory property="phoneNo" />
+                                    <PropertyValueFactory property="orderDate" />
                                  </cellValueFactory>
                               </TableColumn>
-                              <TableColumn fx:id="releaseDate" prefWidth="75.0" text="Realease Date">
+                              <TableColumn fx:id="releaseDate" prefWidth="75.0" text="Release Date">
                                  <cellValueFactory>
-                                    <PropertyValueFactory property="email" />
+                                    <PropertyValueFactory property="releaseDate" />
                                  </cellValueFactory>
                               </TableColumn>
                               <TableColumn fx:id="state" prefWidth="75.0" text="State">
                                  <cellValueFactory>
-                                    <PropertyValueFactory property="email" />
+                                    <PropertyValueFactory property="state" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn fx:id="actualDeliveryDate" prefWidth="75.0" text="Actual Delivery Date">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="actualDeliveryDate" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn fx:id="dueDate" prefWidth="75.0" text="Due Date">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="dueDate" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn fx:id="delay" prefWidth="75.0" text="Delay">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="delay" />
                                  </cellValueFactory>
                               </TableColumn>
                            </columns>

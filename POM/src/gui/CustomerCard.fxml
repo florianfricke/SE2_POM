@@ -26,8 +26,8 @@
               <items>
                   <HBox spacing="20.0">
                      <children>
-                        <Button fx:id="btn_ShowCurrentOrders" mnemonicParsing="false" text="Show Current Orders" />
-                        <Button fx:id="btn_ShowOrderHistory" mnemonicParsing="false" text="Show Order History" />
+                        <Button fx:id="btn_ShowCurrentOrders" mnemonicParsing="false" onAction="#handleShowCurrentOrder" text="Show Current Orders" />
+                        <Button fx:id="btn_ShowOrderHistory" mnemonicParsing="false" onAction="#handleShowOrderHistory" text="Show Order History" />
                      </children>
                   </HBox>
               </items>
