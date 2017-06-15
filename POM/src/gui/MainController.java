@@ -135,7 +135,7 @@ public class MainController{
             Scene scene = new Scene(root, 800, 500);
             Stage stage = new Stage();
             stage.setTitle("Show Current Order");
-            stage.setScene(scene);
+            stage.setScene(scene);                        stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
         } catch (IOException e) {
@@ -165,7 +165,7 @@ public class MainController{
             Scene scene = new Scene(root, 800, 500);
             Stage stage = new Stage();
             stage.setTitle("Show Order History");
-            stage.setScene(scene);
+            stage.setScene(scene);                        stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
         } catch (IOException e) {

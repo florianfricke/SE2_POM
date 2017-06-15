@@ -19,6 +19,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import types.*;
@@ -148,6 +149,7 @@ public class CustomerController {
             Stage stage = new Stage();
             stage.setTitle("Show Current Order");
             stage.setScene(scene);
+            stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
         } catch (IOException e) {
@@ -169,6 +171,7 @@ public class CustomerController {
             Stage stage = new Stage();
             stage.setTitle("Show Order History");
             stage.setScene(scene);
+            stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
         } catch (IOException e) {
