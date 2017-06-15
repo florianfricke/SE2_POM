@@ -1,0 +1,2 @@
+Insert into public.setup
+VALUES ('DAYCAPACITY', 10)
