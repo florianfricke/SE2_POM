@@ -52,6 +52,8 @@ public class OrderController {
     @FXML private ComboBox<CbxItemObservable> cbxAddress;
     @FXML private ComboBox<String> cbxPriority;
     @FXML private Label txt_errorMessage;
+    @FXML private Button btnRelease;
+    @FXML private Button btnUpdate;
     
     //Lot Table
     @FXML private TableView<Lot> lotTable;
@@ -97,6 +99,8 @@ public class OrderController {
         this.mainMenu = mainMenu;
         this.order = new Order();
         setTextFields();
+        btnRelease.setDisable(true);
+        btnUpdate.setDisable(true);
         
    }
 	

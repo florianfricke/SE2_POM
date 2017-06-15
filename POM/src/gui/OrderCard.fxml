@@ -31,8 +31,8 @@
               <items>
                   <HBox spacing="20.0">
                      <children>
-                      <Button mnemonicParsing="false" onAction="#handleRelease" text="Release" />
-                        <Button mnemonicParsing="false" onAction="#handleUpdate" text="Update" />
+                      <Button fx:id="btnRelease" mnemonicParsing="false" onAction="#handleRelease" text="Release" />
+                        <Button fx:id="btnUpdate"  mnemonicParsing="false" onAction="#handleUpdate" text="Update" />
                      </children>
                   </HBox>
               </items>
