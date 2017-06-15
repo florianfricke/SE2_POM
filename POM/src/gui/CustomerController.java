@@ -87,6 +87,7 @@ public class CustomerController {
 			if(txt_Ranking.getText().matches("[abcABC]{1}[ ]$") || txt_Ranking.getText().matches("[ ]{1}[abcABC]$") || txt_Ranking.getText().matches("[abcABC]{1}")){
 				txt_Ranking.setText(localString);
 				txt_Ranking.setStyle("text-field");
+				txt_errorMessage.setText("");
 			}else {
 				txt_Ranking.setText("");
 				txt_Ranking.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
@@ -136,6 +137,7 @@ public class CustomerController {
 				txt_Name.setText(localString);
 				txt_Name.setStyle("text-field");
 				txt_Name.setText(localString);
+				txt_errorMessage.setText("");
 				} 
 			}
 		});
