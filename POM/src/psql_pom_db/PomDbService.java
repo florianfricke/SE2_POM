@@ -622,6 +622,7 @@ public class PomDbService implements IPomDbService {
 			order.ordernoProperty().set(rs.getString("orderno"));
 			rs.close();
 		    stmt.close();
+		    return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
