@@ -108,7 +108,7 @@ public class MainController{
         }
     }
     
-    @FXML private void handleDelCust(ActionEvent event) {
+    @FXML private void handleDelCust(ActionEvent event) {    	    	if(customerTable.getSelectionModel().getSelectedItem() == null){    		Alert alert = new Alert(AlertType.ERROR);        	alert.setTitle("Notificaion");        	alert.setHeaderText("Select Customer!");        	alert.show();        	return;    	}
     	if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete: " +customerTable.getSelectionModel().getSelectedItem().nameProperty().get().toString()) == true){
     		System.out.println("Delete");
     		mainMenu.deleteCustomer(customerTable.getSelectionModel().getSelectedItem());
@@ -195,7 +195,7 @@ public class MainController{
         }
     }
     
-    @FXML private void handleDelOrder(ActionEvent event) {
+    @FXML private void handleDelOrder(ActionEvent event) {    	    	if(orderTable.getSelectionModel().getSelectedItem() == null){    		Alert alert = new Alert(AlertType.ERROR);        	alert.setTitle("Notificaion");        	alert.setHeaderText("Select Order!");        	alert.show();        	return;    	}
     	if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete: order " +orderTable.getSelectionModel().getSelectedItem().ordernoProperty().get().toString()) == true){
     		System.out.println("Delete");
     		mainMenu.deleteOrder(orderTable.getSelectionModel().getSelectedItem());
