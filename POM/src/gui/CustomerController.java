@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -55,7 +56,8 @@ public class CustomerController {
 	@FXML private TableColumn<BankAccount, String> iban;
     @FXML private TableColumn<BankAccount, String> bic;
     @FXML private TableColumn<BankAccount, String> bankname;
-    
+    //Error Label
+    @FXML private Label txt_errorMessage;
 
 	public void init(MainMenu mainMenu) {
         this.mainMenu = mainMenu;
@@ -75,6 +77,69 @@ public class CustomerController {
 		Bindings.bindBidirectional(txt_Name.textProperty(),this.cust.nameProperty());
 		Bindings.bindBidirectional(txt_Ranking.textProperty(),this.cust.rankingProperty());
 		Bindings.bindBidirectional(tar_Comment.textProperty(),this.cust.commentProperty());
+
+/************************************************************************************/
+		txt_Ranking.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+		String localString;
+		localString = txt_Ranking.getText();
+		if(!newValue){
+			/*Only allows one letter(ABCabc) and spaces (before and after the letter)*/
+			if(txt_Ranking.getText().matches("[abcABC]{1}[ ]$") || txt_Ranking.getText().matches("[ ]{1}[abcABC]$") || txt_Ranking.getText().matches("[abcABC]{1}")){
+				txt_Ranking.setText(localString);
+				txt_Ranking.setStyle("text-field");
+			}else {
+				txt_Ranking.setText("");
+				txt_Ranking.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.getStyleClass().add("label_error");
+				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+				}
+			}
+		});
+/***************************************************************************************/
+		tar_Comment.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+		String localString;
+		localString = tar_Comment.getText();
+		if(!newValue){
+			if(tar_Comment.getText().length() > 250){
+				tar_Comment.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				tar_Comment.setText("");
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.getStyleClass().add("label_error");
+				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+				}
+			else{
+				tar_Comment.setText(localString);
+				tar_Comment.setStyle("text-field");
+				txt_errorMessage.setText("");
+				}
+			}
+		});
+/***************************************************************************************/
+		txt_Name.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+		String localString;
+		localString = txt_Name.getText();
+		if(!newValue){
+			if(txt_Name.getText().length() == 0){
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.getStyleClass().add("label_error");
+				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+			}
+			else if(txt_Name.getText().length() > 32 ) {
+				txt_Name.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				txt_Name.setText("");
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.getStyleClass().add("label_error");
+				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+			}
+			else{ 
+				txt_Name.setText(localString);
+				txt_Name.setStyle("text-field");
+				txt_Name.setText(localString);
+				} 
+			}
+		});
+/***************************************************************************************/
 		//Address Table
 		street.setCellValueFactory(cellData -> cellData.getValue().streetProperty());
 		street.setCellFactory(column -> EditingCell.createStringEditCell());
