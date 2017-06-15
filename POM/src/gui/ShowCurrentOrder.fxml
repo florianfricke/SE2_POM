@@ -50,6 +50,11 @@
                   <PropertyValueFactory property="releaseDate" />
                </cellValueFactory>
             </TableColumn>
+             <TableColumn fx:id="dueDate" prefWidth="75.0" text="Due Date">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="dueDate" />
+                                 </cellValueFactory>
+                              </TableColumn>
             <TableColumn fx:id="state" prefWidth="75.0" text="State">
                <cellValueFactory>
                   <PropertyValueFactory property="state" />

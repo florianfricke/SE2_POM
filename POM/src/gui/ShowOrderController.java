@@ -31,7 +31,7 @@ public class ShowOrderController {
     @FXML private TableColumn<Order, LocalDate> dueDate;
     @FXML private TableColumn<Order, LocalDate> actualDeliveryDate;
     @FXML private TableColumn<Order, String> state;
-    @FXML private TableColumn<Order, String> delay;
+    @FXML private TableColumn<Order, Number> delay;
     
 	public void initialize(URL location, ResourceBundle resources) {
 		
@@ -48,39 +48,25 @@ public class ShowOrderController {
        	orderno.setCellValueFactory(cellData -> cellData.getValue().ordernoProperty());
        	
         if(!showHistory){
-        	orderTable.setItems(mainMenu.getCustomerOrder(customerId));
+        	List<Order> currentOrders = mainMenu.getCustomerOrder(customerId).stream().filter(p -> p.stateProperty().get() == State.PLANNED.name() || p.stateProperty().get() == State.IN_PROCESS.name() ).collect(Collectors.toList());
+        	orderTable.setItems(FXCollections.observableList(currentOrders));
         }else{       	
         	List<Order> inTimeOrders = mainMenu.getCustomerOrderHistory(customerId).stream().filter(p -> p.stateProperty().get() == State.FINISHED_IN_TIME.name()).collect(Collectors.toList());
         	List<Order> delayOrders = mainMenu.getCustomerOrderHistory(customerId).stream().filter(p -> p.stateProperty().get() == State.FINISHED_DELAY.name()).collect(Collectors.toList());
         	orderTable.setItems(FXCollections.observableList(inTimeOrders));
+        	
+        	//Delay in Days
+        	for (Order order : delayOrders) {
+        		int daysBewteen = (int)ChronoUnit.DAYS.between(order.getDueDate(), order.getActualDeliveryDate());
+        		order.delayProperty().set(daysBewteen);
+				
+			}
         	delayOrderTable.setItems(FXCollections.observableList(delayOrders));
         	
         	//Finished in Time Row Count 
         	lbl_statistic2.setText(orderTable.getItems().size() + "/" + (delayOrderTable.getItems().size()+orderTable.getItems().size()) +" ");
         	//Finished on Delay Row Count
         	lbl_statistic4.setText(delayOrderTable.getItems().size() + "/" + (delayOrderTable.getItems().size()+orderTable.getItems().size()));
-        	
-        	LocalDate dueDate = LocalDate.of(2014, 6, 28);
-        	LocalDate actualDeliveryDate = LocalDate.of(2014, 7, 1);
-
-        	//LocalDate test = dueDate.getCellObservableValue(delayOrderTable.getItems().get()).getValue();
-        	//delayOrderTable.getSelectionModel().clearAndSelect(2,delayOrderTable.getVisibleLeafColumn(0));
-        	orderTable.getSelectionModel().clearAndSelect(1);
-        	orderTable.getSelectionModel().getSelectedItem();
-        
-        	//delayOrderTable.getSelectionModel().selectedItemProperty();
-        	//order.getReleaseDate().toString();
-        	//System.out.println(TableColumn dueDate.getValue());
-        	
-           	//dueDate und acutalDeliveryDate hierher übergeben bzw woanders berechnen und delay ï¿½bergeben
-        	long daysBewteen = ChronoUnit.DAYS.between(dueDate, actualDeliveryDate);       
-        	//delayOrderTable.getItems().dueDate();
-        	
-        	//Delay Text
-        	if (daysBewteen >= 0)
-        		lbl_delay2.setText(daysBewteen + " Days");
-        	else
-        		lbl_delay2.setText("0 Days");
         }
     }
 }

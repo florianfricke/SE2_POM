@@ -36,6 +36,7 @@ public class Order {
 	private IntegerProperty priority;
 	private StringProperty comment;
 	private OrderLotChanges orderLotChanges;
+	private IntegerProperty delay;
 	
 	/**
 	 * Empty Constructor
@@ -68,6 +69,7 @@ public class Order {
 		this.lotSize = new SimpleIntegerProperty(lotSize);
 		this.priority = new SimpleIntegerProperty(priority);
 		this.comment = new SimpleStringProperty(comment);
+		this.delay = new SimpleIntegerProperty();
 		setOrderLotChange();
 	}
 	
@@ -174,6 +176,10 @@ public class Order {
 	
 	public void setOrderLotChange(){
 		this.orderLotChanges = new OrderLotChanges(this.volume.get(), this.priority.get(), this.dueDate);
+	}
+	
+	public IntegerProperty delayProperty(){
+		return delay;
 	}
 
 
