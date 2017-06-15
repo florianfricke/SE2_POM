@@ -19,6 +19,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -75,6 +76,7 @@ public class MainController{
             Stage stage = new Stage();
             stage.setTitle("Customer");
             stage.setScene(scene);
+			stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
         } catch (IOException e) {
@@ -95,6 +97,7 @@ public class MainController{
             Stage stage = new Stage();
             stage.setTitle("New Customer");
             stage.setScene(scene);
+			stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
         } catch (IOException e) {
@@ -122,6 +125,7 @@ public class MainController{
             Stage stage = new Stage();
             stage.setTitle("New Order");
             stage.setScene(scene);
+			stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
         } catch (IOException e) {
@@ -151,6 +155,7 @@ public class MainController{
             Stage stage = new Stage();
             stage.setTitle("Order");
             stage.setScene(scene);
+			stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
         } catch (IOException e) {
