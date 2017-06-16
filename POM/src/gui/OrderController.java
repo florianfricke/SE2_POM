@@ -71,7 +71,9 @@ public class OrderController {
     @FXML private DatePicker dpkOrderDate;
     @FXML private DatePicker dpkDueDate;
     @FXML private DatePicker dpkStartDate;
-	
+    private String errorText="Some of your input values are not valid or empty. Please try again.";
+    private boolean [] emptyCombobox;
+    
 	//String Converter for DatePicker
     private StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
         DateTimeFormatter dateFormatter =
@@ -211,26 +213,22 @@ public class OrderController {
 		}
 		if(!newValue){
 				if(txt_volume.getText().length() == 0 || txt_volume.getText() == "0") {
-
-					txt_volume.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+					txt_volume.getStyleClass().add("label_error");
 					txt_errorMessage.setVisible(true);
-					txt_errorMessage.getStyleClass().add("label_error");
-					txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+					txt_errorMessage.setText(errorText);
 				}
 				//Only numbers, letters and spaces are allowed.
 				else if(txt_volume.getText().matches("[0-9]*")) { 
-
 						txt_volume.setText(localString); 
-						txt_volume.setStyle("text-field");
+						txt_volume.getStyleClass().add("reset_label_error");
+						txt_errorMessage.setVisible(false);
 						txt_errorMessage.setText("");
 				}
 				else{
-
-					txt_volume.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+					txt_volume.getStyleClass().add("label_error");
 					txt_volume.setText("");
 					txt_errorMessage.setVisible(true);
-					txt_errorMessage.getStyleClass().add("label_error");
-					txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+					txt_errorMessage.setText(errorText);
 				} 
 			}
 		});  
@@ -240,26 +238,22 @@ public class OrderController {
 		localString = txt_price.getText();
 		if(!newValue){
 				if(txt_price.getText().length() == 0 || txt_price.getText() == "0"){
-
-					txt_price.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+					txt_price.getStyleClass().add("label_error");
 					txt_errorMessage.setVisible(true);
-					txt_errorMessage.getStyleClass().add("label_error");
-					txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+					txt_errorMessage.setText(errorText);
 				}
 				//Allows double numbers separated by a comma or dot. The length is not limited
 				else if(txt_price.getText().matches("(\\d+(?:[\\.\\,]\\d*)?)$")) {
-
 						txt_price.setText(localString);
-						txt_price.setStyle("text-field");
+						txt_price.getStyleClass().add("reset_label_error");
+						txt_errorMessage.setVisible(false);
 						txt_errorMessage.setText("");
 				}
 				else{ 
-
-					txt_price.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+					txt_price.getStyleClass().add("label_error");
 					txt_price.setText(""); 
 					txt_errorMessage.setVisible(true);
-					txt_errorMessage.getStyleClass().add("label_error");
-					txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+					txt_errorMessage.setText(errorText);
 				} 
 			}
 		});  
@@ -269,126 +263,91 @@ public class OrderController {
 		localString = tar_comment.getText();
 		if(!newValue){
 			if(tar_comment.getText().length() > 250){
-				tar_comment.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				tar_comment.getStyleClass().add("label_error");
 				tar_comment.setText("");
 				txt_errorMessage.setVisible(true);
-				txt_errorMessage.getStyleClass().add("label_error");
-				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+				txt_errorMessage.setText(errorText);
 				}
 			else{
 				tar_comment.setText(localString);
-				tar_comment.setStyle("text-field");
+				tar_comment.getStyleClass().add("reset_label_error");
+				txt_errorMessage.setVisible(false);
 				txt_errorMessage.setText("");
 				}
 			}
 		});
 /***************************************************************************************/
 		cbxProduct.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			//checkComBoxes();
 			boolean localBool;
 			localBool = cbxProduct.getSelectionModel().isEmpty();
 			if(localBool == true){
-
-				//cbxProduct.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 				txt_errorMessage.setVisible(true);
-				txt_errorMessage.getStyleClass().add("label_error");
-				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+				txt_errorMessage.setText(errorText);
 			}else{
-
-				cbxProduct.setStyle("combo-box");
+				//cbxProduct.getStyleClass().add("reset_label_error");
+				txt_errorMessage.setVisible(false);
 				txt_errorMessage.setText("");
 			}
 		});
 /***************************************************************************************/
 		cbxCustomer.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			//checkComBoxes();
 			boolean localBool;
 			localBool = cbxCustomer.getSelectionModel().isEmpty();
 			if(localBool == true){
-
-				//cbxCustomer.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 				txt_errorMessage.setVisible(true);
-				txt_errorMessage.getStyleClass().add("label_error");
-				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+				txt_errorMessage.setText(errorText);
 			}else{
-
-				cbxCustomer.setStyle("combo-box");
+				//cbxCustomer.getStyleClass().add("reset_label_error");
+				txt_errorMessage.setVisible(false);
 				txt_errorMessage.setText("");
 			}
 		});
 /***************************************************************************************/
 		cbxContact.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			//checkComBoxes();
 			boolean localBool;
 			localBool = cbxContact.getSelectionModel().isEmpty();
 			if(localBool == true){
-
-				//cbxContact.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 				txt_errorMessage.setVisible(true);
-				txt_errorMessage.getStyleClass().add("label_error");
-				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+				txt_errorMessage.setText(errorText);
 			}else{
-
-				cbxContact.setStyle("combo-box");
+				//cbxContact.getStyleClass().add("reset_label_error");
+				txt_errorMessage.setVisible(false);
 				txt_errorMessage.setText("");
 			}
 		});
 /***************************************************************************************/
 		cbxAddress.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			//checkComBoxes();
 			boolean localBool;
 			localBool = cbxAddress.getSelectionModel().isEmpty();
 			if(localBool == true){
-
-				//cbxAddress.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 				txt_errorMessage.setVisible(true);
-				txt_errorMessage.getStyleClass().add("label_error");
-				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+				txt_errorMessage.setText(errorText);
 			}else{
-
-				cbxAddress.setStyle("combo-box");
+				//cbxAddress.getStyleClass().add("reset_label_error");
+				txt_errorMessage.setVisible(false);
 				txt_errorMessage.setText("");
 			}
 		});
 /***************************************************************************************/
 		cbxPriority.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			//checkComBoxes();
 			boolean localBool;
 			localBool = cbxPriority.getSelectionModel().isEmpty();
 			if(localBool == true){
-
-				//cbxPriority.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 				txt_errorMessage.setVisible(true);
-				txt_errorMessage.getStyleClass().add("label_error");
-				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+				txt_errorMessage.setText(errorText);
 			}else{
-
-				cbxPriority.setStyle("combo-box");
+				//cbxPriority.getStyleClass().add("reset_label_error");
+				txt_errorMessage.setVisible(false);
 				txt_errorMessage.setText("");
 			}
 		});
 /***************************************************************************************/
-	/*	txt_orderDate.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-			if(txt_orderDate.getText().length() == 0){
-				bool_txt_orderDate = false;
-				txt_orderDate.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
-				txt_errorMessage.setVisible(true);
-				txt_errorMessage.getStyleClass().add("label_error");
-				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
-			}else{
-				txt_orderDate.setStyle("combo-box");
-				txt_errorMessage.setText("");
-			}
-		});  */
-/***************************************************************************************/
-		/*txt_releaseDate.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-			if(txt_releaseDate.getText().trim().isEmpty()){
-				bool_txt_releaseDate = false;
-				txt_releaseDate.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
-				txt_errorMessage.setVisible(true);
-				txt_errorMessage.getStyleClass().add("label_error");
-				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
-			}else{
-				txt_releaseDate.setStyle("combo-box");
-				txt_errorMessage.setText("");
-			}
-		});   */
-/***************************************************************************************/
+
 		
 		//Bindings
 		Bindings.bindBidirectional(txt_Id.textProperty(), this.order.ordernoProperty());
@@ -563,6 +522,21 @@ public class OrderController {
 		}
 		return true;
 	}
+/*	private void checkComBoxes(){
+		boolean [] checkComboboxes = {  cbxProduct.getValue() == "", 
+										cbxPriority.getValue().equals("0"),
+										cbxCustomer.getValue().getValue().getId().isEmpty(),
+										cbxAddress.getValue().getValue().getId().isEmpty(),
+										cbxContact.getValue().getValue().getId().isEmpty()	
+										};
+		if(checkComboboxes[0] || checkComboboxes[1] || checkComboboxes[2] || checkComboboxes[3] || checkComboboxes[4]){
+			txt_errorMessage.setVisible(true);
+			txt_errorMessage.setText(errorText);
+		}else{
+			txt_errorMessage.setVisible(false);
+			txt_errorMessage.setText("");
+		}
+	}*/
 	
 	private void getDateFields(){
 		dpkDeliveryDate.setValue(this.order.getActualDeliveryDate());

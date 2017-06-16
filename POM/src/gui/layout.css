@@ -18,6 +18,11 @@
   -fx-border-radius: 5;
 }
 
+.reset_label_error {
+  -fx-border-color: #a49ea4;
+  -fx-border-radius: 5;
+}
+
 .menu_button {
   -fx-background-radius: 0;
   -fx-effect: innershadow(three-pass-box, transparent, 10, 0, 0, 0);

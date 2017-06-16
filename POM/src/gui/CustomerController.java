@@ -62,6 +62,7 @@ public class CustomerController {
     @FXML private Label txt_errorMessage;
     @FXML private Button btn_ShowCurrentOrders;
     @FXML private Button btn_ShowOrderHistory;
+    private String errorText="Some of your input values are not valid or empty. Please try again.";
     
 	public void init(MainMenu mainMenu) {
         this.mainMenu = mainMenu;
@@ -92,14 +93,13 @@ public class CustomerController {
 			/*Only allows one letter(ABCabc) and spaces (before and after the letter)*/
 			if(txt_Ranking.getText().matches("[abcABC]{1}[ ]$") || txt_Ranking.getText().matches("[ ]{1}[abcABC]$") || txt_Ranking.getText().matches("[abcABC]{1}")){
 				txt_Ranking.setText(localString);
-				txt_Ranking.setStyle("text-field");
+				txt_Ranking.getStyleClass().add("reset_label_error");
 				txt_errorMessage.setText("");
 			}else {
 				txt_Ranking.setText("");
-				txt_Ranking.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				txt_Ranking.getStyleClass().add("label_error");
 				txt_errorMessage.setVisible(true);
-				txt_errorMessage.getStyleClass().add("label_error");
-				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+				txt_errorMessage.setText(errorText);
 				}
 			}
 		});
@@ -109,15 +109,14 @@ public class CustomerController {
 		localString = tar_Comment.getText();
 		if(!newValue){
 			if(tar_Comment.getText().length() > 250){
-				tar_Comment.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				tar_Comment.getStyleClass().add("label_error");
 				tar_Comment.setText("");
 				txt_errorMessage.setVisible(true);
-				txt_errorMessage.getStyleClass().add("label_error");
-				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+				txt_errorMessage.setText(errorText);
 				}
 			else{
 				tar_Comment.setText(localString);
-				tar_Comment.setStyle("text-field");
+				tar_Comment.getStyleClass().add("reset_label_error");
 				txt_errorMessage.setText("");
 				}
 			}
@@ -128,21 +127,19 @@ public class CustomerController {
 		localString = txt_Name.getText();
 		if(!newValue){
 			if(txt_Name.getText().length() == 0){
-				txt_Name.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				txt_Name.getStyleClass().add("label_error");
 				txt_errorMessage.setVisible(true);
-				txt_errorMessage.getStyleClass().add("label_error");
-				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+				txt_errorMessage.setText(errorText);
 			}
 			else if(txt_Name.getText().length() > 32 ) {
-				txt_Name.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				txt_Name.getStyleClass().add("label_error");
 				txt_Name.setText("");
 				txt_errorMessage.setVisible(true);
-				txt_errorMessage.getStyleClass().add("label_error");
-				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
+				txt_errorMessage.setText(errorText);
 			}
 			else{ 
 				txt_Name.setText(localString);
-				txt_Name.setStyle("text-field");
+				txt_Name.getStyleClass().add("reset_label_error");
 				txt_Name.setText(localString);
 				txt_errorMessage.setText("");
 				} 
