@@ -288,7 +288,7 @@ public class OrderController {
 			localBool = cbxProduct.getSelectionModel().isEmpty();
 			if(localBool == true){
 
-				cbxProduct.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				//cbxProduct.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 				txt_errorMessage.setVisible(true);
 				txt_errorMessage.getStyleClass().add("label_error");
 				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
@@ -304,7 +304,7 @@ public class OrderController {
 			localBool = cbxCustomer.getSelectionModel().isEmpty();
 			if(localBool == true){
 
-				cbxCustomer.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				//cbxCustomer.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 				txt_errorMessage.setVisible(true);
 				txt_errorMessage.getStyleClass().add("label_error");
 				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
@@ -320,7 +320,7 @@ public class OrderController {
 			localBool = cbxContact.getSelectionModel().isEmpty();
 			if(localBool == true){
 
-				cbxContact.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				//cbxContact.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 				txt_errorMessage.setVisible(true);
 				txt_errorMessage.getStyleClass().add("label_error");
 				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
@@ -336,7 +336,7 @@ public class OrderController {
 			localBool = cbxAddress.getSelectionModel().isEmpty();
 			if(localBool == true){
 
-				cbxAddress.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				//cbxAddress.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 				txt_errorMessage.setVisible(true);
 				txt_errorMessage.getStyleClass().add("label_error");
 				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
@@ -352,7 +352,7 @@ public class OrderController {
 			localBool = cbxPriority.getSelectionModel().isEmpty();
 			if(localBool == true){
 
-				cbxPriority.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
+				//cbxPriority.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 				txt_errorMessage.setVisible(true);
 				txt_errorMessage.getStyleClass().add("label_error");
 				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");

@@ -32,6 +32,7 @@ public class CustomerController {
 	private List<Address> delAddressList;
 	private List<Contact> delContactList;
 	private List<BankAccount> delBankAccountList;
+	private boolean [] emptyFields;
 	//TextFields
 	@FXML private TextField txt_Id;
 	@FXML private TextField txt_Name;
@@ -127,6 +128,7 @@ public class CustomerController {
 		localString = txt_Name.getText();
 		if(!newValue){
 			if(txt_Name.getText().length() == 0){
+				txt_Name.setStyle("-fx-border-color: #ff0707; -fx-border-radius: 5;");
 				txt_errorMessage.setVisible(true);
 				txt_errorMessage.getStyleClass().add("label_error");
 				txt_errorMessage.setText("Some of your input values are not valid or empty. Please try again.");
@@ -207,6 +209,25 @@ public class CustomerController {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	private boolean fillFields(String action){
+		boolean[] emptyFields = {txt_Name.getText().isEmpty(),
+								txt_Ranking.getText().isEmpty(),
+								};
+		this.emptyFields = emptyFields;
+		action = "save";
+		switch(action){
+		case "save":
+			if(emptyFields[0] && emptyFields[1])
+				return writeErrorMessage();
+			else if(emptyFields[0])
+				return writeErrorMessage();
+			else if(emptyFields[1])
+				return writeErrorMessage();
+			break;
+			default: return true;
+		}
+		return true;
 	}
 	
 	@FXML private void handleShowCurrentOrder(ActionEvent event) {       
@@ -299,9 +320,16 @@ public class CustomerController {
     }
 		
 	@FXML private void handleSave(ActionEvent event) {
+		if(fillFields("save")==false){
+			Alert alert = new Alert(AlertType.ERROR);
+	    	alert.setTitle("Warning");
+	    	alert.setHeaderText("Please correctly fill all the necessary fields.");
+	    	alert.show();
+		}else{
     	System.out.println("Save");
     	mainMenu.saveCustomer(this.cust);
     	closeWindow(event);
+		}
     }
 	
 	@FXML private void handleCancel(ActionEvent event) {
@@ -327,6 +355,30 @@ public class CustomerController {
 	    	closeWindow(event);
 		}
     }
+public boolean writeErrorMessage(){
+		String error= "";
+		int z = 0;
+		if(emptyFields[0] || emptyFields[1]){
+			for(int i=0; i<2; i++){
+				boolean bool = emptyFields[i];
+				if(bool){
+					switch(i){
+					case 0: error += "Name, "; z++; break;
+					case 1: error += "Ranking "; z++; break;
+					}
+				}
+			}
+			if(z==1){
+				error="Field: "+error + "must be set.";
+				txt_errorMessage.setText(error);
+			}else if(z == 2){
+				error="Fields: "+error +"must be set.";
+				txt_errorMessage.setText(error);
+			}txt_errorMessage.setVisible(true);
+			return false;
+		}
+		return true;
+	}
 	
 	private void closeWindow(ActionEvent e){
     	final Node currStage = (Node)e.getSource();
