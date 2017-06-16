@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ShowOrderController">
+<BorderPane prefHeight="700.0" prefWidth="900.0" stylesheets="@layout.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ShowOrderController">
    <center>
       <TableView fx:id="orderTable" editable="false" BorderPane.alignment="CENTER">
          <columnResizePolicy>
