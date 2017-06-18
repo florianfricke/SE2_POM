@@ -167,8 +167,8 @@ public class OrderController {
 		cbxCustomer.getSelectionModel().select(mainMenu.getCustomer(order.customeridProperty().get()).comboBoxProperty());
 		}else{
 			cbxCustomer.getSelectionModel().select(new CbxItemObservable("", "Choose Customer"));
-			cbxAddress.getSelectionModel().select(new CbxItemObservable("", ""));
-			cbxContact.getSelectionModel().select(new CbxItemObservable("", ""));
+			cbxAddress.getSelectionModel().select(new CbxItemObservable("", "Choose Address"));
+			cbxContact.getSelectionModel().select(new CbxItemObservable("", "Choose Contact"));
 		}
 		
 		ObservableList<String> listPriority = FXCollections.observableArrayList("1","2","3","5","6","7","8","9","10");
