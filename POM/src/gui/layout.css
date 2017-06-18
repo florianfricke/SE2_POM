@@ -1,6 +1,6 @@
 .border {
   -fx-border-radius: 5;
-  -fx-padding: 5 10;
+  -fx-padding: 15;
   -fx-border-color: #a49ea4;
 }
 
@@ -16,6 +16,11 @@
 .label_error {
   -fx-border-color: #ff0707;
   -fx-border-radius: 5;
+}
+
+.label_error:focused {
+  -fx-border-color: transparent;
+  -fx-border: none;
 }
 
 .reset_label_error {
