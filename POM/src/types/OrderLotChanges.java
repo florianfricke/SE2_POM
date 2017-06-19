@@ -3,7 +3,7 @@ package types;
 import java.time.LocalDate;
 import javafx.beans.property.*;
 
-public class OrderLotChanges {
+public class OrderLotChanges{
 	private IntegerProperty volume;
 	private IntegerProperty priority;
 	private LocalDate dueDate;
@@ -13,6 +13,10 @@ public class OrderLotChanges {
 		this.dueDate = date;
 	}
 	
+	public OrderLotChanges(OrderLotChanges olc) {
+		this(olc.volume.get(), olc.priority.get(), olc.getdueDate());
+	}
+
 	public IntegerProperty volumeProperty(){
 		return volume;
 	}

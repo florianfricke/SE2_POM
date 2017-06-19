@@ -1,5 +1,7 @@
 package gui; 
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -21,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.DatePicker;
@@ -30,6 +33,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 import javafx.scene.control.Label;
@@ -41,6 +45,9 @@ public class OrderController {
 	private MainMenu mainMenu;
 	private Order order;
 	private boolean [] emptyFields;
+	private Callback<DatePicker, DateCell> startDateCellFactory;
+	private Callback<DatePicker, DateCell> dueDateCellFactory;
+	private OrderLotChanges changeValues;
 	
     @FXML private TextField txt_Id;
     @FXML private TextField txt_orderDate;
@@ -109,7 +116,6 @@ public class OrderController {
         this.mainMenu = mainMenu;
         this.order = new Order();
         setTextFields();
-        //btnRelease.setDisable(true);
         btnUpdate.setDisable(true);
         btnTree.setDisable(true);
         
@@ -118,11 +124,20 @@ public class OrderController {
 	public void init(MainMenu mainMenu, Order order) {
         this.mainMenu = mainMenu;
         this.order = order;
-        if(order.stateProperty().get().equals(State.PLANNED.name())){
-        	btnTree.setDisable(true);
-        }
+        changeValues = new OrderLotChanges(order.getOrderLotChanges());
+        disableFields();
         setTextFields();
    }
+	private void disableFields(){
+        if(order.stateProperty().get().equals(State.PLANNED.name())){
+        	btnTree.setDisable(true);
+        }else if(order.stateProperty().get().equals(State.IN_PROCESS.name()) || order.getCompletionDate() != null){
+        	cbxProduct.setDisable(true);
+        	cbxCustomer.setDisable(true);
+        	dpkOrderDate.setEditable(false);
+        	txt_baseLotID.setEditable(false);
+        }
+	}
 	
 	private void setTextFields(){
 		
@@ -186,7 +201,10 @@ public class OrderController {
 		ObservableList<String> listPriority = FXCollections.observableArrayList("1","2","3","5","6","7","8","9","10");
 		cbxPriority.setItems(listPriority);
 		
+		
+		
 		//DatePicker
+		createDateCells();
 		dpkDeliveryDate.setValue(this.order.getActualDeliveryDate());
 		dpkDeliveryDate.setConverter(converter);
 		dpkDeliveryDate.setDisable(true);
@@ -206,159 +224,17 @@ public class OrderController {
 		dpkOrderDate.getEditor().setStyle("-fx-opacity: 1");
 		
 		dpkDueDate.setValue(this.order.getDueDate());
-		dpkDueDate.setEditable(false);
+		dpkDueDate.setDayCellFactory(dueDateCellFactory);
 		dpkDueDate.setConverter(converter);
 		
 		dpkStartDate.setValue(this.order.getStartDate());
-		dpkStartDate.setEditable(false);
+		dpkStartDate.setDayCellFactory(startDateCellFactory);
 		dpkStartDate.setConverter(converter);
 		
-/************************************************************************************/	
-		txt_volume.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-		String localString;
-		localString = txt_volume.getText();
-		System.out.println("Change Voulme");
-		if(this.order.stateProperty().get() == State.IN_PROCESS.name()){
-			//if(newVolume < oldVolume){
-				// geht nicht
-			//}
-		}
-		if(!newValue){
-				if(txt_volume.getText().length() == 0 || txt_volume.getText() == "0") {
-					txt_volume.getStyleClass().add("label_error");
-					txt_errorMessage.setVisible(true);
-					txt_errorMessage.setText(errorText);
-				}
-				//Only numbers, letters and spaces are allowed.
-				else if(txt_volume.getText().matches("[0-9]*")) { 
-						txt_volume.setText(localString); 
-						txt_volume.getStyleClass().add("reset_label_error");
-						txt_errorMessage.setVisible(false);
-						txt_errorMessage.setText("");
-				}
-				else{
-					txt_volume.getStyleClass().add("label_error");
-					txt_volume.setText("");
-					txt_errorMessage.setVisible(true);
-					txt_errorMessage.setText(errorText);
-				} 
-			}
-		});  
-/************************************************************************************/
-		txt_price.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-		String localString;
-		localString = txt_price.getText();
-		if(!newValue){
-				if(txt_price.getText().length() == 0 || txt_price.getText() == "0"){
-					txt_price.getStyleClass().add("label_error");
-					txt_errorMessage.setVisible(true);
-					txt_errorMessage.setText(errorText);
-				}
-				//Allows double numbers separated by a comma or dot. The length is not limited
-				else if(txt_price.getText().matches("(\\d+(?:[\\.\\,]\\d*)?)$")) {
-						txt_price.setText(localString);
-						txt_price.getStyleClass().add("reset_label_error");
-						txt_errorMessage.setVisible(false);
-						txt_errorMessage.setText("");
-				}
-				else{ 
-					txt_price.getStyleClass().add("label_error");
-					txt_price.setText(""); 
-					txt_errorMessage.setVisible(true);
-					txt_errorMessage.setText(errorText);
-				} 
-			}
-		});  
-/************************************************************************************/
-		tar_comment.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-		String localString;
-		localString = tar_comment.getText();
-		if(!newValue){
-			if(tar_comment.getText().length() > 250){
-				tar_comment.getStyleClass().add("label_error");
-				tar_comment.setText("");
-				txt_errorMessage.setVisible(true);
-				txt_errorMessage.setText(errorText);
-				}
-			else{
-				tar_comment.setText(localString);
-				tar_comment.getStyleClass().add("reset_label_error");
-				txt_errorMessage.setVisible(false);
-				txt_errorMessage.setText("");
-				}
-			}
-		});
-/***************************************************************************************/
-		cbxProduct.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-			//checkComBoxes();
-			boolean localBool;
-			localBool = cbxProduct.getSelectionModel().isEmpty();
-			if(localBool == true){
-				txt_errorMessage.setVisible(true);
-				txt_errorMessage.setText(errorText);
-			}else{
-				//cbxProduct.getStyleClass().add("reset_label_error");
-				txt_errorMessage.setVisible(false);
-				txt_errorMessage.setText("");
-			}
-		});
-/***************************************************************************************/
-		cbxCustomer.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-			//checkComBoxes();
-			boolean localBool;
-			localBool = cbxCustomer.getSelectionModel().isEmpty();
-			if(localBool == true){
-				txt_errorMessage.setVisible(true);
-				txt_errorMessage.setText(errorText);
-			}else{
-				//cbxCustomer.getStyleClass().add("reset_label_error");
-				txt_errorMessage.setVisible(false);
-				txt_errorMessage.setText("");
-			}
-		});
-/***************************************************************************************/
-		cbxContact.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-			//checkComBoxes();
-			boolean localBool;
-			localBool = cbxContact.getSelectionModel().isEmpty();
-			if(localBool == true){
-				txt_errorMessage.setVisible(true);
-				txt_errorMessage.setText(errorText);
-			}else{
-				//cbxContact.getStyleClass().add("reset_label_error");
-				txt_errorMessage.setVisible(false);
-				txt_errorMessage.setText("");
-			}
-		});
-/***************************************************************************************/
-		cbxAddress.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-			//checkComBoxes();
-			boolean localBool;
-			localBool = cbxAddress.getSelectionModel().isEmpty();
-			if(localBool == true){
-				txt_errorMessage.setVisible(true);
-				txt_errorMessage.setText(errorText);
-			}else{
-				//cbxAddress.getStyleClass().add("reset_label_error");
-				txt_errorMessage.setVisible(false);
-				txt_errorMessage.setText("");
-			}
-		});
-/***************************************************************************************/
-		cbxPriority.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-			//checkComBoxes();
-			boolean localBool;
-			localBool = cbxPriority.getSelectionModel().isEmpty();
-			if(localBool == true){
-				txt_errorMessage.setVisible(true);
-				txt_errorMessage.setText(errorText);
-			}else{
-				//cbxPriority.getStyleClass().add("reset_label_error");
-				txt_errorMessage.setVisible(false);
-				txt_errorMessage.setText("");
-			}
-		});
-/***************************************************************************************/
+		
+		//eventHandler
+		createEventHandler();
+
 
 		
 		//Bindings
@@ -575,5 +451,206 @@ public class OrderController {
 		dpkDeliveryDate.setValue(this.order.getActualDeliveryDate());
 		dpkReleaseDate.setValue(this.order.getReleaseDate());
 		txt_state.setText(this.order.stateProperty().get());
+	}
+	private void createDateCells(){
+		//New DateCell to disable DateValues before Order Date
+		this.startDateCellFactory = 
+	            new Callback<DatePicker, DateCell>() {
+	                @Override
+	                public DateCell call(final DatePicker datePicker) {
+	                    return new DateCell() {
+	                        @Override
+	                        public void updateItem(LocalDate item, boolean empty) {
+	                            super.updateItem(item, empty);
+	                           try {
+		                            if (item.isBefore(dpkOrderDate.getValue().plusDays(1))) {
+		                                    setDisable(true);
+		                                    setStyle("-fx-background-color: #ffc0cb;");
+		                            }   
+		               
+		                            if (item.isAfter(dpkDueDate.getValue().minusDays(1))) {
+		                                    setDisable(true);
+		                                    setStyle("-fx-background-color: #ffc0cb;");
+		                            }  
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
+	                    }
+	                };
+	            }
+	        };
+	    //New DateCell to disable DateValues before Order Date
+        this.dueDateCellFactory = 
+	            new Callback<DatePicker, DateCell>() {
+	                @Override
+	                public DateCell call(final DatePicker datePicker) {
+	                    return new DateCell() {
+	                        @Override
+	                        public void updateItem(LocalDate item, boolean empty) {
+	                            super.updateItem(item, empty);
+	                           
+	                            if (item.isBefore(dpkOrderDate.getValue().plusDays(1)) || item.isBefore(dpkStartDate.getValue().plusDays(1))) {
+	                                    setDisable(true);
+	                                    setStyle("-fx-background-color: #ffc0cb;");
+	                            }   
+	                    }
+	                };
+	            }
+	        };
+	}
+	
+	private void createEventHandler(){
+		txt_volume.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				try {
+					if(order.stateProperty().get().equals(State.IN_PROCESS.name())){
+					 changeValues.volumeProperty().set(Integer.parseInt(newValue));
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+				}				
+			}
+			
+		});
+		
+		txt_volume.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean unfocus, Boolean focus) {
+					if(order.stateProperty().get().equals(State.IN_PROCESS.name())){
+						int i = changeValues.volumeProperty().get() - order.getOrderLotChanges().volumeProperty().get();
+						if(unfocus && i < 0){
+							txt_errorMessage.setVisible(true);
+							txt_errorMessage.setText("Volume can not be reduced.");
+							txt_volume.setStyle("-fx-background-color: #ffc0cb;");
+							txt_volume.setText(String.valueOf(order.getOrderLotChanges().volumeProperty().get()));
+						}else if(unfocus && i > 0) {
+							Alert alert = new Alert(AlertType.INFORMATION);
+					    	alert.setTitle("Notification");
+					    	alert.setHeaderText("You updated the Volume. Click update to transfer new Lots to the MES.");
+					    	alert.show();
+						}else{
+							txt_errorMessage.textProperty().set("");
+							txt_errorMessage.setVisible(false);
+							txt_volume.setStyle(null);
+						}
+					}	
+			}
+		});  
+		
+
+		txt_price.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+		String localString;
+		localString = txt_price.getText();
+		if(!newValue){
+				if(txt_price.getText().length() == 0 || txt_price.getText() == "0"){
+					txt_price.getStyleClass().add("label_error");
+					txt_errorMessage.setVisible(true);
+					txt_errorMessage.setText(errorText);
+				}
+				//Allows double numbers separated by a comma or dot. The length is not limited
+				else if(txt_price.getText().matches("(\\d+(?:[\\.\\,]\\d*)?)$")) {
+						txt_price.setText(localString);
+						txt_price.getStyleClass().add("reset_label_error");
+						txt_errorMessage.setVisible(false);
+						txt_errorMessage.setText("");
+				}
+				else{ 
+					txt_price.getStyleClass().add("label_error");
+					txt_price.setText(""); 
+					txt_errorMessage.setVisible(true);
+					txt_errorMessage.setText(errorText);
+				} 
+			}
+		});  
+
+		tar_comment.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+		String localString;
+		localString = tar_comment.getText();
+		if(!newValue){
+			if(tar_comment.getText().length() > 250){
+				tar_comment.getStyleClass().add("label_error");
+				tar_comment.setText("");
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.setText(errorText);
+				}
+			else{
+				tar_comment.setText(localString);
+				tar_comment.getStyleClass().add("reset_label_error");
+				txt_errorMessage.setVisible(false);
+				txt_errorMessage.setText("");
+				}
+			}
+		});
+
+		cbxProduct.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			//checkComBoxes();
+			boolean localBool;
+			localBool = cbxProduct.getSelectionModel().isEmpty();
+			if(localBool == true){
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.setText(errorText);
+			}else{
+				//cbxProduct.getStyleClass().add("reset_label_error");
+				txt_errorMessage.setVisible(false);
+				txt_errorMessage.setText("");
+			}
+		});
+
+		cbxCustomer.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			//checkComBoxes();
+			boolean localBool;
+			localBool = cbxCustomer.getSelectionModel().isEmpty();
+			if(localBool == true){
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.setText(errorText);
+			}else{
+				//cbxCustomer.getStyleClass().add("reset_label_error");
+				txt_errorMessage.setVisible(false);
+				txt_errorMessage.setText("");
+			}
+		});
+
+		cbxContact.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			//checkComBoxes();
+			boolean localBool;
+			localBool = cbxContact.getSelectionModel().isEmpty();
+			if(localBool == true){
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.setText(errorText);
+			}else{
+				//cbxContact.getStyleClass().add("reset_label_error");
+				txt_errorMessage.setVisible(false);
+				txt_errorMessage.setText("");
+			}
+		});
+
+		cbxAddress.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			//checkComBoxes();
+			boolean localBool;
+			localBool = cbxAddress.getSelectionModel().isEmpty();
+			if(localBool == true){
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.setText(errorText);
+			}else{
+				//cbxAddress.getStyleClass().add("reset_label_error");
+				txt_errorMessage.setVisible(false);
+				txt_errorMessage.setText("");
+			}
+		});
+
+		cbxPriority.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			//checkComBoxes();
+			boolean localBool;
+			localBool = cbxPriority.getSelectionModel().isEmpty();
+			if(localBool == true){
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.setText(errorText);
+			}else{
+				//cbxPriority.getStyleClass().add("reset_label_error");
+				txt_errorMessage.setVisible(false);
+				txt_errorMessage.setText("");
+			}
+		});
 	}
 }
