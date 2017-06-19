@@ -485,14 +485,18 @@ public class OrderController {
 	                @Override
 	                public DateCell call(final DatePicker datePicker) {
 	                    return new DateCell() {
+	                    	
 	                        @Override
 	                        public void updateItem(LocalDate item, boolean empty) {
 	                            super.updateItem(item, empty);
-	                           
-	                            if (item.isBefore(dpkOrderDate.getValue().plusDays(1)) || item.isBefore(dpkStartDate.getValue().plusDays(1))) {
+	                            try {
+	                            	if (item.isBefore(dpkOrderDate.getValue().plusDays(1)) || item.isBefore(dpkStartDate.getValue().plusDays(1))) {
 	                                    setDisable(true);
 	                                    setStyle("-fx-background-color: #ffc0cb;");
-	                            }   
+	                            	}  
+								} catch (Exception e) {
+									// TODO: handle exception
+								}
 	                    }
 	                };
 	            }
