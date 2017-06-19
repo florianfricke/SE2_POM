@@ -1,0 +1,212 @@
+PGDMP         "                u           pom    9.6.3    9.6.3 3    í           0    0    ENCODING    ENCODING        SET client_encoding = 'UTF8';
+                       false            ì           0    0 
+   STDSTRINGS 
+   STDSTRINGS     (   SET standard_conforming_strings = 'on';
+                       false            î           1262    32770    pom    DATABASE     Ö   CREATE DATABASE pom WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'German_Germany.1252' LC_CTYPE = 'German_Germany.1252';
+    DROP DATABASE pom;
+             postgres    false                        2615    2200    public    SCHEMA        CREATE SCHEMA public;
+    DROP SCHEMA public;
+             postgres    false            ï           0    0    SCHEMA public    COMMENT     6   COMMENT ON SCHEMA public IS 'standard public schema';
+                  postgres    false    3                        3079    12387    plpgsql 	   EXTENSION     ?   CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+    DROP EXTENSION plpgsql;
+                  false            ñ           0    0    EXTENSION plpgsql    COMMENT     @   COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+                       false    1            π            1259    32772 
+   sq_address    SEQUENCE     l   CREATE SEQUENCE sq_address
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ !   DROP SEQUENCE public.sq_address;
+       public       postgres    false    3            ∫            1259    32774    address    TABLE     f  CREATE TABLE address (
+    id character(5) DEFAULT nextval('sq_address'::regclass) NOT NULL,
+    customerid character(5),
+    street character varying(32) NOT NULL,
+    houseno character varying(5) NOT NULL,
+    city character varying(32) NOT NULL,
+    zipcode character(5) NOT NULL,
+    country character varying(32) NOT NULL,
+    billingaddress boolean
+);
+    DROP TABLE public.address;
+       public         postgres    false    185    3            ª            1259    32778    sq_bankaccount    SEQUENCE     p   CREATE SEQUENCE sq_bankaccount
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ %   DROP SEQUENCE public.sq_bankaccount;
+       public       postgres    false    3            º            1259    32780    bankaccount    TABLE       CREATE TABLE bankaccount (
+    id character(5) DEFAULT nextval('sq_bankaccount'::regclass) NOT NULL,
+    customerid character(5) NOT NULL,
+    iban character varying(34) NOT NULL,
+    bic character varying(11) NOT NULL,
+    bankname character varying(50) NOT NULL
+);
+    DROP TABLE public.bankaccount;
+       public         postgres    false    187    3            Ω            1259    32784 
+   sq_contact    SEQUENCE     l   CREATE SEQUENCE sq_contact
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ !   DROP SEQUENCE public.sq_contact;
+       public       postgres    false    3            æ            1259    32786    contact    TABLE     K  CREATE TABLE contact (
+    id character(5) DEFAULT nextval('sq_contact'::regclass) NOT NULL,
+    customerid character(5) NOT NULL,
+    phoneno character varying(15),
+    name character varying(32) NOT NULL,
+    firstname character varying(32) NOT NULL,
+    mailadress character varying(30),
+    "position" character varying(30)
+);
+    DROP TABLE public.contact;
+       public         postgres    false    189    3            ø            1259    32790    sq_customer    SEQUENCE     m   CREATE SEQUENCE sq_customer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ "   DROP SEQUENCE public.sq_customer;
+       public       postgres    false    3            ¿            1259    32792    customer    TABLE     œ   CREATE TABLE customer (
+    id character(5) DEFAULT nextval('sq_customer'::regclass) NOT NULL,
+    companyname character varying(32) NOT NULL,
+    ranking character(2),
+    comment character varying(250)
+);
+    DROP TABLE public.customer;
+       public         postgres    false    191    3            ¡            1259    32796    customer_sq_pk    SEQUENCE     p   CREATE SEQUENCE customer_sq_pk
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ %   DROP SEQUENCE public.customer_sq_pk;
+       public       postgres    false    192    3            ó           0    0    customer_sq_pk    SEQUENCE OWNED BY     4   ALTER SEQUENCE customer_sq_pk OWNED BY customer.id;
+            public       postgres    false    193            ¬            1259    32798    sq_order    SEQUENCE     j   CREATE SEQUENCE sq_order
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+    DROP SEQUENCE public.sq_order;
+       public       postgres    false    3            ∆            1259    33053    order    TABLE     ~  CREATE TABLE "order" (
+    orderno character(5) DEFAULT nextval('sq_order'::regclass) NOT NULL,
+    customerid character(5) NOT NULL,
+    adressid character(5) NOT NULL,
+    contactid character(5) NOT NULL,
+    product character varying(32) NOT NULL,
+    price double precision NOT NULL,
+    volume integer NOT NULL,
+    state character varying(20) NOT NULL,
+    baselotid character varying(20) NOT NULL,
+    orderdate date NOT NULL,
+    startdate date,
+    releasedate date,
+    completiondate date,
+    duedate date,
+    actualdeliverydate date,
+    lotsize integer NOT NULL,
+    priority integer,
+    comment character varying(250)
+);
+    DROP TABLE public."order";
+       public         postgres    false    194    3            √            1259    32804    setup    TABLE     g   CREATE TABLE setup (
+    attribute character(32) NOT NULL,
+    value character varying(32) NOT NULL
+);
+    DROP TABLE public.setup;
+       public         postgres    false    3            ƒ            1259    32807    sq_pk    SEQUENCE     g   CREATE SEQUENCE sq_pk
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+    DROP SEQUENCE public.sq_pk;
+       public       postgres    false    3            ≈            1259    32809    sq_setup    SEQUENCE     j   CREATE SEQUENCE sq_setup
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+    DROP SEQUENCE public.sq_setup;
+       public       postgres    false    3            É          0    32774    address 
+   TABLE DATA               c   COPY address (id, customerid, street, houseno, city, zipcode, country, billingaddress) FROM stdin;
+    public       postgres    false    186   Ì7       Ö          0    32780    bankaccount 
+   TABLE DATA               C   COPY bankaccount (id, customerid, iban, bic, bankname) FROM stdin;
+    public       postgres    false    188   v8       á          0    32786    contact 
+   TABLE DATA               \   COPY contact (id, customerid, phoneno, name, firstname, mailadress, "position") FROM stdin;
+    public       postgres    false    190   9       â          0    32792    customer 
+   TABLE DATA               >   COPY customer (id, companyname, ranking, comment) FROM stdin;
+    public       postgres    false    192   ∞9       ò           0    0    customer_sq_pk    SEQUENCE SET     5   SELECT pg_catalog.setval('customer_sq_pk', 1, true);
+            public       postgres    false    193            è          0    33053    order 
+   TABLE DATA               ⁄   COPY "order" (orderno, customerid, adressid, contactid, product, price, volume, state, baselotid, orderdate, startdate, releasedate, completiondate, duedate, actualdeliverydate, lotsize, priority, comment) FROM stdin;
+    public       postgres    false    198   ˛9       å          0    32804    setup 
+   TABLE DATA               *   COPY setup (attribute, value) FROM stdin;
+    public       postgres    false    195   ¨:       ô           0    0 
+   sq_address    SEQUENCE SET     1   SELECT pg_catalog.setval('sq_address', 3, true);
+            public       postgres    false    185            ö           0    0    sq_bankaccount    SEQUENCE SET     5   SELECT pg_catalog.setval('sq_bankaccount', 8, true);
+            public       postgres    false    187            õ           0    0 
+   sq_contact    SEQUENCE SET     1   SELECT pg_catalog.setval('sq_contact', 6, true);
+            public       postgres    false    189            ú           0    0    sq_customer    SEQUENCE SET     2   SELECT pg_catalog.setval('sq_customer', 5, true);
+            public       postgres    false    191            ù           0    0    sq_order    SEQUENCE SET     /   SELECT pg_catalog.setval('sq_order', 8, true);
+            public       postgres    false    194            û           0    0    sq_pk    SEQUENCE SET     -   SELECT pg_catalog.setval('sq_pk', 30, true);
+            public       postgres    false    196            ü           0    0    sq_setup    SEQUENCE SET     0   SELECT pg_catalog.setval('sq_setup', 1, false);
+            public       postgres    false    197            ˘           2606    32812    address adress_pkey 
+   CONSTRAINT     J   ALTER TABLE ONLY address
+    ADD CONSTRAINT adress_pkey PRIMARY KEY (id);
+ =   ALTER TABLE ONLY public.address DROP CONSTRAINT adress_pkey;
+       public         postgres    false    186    186            ˚           2606    32814    bankaccount bankaccount_pkey 
+   CONSTRAINT     S   ALTER TABLE ONLY bankaccount
+    ADD CONSTRAINT bankaccount_pkey PRIMARY KEY (id);
+ F   ALTER TABLE ONLY public.bankaccount DROP CONSTRAINT bankaccount_pkey;
+       public         postgres    false    188    188                       2606    33058    order commission_pkey 
+   CONSTRAINT     S   ALTER TABLE ONLY "order"
+    ADD CONSTRAINT commission_pkey PRIMARY KEY (orderno);
+ A   ALTER TABLE ONLY public."order" DROP CONSTRAINT commission_pkey;
+       public         postgres    false    198    198            ˝           2606    32818    contact contact_pkey 
+   CONSTRAINT     K   ALTER TABLE ONLY contact
+    ADD CONSTRAINT contact_pkey PRIMARY KEY (id);
+ >   ALTER TABLE ONLY public.contact DROP CONSTRAINT contact_pkey;
+       public         postgres    false    190    190            ˇ           2606    32820    customer customer_pkey 
+   CONSTRAINT     M   ALTER TABLE ONLY customer
+    ADD CONSTRAINT customer_pkey PRIMARY KEY (id);
+ @   ALTER TABLE ONLY public.customer DROP CONSTRAINT customer_pkey;
+       public         postgres    false    192    192                       2606    32822    setup setup_pkey 
+   CONSTRAINT     N   ALTER TABLE ONLY setup
+    ADD CONSTRAINT setup_pkey PRIMARY KEY (attribute);
+ :   ALTER TABLE ONLY public.setup DROP CONSTRAINT setup_pkey;
+       public         postgres    false    195    195                       1259    33079    fki_Fk_contact    INDEX     B   CREATE INDEX "fki_Fk_contact" ON "order" USING btree (contactid);
+ $   DROP INDEX public."fki_Fk_contact";
+       public         postgres    false    198                       1259    33080    fki_ordertoadress    INDEX     B   CREATE INDEX fki_ordertoadress ON "order" USING btree (adressid);
+ %   DROP INDEX public.fki_ordertoadress;
+       public         postgres    false    198            	           2606    33059    order Fk_contact    FK CONSTRAINT     i   ALTER TABLE ONLY "order"
+    ADD CONSTRAINT "Fk_contact" FOREIGN KEY (contactid) REFERENCES contact(id);
+ >   ALTER TABLE ONLY public."order" DROP CONSTRAINT "Fk_contact";
+       public       postgres    false    2045    198    190                       2606    32830    address adress_customerid_fkey    FK CONSTRAINT     u   ALTER TABLE ONLY address
+    ADD CONSTRAINT adress_customerid_fkey FOREIGN KEY (customerid) REFERENCES customer(id);
+ H   ALTER TABLE ONLY public.address DROP CONSTRAINT adress_customerid_fkey;
+       public       postgres    false    192    2047    186                       2606    32835    bankaccount bankaccount_fk    FK CONSTRAINT     q   ALTER TABLE ONLY bankaccount
+    ADD CONSTRAINT bankaccount_fk FOREIGN KEY (customerid) REFERENCES customer(id);
+ D   ALTER TABLE ONLY public.bankaccount DROP CONSTRAINT bankaccount_fk;
+       public       postgres    false    188    2047    192            
+           2606    33064     order commission_customerid_fkey    FK CONSTRAINT     ù   ALTER TABLE ONLY "order"
+    ADD CONSTRAINT commission_customerid_fkey FOREIGN KEY (customerid) REFERENCES customer(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ L   ALTER TABLE ONLY public."order" DROP CONSTRAINT commission_customerid_fkey;
+       public       postgres    false    198    2047    192                       2606    33069    order commission_fk    FK CONSTRAINT     l   ALTER TABLE ONLY "order"
+    ADD CONSTRAINT commission_fk FOREIGN KEY (customerid) REFERENCES customer(id);
+ ?   ALTER TABLE ONLY public."order" DROP CONSTRAINT commission_fk;
+       public       postgres    false    2047    198    192                       2606    32850    contact contact_fk    FK CONSTRAINT     i   ALTER TABLE ONLY contact
+    ADD CONSTRAINT contact_fk FOREIGN KEY (customerid) REFERENCES customer(id);
+ <   ALTER TABLE ONLY public.contact DROP CONSTRAINT contact_fk;
+       public       postgres    false    192    190    2047                       2606    33074    order fk_ordertoadress    FK CONSTRAINT     l   ALTER TABLE ONLY "order"
+    ADD CONSTRAINT fk_ordertoadress FOREIGN KEY (adressid) REFERENCES address(id);
+ B   ALTER TABLE ONLY public."order" DROP CONSTRAINT fk_ordertoadress;
+       public       postgres    false    198    2041    186            É   y   xú3T Nc0\Rîxx~*ß°ßSjQNfßÅÖ°•9ßKjiIqrFNb^
+góX≠	Lßë!ßGbnjPµÅëë1'P	ƒ8S0ûòìS\R§ß¿if¬úôõõZTih	TÈÓ‰ÎË	‘£«≈≈ ;◊ ˆ      Ö   â   xú3U N0È‚jaila…ÈÓÍÁÈ‚ÍÊ∆Èî_\ÏîòóÕeÜ§ …ﬂ¬ÿÑÄ¨‡`∞:èƒÙ‘§ƒR.àc0iiaQedÅúaN\ÊH
+|A“@æéÆ!˛A õ}”*¡6ZÄ’ò¬›Rkrô?»Fêa
+¡ôππ©Ey\1z\\\ DÂ*ï      á   ë   xú3Q N0…Èîü_ÃÈëü^ ……eä,·ùìòôöß¿êZíZî4ÉI#cc#Nﬂƒ¥¥ƒJ®äá\ΩîTNgW.#$•úÓ9â≈ú°≈…ôúú¡©ŸE©%áóeÊqôÅ•!VZYr˙§¶Ász%fÁ'qfÈÂ 9 fnå |≤,ì      â   >   xú3Q Nè“Ù|ß¸‚bNgN.c∞X@jIjß£ßobZZb%ó)X‘'®“—$Œ£«≈≈ ÈÖ&      è   û   xúmè¡
+¬0ÜœÈS¯+I€lÛÿ1ı¢EÿuCºlﬂ≥*3JC˘˘~(˝Rﬁ…@»È4#Ó/G X8¿ıS:Ù Öö
+Îä¸É∆1mÕµk#¶Œœ˙ú§rΩ€w‡,◊®áÄ7mwõÔK—˝É⁄›|‹¶Õ&Vº∑â$
+≤>¸ôù2ÒTí9,zÂpˆz˘ÛúÛdFkåyºÄ?¸      å      xúã—„‚‚ ≈ ©     

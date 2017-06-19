@@ -18,13 +18,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ProductionTreeController">
+<ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" prefHeight="700.0" prefWidth="900.0" stylesheets="@layout.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ProductionTreeController">
 	<content>
     	<VBox VBox.vgrow="ALWAYS">
 			<children>
-				<TreeTableView fx:id="prodTreeTable" editable="false" prefHeight="505.0" prefWidth="680.0" >
+				<TreeTableView fx:id="prodTreeTable" editable="false" VBox.vgrow="ALWAYS">
 					<columns>
-						<TreeTableColumn fx:id="seq" prefWidth="75.0" text="Seq">
+						<TreeTableColumn fx:id="seq" prefWidth="95.0" text="Seq">
 							<cellValueFactory>
 								<PropertyValueFactory property="seq" />
 							</cellValueFactory>
@@ -50,6 +50,9 @@
 							</cellValueFactory>
 						</TreeTableColumn>
 					</columns>
+               <columnResizePolicy>
+                  <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
 				</TreeTableView>
 			</children>
 		<VBox.margin>
