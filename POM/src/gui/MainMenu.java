@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import pom_service.PomService;
 
 import java.io.IOException;
+import java.util.List;
 
 public class MainMenu extends Application {
 	private PomService pomService;
@@ -174,5 +175,8 @@ public class MainMenu extends Application {
 
 	public MainController getMainController() {
 		return this.mc;
+	}
+	public ObservableList<Route> getRouteList(String orderno,String product){
+		return FXCollections.observableList(pomService.getRouteList(orderno, product));
 	}
 }

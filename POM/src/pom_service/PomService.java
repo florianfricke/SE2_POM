@@ -188,4 +188,7 @@ public class PomService {
 		}
 		return success;
 	}
+	public List<Route> getRouteList(String orderno,String product){
+		return mesPersistance.getRouteList(orderno, product);
+	}
 }

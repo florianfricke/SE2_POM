@@ -1,9 +1,11 @@
 package gui; 
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Predicate;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
@@ -11,8 +13,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent; 
-import javafx.fxml.FXML; 
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -22,6 +27,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea; 
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
@@ -54,6 +61,8 @@ public class OrderController {
     @FXML private Label txt_errorMessage;
     @FXML private Button btnRelease;
     @FXML private Button btnUpdate;
+    @FXML private Button btnTree;
+    
     
     //Lot Table
     @FXML private TableView<Lot> lotTable;
@@ -72,7 +81,6 @@ public class OrderController {
     @FXML private DatePicker dpkDueDate;
     @FXML private DatePicker dpkStartDate;
     private String errorText="Some of your input values are not valid or empty. Please try again.";
-    private boolean [] emptyCombobox;
     
 	//String Converter for DatePicker
     private StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
@@ -101,14 +109,18 @@ public class OrderController {
         this.mainMenu = mainMenu;
         this.order = new Order();
         setTextFields();
-        btnRelease.setDisable(true);
+        //btnRelease.setDisable(true);
         btnUpdate.setDisable(true);
+        btnTree.setDisable(true);
         
    }
 	
 	public void init(MainMenu mainMenu, Order order) {
         this.mainMenu = mainMenu;
         this.order = order;
+        if(order.stateProperty().get().equals(State.PLANNED.name())){
+        	btnTree.setDisable(true);
+        }
         setTextFields();
    }
 	
@@ -467,6 +479,27 @@ public class OrderController {
         	alert.setHeaderText("State have to be IN PROCESS!");
         	alert.show();
     	}
+    }
+	
+	@FXML private void handleTree(ActionEvent event) {
+		 System.out.println("Production Flow");
+	        try {
+	        	FXMLLoader fxmlLoader = new FXMLLoader();
+	            fxmlLoader.setLocation(getClass().getResource("ProductionTreeView.fxml"));
+	            Parent root = fxmlLoader.load();
+	            ProductionTreeController prodTreeCtrl = (ProductionTreeController)fxmlLoader.getController();
+	            prodTreeCtrl.setMainApp(this.mainMenu, this.order.ordernoProperty().get(), order.productProperty().get());
+	            Scene scene = new Scene(root, 800, 500);
+	            Stage stage = new Stage();
+	            stage.setTitle("Production Flow");
+	            stage.setScene(scene);
+	            stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
+	            stage.initModality(Modality.APPLICATION_MODAL);
+	            stage.showAndWait();
+	        } catch (IOException e) {
+	            Logger logger = Logger.getLogger(getClass().getName());
+	            logger.log(Level.SEVERE, "Failed to create new Window.", e);
+	        	} 
     }
 	
 	private void closeWindow(ActionEvent e){

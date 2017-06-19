@@ -12,4 +12,5 @@ public interface IMesDBService {
 	public int getLotCount(String orderNo);
 	public int getDayWorkload(Date date);
 	public List<String> getProductList();
+	public List<Route> getRouteList(String orderno,String product);
 }

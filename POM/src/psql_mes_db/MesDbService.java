@@ -155,11 +155,10 @@ public class MesDbService implements IMesDBService {
 		PreparedStatement stmt = null;
 		ResultSet rs;
 		try{
-			sql= "SELECT * FROM public.prodflow WHERE product = ?";
+			sql= "SELECT * FROM public.prodflow WHERE product = ? AND seq= '1'";
 			stmt = this.con.prepareStatement(sql);
 			stmt.setString(1,product);
 			rs = stmt.executeQuery();
-			rs.next();
 			if(rs.next())
 				return rs.getString("route");
 		}catch (SQLException e) {
@@ -173,7 +172,7 @@ public class MesDbService implements IMesDBService {
 		PreparedStatement stmt = null;
 		ResultSet rs;
 		try{
-			sql= "SELECT * FROM public.workflow WHERE route = ?";
+			sql= "SELECT * FROM public.workflow WHERE route = ? ORDER BY oper ASC";
 			stmt = this.con.prepareStatement(sql);
 			stmt.setString(1,route);
 			rs = stmt.executeQuery();
@@ -202,5 +201,64 @@ public class MesDbService implements IMesDBService {
 			e.printStackTrace();
 		}
 		return productList;
+	}
+	public List<Route> getRouteList(String orderno,String product){
+		String sql = "";
+		List<Route> routeList = new ArrayList<>();
+		PreparedStatement stmt = null;
+		ResultSet rs;
+		try{
+			sql= "SELECT seq, product, route "
+					+ "FROM prodflow "
+					+ "WHERE product = ? "
+					+ "ORDER BY seq ASC";
+			stmt = this.con.prepareStatement(sql);
+			stmt.setString(1,product);
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				Route route = new Route(rs.getString("seq"), rs.getString("product"), rs.getString("route"), "", "", "");
+				List<Operation> operList = getOperationList(orderno, route.routeProperty().get());
+				if( operList != null){
+					route.setOperList(operList);
+				}
+				routeList.add(route);
+			}
+
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return routeList;
+		/*Join
+		 * SELECT p.seq, p.product, p.route, w.oper, w."DESC",(Select COUNT(*) FROM lot WHERE route = p.route AND oper = w.oper AND "ORDER" = '43   ' ) AS count 
+			FROM prodflow p JOIN workflow w ON (p.route = w.route) 
+			WHERE p.product = '2009MF' 
+			ORDER BY p.seq ASC, w.oper ASC;  
+		 
+		 */
+	}
+	
+	public List<Operation> getOperationList(String orderno,String route){
+		String sql = "";
+		List<Operation> operList = new ArrayList<>();
+		PreparedStatement stmt = null;
+		ResultSet rs;
+		try{
+			sql= "SELECT oper, \"DESC\", (Select COUNT(*) FROM lot WHERE route = ? AND oper = w.oper AND \"ORDER\" = ?) AS count "
+					+ "FROM workflow w "
+					+ "WHERE route = ? "
+					+ "ORDER BY oper ASC";
+			stmt = this.con.prepareStatement(sql);
+			stmt.setString(1,route);
+			stmt.setString(2,orderno);
+			stmt.setString(3,route);
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				operList.add(new Operation(rs.getString("oper"), rs.getString("DESC"), rs.getString("count")));
+			}
+
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return operList;
 	}
 }
