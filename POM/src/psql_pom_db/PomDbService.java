@@ -1,6 +1,6 @@
 package psql_pom_db;
 import pom_db_interface.*;
-
+import pom_service.ErrorLog;
 import types.*;
 
 import java.util.ArrayList;
@@ -114,7 +114,8 @@ public class PomDbService implements IPomDbService {
 			}
 		    return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
+			//ErrorLog.write(e);
 		}
 		return false;
 	}
@@ -263,7 +264,7 @@ public class PomDbService implements IPomDbService {
 			}
 		    return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return false;
 	}
@@ -283,7 +284,7 @@ public class PomDbService implements IPomDbService {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return custList;
 	}
@@ -295,7 +296,7 @@ public class PomDbService implements IPomDbService {
 	         con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/mes?currentSchema=pom","postgres", "0815");
 	         return true;
 		}catch(Exception e){
-			e.printStackTrace();
+			ErrorLog.write(e);
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 		}
 		System.out.println("Erfolgreich verbunden!");
@@ -306,8 +307,8 @@ public class PomDbService implements IPomDbService {
 			this.con.close();
 			System.out.println("Datenbankverbindung geschlossen.");
 		}catch(Exception e){
-			e.printStackTrace();
-			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			ErrorLog.write(e);
+			System.err.println(e.getClass().getName()+": "+e.getMessage()); // Ausgabe auf Konstole?!
 		}
 	}
 	protected void finalize() 
@@ -367,7 +368,7 @@ public class PomDbService implements IPomDbService {
 			    return true;
 			    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return false;
 	}
@@ -393,7 +394,7 @@ public class PomDbService implements IPomDbService {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return addressList;
 	}
@@ -417,7 +418,7 @@ public class PomDbService implements IPomDbService {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return contactList;
 	}
@@ -441,7 +442,7 @@ public class PomDbService implements IPomDbService {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return bankAccountList;
 	}
@@ -482,7 +483,7 @@ public class PomDbService implements IPomDbService {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return orderList;
 	}	
@@ -496,7 +497,7 @@ public class PomDbService implements IPomDbService {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ErrorLog.write(e);
 			return emptyDate;
 		}
 	}
@@ -509,7 +510,7 @@ public class PomDbService implements IPomDbService {
 				stmt.setDate(index, java.sql.Date.valueOf(d));
 			}
 		}catch(SQLException e){
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 	}
 	
@@ -546,7 +547,7 @@ public class PomDbService implements IPomDbService {
 			    stmt.close();
 			    
 			} catch (SQLException e) {
-				e.printStackTrace();
+				ErrorLog.write(e);
 			}
 			return orderList;
 	}
@@ -584,7 +585,7 @@ public class PomDbService implements IPomDbService {
 			    stmt.close();
 			    
 			} catch (SQLException e) {
-				e.printStackTrace();
+				ErrorLog.write(e);
 			}
 			return orderList;
 	}
@@ -625,7 +626,7 @@ public class PomDbService implements IPomDbService {
 		    stmt.close();
 		    return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return false;
 	}
@@ -657,7 +658,7 @@ public class PomDbService implements IPomDbService {
 			stmt.executeUpdate();	
 			return true;
 	} catch (SQLException e) {
-		e.printStackTrace();
+		ErrorLog.write(e);
 	}
 		return false;
 	}
@@ -678,7 +679,7 @@ public class PomDbService implements IPomDbService {
 		    return true;
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return false;
 	}
@@ -696,7 +697,7 @@ public class PomDbService implements IPomDbService {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		customerToReturn.setAddressList(FXCollections.observableList(this.getAddressList(customerId)));
 		customerToReturn.setBankAccountList(FXCollections.observableList(this.getBankAccountList(customerId)));
@@ -718,7 +719,7 @@ public class PomDbService implements IPomDbService {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return cpcty;
 	}
