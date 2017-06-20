@@ -530,7 +530,13 @@ public class OrderController {
 							txt_errorMessage.setText("Volume can not be reduced.");
 							txt_volume.setStyle("-fx-background-color: #ffc0cb;");
 							txt_volume.setText(String.valueOf(order.getOrderLotChanges().volumeProperty().get()));
-						}else if(unfocus && i > 0) {
+						}else if(!txt_volume.getText().matches("[0-9]*") && unfocus){
+							txt_errorMessage.setText("");
+							txt_errorMessage.setVisible(true);
+							txt_errorMessage.setText(errorText);
+							txt_volume.setStyle("-fx-background-color: #ffc0cb;");
+							txt_volume.setText(String.valueOf(order.getOrderLotChanges().volumeProperty().get()));
+						}else if(unfocus && i > 0 ) {
 							Alert alert = new Alert(AlertType.INFORMATION);
 					    	alert.setTitle("Notification");
 					    	alert.setHeaderText("You updated the Volume. Click update to transfer new Lots to the MES.");
@@ -541,6 +547,30 @@ public class OrderController {
 							txt_volume.setStyle(null);
 						}
 					}	
+					//For all states	
+					else if(!focus){
+							String localString;
+							localString = txt_volume.getText();
+							if(txt_volume.getText().length() == 0 || txt_volume.getText().equals("0")) {
+								txt_volume.setStyle("-fx-background-color: #ffc0cb;");
+								txt_errorMessage.setVisible(true);
+								txt_errorMessage.setText(errorText);
+							}
+							//Only numbers, letters and spaces are allowed.
+							else if(txt_volume.getText().matches("[0-9]*")) { 
+									txt_volume.setText(localString); 
+									txt_volume.getStyleClass().add("reset_label_error");
+									txt_errorMessage.textProperty().set("");
+									txt_errorMessage.setVisible(false);
+							}
+							else{
+								txt_volume.setStyle("-fx-background-color: #ffc0cb;");
+								txt_volume.setText("");
+								txt_errorMessage.setVisible(true);
+								txt_errorMessage.setText(errorText);
+							} 
+						}
+					else{}
 			}
 		});  
 		
