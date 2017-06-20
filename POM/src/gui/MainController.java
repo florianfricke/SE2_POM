@@ -223,6 +223,45 @@ public class MainController{
     	}
     }
     
+    @FXML private void handleCancelOrder(ActionEvent event){
+    	if(orderTable.getSelectionModel().getSelectedItem() == null){
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("Select Order!");
+        	alert.show();
+        	return;
+    	}
+    	if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel: order " +orderTable.getSelectionModel().getSelectedItem().ordernoProperty().get().toString()) == true){
+    		System.out.println("Cancel");
+    	if(orderTable.getSelectionModel().getSelectedItem().stateProperty().get().equals(State.IN_PROCESS.toString())){
+    	
+    		if (mainMenu.cancelOrder(orderTable.getSelectionModel().getSelectedItem())){
+    			
+    		}
+    			
+    		else {
+    			Alert alert = new Alert(AlertType.ERROR);
+            	alert.setTitle("Notificaion");
+            	alert.setHeaderText("Some lots are already IN PROCESS");
+            	alert.show();
+            	return;
+    		}
+    	
+    		mainMenu.cancelOrder(orderTable.getSelectionModel().getSelectedItem());
+    	}else {
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("Order is not IN PROCESS");
+        	alert.show();
+        	return;
+    	}
+    		
+    	}
+    	
+    	
+    	
+    }
+    
     @FXML private void handleRowClickOrder(MouseEvent click) {
     	if(click.getClickCount() != 2) return; //just Double Click
         System.out.println("clicked on Order: " + (orderTable.getSelectionModel().getSelectedItem()).ordernoProperty().get());

@@ -119,6 +119,13 @@ public class MainMenu extends Application {
 		}
 
 	}
+	
+	public boolean cancelOrder(Order order) {
+		if (order.ordernoProperty().get().isEmpty())
+			return false;
+		return (pomService.cancelOrder(order));
+
+	}
 
 	public ObservableList<Address> getAddressList(String custId) {
 		return FXCollections.observableList(pomService.getAddressList(custId));
