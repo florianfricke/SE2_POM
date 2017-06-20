@@ -6,6 +6,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +22,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
@@ -36,7 +39,7 @@ public class CustomerController {
 	//TextFields
 	@FXML private TextField txt_Id;
 	@FXML private TextField txt_Name;
-	@FXML private TextField txt_Ranking;
+	@FXML private ComboBox<String> cbxRanking;
 	@FXML private TextArea tar_Comment;
 	//Address Table
 	@FXML private TableView<Address> addressTable;
@@ -80,27 +83,29 @@ public class CustomerController {
    }
 	
 	private void setTextFields(){
+		
+		
+		ObservableList<String> listRanking = FXCollections.observableArrayList("A","B","C");
+		cbxRanking.setItems(listRanking);
+		
+		
 		Bindings.bindBidirectional(txt_Id.textProperty(), this.cust.idProperty());
 		Bindings.bindBidirectional(txt_Name.textProperty(),this.cust.nameProperty());
-		Bindings.bindBidirectional(txt_Ranking.textProperty(),this.cust.rankingProperty());
+		Bindings.bindBidirectional(cbxRanking.valueProperty(),this.cust.rankingProperty());
 		Bindings.bindBidirectional(tar_Comment.textProperty(),this.cust.commentProperty());
 
 /************************************************************************************/
-		txt_Ranking.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-		String localString;
-		localString = txt_Ranking.getText();
-		if(!newValue){
-			/*Only allows one letter(ABCabc) and spaces (before and after the letter)*/
-			if(txt_Ranking.getText().matches("[abcABC]{1}[ ]$") || txt_Ranking.getText().matches("[ ]{1}[abcABC]$") || txt_Ranking.getText().matches("[abcABC]{1}")){
-				txt_Ranking.setText(localString);
-				txt_Ranking.getStyleClass().add("reset_label_error");
-				txt_errorMessage.setText("");
-			}else {
-				txt_Ranking.setText("");
-				txt_Ranking.getStyleClass().add("label_error");
+		cbxRanking.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			//checkComBoxes();
+			boolean localBool;
+			localBool = cbxRanking.getSelectionModel().isEmpty();
+			if(localBool == true){
 				txt_errorMessage.setVisible(true);
 				txt_errorMessage.setText(errorText);
-				}
+			}else{
+				//cbxPriority.getStyleClass().add("reset_label_error");
+				txt_errorMessage.setVisible(false);
+				txt_errorMessage.setText("");
 			}
 		});
 /***************************************************************************************/
@@ -209,7 +214,7 @@ public class CustomerController {
 	}
 	private boolean fillFields(String action){
 		boolean[] emptyFields = {txt_Name.getText().isEmpty(),
-								txt_Ranking.getText().isEmpty(),
+								cbxRanking.getSelectionModel().isEmpty(),
 								};
 		this.emptyFields = emptyFields;
 		action = "save";

@@ -147,6 +147,10 @@ public class OrderController {
 		ObservableList<CbxItemObservable> custIdList = FXCollections.observableArrayList();
 		ObservableList<CbxItemObservable> addrIdList = FXCollections.observableArrayList();
 		ObservableList<CbxItemObservable> contactIdList = FXCollections.observableArrayList();
+		
+		ObservableList<String> listPriority = FXCollections.observableArrayList("1","2","3","5","6","7","8","9","10");
+		cbxPriority.setItems(listPriority);
+		
 		for (Customer cust : mainMenu.getCustomerList()) {
 			 custIdList.add(cust.comboBoxProperty());	 
 		}
@@ -198,9 +202,7 @@ public class OrderController {
 			cbxContact.getSelectionModel().select(new CbxItemObservable("", "Choose Contact"));
 		}
 		
-		ObservableList<String> listPriority = FXCollections.observableArrayList("1","2","3","5","6","7","8","9","10");
-		cbxPriority.setItems(listPriority);
-		
+
 		
 		
 		//DatePicker
