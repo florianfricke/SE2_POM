@@ -552,7 +552,7 @@ public class OrderController {
 							String localString;
 							localString = txt_volume.getText();
 							if(txt_volume.getText().length() == 0 || txt_volume.getText().equals("0")) {
-								txt_volume.setStyle("-fx-background-color: #ffc0cb;");
+								txt_volume.getStyleClass().add("label_error");
 								txt_errorMessage.setVisible(true);
 								txt_errorMessage.setText(errorText);
 							}
@@ -564,7 +564,7 @@ public class OrderController {
 									txt_errorMessage.setVisible(false);
 							}
 							else{
-								txt_volume.setStyle("-fx-background-color: #ffc0cb;");
+								txt_volume.getStyleClass().add("label_error");
 								txt_volume.setText("");
 								txt_errorMessage.setVisible(true);
 								txt_errorMessage.setText(errorText);
