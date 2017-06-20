@@ -80,13 +80,16 @@ public class MainMenu extends Application {
 		}
 	}
 
-	public void deleteCustomer(Customer cust) {
+	public boolean deleteCustomer(Customer cust) {
 		if (cust.idProperty().get().isEmpty())
-			return;
+			return false;
 		if (pomService.deleteCustomer(cust.idProperty().get())) {
 			customerList.remove(cust);
+			return true;
+		
+		} else {
+			return false;
 		}
-
 	}
 
 	public void saveOrder(Order order) {
