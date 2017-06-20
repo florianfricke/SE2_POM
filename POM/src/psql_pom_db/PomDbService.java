@@ -43,7 +43,7 @@ public class PomDbService implements IPomDbService {
 		    System.out.println("Inserted Customer "+ cust.idProperty());
 		    if(!(cust.getAddressList().isEmpty())){ //if adressList was Updated
 		    	for (Address addrr : cust.getAddressList()) {
-					sql = "INSERT INTO public.address VALUES (DEFAULT,?,?,?,?,?,?,?)";
+					sql = "INSERT INTO pom.address VALUES (DEFAULT,?,?,?,?,?,?,?)";
 					stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);		 	
 						stmt.setString(1,cust.idProperty().get());
 					 	stmt.setString(2,addrr.streetProperty().get());
@@ -65,7 +65,7 @@ public class PomDbService implements IPomDbService {
 				for (Contact contact : cust.getContactList()) {
 			     
 				   
-					sql = "INSERT INTO public.contact VALUES (DEFAULT, ?,?,?,?,?,?)";
+					sql = "INSERT INTO pom.contact VALUES (DEFAULT, ?,?,?,?,?,?)";
 					stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				    stmt.setString(1,cust.idProperty().get());
 					stmt.setString(2,contact.phoneNoProperty().get());
@@ -84,7 +84,7 @@ public class PomDbService implements IPomDbService {
 			}
 			if(!(cust.getBankAccountList().isEmpty())){
 				for (BankAccount ba  : cust.getBankAccountList()) {
-			    	sql = "INSERT INTO public.bankaccount(customerid, iban, bic, bankname) VALUES"+ 
+			    	sql = "INSERT INTO pom.bankaccount(customerid, iban, bic, bankname) VALUES"+ 
 			    			"('" + cust.idProperty().get() +"','"+ ba.ibanProperty().get() +"','"+ 
 			    			ba.bicProperty().get() +"','"+ 
 			    			ba.bankNameProperty().get()+"')";
@@ -97,7 +97,7 @@ public class PomDbService implements IPomDbService {
 				    stmt.close();
 				   
 				    
-				    sql = "INSERT INTO public.contact VALUES (DEFAULT, ?,?,?,?)";
+				    sql = "INSERT INTO pom.contact VALUES (DEFAULT, ?,?,?,?)";
 					stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				    stmt.setString(1,cust.idProperty().get());
 					stmt.setString(2,ba.ibanProperty().get());
@@ -129,7 +129,7 @@ public class PomDbService implements IPomDbService {
 		PreparedStatement stmt = null;
 		try {
 			
-			sql = "UPDATE public.customer SET companyname=?, ranking=?, comment = ?" + 
+			sql = "UPDATE pom.customer SET companyname=?, ranking=?, comment = ?" + 
 			"WHERE id = ?";
 			stmt = this.con.prepareStatement(sql);
 			stmt.setString(1, cust.nameProperty().get()); // wenn ein Attribut nicht gesetzt wird wird automatisch NULL eingetragen?
@@ -142,7 +142,7 @@ public class PomDbService implements IPomDbService {
 		    if(!(cust.getAddressList().equals(dbCustAddressList))){ 
 		    	for (Address addrr : cust.getAddressList()) {
 		    		if(addrr.idProperty().get().isEmpty()){
-		    			sql = "INSERT INTO public.address(customerid, street, houseno, city, zipcode, country, billingaddress) VALUES"+ 
+		    			sql = "INSERT INTO pom.address(customerid, street, houseno, city, zipcode, country, billingaddress) VALUES"+ 
 				    			"('" + cust.idProperty().get() +"','"+ addrr.streetProperty().get() +"','"+ 
 				    			addrr.houseNoProperty().get() +"','"+ 
 				    			addrr.cityProperty().get() +"','"+ 
@@ -157,7 +157,7 @@ public class PomDbService implements IPomDbService {
 						rs.close();
 					    stmt.close();
 		    		}else{ 
-				    	sql = "UPDATE public.address SET street = ?, houseno = ?, city = ?, zipcode = ?, country = ?, billingaddress = ?"+ 
+				    	sql = "UPDATE pom.address SET street = ?, houseno = ?, city = ?, zipcode = ?, country = ?, billingaddress = ?"+ 
 				    			"WHERE id = ? AND customerid = ?";
 				    	stmt = this.con.prepareStatement(sql);
 		    			stmt.setString(1,addrr.streetProperty().get());
@@ -175,7 +175,7 @@ public class PomDbService implements IPomDbService {
 	    		//Zu loeschende Elemente heraussuchen
 	    		for (Address delAddrr : getAddressList(cust.idProperty().get())) { 
 	    			if(!(cust.getAddressList().contains(delAddrr))){
-		    			sql = "DELETE FROM public.address WHERE id = ?"; // add WHERE customerID, if custID later gets PK
+		    			sql = "DELETE FROM pom.address WHERE id = ?"; // add WHERE customerID, if custID later gets PK
 				    	stmt = this.con.prepareStatement(sql);
 		    			stmt.setString(1, delAddrr.idProperty().get());
 				    	stmt.executeUpdate();
@@ -186,7 +186,7 @@ public class PomDbService implements IPomDbService {
 			if(!(cust.getContactList().equals(dbCustContactList))){
 				for (Contact contact : cust.getContactList()) {
 					if(contact.idProperty().get().isEmpty()){
-						sql = "INSERT INTO public.contact(customerid, phoneno, name, firstname, mailadress, \"position\") VALUES"+ 
+						sql = "INSERT INTO pom.contact(customerid, phoneno, name, firstname, mailadress, \"position\") VALUES"+ 
 				    			"('" + cust.idProperty().get() +"','"+ contact.phoneNoProperty().get() +"','"+ 
 				    			contact.nameProperty().get() +"','"+ 
 				    			contact.firstNameProperty().get() +"','"+ 
@@ -200,7 +200,7 @@ public class PomDbService implements IPomDbService {
 						rs.close();
 					    stmt.close();
 					}else{ // das else ist wenn?
-				    	sql = "UPDATE public.contact SET phoneno = ?, name = ?, firstname = ?, mailadress = ?, position = ?"+ 
+				    	sql = "UPDATE pom.contact SET phoneno = ?, name = ?, firstname = ?, mailadress = ?, position = ?"+ 
 				    			"WHERE id = ? AND customerid = ?";
 				    	stmt = this.con.prepareStatement(sql);
 						stmt.setString(1,contact.phoneNoProperty().get());
@@ -216,7 +216,7 @@ public class PomDbService implements IPomDbService {
 				}
 				for (Contact delContact : getContactList(cust.idProperty().get())) {
 	    			if(!(cust.getContactList().contains(delContact))){
-		    			sql = "DELETE FROM public.contact WHERE id = ?"; // add WHERE customerID, if custID later gets PK
+		    			sql = "DELETE FROM pom.contact WHERE id = ?"; // add WHERE customerID, if custID later gets PK
 				    	stmt = this.con.prepareStatement(sql);
 		    			stmt.setString(1, delContact.idProperty().get());
 				    	stmt.executeUpdate();
@@ -227,7 +227,7 @@ public class PomDbService implements IPomDbService {
 			if(!(cust.getBankAccountList().equals(dbCustBankAccountList))){ 
 				for (BankAccount ba  : cust.getBankAccountList()) {
 					if(ba.idProperty().get().isEmpty()){
-				    	sql = "INSERT INTO public.bankaccount(customerid, iban, bic, bankname) VALUES"+ 
+				    	sql = "INSERT INTO pom.bankaccount(customerid, iban, bic, bankname) VALUES"+ 
 				    			"('" + cust.idProperty().get() +"','"+ ba.ibanProperty().get() +"','"+ 
 				    			ba.bicProperty().get() +"','"+ 
 				    			ba.bankNameProperty().get()+"')";
@@ -239,7 +239,7 @@ public class PomDbService implements IPomDbService {
 						rs.close();
 					    stmt.close();
 					}else{
-				    	sql = "UPDATE public.bankaccount SET iban = ?, bic = ?, bankname = ?"+ 
+				    	sql = "UPDATE pom.bankaccount SET iban = ?, bic = ?, bankname = ?"+ 
 				    			"WHERE id = ? AND customerid = ?";
 				    	stmt = this.con.prepareStatement(sql);
 						stmt.setString(1,ba.ibanProperty().get());
@@ -253,7 +253,7 @@ public class PomDbService implements IPomDbService {
 				}
 				for (BankAccount delBankAccount : getBankAccountList(cust.idProperty().get())) {
 	    			if(!(cust.getBankAccountList().contains(delBankAccount))){
-		    			sql = "DELETE FROM public.bankaccount WHERE id = ?"; // add WHERE customerID, if custID later gets PK
+		    			sql = "DELETE FROM pom.bankaccount WHERE id = ?"; // add WHERE customerID, if custID later gets PK
 				    	stmt = this.con.prepareStatement(sql);
 		    			stmt.setString(1, delBankAccount.idProperty().get());
 				    	stmt.executeUpdate();
@@ -291,7 +291,8 @@ public class PomDbService implements IPomDbService {
 	private boolean openConnection(){
 		try{
 			 Class.forName("org.postgresql.Driver");
-	         con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/pom","postgres", "0815");
+			 //current schema is set as 'pom'
+	         con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/mes?currentSchema=pom","postgres", "0815");
 	         return true;
 		}catch(Exception e){
 			e.printStackTrace();
@@ -331,7 +332,7 @@ public class PomDbService implements IPomDbService {
 		try {
 			if(!delAddressList.isEmpty()){
 				for (@SuppressWarnings("unused") Address delAddrr : delAddressList) {
-					sql = "DELETE FROM public.address WHERE customerid = ?"; // add WHERE customerID, if custID later gets PK
+					sql = "DELETE FROM pom.address WHERE customerid = ?"; // add WHERE customerID, if custID later gets PK
 			    	stmt = this.con.prepareStatement(sql);
 					stmt.setString(1, id);
 			    	stmt.executeUpdate();
@@ -341,7 +342,7 @@ public class PomDbService implements IPomDbService {
 			
 			if(!delContactList.isEmpty()){
 				for (@SuppressWarnings("unused") Contact delContact : delContactList) {
-					sql = "DELETE FROM public.contact WHERE customerid = ?"; // add WHERE customerID, if custID later gets PK
+					sql = "DELETE FROM pom.contact WHERE customerid = ?"; // add WHERE customerID, if custID later gets PK
 			    	stmt = this.con.prepareStatement(sql);
 					stmt.setString(1, id);
 			    	stmt.executeUpdate();
@@ -351,7 +352,7 @@ public class PomDbService implements IPomDbService {
 			
 			if(!delBankAccountList.isEmpty()){
 				for (@SuppressWarnings("unused") BankAccount delBa : delBankAccountList) {
-					sql = "DELETE FROM public.bankaccount WHERE customerid = ?"; // add WHERE customerID, if custID later gets PK
+					sql = "DELETE FROM pom.bankaccount WHERE customerid = ?"; // add WHERE customerID, if custID later gets PK
 			    	stmt = this.con.prepareStatement(sql);
 					stmt.setString(1, id);
 			    	stmt.executeUpdate();
@@ -454,7 +455,7 @@ public class PomDbService implements IPomDbService {
 		
 		PreparedStatement stmt = null;
 		try {
-			stmt = con.prepareStatement("SELECT * FROM public.order");
+			stmt = con.prepareStatement("SELECT * FROM pom.order");
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next())
@@ -517,7 +518,7 @@ public class PomDbService implements IPomDbService {
 			
 			PreparedStatement stmt = null;
 			try {
-				stmt = con.prepareStatement("SELECT * FROM public.order WHERE Customerid = ?");
+				stmt = con.prepareStatement("SELECT * FROM pom.order WHERE Customerid = ?");
 				stmt.setString(1,customerID);
 				ResultSet rs = stmt.executeQuery();
 				
@@ -555,7 +556,7 @@ public class PomDbService implements IPomDbService {
 			
 			PreparedStatement stmt = null;
 			try {
-				stmt = con.prepareStatement("SELECT * FROM public.order WHERE Customerid = ?");
+				stmt = con.prepareStatement("SELECT * FROM pom.order WHERE Customerid = ?");
 				stmt.setString(1,customerID);
 				ResultSet rs = stmt.executeQuery();
 				
@@ -597,7 +598,7 @@ public class PomDbService implements IPomDbService {
 		PreparedStatement stmt = null;
 		ResultSet rs;
 		try {
-			sql= "INSERT INTO public.order VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			sql= "INSERT INTO pom.order VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1,order.customeridProperty().get());
 			stmt.setString(2,order.addressidProperty().get());
@@ -633,7 +634,7 @@ public class PomDbService implements IPomDbService {
 	public boolean updateOrder(Order order) {
 		PreparedStatement stmt = null;
 		try {	
-			stmt = con.prepareStatement("Update public.order set customerid = ?,adressid=?,contactid=?,product=?,price=?,volume=?,state=?,baselotid=?,orderdate=?, startdate=?, releasedate=?, completiondate=?, duedate=?, actualdeliverydate=?, lotsize=?, priority=?, comment=? where orderno = ? ");
+			stmt = con.prepareStatement("Update pom.order set customerid = ?,adressid=?,contactid=?,product=?,price=?,volume=?,state=?,baselotid=?,orderdate=?, startdate=?, releasedate=?, completiondate=?, duedate=?, actualdeliverydate=?, lotsize=?, priority=?, comment=? where orderno = ? ");
 			stmt.setString(1,order.customeridProperty().get());
 			stmt.setString(2,order.addressidProperty().get());
 			stmt.setString(3,order.contactidProperty().get());
@@ -670,7 +671,7 @@ public class PomDbService implements IPomDbService {
 	public boolean deleteOrder(String orderno) {
 		PreparedStatement stmt = null;
 		try {
-			stmt = con.prepareStatement("DELETE FROM public.order WHERE orderno = ?");
+			stmt = con.prepareStatement("DELETE FROM pom.order WHERE orderno = ?");
 			stmt.setString(1, orderno);
 			stmt.executeUpdate();
 		    stmt.close();
