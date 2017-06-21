@@ -551,7 +551,7 @@ public class OrderController {
 					else if(!focus){
 							String localString;
 							localString = txt_volume.getText();
-							if(txt_volume.getText().length() == 0 || txt_volume.getText().equals("0")) {
+							if(txt_volume.getText().length() == 0) {
 								txt_volume.getStyleClass().add("label_error");
 								txt_errorMessage.setVisible(true);
 								txt_errorMessage.setText(errorText);

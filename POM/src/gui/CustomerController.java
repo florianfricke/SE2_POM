@@ -88,69 +88,13 @@ public class CustomerController {
 		ObservableList<String> listRanking = FXCollections.observableArrayList("A","B","C");
 		cbxRanking.setItems(listRanking);
 		
+		createEventHandler();
 		
 		Bindings.bindBidirectional(txt_Id.textProperty(), this.cust.idProperty());
 		Bindings.bindBidirectional(txt_Name.textProperty(),this.cust.nameProperty());
 		Bindings.bindBidirectional(cbxRanking.valueProperty(),this.cust.rankingProperty());
 		Bindings.bindBidirectional(tar_Comment.textProperty(),this.cust.commentProperty());
 
-/************************************************************************************/
-		cbxRanking.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-			//checkComBoxes();
-			boolean localBool;
-			localBool = cbxRanking.getSelectionModel().isEmpty();
-			if(localBool == true){
-				txt_errorMessage.setVisible(true);
-				txt_errorMessage.setText(errorText);
-			}else{
-				//cbxPriority.getStyleClass().add("reset_label_error");
-				txt_errorMessage.setVisible(false);
-				txt_errorMessage.setText("");
-			}
-		});
-/***************************************************************************************/
-		tar_Comment.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-		String localString;
-		localString = tar_Comment.getText();
-		if(!newValue){
-			if(tar_Comment.getText().length() > 250){
-				tar_Comment.getStyleClass().add("label_error");
-				tar_Comment.setText("");
-				txt_errorMessage.setVisible(true);
-				txt_errorMessage.setText(errorText);
-				}
-			else{
-				tar_Comment.setText(localString);
-				tar_Comment.getStyleClass().add("reset_label_error");
-				txt_errorMessage.setText("");
-				}
-			}
-		});
-/***************************************************************************************/
-		txt_Name.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-		String localString;
-		localString = txt_Name.getText();
-		if(!newValue){
-			if(txt_Name.getText().length() == 0){
-				txt_Name.getStyleClass().add("label_error");
-				txt_errorMessage.setVisible(true);
-				txt_errorMessage.setText(errorText);
-			}
-			else if(txt_Name.getText().length() > 32 ) {
-				txt_Name.getStyleClass().add("label_error");
-				txt_Name.setText("");
-				txt_errorMessage.setVisible(true);
-				txt_errorMessage.setText(errorText);
-			}
-			else{ 
-				txt_Name.setText(localString);
-				txt_Name.getStyleClass().add("reset_label_error");
-				txt_Name.setText(localString);
-				txt_errorMessage.setText("");
-				} 
-			}
-		});
-/***************************************************************************************/
 		//Address Table
 		street.setCellValueFactory(cellData -> cellData.getValue().streetProperty());
 		street.setCellFactory(column -> EditingCell.createStringEditCell());
@@ -214,7 +158,7 @@ public class CustomerController {
 	}
 	private boolean fillFields(String action){
 		boolean[] emptyFields = {txt_Name.getText().isEmpty(),
-								cbxRanking.getSelectionModel().isEmpty(),
+								cbxRanking.getValue() == "",
 								};
 		this.emptyFields = emptyFields;
 		action = "save";
@@ -222,12 +166,37 @@ public class CustomerController {
 		case "save":
 			if(emptyFields[0] && emptyFields[1])
 				return writeErrorMessage();
-			else if(emptyFields[0])
+			else if(emptyFields[0] && !(emptyFields[1]))
 				return writeErrorMessage();
-			else if(emptyFields[1])
+			else if(emptyFields[1] && !(emptyFields[0]))
 				return writeErrorMessage();
-			break;
+			else if(!(emptyFields[0] && emptyFields[1])){ return true;}
+			else {return true;}
+			
 			default: return true;
+		}
+	}
+	public boolean writeErrorMessage(){
+		String error= "";
+		int z = 0;
+		if(emptyFields[0] || emptyFields[1]){
+			for(int i=0; i<1; i++){
+				boolean bool = emptyFields[i];
+				if(bool){
+					switch(i){
+					case 0: error += "Name, "; z++; break;
+					case 1: error += "Ranking "; z++; break;
+					}
+				}
+			}
+			if(z==1){
+				error="Field: "+error + "must be set.";
+				txt_errorMessage.setText(error);
+			}else if(z == 2){
+				error="Fields: "+error +"must be set.";
+				txt_errorMessage.setText(error);
+			}txt_errorMessage.setVisible(true);
+			return false;
 		}
 		return true;
 	}
@@ -357,35 +326,60 @@ public class CustomerController {
 	    	closeWindow(event);
 		}
     }
-public boolean writeErrorMessage(){
-		String error= "";
-		int z = 0;
-		if(emptyFields[0] || emptyFields[1]){
-			for(int i=0; i<2; i++){
-				boolean bool = emptyFields[i];
-				if(bool){
-					switch(i){
-					case 0: error += "Name, "; z++; break;
-					case 1: error += "Ranking "; z++; break;
-					}
-				}
-			}
-			if(z==1){
-				error="Field: "+error + "must be set.";
-				txt_errorMessage.setText(error);
-			}else if(z == 2){
-				error="Fields: "+error +"must be set.";
-				txt_errorMessage.setText(error);
-			}txt_errorMessage.setVisible(true);
-			return false;
-		}
-		return true;
-	}
 	
 	private void closeWindow(ActionEvent e){
     	final Node currStage = (Node)e.getSource();
     	Stage stage = (Stage) currStage.getScene().getWindow();
     	stage.close(); 
 	}
+
+	private void createEventHandler(){
+	
+	tar_Comment.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+	String localString;
+	localString = tar_Comment.getText();
+	if(!newValue){
+		if(tar_Comment.getText().length() > 250){
+			tar_Comment.getStyleClass().add("label_error");
+			tar_Comment.setText("");
+			txt_errorMessage.setVisible(true);
+			txt_errorMessage.setText(errorText);
+			}
+		else{
+			tar_Comment.setText(localString);
+			tar_Comment.getStyleClass().add("reset_label_error");
+			txt_errorMessage.setVisible(false);
+			txt_errorMessage.setText("");
+			}
+		}
+	});
+
+	txt_Name.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+	txt_errorMessage.setVisible(false);
+	String localString;
+	localString = txt_Name.getText();
+	if(!newValue){
+		if(txt_Name.getText().length() == 0){
+			txt_Name.getStyleClass().add("label_error");
+			txt_errorMessage.setVisible(true);
+			txt_errorMessage.setText("Field: Name must be filled.");
+		}
+		else if(txt_Name.getText().length() > 32 ) {
+			txt_Name.getStyleClass().add("label_error");
+			txt_Name.setText("");
+			txt_errorMessage.setVisible(true);
+			txt_errorMessage.setText("Field: Name can only be 32 characters long.");
+		}
+		else if(txt_Name.getText().length() > 0 && txt_Name.getText().length() <= 32){ 
+			txt_Name.setText(localString);
+			txt_Name.getStyleClass().add("reset_label_error");
+			txt_Name.setText(localString);
+			txt_errorMessage.setVisible(false);
+			txt_errorMessage.setText("");
+			} 
+		else {}
+		}
+	});
+  }
 	
 }
