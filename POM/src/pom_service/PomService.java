@@ -191,4 +191,9 @@ public class PomService {
 	public List<Route> getRouteList(String orderno,String product){
 		return mesPersistance.getRouteList(orderno, product);
 	}
+
+	public boolean cancelOrder(Order order) {
+		// TODO Auto-generated method stub
+		return true;
+	}
 }

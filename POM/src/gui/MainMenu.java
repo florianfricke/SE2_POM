@@ -80,13 +80,16 @@ public class MainMenu extends Application {
 		}
 	}
 
-	public void deleteCustomer(Customer cust) {
+	public boolean deleteCustomer(Customer cust) {
 		if (cust.idProperty().get().isEmpty())
-			return;
+			return false;
 		if (pomService.deleteCustomer(cust.idProperty().get())) {
 			customerList.remove(cust);
+			return true;
+		
+		} else {
+			return false;
 		}
-
 	}
 
 	public void saveOrder(Order order) {
@@ -117,6 +120,13 @@ public class MainMenu extends Application {
 		if (pomService.deleteOrder(order.ordernoProperty().get())) {
 			this.orderList.remove(order);
 		}
+
+	}
+	
+	public boolean cancelOrder(Order order) {
+		if (order.ordernoProperty().get().isEmpty())
+			return false;
+		return (pomService.cancelOrder(order));
 
 	}
 

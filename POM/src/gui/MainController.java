@@ -119,8 +119,17 @@ public class MainController{
         	return;
     	}
     	if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete: " +customerTable.getSelectionModel().getSelectedItem().nameProperty().get().toString()) == true){
+    	if(mainMenu.deleteCustomer(customerTable.getSelectionModel().getSelectedItem()) == false) {
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("There already existing Orders for this Customer");
+        	alert.show();
+        	return;
+    	} else {
+    		
     		System.out.println("Delete");
     		mainMenu.deleteCustomer(customerTable.getSelectionModel().getSelectedItem());
+    		}
     	}
     }
     
@@ -217,10 +226,55 @@ public class MainController{
         	alert.show();
         	return;
     	}
-    	if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete: order " +orderTable.getSelectionModel().getSelectedItem().ordernoProperty().get().toString()) == true){
-    		System.out.println("Delete");
-    		mainMenu.deleteOrder(orderTable.getSelectionModel().getSelectedItem());
+    	if(orderTable.getSelectionModel().getSelectedItem().stateProperty().get().equals(State.PLANNED.toString())){
+        	if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete: order " +orderTable.getSelectionModel().getSelectedItem().ordernoProperty().get().toString()) == true){
+        		System.out.println("Delete");
+        		mainMenu.deleteOrder(orderTable.getSelectionModel().getSelectedItem());
+        	}
+    		
+    	} else {
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("Order is already released. Try Cancel!");
+        	alert.show();
+        	return;
     	}
+
+    }
+    
+    @FXML private void handleCancelOrder(ActionEvent event){
+    	if(orderTable.getSelectionModel().getSelectedItem() == null){
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("Select Order!");
+        	alert.show();
+        	return;
+    	}
+    	
+    	if(orderTable.getSelectionModel().getSelectedItem().stateProperty().get().equals(State.IN_PROCESS.toString())){
+    		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel: order " +orderTable.getSelectionModel().getSelectedItem().ordernoProperty().get().toString()) == true){
+        		System.out.println("Cancel");
+    		if (mainMenu.cancelOrder(orderTable.getSelectionModel().getSelectedItem())){
+    			// delete if true
+    		}
+    		else {
+    			Alert alert = new Alert(AlertType.ERROR);
+            	alert.setTitle("Notificaion");
+            	alert.setHeaderText("Some lots are already IN PROCESS");
+            	alert.show();
+            	return;
+    		}
+    		}
+    	
+    		mainMenu.cancelOrder(orderTable.getSelectionModel().getSelectedItem());
+    	}else {
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("Order is not IN PROCESS");
+        	alert.show();
+        	return;
+    	}
+    		
     }
     
     @FXML private void handleRowClickOrder(MouseEvent click) {
