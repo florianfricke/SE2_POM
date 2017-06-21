@@ -1,6 +1,5 @@
 package psql_pom_db;
 import pom_db_interface.*;
-import pom_service.ErrorLog;
 import types.*;
 
 import java.util.ArrayList;
