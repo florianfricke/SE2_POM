@@ -47,7 +47,7 @@
                      <children>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <HBox spacing="20.0">
+                              <HBox spacing="20.0" styleClass="border">
                                  <children>
                                     <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0">
                                        <children>
@@ -72,7 +72,7 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <VBox prefHeight="200.0">
+                        <VBox prefHeight="200.0" styleClass="border">
                            <children>
                               <HBox spacing="10.0">
                                  <children>
@@ -89,7 +89,7 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </HBox>
-                              <TableView fx:id="addressTable" editable="true">
+                              <TableView fx:id="addressTable" editable="true" minHeight="120.0">
                                  <columns>
                                     <TableColumn fx:id="street" prefWidth="75.0" text="Street">
                                        <cellValueFactory>
@@ -131,7 +131,7 @@
                               <Insets bottom="20.0" />
                            </VBox.margin>
                         </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                        <VBox prefHeight="200.0" prefWidth="100.0" styleClass="border" VBox.vgrow="ALWAYS">
                            <children>
                               <HBox spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
@@ -156,7 +156,7 @@
                                     <Insets />
                                  </VBox.margin>
                               </HBox>
-                              <TableView fx:id="contactTable" editable="true">
+                              <TableView fx:id="contactTable" editable="true" minHeight="120.0">
                                  <columns>
                                     <TableColumn fx:id="name" prefWidth="75.0" text="Name">
                                        <cellValueFactory>
@@ -193,7 +193,7 @@
                               <Insets bottom="20.0" />
                            </VBox.margin>
                         </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
+                        <VBox prefHeight="200.0" prefWidth="100.0" styleClass="border">
                            <children>
                               <HBox spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
@@ -214,7 +214,7 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </HBox>
-                              <TableView fx:id="bankAccountTable" editable="true">
+                              <TableView fx:id="bankAccountTable" editable="true" minHeight="120.0">
                                  <columns>
                                     <TableColumn fx:id="iban" prefWidth="75.0" text="IBAN">
                                        <cellValueFactory>

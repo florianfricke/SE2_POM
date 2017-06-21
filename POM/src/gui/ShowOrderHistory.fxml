@@ -24,7 +24,7 @@
         <children>
             <VBox>
                <children>
-                  <VBox spacing="10.0">
+                  <VBox spacing="10.0" styleClass="border">
                      <children>
                         <HBox>
                            <children>
@@ -44,7 +44,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                               <Label fx:id="lbl_statistic3" text="		Finished on Delay: ">
+                               <Label fx:id="lbl_statistic3" text="  Finished on Delay: ">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -98,7 +98,7 @@
                         <Insets bottom="20.0" />
                      </VBox.margin>
                   </VBox>
-                  <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+                  <VBox spacing="10.0" styleClass="border" VBox.vgrow="ALWAYS">
                      <children>
                         <HBox>
                            <children>

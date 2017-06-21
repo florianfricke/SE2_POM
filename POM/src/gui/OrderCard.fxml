@@ -50,71 +50,78 @@
               <children>
                   <VBox>
                      <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <VBox spacing="10.0" styleClass="border">
                            <children>
-                              <VBox prefWidth="100.0" spacing="14.0">
+                              <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Label fx:id="lbl_Id" minHeight="25.0" prefHeight="25.0" text="Order No." />
-                                    <Label fx:id="lbl_product" minHeight="25.0" prefHeight="25.0" text="Product" />
-                                    <Label fx:id="lbl_priority" minHeight="25.0" prefHeight="25.0" text="Priority" />
-                                    <Label fx:id="lbl_customer" minHeight="25.0" prefHeight="25.0" text="Customer" />
-                                    <Label fx:id="lbl_address" minHeight="25.0" prefHeight="25.0" text="Address" />
-                                    <Label fx:id="lbl_contact" minHeight="25.0" prefHeight="25.0" text="Contact" />
-                                    <Label fx:id="lbl_orderDate" minHeight="25.0" prefHeight="25.0" text="Order Date" />
-                                    <Label minHeight="25.0" prefHeight="25.0" text="Start Date" />
+                                    <VBox prefWidth="100.0" spacing="14.0">
+                                       <children>
+                                          <Label fx:id="lbl_Id" minHeight="25.0" prefHeight="25.0" text="Order No." />
+                                          <Label fx:id="lbl_product" minHeight="25.0" prefHeight="25.0" text="Product" />
+                                          <Label fx:id="lbl_priority" minHeight="25.0" prefHeight="25.0" text="Priority" />
+                                          <Label fx:id="lbl_customer" minHeight="25.0" prefHeight="25.0" text="Customer" />
+                                          <Label fx:id="lbl_address" minHeight="25.0" prefHeight="25.0" text="Address" />
+                                          <Label fx:id="lbl_contact" minHeight="25.0" prefHeight="25.0" text="Contact" />
+                                          <Label fx:id="lbl_orderDate" minHeight="25.0" prefHeight="25.0" text="Order Date" />
+                                          <Label minHeight="25.0" prefHeight="25.0" text="Start Date" />
+                                       </children>
+                                    </VBox>
+                                    <VBox spacing="14.0">
+                                       <children>
+                                          <TextField fx:id="txt_Id" editable="false" minWidth="150.0" prefWidth="150.0" />
+                                          <ComboBox fx:id="cbxProduct" minWidth="150.0" prefWidth="150.0" />
+                                          <ComboBox fx:id="cbxPriority" minWidth="150.0" prefWidth="150.0" />
+                                          <ComboBox fx:id="cbxCustomer" minWidth="150.0" prefWidth="150.0" />
+                                          <ComboBox fx:id="cbxAddress" minWidth="150.0" prefWidth="150.0" />
+                                          <ComboBox fx:id="cbxContact" minWidth="150.0" prefWidth="150.0" />
+                                          <DatePicker fx:id="dpkOrderDate" prefWidth="150.0" />
+                                          <DatePicker fx:id="dpkStartDate" prefWidth="150.0" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefWidth="150.0" spacing="14.0">
+                                       <HBox.margin>
+                                          <Insets left="70.0" />
+                                       </HBox.margin>
+                                       <children>
+                                          <Label fx:id="lbl_releaseDate" minHeight="25.0" prefHeight="25.0" text="Release Date" />
+                                          <Label fx:id="lbl_baseLotID" minHeight="25.0" prefHeight="25.0" text="Base Lot ID" />
+                                          <Label fx:id="lbl_volume" minHeight="25.0" prefHeight="25.0" text="Volume" />
+                                          <Label fx:id="lbl_dueDate" minHeight="25.0" prefHeight="25.0" text="Due Date" />
+                                          <Label fx:id="lbl_price" minHeight="25.0" prefHeight="25.0" text="Price" />
+                                          <Label fx:id="lbl_delveryDate" minHeight="25.0" prefHeight="25.0" text="Actual Delivery Date" />
+                                          <Label fx:id="lbl_state" minHeight="25.0" prefHeight="25.0" text="State" />
+                                          <Label minHeight="25.0" prefHeight="25.0" text="Lot Size" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefWidth="150.0" spacing="14.0">
+                                       <children>
+                                          <DatePicker fx:id="dpkReleaseDate" minWidth="150.0" prefWidth="150.0" />
+                                          <TextField fx:id="txt_baseLotID" />
+                                          <TextField fx:id="txt_volume" minWidth="150.0" prefWidth="150.0" />
+                                          <DatePicker fx:id="dpkDueDate" minWidth="150.0" prefWidth="150.0" />
+                                          <TextField fx:id="txt_price" minWidth="150.0" prefWidth="150.0" />
+                                          <DatePicker fx:id="dpkDeliveryDate" />
+                                          <TextField fx:id="txt_state" editable="false" minWidth="150.0" prefWidth="150.0" />
+                                          <TextField fx:id="txtLotSize" minWidth="150.0" prefWidth="150.0" />
+                                       </children>
+                                    </VBox>
                                  </children>
-                              </VBox>
-                              <VBox spacing="14.0">
+                              </HBox>
+                              <VBox spacing="10.0">
                                  <children>
-                                    <TextField fx:id="txt_Id" editable="false" minWidth="150.0" prefWidth="150.0" />
-                                    <ComboBox fx:id="cbxProduct" minWidth="150.0" prefWidth="150.0" />
-                                    <ComboBox fx:id="cbxPriority" minWidth="150.0" prefWidth="150.0" />
-                                    <ComboBox fx:id="cbxCustomer" minWidth="150.0" prefWidth="150.0" />
-                                    <ComboBox fx:id="cbxAddress" minWidth="150.0" prefWidth="150.0" />
-                                    <ComboBox fx:id="cbxContact" minWidth="150.0" prefWidth="150.0" />
-                                    <DatePicker fx:id="dpkOrderDate" prefWidth="150.0" />
-                                    <DatePicker fx:id="dpkStartDate" prefWidth="150.0" />
+                                    <Label fx:id="lbl_comment" text="Comment" />
+                                    <TextArea fx:id="tar_comment" maxHeight="75.0" maxWidth="620.0" minHeight="75.0" minWidth="620.0" prefHeight="75.0" prefWidth="630.0" />
                                  </children>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
                               </VBox>
-                              <VBox prefWidth="150.0" spacing="14.0">
-                                 <HBox.margin>
-                                    <Insets left="70.0" />
-                                 </HBox.margin>
-                                 <children>
-                                    <Label fx:id="lbl_releaseDate" minHeight="25.0" prefHeight="25.0" text="Release Date" />
-                                    <Label fx:id="lbl_baseLotID" minHeight="25.0" prefHeight="25.0" text="Base Lot ID" />
-                                    <Label fx:id="lbl_volume" minHeight="25.0" prefHeight="25.0" text="Volume" />
-                                    <Label fx:id="lbl_dueDate" minHeight="25.0" prefHeight="25.0" text="Due Date" />
-                                    <Label fx:id="lbl_price" minHeight="25.0" prefHeight="25.0" text="Price" />
-                                    <Label fx:id="lbl_delveryDate" minHeight="25.0" prefHeight="25.0" text="Actual Delivery Date" />
-                                    <Label fx:id="lbl_state" minHeight="25.0" prefHeight="25.0" text="State" />
-                                    <Label minHeight="25.0" prefHeight="25.0" text="Lot Size" />
-                                 </children>
-                              </VBox>
-                              <VBox prefWidth="150.0" spacing="14.0">
-                                 <children>
-                                    <DatePicker fx:id="dpkReleaseDate" minWidth="150.0" prefWidth="150.0" />
-                                    <TextField fx:id="txt_baseLotID" />
-                                    <TextField fx:id="txt_volume" minWidth="150.0" prefWidth="150.0" />
-                                    <DatePicker fx:id="dpkDueDate" minWidth="150.0" prefWidth="150.0" />
-                                    <TextField fx:id="txt_price" minWidth="150.0" prefWidth="150.0" />
-                                    <DatePicker fx:id="dpkDeliveryDate" />
-                                    <TextField fx:id="txt_state" editable="false" minWidth="150.0" prefWidth="150.0" />
-                                    <TextField fx:id="txtLotSize" minWidth="150.0" prefWidth="150.0" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                        <VBox spacing="10.0">
-                           <children>
-                              <Label fx:id="lbl_comment" text="Comment" />
-                              <TextArea fx:id="tar_comment" maxHeight="75.0" maxWidth="620.0" minHeight="75.0" minWidth="620.0" prefHeight="75.0" prefWidth="630.0" />
                            </children>
                            <VBox.margin>
-                              <Insets top="14.0" />
+                              <Insets />
                            </VBox.margin>
                         </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="border">
                            <children>
                               <Label text="Lots">
                                  <font>
