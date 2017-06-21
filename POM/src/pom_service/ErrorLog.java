@@ -1,4 +1,4 @@
-package pom_service;
+package types;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

@@ -276,10 +276,6 @@ public class MainController{
     	}
     		
     }
-    	
-    	
-    	
-    
     
     @FXML private void handleRowClickOrder(MouseEvent click) {
     	if(click.getClickCount() != 2) return; //just Double Click
