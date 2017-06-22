@@ -115,7 +115,7 @@ public class CustomerController {
 		try{
 			addressTable.setItems(this.cust.getAddressList());
 		}catch(Exception e){
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		//Contact Table
 		name.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
@@ -135,7 +135,7 @@ public class CustomerController {
 		try{
 			contactTable.setItems(this.cust.getContactList());
 		}catch(Exception e){
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		
 		//BankAccount Table
@@ -153,7 +153,7 @@ public class CustomerController {
 		try{
 			bankAccountTable.setItems(this.cust.getBankAccountList());
 		}catch(Exception e){
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 	}
 	private boolean fillFields(String action){
