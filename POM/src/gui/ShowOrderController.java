@@ -22,9 +22,10 @@ public class ShowOrderController {
 	private boolean showHistory;
 	@FXML private TableView<Order> orderTable;
 	@FXML private TableView<Order> delayOrderTable;
-	@FXML private Label lbl_statistic2;
-	@FXML private Label lbl_statistic4;
-	@FXML private Label lbl_delay2;
+	@FXML private TableView<Order> canceledTable;
+	@FXML private Label lbl_statisticFinishedInTime;
+	@FXML private Label lbl_statisticFinishedOnDelay;
+	@FXML private Label lbl_statisticCanceled;
 	@FXML private TableColumn<Order, String> orderno;
     @FXML private TableColumn<Order, LocalDate> dueDate;
     @FXML private TableColumn<Order, LocalDate> actualDeliveryDate;
@@ -45,26 +46,38 @@ public class ShowOrderController {
     public void loadCustomerOrder(){   	
        	orderno.setCellValueFactory(cellData -> cellData.getValue().ordernoProperty());
        	
-        if(!showHistory){
-        	List<Order> currentOrders = mainMenu.getCustomerOrder(customerId).stream().filter(p -> p.stateProperty().get() == State.PLANNED.name() || p.stateProperty().get() == State.IN_PROCESS.name() ).collect(Collectors.toList());
+        if(!showHistory)	//ShowCurrentOrder
+        {
+        	//Table with PLANNED, IN_PROCESS, COMPLETED Order
+        	List<Order> currentOrders = mainMenu.getCustomerOrder(customerId).stream().filter(p -> p.stateProperty().get() == State.PLANNED.name() || p.stateProperty().get() == State.IN_PROCESS.name() || p.stateProperty().get() == State.COMPLETED.name()).collect(Collectors.toList());
         	orderTable.setItems(FXCollections.observableList(currentOrders));
-        }else{       	
+        }
+        else				//ShowOrderHistory
+        {		
+        	//Table with FINISHED_IN_TIME Order
         	List<Order> inTimeOrders = mainMenu.getCustomerOrderHistory(customerId).stream().filter(p -> p.stateProperty().get() == State.FINISHED_IN_TIME.name()).collect(Collectors.toList());
-        	List<Order> delayOrders = mainMenu.getCustomerOrderHistory(customerId).stream().filter(p -> p.stateProperty().get() == State.FINISHED_DELAY.name()).collect(Collectors.toList());
         	orderTable.setItems(FXCollections.observableList(inTimeOrders));
-        	
+        	//Table with FINISHED_DELAY Order
+        	List<Order> delayOrders = mainMenu.getCustomerOrderHistory(customerId).stream().filter(p -> p.stateProperty().get() == State.FINISHED_DELAY.name()).collect(Collectors.toList());
         	//Delay in Days
         	for (Order order : delayOrders) {
         		int daysBewteen = (int)ChronoUnit.DAYS.between(order.getDueDate(), order.getActualDeliveryDate());
         		order.delayProperty().set(daysBewteen);
 				
-			}
+		}
         	delayOrderTable.setItems(FXCollections.observableList(delayOrders));
+        	//Table with CANCELED Order
+        	List<Order> canceledOrders = mainMenu.getCustomerOrderHistory(customerId).stream().filter(p -> p.stateProperty().get() == State.CANCELED.name()).collect(Collectors.toList());
+        	canceledTable.setItems(FXCollections.observableList(canceledOrders));
+        	
+        	int total = orderTable.getItems().size() + delayOrderTable.getItems().size() + canceledTable.getItems().size();
         	
         	//Finished in Time Row Count 
-        	lbl_statistic2.setText(orderTable.getItems().size() + "/" + (delayOrderTable.getItems().size()+orderTable.getItems().size()) +" ");
+        	lbl_statisticFinishedInTime.setText(orderTable.getItems().size() + "/" + total +" ");
         	//Finished on Delay Row Count
-        	lbl_statistic4.setText(delayOrderTable.getItems().size() + "/" + (delayOrderTable.getItems().size()+orderTable.getItems().size()));
+        	lbl_statisticFinishedOnDelay.setText(delayOrderTable.getItems().size() + "/" + total +" ");
+        	//Canceled Row Count
+        	lbl_statisticCanceled.setText(canceledTable.getItems().size() + "/" + total);
         }
     }
 }
