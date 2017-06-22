@@ -50,7 +50,7 @@
             <Button fx:id="btnDashboard" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleDash" prefHeight="35.0" prefWidth="147.0" style="-fx-font: bold 15px System, serif;" styleClass="menu_button" text="Dashboard" />
             <Button fx:id="btnCustomers" alignment="BASELINE_LEFT" defaultButton="true" mnemonicParsing="false" onAction="#handleCust" prefHeight="35.0" prefWidth="151.0" styleClass="menu_button" text="Customers" />
             <Button fx:id="btnOrders" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleOrder" prefHeight="35.0" prefWidth="153.0" styleClass="menu_button" text="Orders" />
-            <Button fx:id="btnSetUp" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="35.0" prefWidth="162.0" styleClass="menu_button" text="Set Up" />
+            <Button fx:id="btnSetUp" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#handleSetup" prefHeight="35.0" prefWidth="162.0" styleClass="menu_button" text="Set Up" />
          </children>
       </VBox>
    </left>

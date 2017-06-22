@@ -32,7 +32,7 @@ public class MainMenu extends Application {
 		pomService = new PomService(SaveType.postgres, SaveType.postgres);
 		Parent root = null;
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenu.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("DashboardSubPage.fxml"));
 			root = loader.load();
 			mc = (MainController) loader.getController();
 			System.out.println("FXML wurde geladen.");
@@ -156,6 +156,9 @@ public class MainMenu extends Application {
 			if (((Button) event.getSource()).getId().equals("btnOrders")) {
 				mc.loadOrderTable();
 			}
+			if (((Button) event.getSource()).getId().equals("btnSetUp")) {
+				mc.loadSetupPage();
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -187,5 +190,11 @@ public class MainMenu extends Application {
 	}
 	public ObservableList<Route> getRouteList(String orderno,String product){
 		return FXCollections.observableList(pomService.getRouteList(orderno, product));
+	}
+	public Setup getSetup(){
+		return pomService.getSetup();
+	}
+	public boolean upsertSetup(){
+		return pomService.upsertSetup();
 	}
 }

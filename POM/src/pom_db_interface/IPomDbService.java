@@ -18,6 +18,8 @@ public interface IPomDbService {
 	public boolean addOrder(Order order);
 	public boolean updateOrder(Order order);
 	boolean deleteOrder(String orderno);
-	public int getDayCapacity();
+	public Setup getSetup();
 	public Customer getCustomer(String customerId);
+	public boolean upsertSetup(Setup setup);
+	public boolean hasSetup();
 }
