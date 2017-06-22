@@ -68,7 +68,6 @@ public class OrderController {
     @FXML private Button btnUpdate;
     @FXML private Button btnTree;
     
-    
     //Lot Table
     @FXML private TableView<Lot> lotTable;
 	@FXML private TableColumn<Lot, String> id;
@@ -199,10 +198,7 @@ public class OrderController {
 			cbxAddress.getSelectionModel().select(new CbxItemObservable("", "Choose Address"));
 			cbxContact.getSelectionModel().select(new CbxItemObservable("", "Choose Contact"));
 		}
-		
-
-		
-		
+	
 		//DatePicker
 		createDateCells();
 		dpkDeliveryDate.setValue(this.order.getActualDeliveryDate());
@@ -234,9 +230,7 @@ public class OrderController {
 		
 		//eventHandler
 		createEventHandler();
-
-
-		
+	
 		//Bindings
 		Bindings.bindBidirectional(txt_Id.textProperty(), this.order.ordernoProperty());
 		Bindings.bindBidirectional(cbxPriority.valueProperty(), this.order.priorityProperty(), new NumberStringConverter());

@@ -72,17 +72,6 @@ public class Order {
 		setOrderLotChange();
 	}
 	
-	
-	/*public static String GetCurrentDate(){
-		//wo geh�rt diese methode hin?
-		DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-		Date date = new Date();
-		
-		return date;
-		
-	}*/
-	
-	
 	public StringProperty ordernoProperty() {
 		return orderno;
 	}
@@ -180,8 +169,4 @@ public class Order {
 	public IntegerProperty delayProperty(){
 		return delay;
 	}
-
-
-
-
 }
