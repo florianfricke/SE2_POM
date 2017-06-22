@@ -155,7 +155,6 @@ public class PomService {
 	private boolean insertLotDayBalanced(Order order, int remainingVolume) {
 		int n;
 		Calendar c = Calendar.getInstance();
-		Date du=Date.from(order.getStartDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
 		c.setTime(Date.from(order.getStartDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		boolean success = false;
 		int i = mesPersistance.getLotCount(order.ordernoProperty().get());
