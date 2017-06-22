@@ -21,7 +21,7 @@ public class MesDbService implements IMesDBService {
 	         con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/mes","postgres", "0815");
 	         return true;
 		}catch(Exception e){
-			e.printStackTrace();
+			ErrorLog.write(e);
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 		}
 		System.out.println("Erfolgreich verbunden!");
@@ -32,7 +32,7 @@ public class MesDbService implements IMesDBService {
 			this.con.close();
 			System.out.println("Datenbankverbindung geschlossen.");
 		}catch(Exception e){
-			e.printStackTrace();
+			ErrorLog.write(e);
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 		}
 	}
@@ -58,7 +58,7 @@ public class MesDbService implements IMesDBService {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return lotList;
 	}
@@ -76,7 +76,7 @@ public class MesDbService implements IMesDBService {
 		    stmt.close();
 		    return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return false;
 	}
@@ -94,7 +94,7 @@ public class MesDbService implements IMesDBService {
 		    	count = rs.getInt(1);
 		    stmt.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return count;
 	}
@@ -113,7 +113,7 @@ public class MesDbService implements IMesDBService {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return workload;
 	}
@@ -143,7 +143,7 @@ public class MesDbService implements IMesDBService {
 		    stmt.close();
 		    return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return false;
 	}
@@ -160,7 +160,7 @@ public class MesDbService implements IMesDBService {
 			if(rs.next())
 				return rs.getString("route");
 		}catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return "";
 	}
@@ -177,7 +177,7 @@ public class MesDbService implements IMesDBService {
 			if(rs.next())
 				return rs.getString("oper");
 		}catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return "";
 	}
@@ -196,7 +196,7 @@ public class MesDbService implements IMesDBService {
 			}
 
 		}catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return productList;
 	}
@@ -223,7 +223,7 @@ public class MesDbService implements IMesDBService {
 			}
 
 		}catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return routeList;
 		/*Join
@@ -255,7 +255,7 @@ public class MesDbService implements IMesDBService {
 			}
 
 		}catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return operList;
 	}

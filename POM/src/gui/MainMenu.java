@@ -38,7 +38,7 @@ public class MainMenu extends Application {
 			System.out.println("FXML wurde geladen.");
 			mc.setMainApp(this);
 		} catch (IOException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 			System.out.println("Das war wohl nix.");
 		}
 
@@ -158,7 +158,7 @@ public class MainMenu extends Application {
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 	}
 

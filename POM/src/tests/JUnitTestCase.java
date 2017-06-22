@@ -62,7 +62,7 @@ public class JUnitTestCase {
 			rs.close();
 		    stmt.close();    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		//insert one testCustomer's address
 		Address testCustomerAddress = new Address(	"13", 
@@ -134,7 +134,7 @@ public class JUnitTestCase {
 			    stmt.close();		
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				ErrorLog.write(e);
 			}
 			assertEquals(nameExpected,nameReal);
 	}	
@@ -145,7 +145,7 @@ public class JUnitTestCase {
 	//@Test
 	public void testDeleteCustomer(){
 		IPomDbService pomPersistance = new PomDbService();
-		Customer testCustomer = new Customer("","CustromerToDelete","A","Für deleteCustomer() test");
+		Customer testCustomer = new Customer("","CustromerToDelete","A","Fï¿½r deleteCustomer() test");
 		pomPersistance.addCustomer(testCustomer);
 		PreparedStatement stmt = null;
 		String CustomerToDeleteID = "";
@@ -160,7 +160,7 @@ public class JUnitTestCase {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		boolean result = pomPersistance.deleteCustomer(CustomerToDeleteID);
 		assertEquals(true,result);
@@ -170,7 +170,7 @@ public class JUnitTestCase {
 	//@Test
 	public void dataTestDeleteCustomer(){
 		IPomDbService pomPersistance = new PomDbService();
-		Customer testCustomer = new Customer("","CustromerToDeleteData","A","Für deleteCustomer() test");
+		Customer testCustomer = new Customer("","CustromerToDeleteData","A","Fï¿½r deleteCustomer() test");
 		pomPersistance.addCustomer(testCustomer);
 		PreparedStatement stmt = null;
 		String CustomerToDeleteID = "";
@@ -186,7 +186,7 @@ public class JUnitTestCase {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		
 		pomPersistance.deleteCustomer(CustomerToDeleteID);
@@ -206,7 +206,7 @@ public class JUnitTestCase {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		//We are expecting no data in the DB
 		String expresult ="";
@@ -233,7 +233,7 @@ public class JUnitTestCase {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		//get addressID
 		String addressID="";
@@ -248,7 +248,7 @@ public class JUnitTestCase {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		//get contactID
 		String contactID="";
@@ -263,7 +263,7 @@ public class JUnitTestCase {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 				
 		Order testOrder = new Order("",customerToDeleteID,addressID,contactID,"",0,0,State.PLANNED.toString(),"",LocalDate.now(),LocalDate.now(),LocalDate.now(),LocalDate.now(),LocalDate.now(),LocalDate.now(),10,0,"");
@@ -295,7 +295,7 @@ public class JUnitTestCase {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		//get addressID
 		String addressID="";
@@ -310,7 +310,7 @@ public class JUnitTestCase {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		//get contactID
 		String contactID="";
@@ -325,7 +325,7 @@ public class JUnitTestCase {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 				
 		Order testOrder = new Order("",customerID,addressID,contactID,"",0,0,State.PLANNED.toString(),"",LocalDate.now(),LocalDate.now(),LocalDate.now(),LocalDate.now(),LocalDate.now(),LocalDate.now(),10,0,"");
@@ -357,7 +357,7 @@ public class JUnitTestCase {
 		    stmt.close();
 		    
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		boolean result = pomPersistance.deleteOrder(orderID);
 		assertEquals(true,result);
@@ -372,7 +372,7 @@ public class JUnitTestCase {
 	         con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/pom","postgres", "0815");
 	         return true;
 		}catch(Exception e){
-			e.printStackTrace();
+			ErrorLog.write(e);
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 		}
 		System.out.println("Erfolgreich verbunden!");
