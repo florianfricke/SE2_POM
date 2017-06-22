@@ -162,7 +162,7 @@ public class PomService {
 
 		Lot lotTemplate = new Lot(null, order.priorityProperty().get(), order.lotSizeProperty().get(), "RDY",
 				order.productProperty().get(), order.customeridProperty().get(), order.ordernoProperty().get(),
-				order.getDueDate(), order.getStartDate());
+				order.getDueDate(), order.getStartDate(),"","");
 
 		while (remainingVolume > 0) {
 			n = getDayCapacity(c.getTime());

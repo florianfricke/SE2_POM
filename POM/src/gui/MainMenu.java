@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 import pom_service.PomService;
 
 import java.io.IOException;
-import java.util.List;
 
 public class MainMenu extends Application {
 	private PomService pomService;

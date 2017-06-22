@@ -10,17 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import mes_db_interface.*;
-import pom_db_interface.*;
-import psql_mes_db.MesDbService;
 import psql_pom_db.*;
 import types.*;
 

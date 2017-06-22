@@ -49,6 +49,26 @@
 								<PropertyValueFactory property="lotCount" />
 							</cellValueFactory>
 						</TreeTableColumn>
+						<TreeTableColumn fx:id="lotId" prefWidth="95.0" text="Lot ID">
+							<cellValueFactory>
+								<PropertyValueFactory property="lotId" />
+							</cellValueFactory>
+						</TreeTableColumn>
+						<TreeTableColumn fx:id="pieces" prefWidth="95.0" text="Pieces">
+							<cellValueFactory>
+								<PropertyValueFactory property="pieces" />
+							</cellValueFactory>
+						</TreeTableColumn>
+						<TreeTableColumn fx:id="state" prefWidth="95.0" text="State">
+							<cellValueFactory>
+								<PropertyValueFactory property="state" />
+							</cellValueFactory>
+						</TreeTableColumn>
+						<TreeTableColumn fx:id="dueDate" prefWidth="95.0" text="Due Date">
+							<cellValueFactory>
+								<PropertyValueFactory property="dueDate" />
+							</cellValueFactory>
+						</TreeTableColumn>
 					</columns>
                <columnResizePolicy>
                   <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

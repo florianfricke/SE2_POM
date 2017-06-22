@@ -1,12 +1,10 @@
 package psql_mes_db;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import mes_db_interface.IMesDBService;
@@ -54,7 +52,7 @@ public class MesDbService implements IMesDBService {
 			
 			while (rs.next())
 			{
-			   lotList.add(new Lot(rs.getString("lotid"), rs.getInt("priority"), rs.getInt("pieces"),rs.getString("state"),rs.getString("product"),rs.getString("customer"),rs.getString("ORDER"),rs.getDate("dueDate").toLocalDate(),rs.getDate("startDate").toLocalDate()));
+			   lotList.add(new Lot(rs.getString("lotid"), rs.getInt("priority"), rs.getInt("pieces"),rs.getString("state"),rs.getString("product"),rs.getString("customer"),rs.getString("ORDER"),rs.getDate("dueDate").toLocalDate(),rs.getDate("startDate").toLocalDate(),rs.getString("route"), rs.getString("oper")));
 			}
 			rs.close();
 		    stmt.close();
@@ -216,7 +214,7 @@ public class MesDbService implements IMesDBService {
 			stmt.setString(1,product);
 			rs = stmt.executeQuery();
 			while(rs.next()){
-				Route route = new Route(rs.getString("seq"), rs.getString("product"), rs.getString("route"), "", "", "");
+				Route route = new Route(rs.getString("seq"), rs.getString("product"), rs.getString("route"), "", "", "","","","","");
 				List<Operation> operList = getOperationList(orderno, route.routeProperty().get());
 				if( operList != null){
 					route.setOperList(operList);

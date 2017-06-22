@@ -1,9 +1,6 @@
 package types;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-
 import javafx.beans.property.*;
 
 public class Lot {
@@ -17,8 +14,10 @@ public class Lot {
 	private LocalDate dueDate;
 	private LocalDate startDate;
 	private static final LocalDate emptyDate = null;
+	private StringProperty route;
+	private StringProperty operation;
 	
-	public Lot(String id, int priority, int pieces, String state, String product, String customerId, String orderNo, LocalDate dueDate, LocalDate startDate){
+	public Lot(String id, int priority, int pieces, String state, String product, String customerId, String orderNo, LocalDate dueDate, LocalDate startDate, String route, String oper){
 		this.id = new SimpleStringProperty(id);
 		this.priority = new SimpleIntegerProperty(priority);
 		this.pieces = new SimpleIntegerProperty(pieces);
@@ -28,10 +27,13 @@ public class Lot {
 		this.orderNo = new SimpleStringProperty(orderNo);
 		this.dueDate = dueDate;
 		this.startDate = startDate;
+		this.route = new SimpleStringProperty(route);
+		this.operation = new SimpleStringProperty(oper);
+		
 	}
 	//eingefügt um Lot am anfang erstellen zu können
 	public Lot() {
-		this("",0 ,0 ,"","","","",emptyDate,emptyDate);
+		this("",0 ,0 ,"","","","",emptyDate,emptyDate,"","");
 	}
 	public StringProperty idProperty() {
 		return id;
@@ -66,5 +68,7 @@ public class Lot {
 	public LocalDate getStartDate(){
 		return startDate;
 	}
+	public StringProperty routeProperty() {return route;}
+	public StringProperty operationProperty() {return operation;}
 	
 }

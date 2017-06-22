@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.*;
 
 import javafx.beans.property.*;
-import javafx.util.converter.LocalDateStringConverter;
 
 /**
  * @author Konstantin
