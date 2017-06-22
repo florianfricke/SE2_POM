@@ -112,6 +112,7 @@ public class OrderController {
 	public void init(MainMenu mainMenu) {
         this.mainMenu = mainMenu;
         this.order = new Order();
+        order.lotSizeProperty().set(mainMenu.getSetup().defaultLotSizeProperty().get());
         setTextFields();
         btnUpdate.setDisable(true);
         btnTree.setDisable(true);
@@ -256,24 +257,40 @@ public class OrderController {
 	}
 	private boolean checkFieldsFilled(String action){
 		setDateFields();
-		boolean [] emptyFields	= { cbxProduct.getValue() == "", 
-				cbxPriority.getValue().equals("0"),
-				cbxCustomer.getValue().getValue().getId().isEmpty(),
-				cbxAddress.getValue().getValue().getId().isEmpty(),
-				cbxContact.getValue().getValue().getId().isEmpty(),
-				dpkStartDate.getValue() == null,
-				txt_baseLotID.getText().isEmpty(),
-				txt_volume.getText().equals("0"),
-				dpkDueDate.getValue() == null,
-				txt_price.getText().equals("0"),
-				txtLotSize.getText().isEmpty()
-				};
-		this.emptyFields = emptyFields;
-
+		if (action.equals("save")){
+			boolean [] emptyFields	= { cbxProduct.getValue() == "", 
+					cbxPriority.getValue().equals("0"),
+					cbxCustomer.getValue().getValue().getId().isEmpty(),
+					cbxAddress.getValue().getValue().getId().isEmpty(),
+					cbxContact.getValue().getValue().getId().isEmpty(),
+					false,
+					false,
+					false,
+					false,
+					false,
+					false
+					};
+			this.emptyFields = emptyFields;
+		}else{
+			boolean [] emptyFields	= { cbxProduct.getValue() == "", 
+					cbxPriority.getValue().equals("0"),
+					cbxCustomer.getValue().getValue().getId().isEmpty(),
+					cbxAddress.getValue().getValue().getId().isEmpty(),
+					cbxContact.getValue().getValue().getId().isEmpty(),
+					dpkStartDate.getValue() == null,
+					txt_baseLotID.getText().isEmpty(),
+					txt_volume.getText().equals("0"),
+					dpkDueDate.getValue() == null,
+					txt_price.getText().equals("0"),
+					txtLotSize.getText().isEmpty()
+					};
+			this.emptyFields = emptyFields;
+		}
+		
 		switch (action) {
 		case "save":
 			if(cbxCustomer.getValue().getValue().getId().isEmpty() || cbxAddress.getValue().getValue().getId().isEmpty() || cbxContact.getValue().getValue().getId().isEmpty())
-				return false;
+				return createErrorMessage();
 			break;
 		case "release":return createErrorMessage();
 		case "update":return createErrorMessage();
@@ -285,17 +302,13 @@ public class OrderController {
 	//Button Handler
 	@FXML private void handleSave(ActionEvent e) {
 		//Set ComboBoxes
-		if(checkFieldsFilled("save") == false)
-		{
-			Alert alert = new Alert(AlertType.ERROR);
-	    	alert.setTitle("Warning");
-	    	alert.setHeaderText("Please correctly fill all the red bordered fields and lists.");
-	    	alert.show();
-    	}else{
+		if(checkFieldsFilled("save")){
 			this.order.customeridProperty().set(cbxCustomer.getSelectionModel().getSelectedItem().get().idProperty().get());
 	    	this.order.addressidProperty().set(cbxAddress.getSelectionModel().getSelectedItem().get().idProperty().get());
 	    	this.order.contactidProperty().set(cbxContact.getSelectionModel().getSelectedItem().get().idProperty().get());
 	    	//Save Date Fields in Order
+	    	setDateFields();
+	    	this.order.stateProperty().set(txt_state.getText());
 	    	setDateFields();
 	    	mainMenu.saveOrder(this.order);
 	    	String s = ((Button) e.getSource()).getText();
@@ -308,6 +321,7 @@ public class OrderController {
     	this.order.setOrderDate(dpkOrderDate.getValue());
     	this.order.setDueDate(dpkDueDate.getValue());
     	this.order.setStartDate(dpkStartDate.getValue());
+    	this.order.setReleaseDate(dpkReleaseDate.getValue());
 	}
 	
 	@FXML private void handleCancel(ActionEvent event) {
@@ -425,21 +439,6 @@ public class OrderController {
 		}
 		return true;
 	}
-/*	private void checkComBoxes(){
-		boolean [] checkComboboxes = {  cbxProduct.getValue() == "", 
-										cbxPriority.getValue().equals("0"),
-										cbxCustomer.getValue().getValue().getId().isEmpty(),
-										cbxAddress.getValue().getValue().getId().isEmpty(),
-										cbxContact.getValue().getValue().getId().isEmpty()	
-										};
-		if(checkComboboxes[0] || checkComboboxes[1] || checkComboboxes[2] || checkComboboxes[3] || checkComboboxes[4]){
-			txt_errorMessage.setVisible(true);
-			txt_errorMessage.setText(errorText);
-		}else{
-			txt_errorMessage.setVisible(false);
-			txt_errorMessage.setText("");
-		}
-	}*/
 	
 	private void getDateFields(){
 		dpkDeliveryDate.setValue(this.order.getActualDeliveryDate());

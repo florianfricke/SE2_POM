@@ -42,7 +42,7 @@ public class Order {
 	 */
 	
 	public Order() {
-		this("","","","","",0,0,State.PLANNED.toString(),"",LocalDate.now(),emptyDate,emptyDate,emptyDate,emptyDate,emptyDate,10,0,"");
+		this("","","","","",0,0,State.PLANNED.toString(),"",LocalDate.now(),emptyDate,emptyDate,emptyDate,emptyDate,emptyDate,0,0,"");
 	}
 
 	

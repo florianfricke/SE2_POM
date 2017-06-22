@@ -15,6 +15,7 @@ import types.*;
 public class PomService {
 	private IPomDbService pomPersistance;
 	private IMesDBService mesPersistance;
+	private Setup setup;
 
 	public PomService(SaveType pomSaveType, SaveType mesSaveType) {
 		switch (pomSaveType.name()) {
@@ -28,7 +29,10 @@ public class PomService {
 			;
 			break; // prepared for further Persistence Implementation
 		}
-
+		if(!pomPersistance.hasSetup()){
+			pomPersistance.upsertSetup(new Setup());
+		}
+		setup = pomPersistance.getSetup();
 		switch (mesSaveType.name()) {
 		case "postgres":
 			mesPersistance = new MesDbService();
@@ -40,6 +44,14 @@ public class PomService {
 			;
 			break; // prepared for further Persistence Implementation
 		}
+	}
+	
+	public Setup getSetup(){
+		return setup;
+	}
+	
+	public boolean upsertSetup(){
+		return pomPersistance.upsertSetup(this.setup);
 	}
 
 	// Customer Methods
@@ -136,7 +148,7 @@ public class PomService {
 	 * @returns Remaining Capacity of a date
 	 */
 	public int getDayCapacity(Date date) {
-		return pomPersistance.getDayCapacity() - mesPersistance.getDayWorkload(date);
+		return setup.dayCapacityProperty().get() - mesPersistance.getDayWorkload(date);
 	}
 
 	public boolean releaseOrder(Order order) {

@@ -6,6 +6,8 @@ import java.net.URL;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -27,6 +29,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.converter.NumberStringConverter;
 
 public class MainController{
 	private MainMenu mainMenu;
@@ -50,6 +53,9 @@ public class MainController{
     @FXML private Button btnOrders;
     @FXML private Button btnSetUp;
     @FXML private Pane content;
+    //Setup Page
+    @FXML private TextField txt_dayCapacity;
+    @FXML private TextField txt_defaultLotSize;
     //Filter Table
     @FXML private TextField txt_searchFieldOrder;
     @FXML private TextField txt_searchFieldCustomer;
@@ -301,18 +307,21 @@ public class MainController{
     }
     
     @FXML private void handleDash(ActionEvent event) {
-    	System.out.println("Menu Dashboard");
-    	mainMenu.changeScene("DashboardSubPage.fxml", event); 
+    	mainMenu.changeScene("DashboardSubPage.fxml", event);
+    	mainMenu.upsertSetup();
     }
     
     @FXML private void handleCust(ActionEvent event) {
-    	System.out.println("Menu Customers");
     	mainMenu.changeScene("CustomerSubPage.fxml", event);
+    	mainMenu.upsertSetup();
     }
     
     @FXML private void handleOrder(ActionEvent event) {
-    	System.out.println("Menu Orders");
     	mainMenu.changeScene("OrderSubPage.fxml", event);
+    	mainMenu.upsertSetup();
+    }
+    @FXML private void handleSetup(ActionEvent event) {
+    	mainMenu.changeScene("SetupSubPage.fxml", event);
     }
     
     public void loadCustomerTable(){
@@ -443,14 +452,18 @@ public class MainController{
         sortedData.comparatorProperty().bind(orderTable.comparatorProperty());
         orderTable.setItems(sortedData);
     }
+    
+    public void loadSetupPage(){
+    	Bindings.bindBidirectional(txt_dayCapacity.textProperty(), this.mainMenu.getSetup().dayCapacityProperty(),new NumberStringConverter());
+    	Bindings.bindBidirectional(txt_defaultLotSize.textProperty(), this.mainMenu.getSetup().defaultLotSizeProperty(),new NumberStringConverter());
+    }
+    
 	public void comboBoxSearchListOrder(){
-		//Wo muss diese Methode hin?
 		list_searchOrder = FXCollections.observableArrayList("All","ID","Product","Priority","Customer","Order Date","Release Date","State");
 		comboBox_searchOrder.setItems(list_searchOrder);
 		comboBox_searchOrder.getSelectionModel().select(0);
 	}
 	public void comboBoxSearchListCustomer(){
-		//Wo muss diese Methode hin?
 		list_searchCustomer = FXCollections.observableArrayList("All","ID","Name","Ranking","Comment");
 		comboBox_searchCustomer.setItems(list_searchCustomer);
 		comboBox_searchCustomer.getSelectionModel().select(0);

@@ -704,23 +704,62 @@ public class PomDbService implements IPomDbService {
 		
 		return customerToReturn;
 	}
-	
-	public int getDayCapacity()
-	{
+	public boolean hasSetup(){
 		PreparedStatement stmt = null;
-		int cpcty = Integer.MAX_VALUE; //return Max-Integer value if attribute is not set in DB
 		try {
-			stmt = con.prepareStatement("SELECT value FROM setup WHERE attribute = 'DAYCAPACITY'");
+			stmt = con.prepareStatement("SELECT * FROM pom.setup ORDER BY id ASC LIMIT 1");
 			ResultSet rs = stmt.executeQuery();
-			rs.next();
-			cpcty = rs.getInt(1);
+			if(rs.next()){
+				return true;
+			}
+			 
 			rs.close();
 		    stmt.close();
 		    
 		} catch (SQLException e) {
 			ErrorLog.write(e);
 		}
-		return cpcty;
+		return false;
+	}
+	public Setup getSetup()
+	{
+		PreparedStatement stmt = null;
+		Setup setup = new Setup();
+		try {
+			stmt = con.prepareStatement("SELECT * FROM pom.setup ORDER BY id ASC LIMIT 1");
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()){
+			setup.dayCapacityProperty().set(rs.getInt("daycapacity"));
+			setup.defaultLotSizeProperty().set(rs.getInt("defaultlotsize"));
+			}
+			 
+			rs.close();
+		    stmt.close();
+		    
+		} catch (SQLException e) {
+			ErrorLog.write(e);
+		}
+		return setup;
+	}
+	public boolean upsertSetup(Setup setup)
+	{
+		PreparedStatement stmt = null;
+		try {
+			stmt = con.prepareStatement("INSERT INTO pom.setup (id, daycapacity, defaultlotsize) "
+					+ "VALUES (1,?,?)"
+					+ " ON CONFLICT (id) DO UPDATE SET daycapacity = ?, defaultlotsize = ?;");
+			stmt.setInt(1,setup.dayCapacityProperty().get());
+			stmt.setInt(2,setup.defaultLotSizeProperty().get());
+			stmt.setInt(3,setup.dayCapacityProperty().get());
+			stmt.setInt(4,setup.defaultLotSizeProperty().get());
+			stmt.executeUpdate();
+		    stmt.close();
+		    return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			ErrorLog.write(e);
+		}
+		return false;
 	}
 	
 }
