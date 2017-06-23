@@ -1,7 +1,5 @@
 package gui;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -9,9 +7,9 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -27,15 +25,15 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import types.*;
 
 public class CustomerController {
 	private MainMenu mainMenu;
 	private Customer cust;
-	private List<Address> delAddressList;
-	private List<Contact> delContactList;
-	private List<BankAccount> delBankAccountList;
 	private boolean [] emptyFields;
+	private Customer tmpCustomer;
+	private Stage currentStage;
 	//TextFields
 	@FXML private TextField txt_Id;
 	@FXML private TextField txt_Name;
@@ -67,23 +65,24 @@ public class CustomerController {
     @FXML private Button btn_ShowOrderHistory;
     private String errorText="Some of your input values are not valid or empty. Please try again.";
     
-	public void init(MainMenu mainMenu) {
+	public void init(MainMenu mainMenu, Stage stage) {
         this.mainMenu = mainMenu;
         this.cust = new Customer();
+        this.currentStage = stage;
         setTextFields();
         btn_ShowCurrentOrders.setDisable(true);
         btn_ShowOrderHistory.setDisable(true);
    }
 	
-	public void init(MainMenu mainMenu, Customer cust) {
+	public void init(MainMenu mainMenu, Customer cust, Stage stage) {
         this.mainMenu = mainMenu;
         this.cust = cust;
-
+        this.currentStage = stage;
         setTextFields();
    }
 	
 	private void setTextFields(){
-		
+		tmpCustomer = new Customer(cust);
 		
 		ObservableList<String> listRanking = FXCollections.observableArrayList("A","B","C");
 		cbxRanking.setItems(listRanking);
@@ -245,48 +244,33 @@ public class CustomerController {
     }
 	
 	@FXML private void handleNewAddress(ActionEvent event) {
-    	System.out.println("New Address");
     	this.cust.getAddressList().add(new Address());
     }
 	
 	@FXML private void handleNewContact(ActionEvent event) {
-    	System.out.println("New Contact");
     	this.cust.getContactList().add(new Contact());
     }
 	
 	@FXML private void handleNewBank(ActionEvent event) {
-    	System.out.println("New Bank");
     	this.cust.getBankAccountList().add(new BankAccount());
   
     }
 	
 	@FXML private void handleDelAddress(ActionEvent event) {
 		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete?") == true){
-			System.out.println("Del Address");
-			Address tmpAddress = addressTable.getSelectionModel().getSelectedItem();
-	    	this.delAddressList = new ArrayList<Address>();
-	    	this.delAddressList.add(tmpAddress);
-	    	this.cust.getAddressList().remove(tmpAddress);
+	    	this.cust.getAddressList().remove(addressTable.getSelectionModel().getSelectedItem());
 		}
     }
 	
 	@FXML private void handleDelContact(ActionEvent event) {
 		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete?") == true){
-	    	System.out.println("Del Contact");
-	    	Contact tmpContact = contactTable.getSelectionModel().getSelectedItem();
-	    	this.delContactList = new ArrayList<Contact>();
-	    	this.delContactList.add(tmpContact);
-	    	this.cust.getContactList().remove(tmpContact);
+	    	this.cust.getContactList().remove(contactTable.getSelectionModel().getSelectedItem());
 		}
     }
 	
 	@FXML private void handleDelBank(ActionEvent event) {
 		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete?") == true){
-	    	System.out.println("Del Bank");
-	    	BankAccount tmpBankAccount = bankAccountTable.getSelectionModel().getSelectedItem();
-	    	this.delBankAccountList = new ArrayList<BankAccount>();
-	    	this.delBankAccountList.add(tmpBankAccount);
-	    	this.cust.getBankAccountList().remove(tmpBankAccount);
+	    	this.cust.getBankAccountList().remove(bankAccountTable.getSelectionModel().getSelectedItem());
 		}
     }
 		
@@ -305,81 +289,70 @@ public class CustomerController {
 	
 	@FXML private void handleCancel(ActionEvent event) {
 		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel?") == true){ 
-			System.out.println("Cancel");
-	    	
-	    	if(this.delAddressList != null){
-		    	for (Address address : delAddressList) {
-		    		this.cust.getAddressList().add(address);
-				}
-	    	}
-	    	if(this.delContactList != null){
-		    	for (Contact contact : delContactList) {
-		    		this.cust.getContactList().add(contact);
-				}
-	    	}
-	    	
-	    	if(this.delBankAccountList != null){
-		    	for (BankAccount bankAccount : delBankAccountList) {
-		    		this.cust.getBankAccountList().add(bankAccount);
-				}
-	    	}
+	    	this.cust.copy(tmpCustomer);
 	    	closeWindow(event);
 		}
     }
 	
 	private void closeWindow(ActionEvent e){
-    	final Node currStage = (Node)e.getSource();
-    	Stage stage = (Stage) currStage.getScene().getWindow();
-    	stage.close(); 
+    	currentStage.close(); 
 	}
 
 	private void createEventHandler(){
-	
-	tar_Comment.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-	String localString;
-	localString = tar_Comment.getText();
-	if(!newValue){
-		if(tar_Comment.getText().length() > 250){
-			tar_Comment.getStyleClass().add("label_error");
-			tar_Comment.setText("");
-			txt_errorMessage.setVisible(true);
-			txt_errorMessage.setText(errorText);
+		currentStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+	    	public void handle(WindowEvent we) {
+	    		if(ConfirmBox.display("Confirmation Dialog", "Changes will be lost! Do you really want to close?") == false){
+	    			we.consume();
+	    		}else{
+		    		cust.copy(tmpCustomer);
+	    		}
+	        }
+	    });
+		tar_Comment.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+		String localString;
+		localString = tar_Comment.getText();
+		if(!newValue){
+			if(tar_Comment.getText().length() > 250){
+				tar_Comment.getStyleClass().add("label_error");
+				tar_Comment.setText("");
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.setText(errorText);
+				}
+			else{
+				tar_Comment.setText(localString);
+				tar_Comment.getStyleClass().add("reset_label_error");
+				txt_errorMessage.setVisible(false);
+				txt_errorMessage.setText("");
+				}
 			}
-		else{
-			tar_Comment.setText(localString);
-			tar_Comment.getStyleClass().add("reset_label_error");
-			txt_errorMessage.setVisible(false);
-			txt_errorMessage.setText("");
-			}
-		}
-	});
+		});
 
-	txt_Name.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-	txt_errorMessage.setVisible(false);
-	String localString;
-	localString = txt_Name.getText();
-	if(!newValue){
-		if(txt_Name.getText().length() == 0){
-			txt_Name.getStyleClass().add("label_error");
-			txt_errorMessage.setVisible(true);
-			txt_errorMessage.setText("Field: Name must be filled.");
-		}
-		else if(txt_Name.getText().length() > 32 ) {
-			txt_Name.getStyleClass().add("label_error");
-			txt_Name.setText("");
-			txt_errorMessage.setVisible(true);
-			txt_errorMessage.setText("Field: Name can only be 32 characters long.");
-		}
-		else if(txt_Name.getText().length() > 0 && txt_Name.getText().length() <= 32){ 
-			txt_Name.setText(localString);
-			txt_Name.getStyleClass().add("reset_label_error");
-			txt_Name.setText(localString);
-			txt_errorMessage.setVisible(false);
-			txt_errorMessage.setText("");
-			} 
-		else {}
-		}
-	});
-  }
+		txt_Name.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+		txt_errorMessage.setVisible(false);
+		String localString;
+		localString = txt_Name.getText();
+		if(!newValue){
+			if(txt_Name.getText().length() == 0){
+				txt_Name.getStyleClass().add("label_error");
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.setText("Field: Name must be filled.");
+			}
+			else if(txt_Name.getText().length() > 32 ) {
+				txt_Name.getStyleClass().add("label_error");
+				txt_Name.setText("");
+				txt_errorMessage.setVisible(true);
+				txt_errorMessage.setText("Field: Name can only be 32 characters long.");
+			}
+			else if(txt_Name.getText().length() > 0 && txt_Name.getText().length() <= 32){ 
+				txt_Name.setText(localString);
+				txt_Name.getStyleClass().add("reset_label_error");
+				txt_Name.setText(localString);
+				txt_errorMessage.setVisible(false);
+				txt_errorMessage.setText("");
+				} 
+			else {}
+			}
+		});
+	}
 	
 }

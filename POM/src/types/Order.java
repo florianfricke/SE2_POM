@@ -72,101 +72,80 @@ public class Order {
 		setOrderLotChange();
 	}
 	
-	public StringProperty ordernoProperty() {
-		return orderno;
-	}
-	public StringProperty customeridProperty() {
-		return customerid;
-	}
-	public StringProperty addressidProperty() {
-		return addressid;
-	}
-	public StringProperty contactidProperty() {
-		return contactid;
-	}
-	public StringProperty productProperty() {
-		return product;
-	}
-	public DoubleProperty priceProperty() {
-		return price;
-	}
-	
-	public IntegerProperty volumeProperty() {
-		return volume;
-	}
-	public StringProperty stateProperty() {
-		return new SimpleStringProperty(state.name());
-	}
-	public void setState(State s){
-		this.state = s;
-	}
-	public StringProperty baseLotIdProperty() {
-		return baseLotId;
-	}
-	public LocalDate getOrderDate() {
-		return orderDate;
-	}
-	public void setOrderDate(LocalDate date) {
-		this.orderDate = date;
+	public Order(Order order){
+		this(order.ordernoProperty().get(),
+		order.customeridProperty().get(),
+		order.addressidProperty().get(),
+		order.contactidProperty().get(),
+		order.productProperty().get(),
+		order.priceProperty().get(),
+		order.volumeProperty().get(),
+		order.stateProperty().get(),
+		order.baseLotIdProperty().get(),
+		order.getOrderDate(),
+		order.getStartDate(),
+		order.getReleaseDate(),
+		order.getCompletionDate(),
+		order.getDueDate(),
+		order.getActualDeliveryDate(),
+		order.lotSizeProperty().get(),
+		order.priorityProperty().get(),
+		order.commentProperty().get());	
 	}
 	
-	public LocalDate getStartDate() {
-		return startDate;
-	}
-	public void setStartDate(LocalDate date) {
-		this.startDate = date;
-	}
-	
-	public LocalDate getReleaseDate() {
-		return releaseDate;
-	}
-	public void setReleaseDate(LocalDate date) {
-		this.releaseDate = date;
-	}
-	
-	public LocalDate getCompletionDate() {
-		return completionDate;
-	}
-	
-	public void setCompletionDate(LocalDate date) {
-		this.completionDate = date;
-	}
-
-	public LocalDate getDueDate() {
-		return dueDate;
-	}
-	public void setDueDate(LocalDate date) {
-		this.dueDate = date;
-	}
-	public LocalDate getActualDeliveryDate() {
-		return actualDeliveryDate;
-	}
-	public void setActualDeliveryDate(LocalDate date) {
-		this.actualDeliveryDate = date;
-	}
-	
-	public IntegerProperty lotSizeProperty() {
-		return lotSize;
-	}
-	public IntegerProperty priorityProperty() {
-		return priority;
-	}
-	public StringProperty commentProperty() {
-		return comment;
-	}
-	public OrderLotChanges getOrderLotChanges(){
-		return this.orderLotChanges;
-	}
-	
-	public List < Lot > getLots() {
-		return null;
-	}
+	public StringProperty ordernoProperty() {return orderno;}
+	public StringProperty customeridProperty() {return customerid;}
+	public StringProperty addressidProperty() {return addressid;}
+	public StringProperty contactidProperty() {return contactid;}
+	public StringProperty productProperty() {return product;}
+	public DoubleProperty priceProperty() {return price;}
+	public IntegerProperty volumeProperty() {return volume;}
+	public StringProperty stateProperty() {return new SimpleStringProperty(state.name());}
+	public void setState(State s){this.state = s;}
+	public StringProperty baseLotIdProperty() {return baseLotId;}
+	public LocalDate getOrderDate() {return orderDate;}
+	public void setOrderDate(LocalDate date) {this.orderDate = date;}
+	public LocalDate getStartDate() {return startDate;}
+	public void setStartDate(LocalDate date) {this.startDate = date;}
+	public LocalDate getReleaseDate() {return releaseDate;}
+	public void setReleaseDate(LocalDate date) {this.releaseDate = date;}
+	public LocalDate getCompletionDate() {return completionDate;}
+	public void setCompletionDate(LocalDate date) {this.completionDate = date;}
+	public LocalDate getDueDate() {return dueDate;}
+	public void setDueDate(LocalDate date) {this.dueDate = date;}
+	public LocalDate getActualDeliveryDate() {return actualDeliveryDate;}
+	public void setActualDeliveryDate(LocalDate date) {this.actualDeliveryDate = date;}
+	public IntegerProperty lotSizeProperty() {return lotSize;}
+	public IntegerProperty priorityProperty() {return priority;}
+	public StringProperty commentProperty() {return comment;}
+	public OrderLotChanges getOrderLotChanges(){return this.orderLotChanges;}
+	public List < Lot > getLots() {return null;}
+	public IntegerProperty delayProperty(){return delay;}
 	
 	public void setOrderLotChange(){
 		this.orderLotChanges = new OrderLotChanges(this.volume.get(), this.priority.get(), this.dueDate);
 	}
 	
-	public IntegerProperty delayProperty(){
-		return delay;
+	public void copy(Order order){
+		this.orderno.set(order.ordernoProperty().get());
+		this.customerid.set(order.customeridProperty().get());
+		this.addressid.set(order.addressidProperty().get());
+		this.contactid.set(order.contactidProperty().get());
+		this.product.set(order.productProperty().get());
+		this.price.set(order.priceProperty().get());
+		this.volume.set(order.volumeProperty().get());
+		this.state = State.valueOf(order.stateProperty().get());
+		this.baseLotId.set(order.baseLotIdProperty().get());
+		this.setOrderDate(order.getOrderDate());
+		this.setStartDate(order.getStartDate());
+		this.setReleaseDate(order.getReleaseDate());
+		this.setCompletionDate(order.getCompletionDate());
+		this.setDueDate(order.getDueDate());
+		this.setActualDeliveryDate(order.getActualDeliveryDate());
+		this.lotSize.set(order.lotSizeProperty().get());
+		this.priority.set(order.priorityProperty().get());
+		this.comment.set(order.commentProperty().get());	
 	}
+	
+
 }
