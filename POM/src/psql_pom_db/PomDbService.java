@@ -8,6 +8,11 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -287,12 +292,14 @@ public class PomDbService implements IPomDbService {
 		}
 		return custList;
 	}
+
 	
 	private boolean openConnection(){
 		try{
+			String connectionLine = OpenConnectionFile.readFile();
 			 Class.forName("org.postgresql.Driver");
 			 //current schema is set as 'pom'
-	         con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/mes?currentSchema=pom","postgres", "0815");
+	         con = DriverManager.getConnection(connectionLine);
 	         return true;
 		}catch(Exception e){
 			ErrorLog.write(e);
