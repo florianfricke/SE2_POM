@@ -36,48 +36,43 @@ public class Customer {
 		this.comboBoxItem = new CbxItemObservable("", "");
 		
 		}
-
-	public CbxItemObservable comboBoxProperty(){
-		return comboBoxItem;
-	}
-	public StringProperty idProperty() {
-		return id;
-	}
-
-	public StringProperty nameProperty() {
-		return name;
-	}
-
-	public StringProperty rankingProperty() {
-		return ranking;
+	public Customer(Customer cust){
+		this(cust.idProperty().get(), cust.nameProperty().get(),cust.rankingProperty().get(), cust.commentProperty().get());
+		try{
+			this.addressList = FXCollections.observableArrayList(cust.getAddressList());
+			this.contactList = FXCollections.observableArrayList(cust.getContactList());
+			this.bankAccountList = FXCollections.observableArrayList(cust.getBankAccountList());
+		}catch(Exception e){
+			ErrorLog.write(e);
+		}
+		
 	}
 
-	public StringProperty commentProperty() {
-		return comment;
-	}
+	public CbxItemObservable comboBoxProperty(){return comboBoxItem;}
+	public StringProperty idProperty() {return id;}
+	public StringProperty nameProperty() {return name;}
+	public StringProperty rankingProperty() {return ranking;}
+	public StringProperty commentProperty() {return comment;}
+	public ObservableList<Address> getAddressList(){return addressList;}
+	public void setAddressList(ObservableList<Address> addressList){this.addressList = addressList;}
+	public ObservableList<Contact> getContactList(){return contactList;}
+	public void setContactList(ObservableList<Contact> contactList){this.contactList = contactList;}
+	public ObservableList<BankAccount> getBankAccountList(){return bankAccountList;}
+	public void setBankAccountList(ObservableList<BankAccount> bankAccountList){this.bankAccountList = bankAccountList;}
+	public String toString(){return nameProperty().get();}
 	
-	public ObservableList<Address> getAddressList(){
-		return addressList;
+	public void copy(Customer cust){
+		this.idProperty().set(cust.idProperty().get());
+		this.nameProperty().set(cust.nameProperty().get());
+		this.rankingProperty().set(cust.rankingProperty().get());
+		this.commentProperty().set(cust.commentProperty().get());
+		try{
+			this.addressList = FXCollections.observableArrayList(cust.getAddressList());
+			this.contactList = FXCollections.observableArrayList(cust.getContactList());
+			this.bankAccountList = FXCollections.observableArrayList(cust.getBankAccountList());
+		}catch(Exception e){
+			ErrorLog.write(e);
+		}
+		this.comboBoxItem = cust.comboBoxItem;
 	}
-	public void setAddressList(ObservableList<Address> addressList){
-		this.addressList = addressList;
-	}
-	public ObservableList<Contact> getContactList(){
-		return contactList;
-	}
-	public void setContactList(ObservableList<Contact> contactList){
-		this.contactList = contactList;
-	}
-	public ObservableList<BankAccount> getBankAccountList(){
-		return bankAccountList;
-	}
-	public void setBankAccountList(ObservableList<BankAccount> bankAccountList){
-		this.bankAccountList = bankAccountList;
-	}
-	
-	
-	public String toString(){
-		return nameProperty().get();
-	}
-
 }

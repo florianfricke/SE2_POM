@@ -12,7 +12,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent; 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -31,6 +32,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
@@ -46,6 +48,8 @@ public class OrderController {
 	private Callback<DatePicker, DateCell> startDateCellFactory;
 	private Callback<DatePicker, DateCell> dueDateCellFactory;
 	private OrderLotChanges changeValues;
+	private Order tmpOrder;
+	private Stage currentStage;
 	
     @FXML private TextField txt_Id;
     @FXML private TextField txt_orderDate;
@@ -109,9 +113,10 @@ public class OrderController {
         }
     };
 	
-	public void init(MainMenu mainMenu) {
+	public void init(MainMenu mainMenu, Stage stage) {
         this.mainMenu = mainMenu;
         this.order = new Order();
+        this.currentStage = stage;
         order.lotSizeProperty().set(mainMenu.getSetup().defaultLotSizeProperty().get());
         setTextFields();
         btnUpdate.setDisable(true);
@@ -119,9 +124,10 @@ public class OrderController {
         
    }
 	
-	public void init(MainMenu mainMenu, Order order) {
+	public void init(MainMenu mainMenu, Order order, Stage stage) {
         this.mainMenu = mainMenu;
         this.order = order;
+        this.currentStage = stage;
         changeValues = new OrderLotChanges(order.getOrderLotChanges());
         disableFields();
         setTextFields();
@@ -138,7 +144,7 @@ public class OrderController {
 	}
 	
 	private void setTextFields(){
-		
+		tmpOrder = new Order(order);
 		//ComboBoxen
 		cbxProduct.setItems(mainMenu.getProductList());
 		
@@ -325,8 +331,8 @@ public class OrderController {
 	}
 	
 	@FXML private void handleCancel(ActionEvent event) {
-		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel?") == true){ 
-	    	System.out.println(this.order.priorityProperty());
+		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel?") == true){
+			this.order.copy(tmpOrder);
 	    	closeWindow(event);
 		}
     }
@@ -497,6 +503,15 @@ public class OrderController {
 	}
 	
 	private void createEventHandler(){
+		currentStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+	    	public void handle(WindowEvent we) {
+	    		if(ConfirmBox.display("Confirmation Dialog", "Changes will be lost! Do you really want to close?") == false){
+	    			we.consume();
+	    		}else{
+		    		order.copy(tmpOrder);
+	    		}
+	        }
+	    });
 		txt_volume.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {

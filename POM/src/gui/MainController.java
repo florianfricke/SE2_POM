@@ -80,11 +80,11 @@ public class MainController{
             fxmlLoader.setLocation(getClass().getResource("CustomerCard.fxml"));
             Parent root = fxmlLoader.load();
             CustomerController custCtrl = (CustomerController)fxmlLoader.getController();
-            custCtrl.init(this.mainMenu,cust);
             Scene scene = new Scene(root, 800, 500);
             Stage stage = new Stage();
             stage.setTitle("Customer");
             stage.setScene(scene);
+            custCtrl.init(this.mainMenu,cust, stage);
 			stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
@@ -101,11 +101,12 @@ public class MainController{
             fxmlLoader.setLocation(getClass().getResource("CustomerCard.fxml"));
             Parent root = fxmlLoader.load();
             CustomerController custCtrl = (CustomerController)fxmlLoader.getController();
-            custCtrl.init(this.mainMenu);
+            
             Scene scene = new Scene(root, 800, 500);
             Stage stage = new Stage();
             stage.setTitle("New Customer");
             stage.setScene(scene);
+            custCtrl.init(this.mainMenu, stage);
 			stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
@@ -209,11 +210,11 @@ public class MainController{
             fxmlLoader.setLocation(getClass().getResource("OrderCard.fxml"));
             Parent root = fxmlLoader.load();
             OrderController orderCtrl = (OrderController)fxmlLoader.getController();
-            orderCtrl.init(this.mainMenu);
             Scene scene = new Scene(root, 800, 500);
             Stage stage = new Stage();
             stage.setTitle("New Order");
             stage.setScene(scene);
+            orderCtrl.init(this.mainMenu, stage);
 			stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
@@ -292,11 +293,11 @@ public class MainController{
             fxmlLoader.setLocation(getClass().getResource("OrderCard.fxml"));
             Parent root = fxmlLoader.load();
             OrderController orderCtrl = (OrderController)fxmlLoader.getController();
-            orderCtrl.init(this.mainMenu,order);
             Scene scene = new Scene(root, 800, 500);
             Stage stage = new Stage();
             stage.setTitle("Order");
             stage.setScene(scene);
+            orderCtrl.init(this.mainMenu,order, stage);
 			stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
