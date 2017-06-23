@@ -12,7 +12,7 @@ public class OpenConnectionFile {
 	 	FileReader fr;
 		
 	 	try {
-			fr = new FileReader("test.txt");
+			fr = new FileReader("dbConnectionFile.txt");
 			BufferedReader br = new BufferedReader(fr);
 			 String connectionLine = br.readLine();
 			 return connectionLine;
