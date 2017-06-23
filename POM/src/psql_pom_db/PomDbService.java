@@ -125,7 +125,7 @@ public class PomDbService implements IPomDbService {
 	}
 	
 	@Override
-	public boolean updateCustomer(Customer cust) { //TODO Funktion noch in private Untermethoden aufteilen
+	public boolean updateCustomer(Customer cust) { 
 		String sql = "";
 		ResultSet rs;
 		List<Address> dbCustAddressList = getAddressList(cust.idProperty().get());
