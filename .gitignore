@@ -18,3 +18,5 @@
 \.DS_Store
 
 POM/Log\.log
+
+POM/bin/

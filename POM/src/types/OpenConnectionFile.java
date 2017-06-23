@@ -6,8 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class OpenConnectionFile {
-	public static 
-	String readFile() throws IOException{
+	public static String readFile() throws IOException{
 		
 	 	FileReader fr;
 		

@@ -19,7 +19,8 @@ public class MesDbService implements IMesDBService {
 		try{
 			String connectionLine = OpenConnectionFile.readFile();
 			 Class.forName("org.postgresql.Driver");
-	         con = DriverManager.getConnection(connectionLine); // Uses test.txt
+			 //con = DriverManager.getConnection(connectionLine);
+	         con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/mes","postgres", "0815"); // Uses test.txt
 	         return true;
 		}catch(Exception e){
 			ErrorLog.write(e);
