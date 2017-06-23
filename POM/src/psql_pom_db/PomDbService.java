@@ -299,11 +299,11 @@ public class PomDbService implements IPomDbService {
 			String connectionLine = OpenConnectionFile.readFile();
 			 Class.forName("org.postgresql.Driver");
 			 //current schema is set as 'pom'
-	         con = DriverManager.getConnection(connectionLine);
+	         con = DriverManager.getConnection(connectionLine); // useres File test.txt
 	         return true;
 		}catch(Exception e){
 			ErrorLog.write(e);
-			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.err.println(e.getClass().getName()+": "+e.getMessage()); // Konsolenausgabe
 		}
 		System.out.println("Erfolgreich verbunden!");
 		return false;

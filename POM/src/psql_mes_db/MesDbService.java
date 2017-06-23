@@ -17,12 +17,13 @@ public class MesDbService implements IMesDBService {
 	}
 	private boolean openConnection(){
 		try{
+			String connectionLine = OpenConnectionFile.readFile();
 			 Class.forName("org.postgresql.Driver");
-	         con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/mes","postgres", "0815");
+	         con = DriverManager.getConnection(connectionLine); // Uses test.txt
 	         return true;
 		}catch(Exception e){
 			ErrorLog.write(e);
-			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.err.println(e.getClass().getName()+": "+e.getMessage()); // Ausgabe auf konsole
 		}
 		System.out.println("Erfolgreich verbunden!");
 		return false;
@@ -33,7 +34,7 @@ public class MesDbService implements IMesDBService {
 			System.out.println("Datenbankverbindung geschlossen.");
 		}catch(Exception e){
 			ErrorLog.write(e);
-			System.err.println(e.getClass().getName()+": "+e.getMessage());
+			System.err.println(e.getClass().getName()+": "+e.getMessage()); // Ausgabe auf konsole
 		}
 	}
 	protected void finalize() 
