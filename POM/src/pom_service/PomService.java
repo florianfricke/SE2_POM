@@ -105,6 +105,22 @@ public class PomService {
 		
 		return false;
 	}
+	
+	public boolean finishOrder(Order order)
+	{
+		order.setActualDeliveryDate(LocalDate.now()); //set CurrentDate as ActualDeliveryDate
+		
+		if(order.getActualDeliveryDate().isAfter(order.getDueDate()))
+		{
+			order.setState(State.FINISHED_DELAY);
+		}
+		else
+		{
+			order.setState(State.FINISHED_IN_TIME);
+		}
+		
+		return updateOrder(order);
+	}
 
 	public Customer getCustomer(String customerId) {
 		return pomPersistance.getCustomer(customerId);
