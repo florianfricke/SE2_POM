@@ -263,6 +263,7 @@ public class MainController{
         		System.out.println("Cancel");
     		if (mainMenu.cancelOrder(orderTable.getSelectionModel().getSelectedItem())){
     			// delete if true
+    			orderTable.refresh();
     		}
     		else {
     			Alert alert = new Alert(AlertType.ERROR);

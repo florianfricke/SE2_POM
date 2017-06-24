@@ -218,8 +218,5 @@ public class PomService {
 		return mesPersistance.getRouteList(orderno, product);
 	}
 
-	public boolean cancelOrder(Order order) {
-		// TODO Auto-generated method stub
-		return true;
-	}
+
 }
