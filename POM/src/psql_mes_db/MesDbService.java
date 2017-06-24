@@ -1,5 +1,6 @@
 package psql_mes_db;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -82,6 +83,25 @@ public class MesDbService implements IMesDBService {
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean cancelLots(String orderno) {
+		String sql = "";
+		PreparedStatement stmt = null;
+		try {
+			sql= "UPDATE lot SET state = 'CANCELED' WHERE \"ORDER\"= ?";
+			stmt = this.con.prepareStatement(sql);
+			stmt.setString(1,orderno);
+			stmt.executeUpdate();
+		    stmt.close();
+		    return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
 	public int getLotCount(String orderNo){
 		String sql = "";
 		PreparedStatement stmt = null;
@@ -100,6 +120,33 @@ public class MesDbService implements IMesDBService {
 		}
 		return count;
 	}
+	
+	/**
+	 *
+	 * @param orderNo
+	 * @return count of lots, which are not in state 'RDY'
+	 */
+	@Override
+	public int getLotInProcessCount(String orderNo){
+		String sql = "";
+		PreparedStatement stmt = null;
+		int count = 0;
+		ResultSet rs;
+		try {
+			sql= "SELECT COUNT(*) FROM lot WHERE \"ORDER\"= ? and state != 'RDY'";
+			stmt = this.con.prepareStatement(sql);
+			stmt.setString(1, orderNo);
+		
+			rs = stmt.executeQuery();
+		    if(rs.next())
+		    	count = rs.getInt(1);
+		    stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
 	
 	@Override
 	public int getDayWorkload(java.util.Date date) {

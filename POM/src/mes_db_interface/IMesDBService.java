@@ -1,5 +1,6 @@
 package mes_db_interface;
 
+import java.sql.Array;
 import java.util.Date;
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface IMesDBService {
 	public int getDayWorkload(Date date);
 	public List<String> getProductList();
 	public List<Route> getRouteList(String orderno,String product);
+	public boolean cancelLots(String orderno);
+	public int getLotInProcessCount(String orderNo);
 }

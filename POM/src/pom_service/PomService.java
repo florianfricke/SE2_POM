@@ -2,6 +2,7 @@ package pom_service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -77,6 +78,20 @@ public class PomService {
 
 	public boolean deleteOrder(String orderno) {
 		return pomPersistance.deleteOrder(orderno);
+	}
+	
+	public boolean cancelOrder(Order order)
+	{
+		if(mesPersistance.getLotInProcessCount(order.ordernoProperty().get()) == 0)
+		{
+			if(mesPersistance.cancelLots(order.ordernoProperty().get()))
+			{
+				order.setState(State.CANCELED);
+				return pomPersistance.updateOrder(order);
+			}
+		}
+		
+		return false;
 	}
 
 	public Customer getCustomer(String customerId) {
