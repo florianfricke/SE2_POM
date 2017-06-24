@@ -78,6 +78,42 @@ public class PomService {
 	public List<BankAccount> getBankAccountList(String custId) {
 		return pomPersistance.getBankAccountList(custId);
 	}
+	
+	/*
+	 * Checks, if address is referenced to an Order
+	 * 
+	 * @param adress
+	 * @returns true, if address is referenced
+	 */
+	public boolean isReferenced(Address address)
+	{
+		return false;
+		
+	}
+	
+	/*
+	 * Checks, if contact is referenced to an Order
+	 * 
+	 * @param contact
+	 * @returns true, if contact is referenced
+	 */
+	public boolean isReferenced(Contact contact)
+	{
+		return false;
+		
+	}
+	
+	/*
+	 * Checks, if bankAccount is referenced to an Order
+	 * 
+	 * @param adress
+	 * @returns true, if bankAccount is referenced
+	 */
+	public boolean isReferenced(BankAccount bankAccount)
+	{
+		return false;
+		
+	}
 
 	// Order Methods
 	public boolean addOrder(Order order) {
@@ -176,6 +212,7 @@ public class PomService {
 	}
 
 	/*
+	 * 
 	 * @returns Remaining Capacity of a date
 	 */
 	public int getDayCapacity(Date date) {
