@@ -233,7 +233,7 @@ public class MainController{
         	alert.show();
         	return;
     	}
-    	if(orderTable.getSelectionModel().getSelectedItem().stateProperty().get().equals(State.PLANNED.toString())){
+    	if(orderTable.getSelectionModel().getSelectedItem().stateProperty().get().equals(State.PLANNED.toString()) || orderTable.getSelectionModel().getSelectedItem().stateProperty().get().equals(State.CANCELED.toString())){
         	if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete: order " +orderTable.getSelectionModel().getSelectedItem().ordernoProperty().get().toString()) == true){
         		System.out.println("Delete");
         		mainMenu.deleteOrder(orderTable.getSelectionModel().getSelectedItem());
@@ -242,7 +242,7 @@ public class MainController{
     	} else {
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
-        	alert.setHeaderText("Order is already released. Try Cancel!");
+        	alert.setHeaderText("Cannot delete order");
         	alert.show();
         	return;
     	}
@@ -284,6 +284,39 @@ public class MainController{
     	}
     		
     }
+    
+    
+    @FXML private void handleFinishOrder(ActionEvent event){
+    	if(orderTable.getSelectionModel().getSelectedItem() == null){
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("Select Order!");
+        	alert.show();
+        	return;
+    	}
+    	
+    	if(orderTable.getSelectionModel().getSelectedItem().stateProperty().get().equals(State.COMPLETED.toString())){
+    		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to finish: order " +orderTable.getSelectionModel().getSelectedItem().ordernoProperty().get().toString()) == true){
+        		System.out.println("Finish Order");
+    		if (mainMenu.finishOrder(orderTable.getSelectionModel().getSelectedItem())){
+    			// delete if true
+    			orderTable.refresh();
+    		}
+    		}
+    	
+    		mainMenu.finishOrder(orderTable.getSelectionModel().getSelectedItem());
+    	}else {
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("Order is not COMPLETED");
+        	alert.show();
+        	return;
+    	}
+    		
+    }
+    
+    
+    
     
     @FXML private void handleRowClickOrder(MouseEvent click) {
     	if(click.getClickCount() != 2) return; //just Double Click

@@ -234,5 +234,10 @@ public class PomService {
 		return mesPersistance.getRouteList(orderno, product);
 	}
 
+	public boolean finishOrder(Order order) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 }
