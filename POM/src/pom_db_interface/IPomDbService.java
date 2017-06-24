@@ -22,4 +22,5 @@ public interface IPomDbService {
 	public Customer getCustomer(String customerId);
 	public boolean upsertSetup(Setup setup);
 	public boolean hasSetup();
+	public boolean isReferenced(String id, String column);
 }
