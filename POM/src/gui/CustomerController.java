@@ -29,6 +29,7 @@ import javafx.stage.WindowEvent;
 import types.*;
 
 public class CustomerController {
+	
 	private MainMenu mainMenu;
 	private Customer cust;
 	private boolean [] emptyFields;
@@ -257,20 +258,45 @@ public class CustomerController {
     }
 	
 	@FXML private void handleDelAddress(ActionEvent event) {
+		
+		if(mainMenu.isReferenced(addressTable.getSelectionModel().getSelectedItem()) == true){
+			Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("Cannot delete. Address is already used!");
+        	alert.show();
+		} else {
+		
 		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete?") == true){
 	    	this.cust.getAddressList().remove(addressTable.getSelectionModel().getSelectedItem());
+		}
 		}
     }
 	
 	@FXML private void handleDelContact(ActionEvent event) {
+		
+		if(mainMenu.isReferenced(contactTable.getSelectionModel().getSelectedItem()) == true){
+			Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("Cannot delete. Contact is already used!");
+        	alert.show();
+		} else {
+		
 		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete?") == true){
 	    	this.cust.getContactList().remove(contactTable.getSelectionModel().getSelectedItem());
+		}
 		}
     }
 	
 	@FXML private void handleDelBank(ActionEvent event) {
+		if(mainMenu.isReferenced(bankAccountTable.getSelectionModel().getSelectedItem()) == true){
+			Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("Cannot delete. Bank Account is already used!");
+        	alert.show();
+		} else { 
 		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete?") == true){
 	    	this.cust.getBankAccountList().remove(bankAccountTable.getSelectionModel().getSelectedItem());
+		}
 		}
     }
 		

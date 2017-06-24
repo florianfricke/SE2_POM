@@ -205,4 +205,16 @@ public class MainMenu extends Application {
 	public boolean upsertSetup(){
 		return pomService.upsertSetup();
 	}
+
+	public boolean isReferenced(Address address) {
+		return pomService.isReferenced(address);
+	}
+
+	public boolean isReferenced(Contact contact) {
+		return pomService.isReferenced(contact);
+	}
+
+	public boolean isReferenced(BankAccount bankAccount) {
+		return pomService.isReferenced(bankAccount);
+	}
 }
