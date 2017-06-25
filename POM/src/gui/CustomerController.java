@@ -156,10 +156,45 @@ public class CustomerController {
 			ErrorLog.write(e);
 		}
 	}
+	
+	
+	
+	
+	
 	private boolean fillFields(String action){
 		boolean[] emptyFields = {txt_Name.getText().isEmpty(),
 								cbxRanking.getValue() == "",
 								};
+		
+		
+		for (Address address : this.cust.getAddressList()) {
+			if (address.streetProperty().get().isEmpty() == true || address.houseNoProperty().get().isEmpty() == true || 
+					address.zipCodeProperty().get().isEmpty() == true || address.cityProperty().get().isEmpty() == true 
+					|| address.countryProperty().get().isEmpty() == true){
+				
+						return false;
+			}
+		}
+		
+		for (Contact contacts : this.cust.getContactList()) {
+			if(contacts.nameProperty().get().isEmpty() == true || contacts.firstNameProperty().get().isEmpty() == true || 
+					contacts.positionProperty().get().isEmpty() == true || contacts.phoneNoProperty().get().isEmpty() == true ||
+					contacts.emailProperty().get().isEmpty() == true){
+				
+						return false;
+			}	
+		}
+		
+		for (BankAccount bankAccount : this.cust.getBankAccountList()) {
+			if (bankAccount.ibanProperty().get().isEmpty() == true || bankAccount.bicProperty().get().isEmpty() == true || 
+					bankAccount.bankNameProperty().get().isEmpty() == true){
+				return false;
+			}
+			
+		}
+		
+		
+		
 		this.emptyFields = emptyFields;
 		action = "save";
 		switch(action){
@@ -176,6 +211,7 @@ public class CustomerController {
 			default: return true;
 		}
 	}
+	
 	public boolean writeErrorMessage(){
 		String error= "";
 		int z = 0;
