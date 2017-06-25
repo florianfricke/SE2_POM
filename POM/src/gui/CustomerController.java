@@ -1,7 +1,9 @@
 package gui;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -238,46 +240,66 @@ public class CustomerController {
 	}
 	
 	@FXML private void handleShowCurrentOrder(ActionEvent event) {       
-    	System.out.println("CurrentOrder");
-    	try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("ShowCurrentOrder.fxml"));
-            Parent root = fxmlLoader.load();
-            ShowOrderController showOrderCtrl = (ShowOrderController)fxmlLoader.getController();
-            showOrderCtrl.init(this.mainMenu, cust.idProperty().get(), false);
-            Scene scene = new Scene(root, 800, 500);
-            Stage stage = new Stage();
-            stage.setTitle("Show Current Order");
-            stage.setScene(scene);
-            stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
-        } catch (IOException e) {
-            Logger logger = Logger.getLogger(getClass().getName());
-            logger.log(Level.SEVERE, "Failed to create new Window.", e);
-        } 
+		List<Order> currentOrders = mainMenu.getCustomerOrder(cust.idProperty().get()).stream().filter(p -> p.stateProperty().get() == State.PLANNED.name() || p.stateProperty().get() == State.IN_PROCESS.name() || p.stateProperty().get() == State.COMPLETED.name()).collect(Collectors.toList());
+    	
+    	if(currentOrders.isEmpty() == true ){
+	    	Alert alert = new Alert(AlertType.ERROR);
+	    	alert.setTitle("Notificaion");
+	    	alert.setHeaderText("The customer has no PLANNED, IN_PROCESS or COMPLETED order!");
+	    	alert.show();
+    	}
+    	else
+    	{
+	    	try {
+	            FXMLLoader fxmlLoader = new FXMLLoader();
+	            fxmlLoader.setLocation(getClass().getResource("ShowCurrentOrder.fxml"));
+	            Parent root = fxmlLoader.load();
+	            ShowOrderController showOrderCtrl = (ShowOrderController)fxmlLoader.getController();
+	            showOrderCtrl.init(this.mainMenu, cust.idProperty().get(), false);
+	            Scene scene = new Scene(root, 800, 500);
+	            Stage stage = new Stage();
+	            stage.setTitle("Show Current Order");
+	            stage.setScene(scene);
+	            stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
+	            stage.initModality(Modality.APPLICATION_MODAL);
+	            stage.showAndWait();
+	        } catch (IOException e) {
+	            Logger logger = Logger.getLogger(getClass().getName());
+	            logger.log(Level.SEVERE, "Failed to create new Window.", e);
+	        } 
+    	}
 	}
     
     
 	@FXML private void handleShowOrderHistory(ActionEvent event) {
-        System.out.println("OrderHistory");
-        try {
-        	FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("ShowOrderHistory.fxml"));
-            Parent root = fxmlLoader.load();
-            ShowOrderController showOrderCtrl = (ShowOrderController)fxmlLoader.getController();
-            showOrderCtrl.init(this.mainMenu, cust.idProperty().get(), true);
-            Scene scene = new Scene(root, 800, 500);
-            Stage stage = new Stage();
-            stage.setTitle("Show Order History");
-            stage.setScene(scene);
-            stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
-        } catch (IOException e) {
-            Logger logger = Logger.getLogger(getClass().getName());
-            logger.log(Level.SEVERE, "Failed to create new Window.", e);
-        	} 
+		List<Order> historyOrders = mainMenu.getCustomerOrderHistory(cust.idProperty().get()).stream().filter(p -> p.stateProperty().get() == State.FINISHED_IN_TIME.name() || p.stateProperty().get() == State.FINISHED_DELAY.name() || p.stateProperty().get() == State.CANCELED.name()).collect(Collectors.toList());
+		
+    	if(historyOrders.isEmpty() == true ){
+	    	Alert alert = new Alert(AlertType.ERROR);
+	    	alert.setTitle("Notificaion");
+	    	alert.setHeaderText("The customer has no FINISHED or CANCELED order!");
+	    	alert.show();
+    	}
+    	else
+    	{
+	        try {
+	        	FXMLLoader fxmlLoader = new FXMLLoader();
+	            fxmlLoader.setLocation(getClass().getResource("ShowOrderHistory.fxml"));
+	            Parent root = fxmlLoader.load();
+	            ShowOrderController showOrderCtrl = (ShowOrderController)fxmlLoader.getController();
+	            showOrderCtrl.init(this.mainMenu, cust.idProperty().get(), true);
+	            Scene scene = new Scene(root, 800, 500);
+	            Stage stage = new Stage();
+	            stage.setTitle("Show Order History");
+	            stage.setScene(scene);
+	            stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
+	            stage.initModality(Modality.APPLICATION_MODAL);
+	            stage.showAndWait();
+	        } catch (IOException e) {
+	            Logger logger = Logger.getLogger(getClass().getName());
+	            logger.log(Level.SEVERE, "Failed to create new Window.", e);
+	        	} 
+    	}
     }
 	
 	@FXML private void handleNewAddress(ActionEvent event) {
