@@ -299,7 +299,7 @@ public class PomDbService implements IPomDbService {
 			String connectionLine = OpenConnectionFile.readFile();
 			 Class.forName("org.postgresql.Driver");
 			 //current schema is set as 'pom'
-	         //con = DriverManager.getConnection(connectionLine); // useres File test.txt
+	       // con = DriverManager.getConnection(connectionLine); // useres File test.txt
 	         
 	        	 
 	             con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/mes?currentSchema=pom","postgres", "0815");
