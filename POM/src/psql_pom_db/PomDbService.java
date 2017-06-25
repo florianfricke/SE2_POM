@@ -774,7 +774,7 @@ public class PomDbService implements IPomDbService {
 	}
 	
 	/**
-	 * TODO: Markus? ist das sauber genug, wenn ich die Spalte auf der Serviceschicht hierher übergebe?
+	 * TODO: Markus? ist das sauber genug, wenn ich die Spalte auf der Serviceschicht hierher übergebe? MH: Ja passt schon
 	 * @param id to check
 	 * @param column to check
 	 * @return checks, if a specific foreign key is inserted in order table
