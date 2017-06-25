@@ -67,6 +67,10 @@ public class CustomerController {
     @FXML private Button btn_ShowCurrentOrders;
     @FXML private Button btn_ShowOrderHistory;
     private String errorText="Some of your input values are not valid or empty. Please try again.";
+    private boolean b_streetProperty, b_houseNoProperty, b_zipCodeProperty,	b_cityProperty,	b_countryProperty;
+    private boolean b_nameProperty, b_firstNameProperty, b_positionProperty, b_phoneNoProperty, b_emailProperty;
+    private boolean b_ibanProperty, b_bicProperty, b_bankNameProperty;
+
     
 	public void init(MainMenu mainMenu, Stage stage) {
         this.mainMenu = mainMenu;
@@ -161,53 +165,77 @@ public class CustomerController {
 	
 	
 	
-	
-	
 	private boolean fillFields(String action){
-		boolean[] emptyFields = {txt_Name.getText().isEmpty(),
-								cbxRanking.getValue() == "",
-								};
-		
-		
-		for (Address address : this.cust.getAddressList()) {
+				
+		/*for (Address address : this.cust.getAddressList()) {
 			if (address.streetProperty().get().isEmpty() == true || address.houseNoProperty().get().isEmpty() == true || 
 					address.zipCodeProperty().get().isEmpty() == true || address.cityProperty().get().isEmpty() == true 
 					|| address.countryProperty().get().isEmpty() == true){
-				
+							b_streetProperty = address.streetProperty().get().isEmpty();
+							b_houseNoProperty = address.houseNoProperty().get().isEmpty();
+							b_zipCodeProperty = address.houseNoProperty().get().isEmpty();
+							b_cityProperty = address.cityProperty().get().isEmpty();
+							b_countryProperty = address.countryProperty().get().isEmpty();
 						return false;
 			}
+		}*/
+
+		for (Address address : this.cust.getAddressList()) {
+			b_streetProperty = address.streetProperty().get().isEmpty();
+			b_houseNoProperty = address.houseNoProperty().get().isEmpty();
+			b_zipCodeProperty = address.houseNoProperty().get().isEmpty();
+			b_cityProperty = address.cityProperty().get().isEmpty();
+			b_countryProperty = address.countryProperty().get().isEmpty();
 		}
-		
-		for (Contact contacts : this.cust.getContactList()) {
+	
+		/*for (Contact contacts : this.cust.getContactList()) {
 			if(contacts.nameProperty().get().isEmpty() == true || contacts.firstNameProperty().get().isEmpty() == true || 
 					contacts.positionProperty().get().isEmpty() == true || contacts.phoneNoProperty().get().isEmpty() == true ||
 					contacts.emailProperty().get().isEmpty() == true){
 				
 						return false;
 			}	
+		}*/
+		for (Contact contacts : this.cust.getContactList()) {
+			b_nameProperty = contacts.nameProperty().get().isEmpty();
+			b_firstNameProperty = contacts.firstNameProperty().get().isEmpty();
+			b_positionProperty = contacts.positionProperty().get().isEmpty();
+			b_phoneNoProperty = contacts.phoneNoProperty().get().isEmpty();
+			b_emailProperty = contacts.emailProperty().get().isEmpty();
 		}
+
 		
-		for (BankAccount bankAccount : this.cust.getBankAccountList()) {
+		/*for (BankAccount bankAccount : this.cust.getBankAccountList()) {
 			if (bankAccount.ibanProperty().get().isEmpty() == true || bankAccount.bicProperty().get().isEmpty() == true || 
 					bankAccount.bankNameProperty().get().isEmpty() == true){
 				return false;
 			}
 			
+		}*/
+		
+		for (BankAccount bankAccount : this.cust.getBankAccountList()) {
+			b_ibanProperty =  bankAccount.ibanProperty().get().isEmpty();
+			b_bicProperty = bankAccount.bicProperty().get().isEmpty();
+			b_bankNameProperty = bankAccount.bankNameProperty().get().isEmpty();
 		}
 		
+		boolean[] emptyFields = {txt_Name.getText().isEmpty(),
+				cbxRanking.getValue() == "",
+			    b_streetProperty, b_houseNoProperty, b_zipCodeProperty,	b_cityProperty,	b_countryProperty,
+	    		b_nameProperty, b_firstNameProperty, b_positionProperty, b_phoneNoProperty, b_emailProperty,
+	    		b_ibanProperty, b_bicProperty, b_bankNameProperty
+				};
 		
 		
 		this.emptyFields = emptyFields;
 		action = "save";
 		switch(action){
 		case "save":
-			if(emptyFields[0] && emptyFields[1])
+			if(emptyFields[0] || emptyFields[1] 
+					|| emptyFields[2] || emptyFields[3] || emptyFields[4] || emptyFields[5] || emptyFields[6]
+					|| emptyFields[7] || emptyFields[8] || emptyFields[9] || emptyFields[10] || emptyFields[11]
+					|| emptyFields[12] || emptyFields[13] || emptyFields[14])
 				return writeErrorMessage();
-			else if(emptyFields[0] && !(emptyFields[1]))
-				return writeErrorMessage();
-			else if(emptyFields[1] && !(emptyFields[0]))
-				return writeErrorMessage();
-			else if(!(emptyFields[0] && emptyFields[1])){ return true;}
 			else {return true;}
 			
 			default: return true;
@@ -217,20 +245,35 @@ public class CustomerController {
 	public boolean writeErrorMessage(){
 		String error= "";
 		int z = 0;
-		if(emptyFields[0] || emptyFields[1]){
-			for(int i=0; i<1; i++){
+		if(emptyFields[0] || emptyFields[1] || emptyFields[2] || emptyFields[3] || emptyFields[4] || emptyFields[5] || emptyFields[6]
+				|| emptyFields[7] || emptyFields[8] || emptyFields[9] || emptyFields[10] || emptyFields[11]
+				|| emptyFields[12] || emptyFields[13] || emptyFields[14]){
+			for(int i=0; i<15; i++){
 				boolean bool = emptyFields[i];
 				if(bool){
 					switch(i){
 					case 0: error += "Name, "; z++; break;
-					case 1: error += "Ranking "; z++; break;
+					case 1: error += "Ranking, "; z++; break;
+					case 2: error += "Street, "; z++; break;
+					case 3: error += "House No, "; z++; break;
+					case 4: error += "ZIP Code, "; z++; break;
+					case 5: error += "City, "; z++; break;
+					case 6: error += "Country, "; z++; break;
+					case 7: error += "Billing Address, "; z++; break;
+					case 8: error += "First Name, "; z++; break;
+					case 9: error += "Position, "; z++; break;
+					case 10: error += "Phone No., "; z++; break;
+					case 11: error += "E-Mail, "; z++; break;
+					case 12: error += "IBAN, "; z++; break;
+					case 13: error += "BIC, "; z++; break;
+					case 14: error += "Bank. "; z++; break;
 					}
 				}
 			}
 			if(z==1){
 				error="Field: "+error + "must be set.";
 				txt_errorMessage.setText(error);
-			}else if(z == 2){
+			}else if(z > 1){
 				error="Fields: "+error +"must be set.";
 				txt_errorMessage.setText(error);
 			}txt_errorMessage.setVisible(true);
