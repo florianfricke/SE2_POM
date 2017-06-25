@@ -371,6 +371,54 @@ public class OrderController {
     	}
     }
 	
+	@FXML private void handleCancelOrder(ActionEvent event){
+		
+    	if(order.stateProperty().get().equals(State.IN_PROCESS.toString())){
+    		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel: order " +order.ordernoProperty().get().toString()) == true){
+        		System.out.println("Cancel");
+    		if (mainMenu.cancelOrder(order)){
+    			// delete if true
+    			
+    			//TODO Refresh State Property and Order List
+    			
+    		}
+    		else {
+    			Alert alert = new Alert(AlertType.ERROR);
+            	alert.setTitle("Notificaion");
+            	alert.setHeaderText("Some lots are already IN PROCESS");
+            	alert.show();
+            	return;
+    		}
+    		}
+    	}else {
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("Order is not IN PROCESS");
+        	alert.show();
+        	return;
+    	}
+	}
+	
+	@FXML private void handleFinishOrder(ActionEvent event){
+    	if(order.stateProperty().get().equals(State.COMPLETED.toString())){
+    		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to finish: order " +order.ordernoProperty().get().toString()) == true){
+        		System.out.println("Finish Order");
+    		if (mainMenu.finishOrder(order)){
+    			// delete if true
+    			//TODO Refresh State Property
+    		}
+    		}
+    	
+    	}else {
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("Order is not COMPLETED");
+        	alert.show();
+        	return;
+    	}
+		
+	}
+	
 	@FXML private void handleTree(ActionEvent event) {
 		 System.out.println("Production Flow");
 	        try {
