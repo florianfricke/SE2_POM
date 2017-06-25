@@ -24,7 +24,7 @@
             <HBox spacing="20.0">
                <children>
                 <Button fx:id="btnRelease" mnemonicParsing="false" onAction="#handleRelease" text="Release Order" />
-               	<Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#handleUpdate" text="Update Order" />
+               	<Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#handleUpdate" text="Update Lot" />
                   <Button mnemonicParsing="false" onAction="#handleCancelOrder" text="Cancel Order" />
                   <Button mnemonicParsing="false" onAction="#handleFinishOrder" text="Finish Order" />
                	<Button fx:id="btnTree" mnemonicParsing="false" onAction="#handleTree" text="Production Flow" />
