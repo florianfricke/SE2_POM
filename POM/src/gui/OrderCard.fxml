@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.paint.*?>
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.control.cell.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -19,18 +12,21 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox stylesheets="@layout.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.OrderController">
+<VBox stylesheets="@layout.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.OrderController">
    <children>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
             <HBox spacing="20.0">
                <children>
-                <Button fx:id="btnRelease" mnemonicParsing="false" onAction="#handleRelease" text="Release" />
-               	<Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#handleUpdate" text="Update" />
+                <Button fx:id="btnRelease" mnemonicParsing="false" onAction="#handleRelease" text="Release Order" />
+               	<Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#handleUpdate" text="Update Lot" />
+                  <Button mnemonicParsing="false" onAction="#handleCancelOrder" text="Cancel Order" />
+                  <Button mnemonicParsing="false" onAction="#handleFinishOrder" text="Finish Order" />
                	<Button fx:id="btnTree" mnemonicParsing="false" onAction="#handleTree" text="Production Flow" />
                 <Label fx:id="txt_errorMessage" prefHeight="25.0" text="Error Message" textFill="#ff0707" visible="false">
                    <font>
