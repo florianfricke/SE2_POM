@@ -339,28 +339,54 @@ public class OrderController {
 	
 	@FXML private void handleRelease(ActionEvent event) {
     	System.out.println("Release Order");
+    	
+   
+    		
+    	
+    	
     	if(order.stateProperty().get() == State.PLANNED.name()){
+    		
+    /*	 	if(!mainMenu.isDueDateViable(order) == false){
+        		Alert alert = new Alert(AlertType.ERROR);
+            	alert.setTitle("Notificaion");
+            	alert.setHeaderText("One or more lots can't be started before due date. Please update due date.");
+            	alert.show();
+            	} else  */ {
+    		
     		if(checkFieldsFilled("release")){ 
     			handleSave(event);
     			mainMenu.releaseOrder(order);
     			lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
     			getDateFields();
     		}
+    		}
     	}else{
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
         	alert.setHeaderText("State have to be PLANNED!");
         	alert.show();
+    	
     	}
     }
 	@FXML private void handleUpdate(ActionEvent event) {
     	System.out.println("Update MES Lots");
     	if(order.stateProperty().get() == State.IN_PROCESS.name()){
+    		
+    		/*if(!mainMenu.isDueDateViable(order) == false){
+        		Alert alert = new Alert(AlertType.ERROR);
+            	alert.setTitle("Notificaion");
+            	alert.setHeaderText("One or more lots can't be started before due date. Please update due date.");
+            	alert.show();
+            	} else */ {
+    		
+    		
+    		
     		if(checkFieldsFilled("update")){
         		if(mainMenu.updateLots(order)){
 	        		handleSave(event);
 	    			lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
 	    			getDateFields();
+        		}
         		}
     		}
     	}else{
@@ -379,8 +405,7 @@ public class OrderController {
     		if (mainMenu.cancelOrder(order)){
     			// delete if true
     			
-    			//TODO Refresh State Property and Order List
-    			
+    			getDateFields();
     		}
     		else {
     			Alert alert = new Alert(AlertType.ERROR);
@@ -405,7 +430,7 @@ public class OrderController {
         		System.out.println("Finish Order");
     		if (mainMenu.finishOrder(order)){
     			// delete if true
-    			//TODO Refresh State Property
+    			getDateFields();
     		}
     		}
     	
@@ -671,6 +696,32 @@ public class OrderController {
 				txt_errorMessage.setText("");
 				}
 			}
+		});
+		
+		txtLotSize.focusedProperty().addListener((arg0, oldValue, newValue) ->{
+			String localString;
+			localString = txtLotSize.getText();
+			if(!newValue){
+				if(txtLotSize.getText().length() == 0 || txtLotSize.getText().equals("")) {
+					txtLotSize.getStyleClass().add("label_error");
+					txt_errorMessage.setVisible(true);
+					txt_errorMessage.setText(errorText);
+				}
+				//Only numbers, letters and spaces are allowed.
+				else if(txtLotSize.getText().matches("[0-9]*")) { 
+						txtLotSize.setText(localString); 
+						txtLotSize.getStyleClass().add("reset_label_error");
+						txt_errorMessage.textProperty().set("");
+						txt_errorMessage.setVisible(false);
+				}
+				else{
+					txtLotSize.getStyleClass().add("label_error");
+					txtLotSize.setText("");
+					txt_errorMessage.setVisible(true);
+					txt_errorMessage.setText(errorText);
+				} 
+			}
+		else{}
 		});
 	}
 }

@@ -36,11 +36,18 @@ public class DatabaseConnectionDialogController{
 		
 		try{
 		    PrintWriter writer = new PrintWriter("dbConnectionFile.txt", "UTF-8");
+<<<<<<< HEAD
 		    writer.println(txtServerAddress.getText());
 		    writer.println(txtPort.getText());
 		 	writer.println(txtDatabaseName.getText());
 			writer.println(txtUser.getText());
 			writer.println(txtPassword.getText());
+=======
+		    writer.println(txtDatabase.getText());
+		    writer.println(txtUser.getText());
+		    writer.println(txtPassword.getText());
+		    
+>>>>>>> mainBranch
 		    writer.close();
 		} catch (IOException e) {
 		   ErrorLog.write(e);

@@ -79,7 +79,7 @@ public class PomService {
 		return pomPersistance.getBankAccountList(custId);
 	}
 	
-	/*
+	/**
 	 * Checks, if address is referenced to an Order
 	 * 
 	 * @param adress
@@ -91,7 +91,7 @@ public class PomService {
 		
 	}
 	
-	/*
+	/**
 	 * Checks, if contact is referenced to an Order
 	 * 
 	 * @param contact
@@ -199,7 +199,7 @@ public class PomService {
 		return succes;
 	}
 
-	/*
+	/**
 	 * 
 	 * @returns Remaining Capacity of a date
 	 */
@@ -255,10 +255,21 @@ public class PomService {
 		}
 		return success;
 	}
+	
 	public List<Route> getRouteList(String orderno,String product){
 		return mesPersistance.getRouteList(orderno, product);
 	}
-
+	
+	/**
+	 * checks, if the order's dueDate is still viable, or if a lot starts even after the duedate
+	 * 
+	 * @param order Object to check
+	 * @return true for viable
+	 */
+	public boolean isDueDateViable(Order order)
+	{
+		return mesPersistance.getLatestStartDate(order.ordernoProperty().get()).isAfter(order.getDueDate());
+	}
 
 
 }

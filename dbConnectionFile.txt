@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 localhost
 5432   
 mes
 postgres
 0815 
+=======
+jdbc:postgresql://localhost:5432/mes?currentSchema=pom,postgres,0815
+>>>>>>> mainBranch

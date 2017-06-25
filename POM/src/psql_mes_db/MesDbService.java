@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import mes_db_interface.IMesDBService;
@@ -149,6 +150,30 @@ public class MesDbService implements IMesDBService {
 		return count;
 	}
 
+	/**
+	 * 
+	 * @param orderno
+	 * @return
+	 */
+	@Override
+	public LocalDate getLatestStartDate(String orderno)
+	{
+		PreparedStatement stmt = null;
+		LocalDate result = null;
+		try {
+			stmt = con.prepareStatement("select max(startdate) from lot where \"ORDER\" = ?");
+			stmt.setString(1, orderno);;
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			result = rs.getDate(1).toLocalDate();
+			rs.close();
+		    stmt.close();
+		    
+		} catch (SQLException e) {
+			ErrorLog.write(e);
+		}
+		return result;
+	}
 	
 	@Override
 	public int getDayWorkload(java.util.Date date) {
@@ -168,6 +193,7 @@ public class MesDbService implements IMesDBService {
 		}
 		return workload;
 	}
+	
 	@Override
 	public boolean addLot(Lot lot) {
 		String sql = "";
