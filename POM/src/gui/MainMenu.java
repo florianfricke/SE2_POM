@@ -245,5 +245,8 @@ public class MainMenu extends Application {
 		return pomService.isReferenced(contact);
 	}
 
+	public boolean isDueDateViable(Order order) {
+		return pomService.isDueDateViable(order);
+	}
 
 }

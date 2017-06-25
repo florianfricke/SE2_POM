@@ -339,28 +339,54 @@ public class OrderController {
 	
 	@FXML private void handleRelease(ActionEvent event) {
     	System.out.println("Release Order");
+    	
+   
+    		
+    	
+    	
     	if(order.stateProperty().get() == State.PLANNED.name()){
+    		
+    /*	 	if(!mainMenu.isDueDateViable(order) == false){
+        		Alert alert = new Alert(AlertType.ERROR);
+            	alert.setTitle("Notificaion");
+            	alert.setHeaderText("One or more lots can't be started before due date. Please update due date.");
+            	alert.show();
+            	} else  */ {
+    		
     		if(checkFieldsFilled("release")){ 
     			handleSave(event);
     			mainMenu.releaseOrder(order);
     			lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
     			getDateFields();
     		}
+    		}
     	}else{
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
         	alert.setHeaderText("State have to be PLANNED!");
         	alert.show();
+    	
     	}
     }
 	@FXML private void handleUpdate(ActionEvent event) {
     	System.out.println("Update MES Lots");
     	if(order.stateProperty().get() == State.IN_PROCESS.name()){
+    		
+    		/*if(!mainMenu.isDueDateViable(order) == false){
+        		Alert alert = new Alert(AlertType.ERROR);
+            	alert.setTitle("Notificaion");
+            	alert.setHeaderText("One or more lots can't be started before due date. Please update due date.");
+            	alert.show();
+            	} else */ {
+    		
+    		
+    		
     		if(checkFieldsFilled("update")){
         		if(mainMenu.updateLots(order)){
 	        		handleSave(event);
 	    			lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
 	    			getDateFields();
+        		}
         		}
     		}
     	}else{
