@@ -37,9 +37,9 @@ public class MainMenu extends Application {
 		File f = new File("dbConnectionFile.txt");
 		if(f.exists() && !f.isDirectory()) { 
 
-			
 		} else {		
 	    	try {
+	    		System.out.println("Open Database Connection Dialog");
 	            FXMLLoader fxmlLoader = new FXMLLoader();
 	            fxmlLoader.setLocation(getClass().getResource("DatabaseConnectionDialog.fxml"));
 	            Parent root = fxmlLoader.load();
