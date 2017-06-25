@@ -1,6 +1,9 @@
 package gui;
 
 import types.*;
+
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -358,6 +361,46 @@ public class MainController{
     @FXML private void handleSetup(ActionEvent event) {
     	mainMenu.changeScene("SetupSubPage.fxml", event);
     }
+    
+   @FXML private void handleHelp(ActionEvent event) {
+	    try {
+	        Desktop desktop = Desktop.getDesktop();
+            File file = new File("Handbuch/user_manual.pdf");
+            
+	        if (desktop != null && desktop.isSupported(Desktop.Action.OPEN) && file.exists()) {
+	        	desktop.open(file);
+	        } else {
+	    		Alert alert = new Alert(AlertType.ERROR);
+	        	alert.setTitle("Notificaion");
+	        	alert.setHeaderText("The user manual pdf-file does not exist!");
+	        	alert.show();
+	        	return;
+	        }
+	    } catch (IOException e) {
+            Logger logger = Logger.getLogger(getClass().getName());
+            logger.log(Level.SEVERE, "Failed to open pdf-file.", e);
+	    }
+    }
+    
+    @FXML private void handleAbout(ActionEvent event){
+    	System.out.println("About");
+    	try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("About.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root, 800, 500);
+            Stage stage = new Stage();
+            stage.setTitle("About");
+            stage.setScene(scene);
+            stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            Logger logger = Logger.getLogger(getClass().getName());
+            logger.log(Level.SEVERE, "Failed to create new Window.", e);
+        } 
+    }
+    
     
     public void loadCustomerTable(){
         customerId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
