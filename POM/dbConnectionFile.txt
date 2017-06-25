@@ -1,3 +1,5 @@
-jdbc:postgresql://localhost:5432/mes?currentSchema=pom
+localhost
+5432
+mes
 postgres
 0815
