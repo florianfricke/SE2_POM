@@ -35,6 +35,7 @@ public final class ConfirmBox {
         window.setTitle(title);
         window.setMinWidth(250);
         window.setResizable(false);
+        answer = false;
         
     	window.getIcons().add(new Image(ConfirmBox.class.getResource("Cinderella_Icon.png").toString()));
 
@@ -68,6 +69,7 @@ public final class ConfirmBox {
 
         window.setScene(new Scene(layout));
         window.showAndWait();
+        
 
         return answer;
     }
