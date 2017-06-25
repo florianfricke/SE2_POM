@@ -191,7 +191,7 @@ public class PomDbService implements IPomDbService {
 			if(!(cust.getContactList().equals(dbCustContactList))){
 				for (Contact contact : cust.getContactList()) {
 					if(contact.idProperty().get().isEmpty()){
-						sql = "INSERT INTO pom.contact(customerid, phoneno, name, firstname, mailadress, \"position\") VALUES"+ 
+						sql = "INSERT INTO pom.contact(customerid, phoneno, name, firstname, mailaddress, \"position\") VALUES"+ 
 				    			"('" + cust.idProperty().get() +"','"+ contact.phoneNoProperty().get() +"','"+ 
 				    			contact.nameProperty().get() +"','"+ 
 				    			contact.firstNameProperty().get() +"','"+ 
@@ -205,7 +205,7 @@ public class PomDbService implements IPomDbService {
 						rs.close();
 					    stmt.close();
 					}else{ // das else ist wenn?
-				    	sql = "UPDATE pom.contact SET phoneno = ?, name = ?, firstname = ?, mailadress = ?, position = ?"+ 
+				    	sql = "UPDATE pom.contact SET phoneno = ?, name = ?, firstname = ?, mailaddress = ?, position = ?"+ 
 				    			"WHERE id = ? AND customerid = ?";
 				    	stmt = this.con.prepareStatement(sql);
 						stmt.setString(1,contact.phoneNoProperty().get());
@@ -296,13 +296,14 @@ public class PomDbService implements IPomDbService {
 	
 	private boolean openConnection(){
 		try{
-			String connectionLine = OpenConnectionFile.readFile();
 			 Class.forName("org.postgresql.Driver");
 			 //current schema is set as 'pom'
-	         //con = DriverManager.getConnection(connectionLine); // useres File test.txt
+			 ConnectionParameter cp = OpenConnectionFile.readFile();
+			 														//Server-Address	  Port				  DB Name
+	         con = DriverManager.getConnection("jdbc:postgresql://"+cp.getServerAddress()+":"+cp.getPort()+"/"+cp.getDataBase()+"?currentSchema=pom",cp.getUser(),cp.getPassword()); // useres File test.txt
 	         
 	        	 
-	             con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/mes?currentSchema=pom","postgres", "0815");
+	             //con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/mes?currentSchema=pom","postgres", "0815");
 	   
 	         return true;
 		}catch(Exception e){
@@ -422,7 +423,7 @@ public class PomDbService implements IPomDbService {
 			
 			while (rs.next())
 			{
-			   contactList.add(new Contact(rs.getString("id"), rs.getString("name"), rs.getString("firstname"),rs.getString("position"),rs.getString("phoneno"),rs.getString("mailadress")));
+			   contactList.add(new Contact(rs.getString("id"), rs.getString("name"), rs.getString("firstname"),rs.getString("position"),rs.getString("phoneno"),rs.getString("mailaddress")));
 			}
 			rs.close();
 		    stmt.close();
@@ -473,7 +474,7 @@ public class PomDbService implements IPomDbService {
 			{
 				orderList.add(new Order(rs.getString("orderno"), 
 						rs.getString("customerid"), 
-						rs.getString("adressid"), 
+						rs.getString("addressid"), 
 						rs.getString("contactid"),
 						rs.getString("product"), 
 						Double.parseDouble(rs.getString("price")),
@@ -537,7 +538,7 @@ public class PomDbService implements IPomDbService {
 				{ 
 					orderList.add(new Order(rs.getString("orderno"), 
 							rs.getString("customerid"), 
-							rs.getString("adressid"), 
+							rs.getString("addressid"), 
 							rs.getString("contactid"),
 							rs.getString("product"),
 							Double.parseDouble(rs.getString("price")),
@@ -575,7 +576,7 @@ public class PomDbService implements IPomDbService {
 				{ 
 					orderList.add(new Order(rs.getString("orderno"), 
 							rs.getString("customerid"), 
-							rs.getString("adressid"), 
+							rs.getString("addressid"), 
 							rs.getString("contactid"),
 							rs.getString("product"),
 							Double.parseDouble(rs.getString("price")),
@@ -645,7 +646,7 @@ public class PomDbService implements IPomDbService {
 	public boolean updateOrder(Order order) {
 		PreparedStatement stmt = null;
 		try {	
-			stmt = con.prepareStatement("Update pom.order set customerid = ?,adressid=?,contactid=?,product=?,price=?,volume=?,state=?,baselotid=?,orderdate=?, startdate=?, releasedate=?, completiondate=?, duedate=?, actualdeliverydate=?, lotsize=?, priority=?, comment=? where orderno = ? ");
+			stmt = con.prepareStatement("Update pom.order set customerid = ?,addressid=?,contactid=?,product=?,price=?,volume=?,state=?,baselotid=?,orderdate=?, startdate=?, releasedate=?, completiondate=?, duedate=?, actualdeliverydate=?, lotsize=?, priority=?, comment=? where orderno = ? ");
 			stmt.setString(1,order.customeridProperty().get());
 			stmt.setString(2,order.addressidProperty().get());
 			stmt.setString(3,order.contactidProperty().get());
@@ -774,7 +775,7 @@ public class PomDbService implements IPomDbService {
 	}
 	
 	/**
-	 * TODO: Markus? ist das sauber genug, wenn ich die Spalte auf der Serviceschicht hierher übergebe? MH: Ja passt schon
+	 * TODO: Markus? ist das sauber genug, wenn ich die Spalte auf der Serviceschicht hierher ï¿½bergebe? MH: Ja passt schon
 	 * @param id to check
 	 * @param column to check
 	 * @return checks, if a specific foreign key is inserted in order table

@@ -43,6 +43,8 @@ public class MainMenu extends Application {
 	            FXMLLoader fxmlLoader = new FXMLLoader();
 	            fxmlLoader.setLocation(getClass().getResource("DatabaseConnectionDialog.fxml"));
 	            Parent root = fxmlLoader.load();
+	            DatabaseConnectionDialogController dc = (DatabaseConnectionDialogController) fxmlLoader.getController();
+	            dc.init(stage);
 	            Scene scene = new Scene(root, 800, 500);
 	            Stage stage1 = new Stage();
 	            stage1.setTitle("Database Connection");

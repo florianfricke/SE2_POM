@@ -6,19 +6,20 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class OpenConnectionFile {
-	public static String readFile() throws IOException{
+	private static ConnectionParameter cp;
+	public static ConnectionParameter readFile() throws IOException{
 		
 	 	FileReader fr;
-		
 	 	try {
 			fr = new FileReader("dbConnectionFile.txt");
+			@SuppressWarnings("resource")
 			BufferedReader br = new BufferedReader(fr);
-			 String connectionLine = br.readLine();
-			 return connectionLine;
+			 cp = new ConnectionParameter(br.readLine().trim(), br.readLine().trim(),br.readLine().trim(), br.readLine().trim(), br.readLine().trim());
+			 return cp;
 		}catch (FileNotFoundException e) {
 			ErrorLog.write(e);
-			//e.printStackTrace();
 		}
-	  return "";
+	 	
+	 return cp;
 }
 }

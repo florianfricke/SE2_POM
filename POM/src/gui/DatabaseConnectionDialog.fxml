@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DatabaseConnectionDialogController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DatabaseConnectionDialogController">
    <top>
       <Label text="Database Connection" BorderPane.alignment="CENTER">
          <font>
@@ -25,7 +25,9 @@
          <children>
             <VBox spacing="15.0">
                <children>
-                  <Label minHeight="25.0" text="Database" />
+                  <Label minHeight="25.0" text="Server Address" />
+                  <Label prefHeight="25.0" text="Port" />
+                  <Label prefHeight="25.0" text="Database Name" />
                   <Label prefHeight="25.0" text="User" />
                   <Label prefHeight="25.0" text="Password" />
                </children>
@@ -35,7 +37,9 @@
             </VBox>
             <VBox prefWidth="350.0" spacing="15.0" HBox.hgrow="ALWAYS">
                <children>
-                  <TextField fx:id="txtDatabase" />
+                  <TextField fx:id="txtServerAddress" />
+                  <TextField fx:id="txtPort" />
+                  <TextField fx:id="txtDatabaseName" />
                   <TextField fx:id="txtUser" />
                   <TextField fx:id="txtPassword" />
                   <Button mnemonicParsing="false" onAction="#handleSave" text="Save" />
