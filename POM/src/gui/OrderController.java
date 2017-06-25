@@ -672,5 +672,31 @@ public class OrderController {
 				}
 			}
 		});
+		
+		txtLotSize.focusedProperty().addListener((arg0, oldValue, newValue) ->{
+			String localString;
+			localString = txtLotSize.getText();
+			if(!newValue){
+				if(txtLotSize.getText().length() == 0 || txtLotSize.getText().equals("")) {
+					txtLotSize.getStyleClass().add("label_error");
+					txt_errorMessage.setVisible(true);
+					txt_errorMessage.setText(errorText);
+				}
+				//Only numbers, letters and spaces are allowed.
+				else if(txtLotSize.getText().matches("[0-9]*")) { 
+						txtLotSize.setText(localString); 
+						txtLotSize.getStyleClass().add("reset_label_error");
+						txt_errorMessage.textProperty().set("");
+						txt_errorMessage.setVisible(false);
+				}
+				else{
+					txtLotSize.getStyleClass().add("label_error");
+					txtLotSize.setText("");
+					txt_errorMessage.setVisible(true);
+					txt_errorMessage.setText(errorText);
+				} 
+			}
+		else{}
+		});
 	}
 }
