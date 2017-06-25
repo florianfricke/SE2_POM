@@ -773,4 +773,32 @@ public class PomDbService implements IPomDbService {
 		return false;
 	}
 	
+	/**
+	 * TODO: Markus? ist das sauber genug, wenn ich die Spalte auf der Serviceschicht hierher übergebe? MH: Ja passt schon
+	 * @param id to check
+	 * @param column to check
+	 * @return checks, if a specific foreign key is inserted in order table
+	 */
+	@Override
+	public boolean isReferenced(String id, String column){
+		String sql = "";
+		PreparedStatement stmt = null;
+		boolean result = true;
+		
+		ResultSet rs;
+		try {
+			sql= "select case when count(*) > 0 then true else false end from pom.order where "+column+" = ?";
+			stmt = this.con.prepareStatement(sql);
+			stmt.setString(1, id);
+		
+			rs = stmt.executeQuery();
+		    if(rs.next())
+		    	result = rs.getBoolean(1);
+		    stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 }

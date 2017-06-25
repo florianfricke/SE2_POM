@@ -87,7 +87,7 @@ public class PomService {
 	 */
 	public boolean isReferenced(Address address)
 	{
-		return false;
+		return pomPersistance.isReferenced(address.idProperty().get(),"adressid");
 		
 	}
 	
@@ -99,21 +99,9 @@ public class PomService {
 	 */
 	public boolean isReferenced(Contact contact)
 	{
-		return false;
-		
+		return pomPersistance.isReferenced(contact.idProperty().get(),"contactid");
 	}
 	
-	/*
-	 * Checks, if bankAccount is referenced to an Order
-	 * 
-	 * @param adress
-	 * @returns true, if bankAccount is referenced
-	 */
-	public boolean isReferenced(BankAccount bankAccount)
-	{
-		return false;
-		
-	}
 
 	// Order Methods
 	public boolean addOrder(Order order) {
