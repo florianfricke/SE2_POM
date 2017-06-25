@@ -401,6 +401,23 @@ public class MainController{
         } 
     }
     
+    public void openDatabaseConnectionDialog(){
+    	try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("DatabaseConnectionDialog.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root, 800, 500);
+            Stage stage = new Stage();
+            stage.setTitle("Database Connection");
+            stage.setScene(scene);
+            stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            Logger logger = Logger.getLogger(getClass().getName());
+            logger.log(Level.SEVERE, "Failed to create new Window.", e);
+        } 
+    }
     
     public void loadCustomerTable(){
         customerId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
