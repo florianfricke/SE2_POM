@@ -379,8 +379,7 @@ public class OrderController {
     		if (mainMenu.cancelOrder(order)){
     			// delete if true
     			
-    			//TODO Refresh State Property and Order List
-    			
+    			getDateFields();
     		}
     		else {
     			Alert alert = new Alert(AlertType.ERROR);
@@ -405,7 +404,7 @@ public class OrderController {
         		System.out.println("Finish Order");
     		if (mainMenu.finishOrder(order)){
     			// delete if true
-    			//TODO Refresh State Property
+    			getDateFields();
     		}
     		}
     	
