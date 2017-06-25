@@ -214,8 +214,5 @@ public class MainMenu extends Application {
 		return pomService.isReferenced(contact);
 	}
 
-	public boolean isReferenced(BankAccount bankAccount) {
-		return false;
-		//return pomService.isReferenced(bankAccount);
-	}
+
 }
