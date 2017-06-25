@@ -21,7 +21,7 @@ public class DatabaseConnectionDialogController{
 		
 		try{
 		    PrintWriter writer = new PrintWriter("dbConnectionFile.txt", "UTF-8");
-		    writer.println(txtDatabase.getText()+";"+ txtUser.getText()+";"+txtPassword.getText());
+		    writer.println(txtDatabase.getText()+","+ txtUser.getText()+","+txtPassword.getText());
 		    writer.close();
 		} catch (IOException e) {
 		   ErrorLog.write(e);
