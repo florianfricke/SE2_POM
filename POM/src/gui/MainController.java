@@ -177,7 +177,6 @@ public class MainController{
 		            Stage stage = new Stage();
 		            stage.setTitle("Show Current Order");
 		            stage.setScene(scene);
-		           
 		            stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
 		            stage.initModality(Modality.APPLICATION_MODAL);
 		            stage.showAndWait();
