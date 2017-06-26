@@ -58,11 +58,12 @@
                      <children>
       				       <Button mnemonicParsing="false" onAction="#handleNewOrder" prefHeight="9.0" prefWidth="40.0" text="New" />
       				         <Button mnemonicParsing="false" onAction="#handleDelOrder" text="Delete" />
-                        <Button mnemonicParsing="false" onAction="#handleCancelOrder" text="Cancel" />
-                        <Button fx:id="finishOrder" mnemonicParsing="false" onAction="#handleFinishOrder" text="Finish" />
                         <Region prefWidth="20.0" />
                                           <ComboBox fx:id="comboBox_searchOrder" prefWidth="100.0" />
 				         <TextField fx:id="txt_searchFieldOrder" prefHeight="25.0" prefWidth="160.0" />
+                        <Region layoutX="117.0" layoutY="10.0" prefWidth="20.0" />
+                        <Button mnemonicParsing="false" onAction="#handleCancelOrder" text="Cancel Order" />
+                        <Button fx:id="finishOrder" mnemonicParsing="false" onAction="#handleFinishOrder" text="Finish Order" />
 
                      </children>
                   </HBox>
