@@ -35,17 +35,22 @@ public class ProductionTreeController {
         setTable();
     }
     private void setTable(){
+    	int routeLotCount=0;
     	List<Lot> routeOperLotList = mainMenu.getLotList(orderNo);
     	TreeItem<Route> root = new TreeItem<>(new Route("","","","", "", "","","","",""));
     	root.setExpanded(true);
     	for (Route r : mainMenu.getRouteList(orderNo, product)) {
+    		routeLotCount = 0;
         	TreeItem<Route> route = new TreeItem<>(r);
         	route.setExpanded(false);
         	for (Operation oper : r.getOperList()) {
+        		
         		if(!oper.lotCountProperty().get().equals("0")){
         			route.setExpanded(true);
-        			route.getValue().lotCountProperty().set(oper.lotCountProperty().get());
-        		}
+        			routeLotCount += Integer.parseInt(oper.lotCountProperty().get());
+        			//route.getValue().lotCountProperty().set(oper.lotCountProperty().get());
+        			route.getValue().lotCountProperty().set(String.valueOf(routeLotCount));
+        		}																													
         		TreeItem<Route> op = new TreeItem<>(new Route("","","",oper.operationProperty().get(),oper.descriptionProperty().get(),oper.lotCountProperty().get(),"","","",""));
         		TreeItem<Route> l = new TreeItem<>(op.getValue());
         		List<Lot> tmpLotList = routeOperLotList.stream().filter(p -> p.routeProperty().get().equals(r.routeProperty().get()) && p.operationProperty().get().equals(oper.operationProperty().get())).collect(Collectors.toList());

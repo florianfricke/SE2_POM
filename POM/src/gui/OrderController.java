@@ -340,25 +340,22 @@ public class OrderController {
 	@FXML private void handleRelease(ActionEvent event) {
     	System.out.println("Release Order"); 
     	String errText = new String();
-    	
+    	if(!checkFieldsFilled("release")) return;
     	if(order.stateProperty().get() == State.PLANNED.name() && !order.getStartDate().isBefore(LocalDate.now())){
-    		
-			if(checkFieldsFilled("release")){ 
-				handleSave(event);
-				if(mainMenu.releaseOrder(order))
+			handleSave(event);
+			if(mainMenu.releaseOrder(order))
+			{
+				lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
+			
+				if(mainMenu.isDueDateViable(order))
 				{
-					lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
-				
-					if(mainMenu.isDueDateViable(order))
-					{
-		        		Alert alert = new Alert(AlertType.INFORMATION);
-		            	alert.setTitle("Notificaion");
-		            	alert.setHeaderText("One or more lots can't be started before due date.\nPlease update due date.");
-		            	alert.show();
-	            	}
-				
-					getDateFields();
-				}
+	        		Alert alert = new Alert(AlertType.INFORMATION);
+	            	alert.setTitle("Notificaion");
+	            	alert.setHeaderText("One or more lots can't be started before due date.\nPlease update due date.");
+	            	alert.show();
+            	}
+			
+				getDateFields();
 			}
     	}else{
     		Alert alert = new Alert(AlertType.ERROR);
@@ -376,23 +373,21 @@ public class OrderController {
     }
 	@FXML private void handleUpdate(ActionEvent event) {
     	System.out.println("Update MES Lots");
+    	if(!checkFieldsFilled("release")) return;
     	if(order.stateProperty().get() == State.IN_PROCESS.name() && !order.getStartDate().isBefore(LocalDate.now())){	
-    		if(checkFieldsFilled("update")){
-        		if(mainMenu.updateLots(order)){
-	        		handleSave(event);
-	    			lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
-	    			getDateFields();
-	    			
-	    			if(mainMenu.isDueDateViable(order))
-					{
-		        		Alert alert = new Alert(AlertType.INFORMATION);
-		            	alert.setTitle("Notificaion");
-		            	alert.setHeaderText("One or more lots can't be started before due date.\nPlease update due date.");
-		            	alert.show();
-	            	}
-	    			
-        		}
-        		}
+    		if(mainMenu.updateLots(order)){
+        		handleSave(event);
+    			lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
+    			getDateFields();
+    			
+    			if(mainMenu.isDueDateViable(order))
+				{
+	        		Alert alert = new Alert(AlertType.INFORMATION);
+	            	alert.setTitle("Notificaion");
+	            	alert.setHeaderText("One or more lots can't be started before due date.\nPlease update due date.");
+	            	alert.show();
+            	}
+    		}
     	}else{
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
