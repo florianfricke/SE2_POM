@@ -1,0 +1,7 @@
+Benutzung: nur für Produkt 2017SX
+1. per Windows cmd öffnen updateLot.bat [lotid]
+2. übernimmt einen Parameter lotid
+3. 0815 eingeben und Enter drücken -> dadurch wird ein Los durch den Arbeitsplan geschoben
+4. überprüfen in der Ansicht Production Flow in der Order
+5. um alle Lose eines Auftrages fertig zu stellen in pgAdmin:
+UPDATE lot SET state='FINISHED', route='GT2', oper='0800' WHERE lotid LIKE '[BaseLotid_]%' 
