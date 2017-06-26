@@ -252,6 +252,7 @@ public class MainController{
             Logger logger = Logger.getLogger(getClass().getName());
             logger.log(Level.SEVERE, "Failed to create new Window.", e);
         }
+       	orderTable.refresh();
     }
     
     @FXML private void handleDelOrder(ActionEvent event) {
@@ -369,6 +370,7 @@ public class MainController{
             Logger logger = Logger.getLogger(getClass().getName());
             logger.log(Level.SEVERE, "Failed to create new Window.", e);
         }
+        orderTable.refresh();
     }
     
     @FXML private void handleDash(ActionEvent event) {

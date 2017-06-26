@@ -89,6 +89,7 @@ public class OrderController {
     @FXML private DatePicker dpkDueDate;
     @FXML private DatePicker dpkStartDate;
     private String errorText="Some of your input values are not valid or empty. Please try again.";
+ 
     
 	//String Converter for DatePicker
     private StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
@@ -332,10 +333,24 @@ public class OrderController {
 	
 	@FXML private void handleCancel(ActionEvent event) {
 		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel?") == true){
-			this.order.copy(tmpOrder);
+			
+			if(order.stateProperty().get() == State.IN_PROCESS.name()){
+				tmpOrder.setState(State.IN_PROCESS);
+				}
+			if(order.stateProperty().get() == State.CANCELED.name()){
+				tmpOrder.setState(State.CANCELED);
+				}
+			if(order.stateProperty().get() == State.FINISHED_DELAY.name()){
+				tmpOrder.setState(State.FINISHED_DELAY);
+			}
+			if(order.stateProperty().get() == State.FINISHED_IN_TIME.name()){
+				tmpOrder.setState(State.FINISHED_IN_TIME);
+			}
+				order.copy(tmpOrder);
+			}
 	    	closeWindow(event);
 		}
-    }
+    
 	
 	@FXML private void handleRelease(ActionEvent event) {
     	System.out.println("Release Order"); 
@@ -348,7 +363,7 @@ public class OrderController {
 				if(mainMenu.releaseOrder(order))
 				{
 					lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
-				
+					txt_state.setText(State.IN_PROCESS.name());
 					if(mainMenu.isDueDateViable(order))
 					{
 		        		Alert alert = new Alert(AlertType.INFORMATION);
@@ -408,7 +423,7 @@ public class OrderController {
         		System.out.println("Cancel");
     		if (mainMenu.cancelOrder(order)){
     			// delete if true
-    			
+    			txt_state.setText(State.CANCELED.name());
     			getDateFields();
     		}
     		else {
@@ -434,6 +449,15 @@ public class OrderController {
         		System.out.println("Finish Order");
     		if (mainMenu.finishOrder(order)){
     			// delete if true
+    			if(order.stateProperty().get() == State.FINISHED_DELAY.name()){
+    				txt_state.setText(State.FINISHED_DELAY.name());
+    				
+    			}
+    			if(order.stateProperty().get() == State.FINISHED_IN_TIME.name()){
+    				txt_state.setText(State.FINISHED_IN_TIME.name());
+    			}
+    			
+    			
     			getDateFields();
     		}
     		}
@@ -585,10 +609,26 @@ public class OrderController {
 	    		if(ConfirmBox.display("Confirmation Dialog", "Changes will be lost! Do you really want to close?") == false){
 	    			we.consume();
 	    		}else{
-		    		order.copy(tmpOrder);
+	    			
+	    				if(order.stateProperty().get() == State.IN_PROCESS.name()){
+	    					tmpOrder.setState(State.IN_PROCESS);
+	    				}
+	    				if(order.stateProperty().get() == State.CANCELED.name()){
+	    					tmpOrder.setState(State.CANCELED);
+	    				}
+	    				if(order.stateProperty().get() == State.FINISHED_DELAY.name()){
+		    				tmpOrder.setState(State.FINISHED_DELAY);
+		    			}
+	    				if(order.stateProperty().get() == State.FINISHED_IN_TIME.name()){
+		    				tmpOrder.setState(State.FINISHED_IN_TIME);
+		    			}
+	    				order.copy(tmpOrder);
+	    		
+	    		
 	    		}
 	        }
 	    });
+		
 		txt_volume.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
