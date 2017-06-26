@@ -44,11 +44,12 @@ public class MainMenu extends Application {
 	            fxmlLoader.setLocation(getClass().getResource("DatabaseConnectionDialog.fxml"));
 	            Parent root = fxmlLoader.load();
 	            DatabaseConnectionDialogController dc = (DatabaseConnectionDialogController) fxmlLoader.getController();
-	            dc.init(stage);
+
 	            Scene scene = new Scene(root, 800, 500);
 	            Stage stage1 = new Stage();
 	            stage1.setTitle("Database Connection");
 	            stage1.setScene(scene);
+	            dc.init(stage);
 	            stage1.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
 	            stage1.initModality(Modality.APPLICATION_MODAL);
 	            stage1.showAndWait();

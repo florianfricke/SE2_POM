@@ -15,6 +15,7 @@ public class OpenConnectionFile {
 			@SuppressWarnings("resource")
 			BufferedReader br = new BufferedReader(fr);
 			 cp = new ConnectionParameter(br.readLine().trim(), br.readLine().trim(),br.readLine().trim(), br.readLine().trim(), br.readLine().trim());
+
 			 return cp;
 		}catch (FileNotFoundException e) {
 			ErrorLog.write(e);

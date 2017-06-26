@@ -5,7 +5,7 @@ import types.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 
 import java.io.BufferedReader;
@@ -302,10 +302,12 @@ public class PomDbService implements IPomDbService {
 	         con = DriverManager.getConnection("jdbc:postgresql://"+cp.getServerAddress()+":"+cp.getPort()+"/"+cp.getDataBase()+"?currentSchema=pom",cp.getUser(),cp.getPassword()); // useres File test.txt
 	         return true;
 		}catch(Exception e){
-			ErrorLog.write(e);
-			System.err.println(e.getClass().getName()+": "+e.getMessage()); // Konsolenausgabe
+			Platform.exit();
+			System.exit(0);
+			//ErrorLog.write(e);
+			//System.err.println(e.getClass().getName()+": "+e.getMessage()); // Konsolenausgabe
+
 		}
-		System.out.println("Erfolgreich verbunden!");
 		return false;
 	}
 	public void closeDbConn(){

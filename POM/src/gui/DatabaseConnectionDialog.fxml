@@ -38,6 +38,7 @@
                   <Label prefHeight="25.0" text="Database Name" />
                   <Label prefHeight="25.0" text="User" />
                   <Label prefHeight="25.0" text="Password" />
+                  <Label fx:id="txt_errorMessage" prefHeight="25.0" text="Error Message" textFill="#ff0707" visible="false"/>
                </children>
                <HBox.margin>
                   <Insets right="25.0" />
