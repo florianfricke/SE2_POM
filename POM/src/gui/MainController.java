@@ -528,8 +528,11 @@ public class MainController{
                 		return true;
                 	} else if (order.getOrderDate().toString().toLowerCase().contains(lowerCaseFilter)) {
                         return true;  
-                	} else if (order.getReleaseDate().toString().toLowerCase().contains(lowerCaseFilter)) {
+                	} else 
+                		if(order.getReleaseDate() != null){
+                		if (order.getReleaseDate().toString().toLowerCase().contains(lowerCaseFilter)) {
                         return true;  
+                		}
 	                } else if (order.stateProperty().toString().toLowerCase().contains(lowerCaseFilter)) {
 	                    return true;  
 	            	}           	
@@ -560,9 +563,12 @@ public class MainController{
                         }
                 }
                 if(comboBox_searchOrder.getSelectionModel().getSelectedItem() == "Release Date"){
-                	if (order.getReleaseDate().toString().toLowerCase().contains(lowerCaseFilter)) {
-                        return true;
-                        }
+                	if(order.getReleaseDate() != null){
+                		   if (order.getReleaseDate().toString().toLowerCase().contains(lowerCaseFilter)) {
+                            return true;
+                             }
+                	}              	
+             
                 }
                 if(comboBox_searchOrder.getSelectionModel().getSelectedItem() == "State"){
                 	if (order.stateProperty().toString().toLowerCase().contains(lowerCaseFilter)) {
