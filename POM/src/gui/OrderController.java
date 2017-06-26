@@ -376,7 +376,7 @@ public class OrderController {
     }
 	@FXML private void handleUpdate(ActionEvent event) {
     	System.out.println("Update MES Lots");
-    	if(order.stateProperty().get() == State.IN_PROCESS.name()){	
+    	if(order.stateProperty().get() == State.IN_PROCESS.name() && !order.getStartDate().isBefore(LocalDate.now())){	
     		if(checkFieldsFilled("update")){
         		if(mainMenu.updateLots(order)){
 	        		handleSave(event);
@@ -396,7 +396,13 @@ public class OrderController {
     	}else{
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
-        	alert.setHeaderText("State have to be IN PROCESS!");
+        	String errText = "";
+        	if(order.stateProperty().get() != State.IN_PROCESS.name()) 
+        		errText = "State have to be IN_PROCESS!\n";
+        	if(order.getStartDate().isBefore(LocalDate.now()))
+        		errText += "Start date is in the past.";
+        	
+        	alert.setHeaderText(errText);
         	alert.show();
     	}
     }
@@ -547,7 +553,8 @@ public class OrderController {
 		                            if (item.isAfter(dpkDueDate.getValue().minusDays(1))) {
 		                                    setDisable(true);
 		                                    setStyle("-fx-background-color: #ffc0cb;");
-		                            }  
+		                            } 
+		                            order.setStartDate(item);
 							} catch (Exception e) {
 								// TODO: handle exception
 							}
