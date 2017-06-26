@@ -222,6 +222,7 @@ public class PomService {
 
 	private boolean insertLotDayBalanced(Order order, int remainingVolume) {
 		int n;
+		if(order.getStartDate().isBefore(LocalDate.now())) return false;
 		Calendar c = Calendar.getInstance();
 		c.setTime(Date.from(order.getStartDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		boolean success = false;
