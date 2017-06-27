@@ -52,7 +52,7 @@
          <center>
             <ImageView fitHeight="350.0" fitWidth="350.0" opacity="0.85" pickOnBounds="true" translateY="-30.0" BorderPane.alignment="CENTER">
                <image>
-                  <Image url="@cinderella.png" />
+                  <Image url="@cinderella.png" backgroundLoading="true"/>
                </image>
                <effect>
                   <Reflection fraction="0.8" topOpacity="0.04" />
