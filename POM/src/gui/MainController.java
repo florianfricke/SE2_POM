@@ -126,6 +126,8 @@ public class MainController{
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
         	alert.setHeaderText("Select Customer!");
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
         	alert.show();
         	return;
     	}
@@ -134,6 +136,8 @@ public class MainController{
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
         	alert.setHeaderText("There already existing Orders for this Customer");
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
         	alert.show();
         	return;
     	} else {
@@ -150,6 +154,8 @@ public class MainController{
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
         	alert.setHeaderText("Select Customer!");
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
         	alert.show();
         	return;
     	}
@@ -162,6 +168,8 @@ public class MainController{
 		    	Alert alert = new Alert(AlertType.ERROR);
 		    	alert.setTitle("Notificaion");
 		    	alert.setHeaderText("The customer has no PLANNED, IN_PROCESS or COMPLETED order!");
+	        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+	        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
 		    	alert.show();
 	    	}
 	    	else
@@ -194,6 +202,8 @@ public class MainController{
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
         	alert.setHeaderText("Select Customer!");
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
         	alert.show();
         	return;
     	}
@@ -206,6 +216,8 @@ public class MainController{
 		    	Alert alert = new Alert(AlertType.ERROR);
 		    	alert.setTitle("Notificaion");
 		    	alert.setHeaderText("The customer has no FINISHED or CANCELED order!");
+	        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+	        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
 		    	alert.show();
 	    	}
 	    	else
@@ -261,6 +273,8 @@ public class MainController{
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
         	alert.setHeaderText("Select Order!");
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
         	alert.show();
         	return;
     	}
@@ -274,6 +288,8 @@ public class MainController{
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
         	alert.setHeaderText("Cannot delete order");
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
         	alert.show();
         	return;
     	}
@@ -285,6 +301,8 @@ public class MainController{
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
         	alert.setHeaderText("Select Order!");
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
         	alert.show();
         	return;
     	}
@@ -300,6 +318,8 @@ public class MainController{
     			Alert alert = new Alert(AlertType.ERROR);
             	alert.setTitle("Notificaion");
             	alert.setHeaderText("Some lots are already IN PROCESS");
+            	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
             	alert.show();
             	return;
     		}
@@ -310,6 +330,8 @@ public class MainController{
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
         	alert.setHeaderText("Order is not IN PROCESS");
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
         	alert.show();
         	return;
     	}
@@ -322,6 +344,8 @@ public class MainController{
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
         	alert.setHeaderText("Select Order!");
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
         	alert.show();
         	return;
     	}
@@ -340,6 +364,8 @@ public class MainController{
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
         	alert.setHeaderText("Order is not COMPLETED");
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
         	alert.show();
         	return;
     	}
@@ -402,6 +428,8 @@ public class MainController{
 	    		Alert alert = new Alert(AlertType.ERROR);
 	        	alert.setTitle("Notificaion");
 	        	alert.setHeaderText("The user manual pdf-file does not exist!");
+	        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+	        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
 	        	alert.show();
 	        	return;
 	        }
