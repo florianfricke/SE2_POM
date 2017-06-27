@@ -64,7 +64,7 @@ public class PomDbService implements IPomDbService {
 				for (Contact contact : cust.getContactList()) {
 			     
 				   
-					sql = "INSERT INTO pom.contact VALUES (DEFAULT, ?,?,?,?,?,?)";
+					sql = "INSERT INTO pom.contact VALUES (DEFAULT, ?,?,?,?,?,?,?,?)";
 					stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				    stmt.setString(1,cust.idProperty().get());
 					stmt.setString(2,contact.phoneNoProperty().get());
@@ -72,6 +72,8 @@ public class PomDbService implements IPomDbService {
 					stmt.setString(4,contact.firstNameProperty().get());
 					stmt.setString(5,contact.emailProperty().get());
 					stmt.setString(6,contact.positionProperty().get());
+					stmt.setBoolean(7,contact.defaultContactProperty().get());
+					stmt.setString(8,contact.positionProperty().get());
 				
 				stmt.executeUpdate();
 				rs = stmt.getGeneratedKeys();
@@ -94,21 +96,6 @@ public class PomDbService implements IPomDbService {
 					ba.idProperty().set(rs.getString("id"));
 					rs.close();
 				    stmt.close();
-				   
-				    
-				    sql = "INSERT INTO pom.contact VALUES (DEFAULT, ?,?,?,?)";
-					stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-				    stmt.setString(1,cust.idProperty().get());
-					stmt.setString(2,ba.ibanProperty().get());
-				    stmt.setString(3,ba.bicProperty().get());
-					stmt.setString(4,ba.bankNameProperty().get());
-				
-				stmt.executeUpdate();
-				rs = stmt.getGeneratedKeys();
-				rs.next();
-				ba.idProperty().set(rs.getString("id"));
-				rs.close();
-			    stmt.close();
 		    	}	    	
 			}
 		    return true;
@@ -186,12 +173,14 @@ public class PomDbService implements IPomDbService {
 			if(!(cust.getContactList().equals(dbCustContactList))){
 				for (Contact contact : cust.getContactList()) {
 					if(contact.idProperty().get().isEmpty()){
-						sql = "INSERT INTO pom.contact(customerid, phoneno, name, firstname, mailaddress, \"position\") VALUES"+ 
+						sql = "INSERT INTO pom.contact(customerid, phoneno, name, firstname, mailaddress, \"position\", salutation, \"defaultContact\") VALUES"+ 
 				    			"('" + cust.idProperty().get() +"','"+ contact.phoneNoProperty().get() +"','"+ 
 				    			contact.nameProperty().get() +"','"+ 
 				    			contact.firstNameProperty().get() +"','"+ 
 				    			contact.emailProperty().get() +"','"+ 
-				    			contact.positionProperty().get() +"')";
+				    			contact.positionProperty().get() +"','"+
+				    			contact.salutationProperty().get() +"','"+
+				    			contact.defaultContactProperty().get() +"')";
 				    	stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 						stmt.executeUpdate();
 						rs = stmt.getGeneratedKeys();
@@ -200,7 +189,7 @@ public class PomDbService implements IPomDbService {
 						rs.close();
 					    stmt.close();
 					}else{ // das else ist wenn?
-				    	sql = "UPDATE pom.contact SET phoneno = ?, name = ?, firstname = ?, mailaddress = ?, position = ?"+ 
+				    	sql = "UPDATE pom.contact SET phoneno = ?, name = ?, firstname = ?, mailaddress = ?, position = ?, salutation=?, \"defaultContact\"=?"+ 
 				    			"WHERE id = ? AND customerid = ?";
 				    	stmt = this.con.prepareStatement(sql);
 						stmt.setString(1,contact.phoneNoProperty().get());
@@ -208,8 +197,10 @@ public class PomDbService implements IPomDbService {
 						stmt.setString(3,contact.firstNameProperty().get());
 						stmt.setString(4,contact.emailProperty().get());
 						stmt.setString(5,contact.positionProperty().get());
-						stmt.setString(6, contact.idProperty().get());
-						stmt.setString(7, cust.idProperty().get());
+						stmt.setString(6,contact.salutationProperty().get());
+						stmt.setBoolean(7,contact.defaultContactProperty().get());
+						stmt.setString(8, contact.idProperty().get());
+						stmt.setString(9, cust.idProperty().get());
 						stmt.executeUpdate();
 					    stmt.close();
 					}
@@ -391,7 +382,7 @@ public class PomDbService implements IPomDbService {
 			
 			while (rs.next())
 			{
-			   addressList.add(new Address(rs.getString("id"), rs.getString("street"), rs.getString("houseno"), rs.getString("zipcode"),rs.getString("city"),rs.getString("country"),Boolean.parseBoolean(rs.getString("billingaddress"))));
+			   addressList.add(new Address(rs.getString("id"),rs.getString("customerid"), rs.getString("street"), rs.getString("houseno"), rs.getString("zipcode"),rs.getString("city"),rs.getString("country"),rs.getBoolean("billingaddress")));
 			}
 			rs.close();
 		    stmt.close();
@@ -415,7 +406,7 @@ public class PomDbService implements IPomDbService {
 			
 			while (rs.next())
 			{
-			   contactList.add(new Contact(rs.getString("id"), rs.getString("name"), rs.getString("firstname"),rs.getString("position"),rs.getString("phoneno"),rs.getString("mailaddress")));
+			   contactList.add(new Contact(rs.getString("id"),rs.getString("customerid"), rs.getString("salutation"), rs.getString("name"), rs.getString("firstname"),rs.getString("position"),rs.getString("phoneno"),rs.getString("mailaddress"),rs.getBoolean("defaultContact")));
 			}
 			rs.close();
 		    stmt.close();

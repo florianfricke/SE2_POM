@@ -52,11 +52,13 @@ public class CustomerController {
     @FXML private TableColumn<Address, Boolean> billingAddress;
     //Contact Table
 	@FXML private TableView<Contact> contactTable;
+	@FXML private TableColumn<Contact, String> salutation;
 	@FXML private TableColumn<Contact, String> name;
     @FXML private TableColumn<Contact, String> firstName;
     @FXML private TableColumn<Contact, String> position;
     @FXML private TableColumn<Contact, String> phoneNo;
     @FXML private TableColumn<Contact, String> email;
+    @FXML private TableColumn<Contact, Boolean> defaultContact;
     //Bank Account Table
 	@FXML private TableView<BankAccount> bankAccountTable;
 	@FXML private TableColumn<BankAccount, String> iban;
@@ -124,6 +126,8 @@ public class CustomerController {
 			ErrorLog.write(e);
 		}
 		//Contact Table
+		salutation.setCellValueFactory(cellData -> cellData.getValue().salutationProperty());
+		salutation.setCellFactory(column -> EditingCell.createStringEditCell());
 		name.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		name.setCellFactory(column -> EditingCell.createStringEditCell());
 		firstName.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
@@ -134,6 +138,8 @@ public class CustomerController {
 		phoneNo.setCellFactory(column -> EditingCell.createStringEditCell());
 		email.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
 		email.setCellFactory(column -> EditingCell.createStringEditCell());
+		defaultContact.setCellValueFactory(cellData -> cellData.getValue().defaultContactProperty());
+		defaultContact.setCellFactory(CheckBoxTableCell.forTableColumn(defaultContact));
 		if(this.cust.getContactList().isEmpty()){
 			this.cust.setContactList(mainMenu.getContactList(this.cust.idProperty().get()));
 		}

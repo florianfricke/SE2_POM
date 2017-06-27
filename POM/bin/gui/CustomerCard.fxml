@@ -155,6 +155,11 @@
                               </HBox>
                               <TableView fx:id="contactTable" editable="true" minHeight="120.0">
                                  <columns>
+                                 	<TableColumn fx:id="salutation" prefWidth="75.0" text="Salutation">
+                                       <cellValueFactory>
+                                          <PropertyValueFactory property="salutation" />
+                                       </cellValueFactory>
+                                    </TableColumn>
                                     <TableColumn fx:id="name" prefWidth="75.0" text="Name">
                                        <cellValueFactory>
                                           <PropertyValueFactory property="name" />
@@ -178,6 +183,11 @@
                                     <TableColumn fx:id="email" prefWidth="75.0" text="E-Mail">
                                        <cellValueFactory>
                                           <PropertyValueFactory property="email" />
+                                       </cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn fx:id="defaultContact" prefWidth="75.0" text="Default Contact">
+                                       <cellValueFactory>
+                                          <PropertyValueFactory property="defaultContact" />
                                        </cellValueFactory>
                                     </TableColumn>
                                  </columns>
