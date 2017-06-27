@@ -57,3 +57,16 @@
 {
 	-fx-opacity: 1;
 }
+/* For date-picker */
+.date-picker:disabled {
+     -fx-opacity: 1;
+}
+
+/* For date-picker textfield */
+.date-picker > .date-picker-display-node:disabled {
+    -fx-opacity: 1;
+}
+.combo-box:disabled, .combo-box:disabled > * {
+  -fx-opacity: 1 ;
+}
+

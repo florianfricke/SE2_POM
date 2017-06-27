@@ -130,56 +130,25 @@ public class OrderController {
         	cbxProduct.setDisable(true);
         	cbxCustomer.setDisable(true);
         	dpkOrderDate.setEditable(false);
-        	txt_baseLotID.setEditable(false);
+        	txt_baseLotID.setDisable(true);
         } else if (order.stateProperty().get().equals(State.COMPLETED.name())){
-      /*  	vboxOrder1.setDisable(true);
-        	vboxOrder2.setDisable(true);
-        	txt_price.setDisable(false);
-            txt_Id.setStyle("-fx-opacity: 1");
-            txt_state.setStyle("-fx-opacity: 1");
-            txt_baseLotID.setStyle("-fx-opacity: 1");
-            txt_volume.setStyle("-fx-opacity: 1");
-            txt_price.setStyle("-fx-opacity: 1");
-            txtLotSize.setStyle("-fx-opacity: 1");
-        	txt_state.setStyle("-fx-opacity: 1");
-            dpkDeliveryDate.setStyle("-fx-opacity: 1");
-            dpkDeliveryDate.getEditor().setStyle("-fx-opacity: 1");
-            dpkReleaseDate.setStyle("-fx-opacity: 1");
-            dpkReleaseDate.getEditor().setStyle("-fx-opacity: 1");
-            dpkOrderDate.setStyle("-fx-opacity: 1");
-            dpkOrderDate.getEditor().setStyle("-fx-opacity: 1");
-            dpkDueDate.setStyle("-fx-opacity: 1");
-            dpkDueDate.getEditor().setStyle("-fx-opacity: 1");
-            dpkStartDate.setStyle("-fx-opacity: 1");
-            dpkStartDate.getEditor().setStyle("-fx-opacity: 1");
-            cbxProduct.setStyle("-fx-opacity: 1");
-            cbxCustomer.setStyle("-fx-opacity: 1");
-            cbxContact.setStyle("-fx-opacity: 1");
-            cbxAddress.setStyle("-fx-opacity: 1");
-            cbxPriority.setStyle("-fx-opacity: 1");
-        */    
+        	vboxOrder1.setDisable(true);
+        	dpkReleaseDate.setDisable(true);
+        	dpkDueDate.setDisable(true);
+        	dpkDeliveryDate.setDisable(true);
+        	txt_volume.setDisable(true);
+        	txt_baseLotID.setDisable(true);
+        	txtLotSize.setDisable(true);
+        	txt_state.setDisable(true);
             
         } else if(order.stateProperty().get().equals(State.FINISHED_DELAY.name()) ||
         		order.stateProperty().get().equals(State.FINISHED_IN_TIME.name())){
         	vboxOrder1.setDisable(true);
-        	vboxOrder2.setDisable(true);
-            dpkDeliveryDate.setStyle("-fx-opacity: 1");
-            dpkDeliveryDate.getEditor().setStyle("-fx-opacity: 1");
-            dpkReleaseDate.setStyle("-fx-opacity: 1");
-            dpkReleaseDate.getEditor().setStyle("-fx-opacity: 1");
-            dpkOrderDate.setStyle("-fx-opacity: 1");
-            dpkOrderDate.getEditor().setStyle("-fx-opacity: 1");
-            dpkDueDate.setStyle("-fx-opacity: 1");
-            dpkDueDate.getEditor().setStyle("-fx-opacity: 1");
-            dpkStartDate.setStyle("-fx-opacity: 1");
-            dpkStartDate.getEditor().setStyle("-fx-opacity: 1");
-            cbxProduct.setStyle("-fx-opacity: 1");
-            cbxCustomer.setStyle("-fx-opacity: 1");
-            cbxContact.setStyle("-fx-opacity: 1");
-            cbxAddress.setStyle("-fx-opacity: 1");
-            cbxPriority.setStyle("-fx-opacity: 1");
-            
-	}
+        	vboxOrder2.setDisable(true);     
+        } else if (order.stateProperty().get().equals(State.CANCELED.name())){
+        	vboxOrder1.setDisable(true);
+        	vboxOrder2.setDisable(true);  
+        }
 	}
 	private void setTextFields(){
 		tmpOrder = new Order(order);
@@ -188,7 +157,7 @@ public class OrderController {
 		ObservableList<CbxItemObservable> custIdList = FXCollections.observableArrayList();
 		ObservableList<CbxItemObservable> addrIdList = FXCollections.observableArrayList();
 		ObservableList<CbxItemObservable> contactIdList = FXCollections.observableArrayList();
-		ObservableList<String> listPriority = FXCollections.observableArrayList("1","2","3","5","6","7","8","9","10");
+		ObservableList<String> listPriority = FXCollections.observableArrayList("1","2","3","4","5","6","7","8","9","10");
 		cbxPriority.setItems(listPriority);
 		for (Customer cust : mainMenu.getCustomerList()) {
 			 custIdList.add(cust.comboBoxProperty());	 
@@ -241,19 +210,13 @@ public class OrderController {
 		createDateCells();
 		dpkDeliveryDate.setValue(this.order.getActualDeliveryDate());
 		dpkDeliveryDate.setConverter(converter);
-		dpkDeliveryDate.setDisable(true);
-		dpkDeliveryDate.setStyle("-fx-opacity: 1");
-		dpkDeliveryDate.getEditor().setStyle("-fx-opacity: 1");		
+		dpkDeliveryDate.setDisable(true);	
 		dpkReleaseDate.setValue(this.order.getReleaseDate());
 		dpkReleaseDate.setDisable(true);
 		dpkReleaseDate.setConverter(converter);
-		dpkReleaseDate.setStyle("-fx-opacity: 1");
-		dpkReleaseDate.getEditor().setStyle("-fx-opacity: 1");
 		dpkOrderDate.setValue(this.order.getOrderDate());
 		dpkOrderDate.setConverter(converter);
 		dpkOrderDate.setDisable(true);
-		dpkOrderDate.setStyle("-fx-opacity: 1");
-		dpkOrderDate.getEditor().setStyle("-fx-opacity: 1");
 		dpkDueDate.setValue(this.order.getDueDate());
 		dpkDueDate.setDayCellFactory(dueDateCellFactory);
 		dpkDueDate.setConverter(converter);
