@@ -53,7 +53,7 @@
 {
 	-fx-opacity: 1;
 }
-.text-field:disabled .list-cell 
+.text-field:disabled
 {
 	-fx-opacity: 1;
 }

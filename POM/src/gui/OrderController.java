@@ -131,10 +131,10 @@ public class OrderController {
         	cbxCustomer.setDisable(true);
         	dpkOrderDate.setEditable(false);
         	txt_baseLotID.setEditable(false);
-        } else if(order.stateProperty().get().equals(State.FINISHED_DELAY.name()) ||
-        		order.stateProperty().get().equals(State.FINISHED_IN_TIME.name())){
-        	vboxOrder1.setDisable(true);
+        } else if (order.stateProperty().get().equals(State.COMPLETED.name())){
+      /*  	vboxOrder1.setDisable(true);
         	vboxOrder2.setDisable(true);
+        	txt_price.setDisable(false);
             txt_Id.setStyle("-fx-opacity: 1");
             txt_state.setStyle("-fx-opacity: 1");
             txt_baseLotID.setStyle("-fx-opacity: 1");
@@ -142,6 +142,27 @@ public class OrderController {
             txt_price.setStyle("-fx-opacity: 1");
             txtLotSize.setStyle("-fx-opacity: 1");
         	txt_state.setStyle("-fx-opacity: 1");
+            dpkDeliveryDate.setStyle("-fx-opacity: 1");
+            dpkDeliveryDate.getEditor().setStyle("-fx-opacity: 1");
+            dpkReleaseDate.setStyle("-fx-opacity: 1");
+            dpkReleaseDate.getEditor().setStyle("-fx-opacity: 1");
+            dpkOrderDate.setStyle("-fx-opacity: 1");
+            dpkOrderDate.getEditor().setStyle("-fx-opacity: 1");
+            dpkDueDate.setStyle("-fx-opacity: 1");
+            dpkDueDate.getEditor().setStyle("-fx-opacity: 1");
+            dpkStartDate.setStyle("-fx-opacity: 1");
+            dpkStartDate.getEditor().setStyle("-fx-opacity: 1");
+            cbxProduct.setStyle("-fx-opacity: 1");
+            cbxCustomer.setStyle("-fx-opacity: 1");
+            cbxContact.setStyle("-fx-opacity: 1");
+            cbxAddress.setStyle("-fx-opacity: 1");
+            cbxPriority.setStyle("-fx-opacity: 1");
+        */    
+            
+        } else if(order.stateProperty().get().equals(State.FINISHED_DELAY.name()) ||
+        		order.stateProperty().get().equals(State.FINISHED_IN_TIME.name())){
+        	vboxOrder1.setDisable(true);
+        	vboxOrder2.setDisable(true);
             dpkDeliveryDate.setStyle("-fx-opacity: 1");
             dpkDeliveryDate.getEditor().setStyle("-fx-opacity: 1");
             dpkReleaseDate.setStyle("-fx-opacity: 1");
