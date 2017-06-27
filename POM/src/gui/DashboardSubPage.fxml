@@ -45,14 +45,14 @@
                   <Insets top="20.0" />
                </BorderPane.margin>
                <font>
-                  <Font name="System Bold" size="22.0" />
+                  <Font name="System Bold" size="26.0" />
                </font>
             </Label>
          </top>
          <center>
-            <ImageView fitHeight="350.0" fitWidth="350.0" opacity="0.85" pickOnBounds="true" translateY="-30.0" BorderPane.alignment="CENTER">
+            <ImageView fitHeight="400.0" fitWidth="400.0" opacity="0.85" pickOnBounds="true" translateY="-30.0" BorderPane.alignment="CENTER">
                <image>
-                  <Image url="@cinderella.png" />
+                  <Image backgroundLoading="true" url="@cinderella.png" />
                </image>
                <effect>
                   <Reflection fraction="0.8" topOpacity="0.04" />

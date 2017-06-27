@@ -295,6 +295,8 @@ public class CustomerController {
 	    	Alert alert = new Alert(AlertType.ERROR);
 	    	alert.setTitle("Notificaion");
 	    	alert.setHeaderText("The customer has no PLANNED, IN_PROCESS or COMPLETED order!");
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
 	    	alert.show();
     	}
     	else
@@ -327,6 +329,8 @@ public class CustomerController {
 	    	Alert alert = new Alert(AlertType.ERROR);
 	    	alert.setTitle("Notificaion");
 	    	alert.setHeaderText("The customer has no FINISHED or CANCELED order!");
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
 	    	alert.show();
     	}
     	else
@@ -370,6 +374,8 @@ public class CustomerController {
 			Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
         	alert.setHeaderText("Cannot delete. Address is already used!");
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
         	alert.show();
 		} else {
 		
@@ -385,6 +391,8 @@ public class CustomerController {
 			Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
         	alert.setHeaderText("Cannot delete. Contact is already used!");
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
         	alert.show();
 		} else {
 		
@@ -407,6 +415,8 @@ public class CustomerController {
 			Alert alert = new Alert(AlertType.ERROR);
 	    	alert.setTitle("Warning");
 	    	alert.setHeaderText("Please correctly fill all the necessary fields.");
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
 	    	alert.show();
 		}else{
     	System.out.println("Save");
