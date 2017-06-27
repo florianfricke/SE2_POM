@@ -49,3 +49,11 @@
 .menu_button:focused {
   -fx-border-width: 1 1 1 1;
 }
+.combo-box:disabled .list-cell 
+{
+	-fx-opacity: 1;
+}
+.text-field:disabled .list-cell 
+{
+	-fx-opacity: 1;
+}

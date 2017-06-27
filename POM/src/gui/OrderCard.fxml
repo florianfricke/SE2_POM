@@ -62,7 +62,7 @@
                                           <Label minHeight="25.0" prefHeight="25.0" text="Start Date" />
                                        </children>
                                     </VBox>
-                                    <VBox spacing="14.0">
+                                    <VBox fx:id="vboxOrder1" spacing="14.0">
                                        <children>
                                           <TextField fx:id="txt_Id" editable="false" minWidth="150.0" prefWidth="150.0" />
                                           <ComboBox fx:id="cbxProduct" minWidth="150.0" prefWidth="150.0" />
@@ -89,7 +89,7 @@
                                           <Label minHeight="25.0" prefHeight="25.0" text="Lot Size" />
                                        </children>
                                     </VBox>
-                                    <VBox prefWidth="150.0" spacing="14.0">
+                                    <VBox fx:id="vboxOrder2" prefWidth="150.0" spacing="14.0">
                                        <children>
                                           <DatePicker fx:id="dpkReleaseDate" minWidth="150.0" prefWidth="150.0" />
                                           <TextField fx:id="txt_baseLotID" />
