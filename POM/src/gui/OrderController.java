@@ -203,6 +203,7 @@ public class OrderController {
             	Customer cust;
             	if(newValue.get().getId() != ""){
             		cust = mainMenu.getCustomer(newValue.get().getId());
+
             	}else{
             		cust = new Customer();
             	}
@@ -216,9 +217,20 @@ public class OrderController {
 				cbxContact.setItems(contactIdList);
 				try{
 				//Find Address with addressId of Order
-				Predicate<Address> addrPredicate = a-> a.idProperty().get().equals(order.addressidProperty().get());
+				Predicate<Address> addrPredicate = (a-> a.idProperty().get().equals(order.addressidProperty().get()));
 				Address  address = cust.getAddressList().stream().filter(addrPredicate).findFirst().get();
-				cbxAddress.getSelectionModel().select(address.comboBoxProperty());
+				cbxAddress.getSelectionModel().select(new CbxItemObservable(address.comboBoxProperty().get().getId(), address.comboBoxProperty().get().getName()) );
+				}catch(Exception e){
+				}
+				try{//Set Default Address
+
+				if(oldValue.get().getName() != ""){
+					cbxAddress.getSelectionModel().select(new CbxItemObservable("", "Choose Address"));
+					//Find Address with addressId of Order || 
+					Predicate<Address> addrPredicate = (a-> (a.customerIdProperty().get().equals(cust.idProperty().get()) && a.billingAddressProperty().get() == true));
+					Address  address = cust.getAddressList().stream().filter(addrPredicate).findFirst().get();
+					cbxAddress.getSelectionModel().select(new CbxItemObservable(address.comboBoxProperty().get().getId(), address.comboBoxProperty().get().getName()) );
+				}
 				}catch(Exception e){
 				}
 				try{
@@ -228,6 +240,17 @@ public class OrderController {
 				cbxContact.getSelectionModel().select(contact.comboBoxProperty());
 				}catch(Exception e){
 				}
+				try{//Set Default Contact
+
+					if(oldValue.get().getName() != ""){
+						cbxContact.getSelectionModel().select(new CbxItemObservable("", "Choose Contact"));
+						//Find Address with addressId of Order || 
+						Predicate<Contact> addrPredicate = (c-> (c.customerIdProperty().get().equals(cust.idProperty().get()) && c.defaultContactProperty().get() == true));
+						Contact  contact = cust.getContactList().stream().filter(addrPredicate).findFirst().get();
+						cbxContact.getSelectionModel().select(new CbxItemObservable(contact.comboBoxProperty().get().getId(), contact.comboBoxProperty().get().getName()) );
+					}
+					}catch(Exception e){
+					}
 			}
         });
 		if(order.ordernoProperty().get() != ""){

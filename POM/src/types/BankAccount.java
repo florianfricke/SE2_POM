@@ -37,10 +37,11 @@ public class BankAccount {
 	    if (o == this) return true;
 	    if (!(o instanceof BankAccount)) return false;
 	    BankAccount otherBankAccount = (BankAccount)o;
-	    if(this.id.get().equals(otherBankAccount.id.get())){
-	    	return true;
-	    }
-		return false;
+	    if(!this.id.get().equals(otherBankAccount.idProperty().get())||
+	       !this.iban.get().equals(otherBankAccount.ibanProperty().get())||
+	       !this.bic.get().equals(otherBankAccount.bicProperty().get())){
+	    	return false;
+	    }else return true;
 		
 	}
 }

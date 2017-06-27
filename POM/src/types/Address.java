@@ -6,6 +6,7 @@ import javafx.beans.property.*;
 public class Address {
 	
 	private final StringProperty id;
+	private final StringProperty customerId;
 	private final StringProperty street ;
 	private final StringProperty houseNo;
 	private final StringProperty zipCode;
@@ -14,8 +15,9 @@ public class Address {
 	private final BooleanProperty billingAddress;
 	private CbxItemObservable comboBoxItem;
 	
-	public Address(String id, String street, String houseNo, String zipCode, String city, String country, boolean bill ){
+	public Address(String id, String custId, String street, String houseNo, String zipCode, String city, String country, boolean bill ){
 		this.id = new SimpleStringProperty(id);
+		this.customerId = new SimpleStringProperty(custId);
 		this.street = new SimpleStringProperty(street);
 		this.houseNo = new SimpleStringProperty(houseNo);
 		this.zipCode = new SimpleStringProperty(zipCode);
@@ -26,13 +28,16 @@ public class Address {
 	}
 	
 	public Address() {
-		this("","","","","","",false);
+		this("","","","","","","",false);
 		this.comboBoxItem = new CbxItemObservable("", "");
 	}	
 
 
 	public StringProperty idProperty() {
 		return id;
+	}
+	public StringProperty customerIdProperty() {
+		return customerId;
 	}
 	public StringProperty streetProperty() {
 		return street;
@@ -63,10 +68,15 @@ public class Address {
 	    if (o == this) return true;
 	    if (!(o instanceof Address)) return false;
 	    Address otherAddress = (Address)o;
-	    if(this.id.get().equals(otherAddress.id.get())){
-	    	return true;
-	    }
-		return false;
+	    if(!this.id.get().equals(otherAddress.id.get())||
+	       !this.street.get().equals(otherAddress.streetProperty().get()) ||
+	       !this.houseNo.get().equals(otherAddress.houseNoProperty().get())||
+	       !this.zipCode.get().trim().equals(otherAddress.zipCodeProperty().get().trim()) ||
+	       !this.city.get().equals(otherAddress.cityProperty().get()) ||
+	       !this.country.get().equals(otherAddress.countryProperty().get()) ||
+	       !this.billingAddress.get() == otherAddress.billingAddressProperty().get()){
+	    	return false;
+	    }else return true;
 		
 	}
 }

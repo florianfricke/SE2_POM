@@ -65,7 +65,7 @@ public class JUnitTestCase {
 			ErrorLog.write(e);
 		}
 		//insert one testCustomer's address
-		Address testCustomerAddress = new Address(	"13", 
+		Address testCustomerAddress = new Address(	"13", "",
 													"Hochschulstr.", 
 													"32", 
 													"01069", 
@@ -78,12 +78,14 @@ public class JUnitTestCase {
 		addressList.add(testCustomerAddress);
 		testCustomer.setAddressList((ObservableList<Address>) addressList);
 		//insert one testCustomer's contact
-		Contact testCustomerContact = new Contact(	"13", 
+		Contact testCustomerContact = new Contact(	"13", "",
+													"",
 													"Name", 
 													"First name", 
 													"personal", 
 													"", 
-													"");
+													"",
+													false);
 		ObservableList<Contact> contactList = FXCollections.observableArrayList();
 		//List<Contact> contactList=new ArrayList<Contact>();
 		contactList.add(testCustomerContact);

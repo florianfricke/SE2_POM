@@ -87,7 +87,7 @@ public class PomService {
 	 */
 	public boolean isReferenced(Address address)
 	{
-		return pomPersistance.isReferenced(address.idProperty().get(),"adressid");
+		return pomPersistance.isReferenced(address.idProperty().get(),"addressid");
 		
 	}
 	
