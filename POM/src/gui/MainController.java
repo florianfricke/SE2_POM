@@ -287,7 +287,7 @@ public class MainController{
         	alert.show();
         	return;
     	}
-    	if(orderTable.getSelectionModel().getSelectedItem().stateProperty().get().equals(State.PLANNED.toString()) || orderTable.getSelectionModel().getSelectedItem().stateProperty().get().equals(State.CANCELED.toString())){
+    	if(orderTable.getSelectionModel().getSelectedItem().stateProperty().get().equals(State.PLANNED.toString())){
         	if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete: order " +orderTable.getSelectionModel().getSelectedItem().ordernoProperty().get().toString()) == true){
         		System.out.println("Delete");
         		mainMenu.deleteOrder(orderTable.getSelectionModel().getSelectedItem());
