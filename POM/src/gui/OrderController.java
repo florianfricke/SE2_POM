@@ -563,7 +563,7 @@ public class OrderController {
 	                        public void updateItem(LocalDate item, boolean empty) {
 	                            super.updateItem(item, empty);
 	                           try {
-		                            if (item.isBefore(dpkOrderDate.getValue().plusDays(1))) {
+		                            if (item.isBefore(dpkOrderDate.getValue().plusDays(1))|| item.isBefore(LocalDate.now())) {
 		                                    setDisable(true);
 		                                    setStyle("-fx-background-color: #ffc0cb;");
 		                            }   
@@ -589,7 +589,7 @@ public class OrderController {
 	                        public void updateItem(LocalDate item, boolean empty) {
 	                            super.updateItem(item, empty);
 	                            try {
-	                            	if (item.isBefore(dpkOrderDate.getValue().plusDays(1)) || item.isBefore(dpkStartDate.getValue().plusDays(1))) {
+	                            	if (item.isBefore(dpkOrderDate.getValue().plusDays(1)) || item.isBefore(dpkStartDate.getValue().plusDays(1)) || item.isBefore(LocalDate.now())) {
 	                                    setDisable(true);
 	                                    setStyle("-fx-background-color: #ffc0cb;");
 	                            	}  
