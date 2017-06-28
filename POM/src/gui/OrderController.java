@@ -46,6 +46,7 @@ public class OrderController {
 	private OrderLotChanges changeValues;
 	private Order tmpOrder;
 	private Stage currentStage;
+	private Boolean newOrder = false;
     @FXML private TextField txt_Id;
     @FXML private TextField txt_orderDate;
     @FXML private TextField txt_releaseDate;
@@ -109,7 +110,9 @@ public class OrderController {
 	public void init(MainMenu mainMenu, Stage stage) {
         this.mainMenu = mainMenu;
         this.order = new Order();
+        newOrder = true;
         this.currentStage = stage;
+        changeValues = new OrderLotChanges(order.getOrderLotChanges());
         order.lotSizeProperty().set(mainMenu.getSetup().defaultLotSizeProperty().get());
         setTextFields();
         btnUpdate.setDisable(true);
@@ -363,21 +366,22 @@ public class OrderController {
 			handleSave(event);
 			if(mainMenu.releaseOrder(order))
 			{
+    	        btnUpdate.setDisable(false);
+    	        btnTree.setDisable(false);
 				lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
-				if(mainMenu.isDueDateViable(order))
+				order.stateProperty().set(State.IN_PROCESS.name());
+				txt_state.setText(State.IN_PROCESS.name());
+				disableFields();
+				if(!mainMenu.isDueDateViable(order))
 				{
-					txt_state.setText(State.IN_PROCESS.name());
-					if(mainMenu.isDueDateViable(order))
-					{
-		        		Alert alert = new Alert(AlertType.INFORMATION);
-		            	alert.setTitle("Notificaion");
-		            	alert.setHeaderText("One or more lots can't be started before due date.\nPlease update due date.");
-		            	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-		            	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
-		            	alert.show();
-	            	}
-					getDateFields();
-				}
+	        		Alert alert = new Alert(AlertType.INFORMATION);
+	            	alert.setTitle("Notificaion");
+	            	alert.setHeaderText("One or more lots can't be started before due date.\nPlease update due date.");
+	            	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+	            	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
+	            	alert.show();
+            	}
+				getDateFields();
 			}
     	}else{
     		Alert alert = new Alert(AlertType.ERROR);
@@ -400,7 +404,7 @@ public class OrderController {
         		handleSave(event);
     			lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
     			getDateFields();
-    			if(mainMenu.isDueDateViable(order))
+    			if(!mainMenu.isDueDateViable(order))
 				{
 	        		Alert alert = new Alert(AlertType.INFORMATION);
 	            	alert.setTitle("Notificaion");
@@ -430,6 +434,7 @@ public class OrderController {
         		System.out.println("Cancel");
     		if (mainMenu.cancelOrder(order)){
     			// delete if true
+    			lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
     			txt_state.setText(State.CANCELED.name());
     			getDateFields();
     		}
@@ -458,7 +463,7 @@ public class OrderController {
     		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to finish: order " +order.ordernoProperty().get().toString()) == true){
         		System.out.println("Finish Order");
     		if (mainMenu.finishOrder(order)){
-    			// delete if true
+    			lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
     			if(order.stateProperty().get() == State.FINISHED_DELAY.name()){
     				txt_state.setText(State.FINISHED_DELAY.name());
     			}
@@ -563,7 +568,7 @@ public class OrderController {
 	                        public void updateItem(LocalDate item, boolean empty) {
 	                            super.updateItem(item, empty);
 	                           try {
-		                            if (item.isBefore(dpkOrderDate.getValue().plusDays(1))) {
+		                            if (item.isBefore(dpkOrderDate.getValue().plusDays(1))|| item.isBefore(LocalDate.now())) {
 		                                    setDisable(true);
 		                                    setStyle("-fx-background-color: #ffc0cb;");
 		                            }   
@@ -589,7 +594,7 @@ public class OrderController {
 	                        public void updateItem(LocalDate item, boolean empty) {
 	                            super.updateItem(item, empty);
 	                            try {
-	                            	if (item.isBefore(dpkOrderDate.getValue().plusDays(1)) || item.isBefore(dpkStartDate.getValue().plusDays(1))) {
+	                            	if (item.isBefore(dpkOrderDate.getValue().plusDays(1)) || item.isBefore(dpkStartDate.getValue().plusDays(1)) || item.isBefore(LocalDate.now())) {
 	                                    setDisable(true);
 	                                    setStyle("-fx-background-color: #ffc0cb;");
 	                            	}  
@@ -604,6 +609,12 @@ public class OrderController {
 	private void createEventHandler(){
 		currentStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 	    	public void handle(WindowEvent we) {
+	    		if(newOrder){
+					txt_errorMessage.setVisible(true);
+					txt_errorMessage.setText("Please Save Order.");
+					we.consume();
+					return;
+				}
 	    		if(ConfirmBox.display("Confirmation Dialog", "Changes will be lost! Do you really want to close?") == false){
 	    			we.consume();
 	    		}else{
@@ -736,10 +747,11 @@ public class OrderController {
 			String localString;
 			localString = txtLotSize.getText();
 			if(!newValue){
-				if(txtLotSize.getText().length() == 0 || txtLotSize.getText().equals("")) {
+				if(txtLotSize.getText().length() == 0 || txtLotSize.getText().equals("") || txtLotSize.getText().equals("0")) {
 					txtLotSize.getStyleClass().add("label_error");
+					txtLotSize.setText(String.valueOf(mainMenu.getSetup().defaultLotSizeProperty().get()));
 					txt_errorMessage.setVisible(true);
-					txt_errorMessage.setText(errorText);
+					txt_errorMessage.setText("Field Lot Size cannot be empty or 0.");
 				}
 				//Only numbers, letters and spaces are allowed.
 				else if(txtLotSize.getText().matches("[0-9]*")) { 
@@ -750,9 +762,9 @@ public class OrderController {
 				}
 				else{
 					txtLotSize.getStyleClass().add("label_error");
-					txtLotSize.setText("");
+					txtLotSize.setText(String.valueOf(mainMenu.getSetup().defaultLotSizeProperty().get()));
 					txt_errorMessage.setVisible(true);
-					txt_errorMessage.setText(errorText);
+					txt_errorMessage.setText("Please insert Integer Numbers in Field Lot Size.");
 				} 
 			}
 		else{}

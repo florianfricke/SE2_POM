@@ -19,7 +19,14 @@ public class PomDbService implements IPomDbService {
 	public PomDbService(){
 		openConnection();
 	}
+	/**
+	 * Inserts a Customer into the Database and all related Address-, Contact- or Bank account data
 
+	 * @param cust - Instance of type Customer
+	 * @return boolean for success or failure
+	 * @author Markus Höfgen
+	 * @version 1.0
+	 */
 	@Override
 	public boolean addCustomer(Customer cust) {
 		String sql = "";
@@ -105,7 +112,14 @@ public class PomDbService implements IPomDbService {
 		}
 		return false;
 	}
-	
+	/**
+	 * Updates a Customer and all Address-, Contact-, or Bancaccount data in the Database if data was chaged.
+	 * The function also handles added or deleted Addresses, Contacts or Bankaccounts.
+	 * @param cust - Instance of type Customer
+	 * @return boolean for success or failure
+	 * @author Markus Höfgen
+	 * @version 1.0
+	 */
 	@Override
 	public boolean updateCustomer(Customer cust) { 
 		String sql = "";
@@ -258,7 +272,11 @@ public class PomDbService implements IPomDbService {
 		}
 		return false;
 	}
-	
+	/**
+	 * Returns a List of all Customers in Database without the related Addresses, Contacts, Bankaccounts
+	 * @return List of Customers
+	 * @version 1.0
+	 */
 	@Override
 	public List<Customer> getCustomerList(){
 		List<Customer> custList = new ArrayList<Customer>();
@@ -290,9 +308,6 @@ public class PomDbService implements IPomDbService {
 		}catch(Exception e){
 			Platform.exit();
 			System.exit(0);
-			//ErrorLog.write(e);
-			//System.err.println(e.getClass().getName()+": "+e.getMessage()); // Konsolenausgabe
-
 		}
 		return false;
 	}
@@ -302,22 +317,28 @@ public class PomDbService implements IPomDbService {
 			System.out.println("Datenbankverbindung geschlossen.");
 		}catch(Exception e){
 			ErrorLog.write(e);
-			System.err.println(e.getClass().getName()+": "+e.getMessage()); // Ausgabe auf Konstole?!
+			System.err.println(e.getClass().getName()+": "+e.getMessage());
 		}
 	}
 	protected void finalize() 
 	  {
 		closeDbConn();
 	  }
-
+	
+	/**
+	 * Deletes a Customer from the Database and all related Address-, Contact- or Bank account data
+	 * @version 1.0
+	 * @param id - (String) Id of the Customer
+	 * @return boolean for success or failure
+	 * @author Markus Höfgen
+	 */
 	@Override
-	public boolean deleteCustomer(String id) { // wird die funktion hier quasi als oberfunktion genommen in der adresse, contact... gelÃ¶scht werden kann was in der geprÃ¼ft wird?
+	public boolean deleteCustomer(String id) { 
 		PreparedStatement stmt = null;
 		String sql = "";
 		for (Order order : getOrderList()) {
 			if (order.customeridProperty().get().equals(id)){
 				System.out.println("There already existing Orders for Customer " +id);
-				//TODO show Dialog, in MainController
 				return false;
 			}
 		}
@@ -327,7 +348,7 @@ public class PomDbService implements IPomDbService {
 		try {
 			if(!delAddressList.isEmpty()){
 				for (@SuppressWarnings("unused") Address delAddrr : delAddressList) {
-					sql = "DELETE FROM pom.address WHERE customerid = ?"; // add WHERE customerID, if custID later gets PK
+					sql = "DELETE FROM pom.address WHERE customerid = ?";
 			    	stmt = this.con.prepareStatement(sql);
 					stmt.setString(1, id);
 			    	stmt.executeUpdate();
@@ -677,7 +698,12 @@ public class PomDbService implements IPomDbService {
 		}
 		return false;
 	}
-
+	/**
+	 * Returns a Customer from the Database with all related Addresses, Contacts, Bankaccounts
+	 * @return List of Customers
+	 * @author Markus Höfgen
+	 * @version 1.0
+	 */
 	public Customer getCustomer(String customerId){
 		Customer customerToReturn = new Customer();
 		PreparedStatement stmt = null;
@@ -699,6 +725,13 @@ public class PomDbService implements IPomDbService {
 		
 		return customerToReturn;
 	}
+	
+	/**
+	 * Checks if a Setup Dataset has already been created   
+	 * @version 1.0
+	 * @return boolean - true if Setup existing, false if not
+	 * @author Markus Höfgen
+	 */
 	public boolean hasSetup(){
 		PreparedStatement stmt = null;
 		try {
@@ -716,6 +749,13 @@ public class PomDbService implements IPomDbService {
 		}
 		return false;
 	}
+	
+	/**
+	 * Returns a Setup Object 
+	 * @version 1.0
+	 * @return Setup - Instance of type Setup
+	 * @author Markus Höfgen
+	 */
 	public Setup getSetup()
 	{
 		PreparedStatement stmt = null;
@@ -736,6 +776,14 @@ public class PomDbService implements IPomDbService {
 		}
 		return setup;
 	}
+	
+	/**
+	 * Inserts or Updates a new or existing Setup Dataset
+	 * @version 1.0
+	 * @param setup - Instance of type Setup
+	 * @return boolean for success or failure 
+	 * @author Markus Höfgen
+	 */
 	public boolean upsertSetup(Setup setup)
 	{
 		PreparedStatement stmt = null;
@@ -758,9 +806,9 @@ public class PomDbService implements IPomDbService {
 	}
 	
 	/**
-	 * TODO: Markus? ist das sauber genug, wenn ich die Spalte auf der Serviceschicht hierher ï¿½bergebe? MH: Ja passt schon
+	 * Checks whether an Address ID or a Contact ID is referenced from any Order
 	 * @param id to check
-	 * @param column to check
+	 * @param column - Name of the Order Column in Database Table order
 	 * @return checks, if a specific foreign key is inserted in order table
 	 */
 	@Override

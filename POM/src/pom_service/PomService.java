@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.sun.corba.se.impl.protocol.InfoOnlyServantCacheLocalCRDImpl;
+
 import mes_db_interface.*;
 import pom_db_interface.*;
 import psql_mes_db.MesDbService;
@@ -46,27 +48,53 @@ public class PomService {
 			break; // prepared for further Persistence Implementation
 		}
 	}
-	
+	/**
+	 * Returns a Setup Object 
+	 * @version 1.0
+	 * @return Setup - Instance of type Setup
+	 * @author Markus Höfgen
+	 */
 	public Setup getSetup(){
 		return setup;
 	}
-	
+	/**
+	 * Inserts or Updates a new or existing Setup Dataset
+	 * @version 1.0
+	 * @param setup - Instance of type Setup
+	 * @return boolean for success or failure 
+	 * @author Markus Höfgen
+	 */
 	public boolean upsertSetup(){
 		return pomPersistance.upsertSetup(this.setup);
 	}
 
 	// Customer Methods
+	/**
+	 * Inserts a Customer into the Database and all related Address-, Contact- or Bank account data
+	 * @version 1.0
+	 * @param cust - Instance of type Customer
+	 * @return boolean for success or failure
+	 * @author Markus Höfgen
+	 */
 	public boolean addCustomer(Customer cust) {
 		return pomPersistance.addCustomer(cust);
 	}
-
+	
+	/**
+	 * Updates a Customer and all Address-, Contact-, or Bancaccount data in the Database if data was chaged.
+	 * The function also handles added or deleted Addresses, Contacts or Bankaccounts.
+	 * @version 1.0
+	 * @param cust - Instance of type Customer
+	 * @return boolean for success or failure
+	 * @author Markus Höfgen
+	 */
 	public boolean updateCustomer(Customer cust) {
 		if (pomPersistance.updateCustomer(cust)) {
 			return true;
 		}
 		return false;
 	}
-
+	
 	public List<Address> getAddressList(String custId) {
 		return pomPersistance.getAddressList(custId);
 	}
@@ -145,11 +173,20 @@ public class PomService {
 		
 		return updateOrder(order);
 	}
-
+	/**
+	 * Returns a Customer from the Database with all related Addresses, Contacts, Bankaccounts
+	 * @return List of Customers
+	 * @author Markus Höfgen
+	 * @version 1.0
+	 */
 	public Customer getCustomer(String customerId) {
 		return pomPersistance.getCustomer(customerId);
 	}
-
+	/**
+	 * Returns a List of all Customers in Database without the related Addresses, Contacts, Bankaccounts
+	 * @return List of Customers
+	 * @version 1.0
+	 */
 	public List<Customer> getCustomerList() {
 		return pomPersistance.getCustomerList();
 	}
@@ -165,7 +202,13 @@ public class PomService {
 	public List<Order> getCustomerOrderHistory(String customerID) {
 		return pomPersistance.getCustomerOrderHistory(customerID);
 	}
-
+	/**
+	 * Deletes a Customer from the Database and all related Address-, Contact- or Bank account data
+	 * @version 1.0
+	 * @param id - (String) Id of the Customer
+	 * @return boolean for success or failure
+	 * @author Markus Höfgen
+	 */
 	public boolean deleteCustomer(String id) {
 		return pomPersistance.deleteCustomer(id);
 	}
@@ -179,11 +222,24 @@ public class PomService {
 	}
 
 	// MES Methods
-
+	/**
+	 * Returns a List of all Lots of an Order 
+	 * @return List<Lot> List of Lots
+	 * @param OrderNo Order No. of the Order the Lots are related to
+	 * @author Markus Höfgen
+	 * @version 1.0
+	 */
 	public List<Lot> getLotList(String OrderNo) {
 		return mesPersistance.getLotList(OrderNo);
 	}
-
+	/**
+	 * Updates Fields Priority, Volume, DueDate of all lots of a certain order.
+	 * If Volume has been increased, new Lots will be inserted by consideration of Day Capacity. 
+	 * @see #insertLotDayBalanced
+	 * @return boolean for success or failure
+	 * @author Markus Höfgen
+	 * @version 1.0
+	 */
 	public boolean updateLots(Order order) {
 		boolean succes = false;
 		// new higher Volume - old Volume from initialize => Volume to insert in Lot Table
@@ -257,6 +313,14 @@ public class PomService {
 		return success;
 	}
 	
+	/**
+	 * Returns a List of all Routes the given Product has to run through
+	 * @return List of Route
+	 * @param orderno Order No. of the Order the Lots are related to
+	 * @param product which is added to Order
+	 * @author Markus Höfgen
+	 * @version 1.0
+	 */
 	public List<Route> getRouteList(String orderno,String product){
 		return mesPersistance.getRouteList(orderno, product);
 	}
@@ -269,7 +333,7 @@ public class PomService {
 	 */
 	public boolean isDueDateViable(Order order)
 	{
-		return mesPersistance.getLatestStartDate(order.ordernoProperty().get()).isAfter(order.getDueDate());
+		return !mesPersistance.getLatestStartDate(order.ordernoProperty().get()).isAfter(order.getDueDate());
 	}
 
 
