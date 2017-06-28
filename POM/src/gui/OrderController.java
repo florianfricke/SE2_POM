@@ -46,6 +46,7 @@ public class OrderController {
 	private OrderLotChanges changeValues;
 	private Order tmpOrder;
 	private Stage currentStage;
+	private Boolean newOrder = false;
     @FXML private TextField txt_Id;
     @FXML private TextField txt_orderDate;
     @FXML private TextField txt_releaseDate;
@@ -109,6 +110,7 @@ public class OrderController {
 	public void init(MainMenu mainMenu, Stage stage) {
         this.mainMenu = mainMenu;
         this.order = new Order();
+        newOrder = true;
         this.currentStage = stage;
         changeValues = new OrderLotChanges(order.getOrderLotChanges());
         order.lotSizeProperty().set(mainMenu.getSetup().defaultLotSizeProperty().get());
@@ -607,6 +609,12 @@ public class OrderController {
 	private void createEventHandler(){
 		currentStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 	    	public void handle(WindowEvent we) {
+	    		if(newOrder){
+					txt_errorMessage.setVisible(true);
+					txt_errorMessage.setText("Please Save Order.");
+					we.consume();
+					return;
+				}
 	    		if(ConfirmBox.display("Confirmation Dialog", "Changes will be lost! Do you really want to close?") == false){
 	    			we.consume();
 	    		}else{
