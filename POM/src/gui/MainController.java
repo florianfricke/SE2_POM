@@ -77,6 +77,15 @@ public class MainController{
     //MouseClick on Row and open Customer Card
     @FXML private void handleRowClickCust(MouseEvent click) {
     	if(click.getClickCount() != 2) return; //just Double Click
+    	if(customerTable.getSelectionModel().getSelectedItem() == null){
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("Select Customer!");
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
+        	alert.show();
+        	return;
+    	}
         System.out.println("clicked on Customer: " + (customerTable.getSelectionModel().getSelectedItem()).idProperty().get());
         Customer cust = customerTable.getSelectionModel().getSelectedItem();
         try {
@@ -308,10 +317,10 @@ public class MainController{
     	}
     	
     	if(orderTable.getSelectionModel().getSelectedItem().stateProperty().get().equals(State.IN_PROCESS.toString())){
-    		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel: order " +orderTable.getSelectionModel().getSelectedItem().ordernoProperty().get().toString()) == true){
-        		System.out.println("Cancel");
-    		if (mainMenu.cancelOrder(orderTable.getSelectionModel().getSelectedItem())){
-    			// delete if true
+    		if (orderTable.getSelectionModel().getSelectedItem() != null){
+    			if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel: order " +orderTable.getSelectionModel().getSelectedItem().ordernoProperty().get().toString()) == true){
+        			mainMenu.cancelOrder(orderTable.getSelectionModel().getSelectedItem());
+    			}
     			orderTable.refresh();
     		}
     		else {
@@ -323,9 +332,8 @@ public class MainController{
             	alert.show();
             	return;
     		}
-    		}
     	
-    		mainMenu.cancelOrder(orderTable.getSelectionModel().getSelectedItem());
+
     	}else {
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
@@ -352,14 +360,12 @@ public class MainController{
     	
     	if(orderTable.getSelectionModel().getSelectedItem().stateProperty().get().equals(State.COMPLETED.toString())){
     		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to finish: order " +orderTable.getSelectionModel().getSelectedItem().ordernoProperty().get().toString()) == true){
-        		System.out.println("Finish Order");
-    		if (mainMenu.finishOrder(orderTable.getSelectionModel().getSelectedItem())){
-    			// delete if true
-    			orderTable.refresh();
+	    		if (orderTable.getSelectionModel().getSelectedItem() != null){
+	    			mainMenu.finishOrder(orderTable.getSelectionModel().getSelectedItem());
+	    			orderTable.refresh();
+	    		}
     		}
-    		}
-    	
-    		mainMenu.finishOrder(orderTable.getSelectionModel().getSelectedItem());
+    		
     	}else {
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notificaion");
@@ -377,7 +383,16 @@ public class MainController{
     
     @FXML private void handleRowClickOrder(MouseEvent click) {
     	if(click.getClickCount() != 2) return; //just Double Click
-        System.out.println("clicked on Order: " + (orderTable.getSelectionModel().getSelectedItem()).ordernoProperty().get());
+    	if(orderTable.getSelectionModel().getSelectedItem() == null){
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notificaion");
+        	alert.setHeaderText("Select Order!");
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
+        	alert.show();
+        	return;
+    	}
+    	System.out.println("clicked on Order: " + (orderTable.getSelectionModel().getSelectedItem()).ordernoProperty().get());
         Order order = orderTable.getSelectionModel().getSelectedItem();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -526,6 +541,9 @@ public class MainController{
         });
         SortedList<Customer> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(customerTable.comparatorProperty());
+        customerId.setSortType(TableColumn.SortType.ASCENDING);
+        customerTable.getSortOrder().setAll(customerId);
+        customerTable.sort();
         customerTable.setItems(sortedData);
     }
     
@@ -608,7 +626,16 @@ public class MainController{
         });
         SortedList<Order> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(orderTable.comparatorProperty());
+        orderId.setSortType(TableColumn.SortType.ASCENDING);
+        orderTable.getSortOrder().setAll(orderId);
+        orderTable.sort();
         orderTable.setItems(sortedData);
+        orderTable.comparatorProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) {
+            	orderTable.getSortOrder().setAll(orderId);
+            	  orderId.setSortType(TableColumn.SortType.ASCENDING);
+            }
+          });
     }
     
     public void loadSetupPage(){
