@@ -17,6 +17,11 @@ public class MesDbService implements IMesDBService {
 	public MesDbService(){
 		openConnection();
 	}
+	/**
+	 * 
+	 * @param con builds the connection 
+	 * @return true if the connection is opened successfully
+	 */
 	private boolean openConnection(){
 		try{
 			//String connectionLine = OpenConnectionFile.readFile();
@@ -33,6 +38,9 @@ public class MesDbService implements IMesDBService {
 		System.out.println("Erfolgreich verbunden!");
 		return false;
 	}
+	/**
+	 * @return true if connection is closed successfully
+	 */
 	public void closeDbConn(){
 		try{
 			this.con.close();
@@ -46,7 +54,10 @@ public class MesDbService implements IMesDBService {
 	  {
 		closeDbConn();
 	  }
-	
+	/**
+	 * @param orderNo the customer you want to get the lots from
+	 * @return a list of lots for a customer
+	 */
 	@Override
 	public List<Lot> getLotList(String orderNo) {
 		List<Lot> lotList = new ArrayList<Lot>();
@@ -68,6 +79,11 @@ public class MesDbService implements IMesDBService {
 		}
 		return lotList;
 	}
+	/**
+	 * @return true if the lots were updated correctly
+	 * @param stmt the SQL statement 
+	 * @param order the order you want to update the lots on
+	 */
 	@Override
 	public boolean updateLots(Order order) {
 		String sql = "";
@@ -86,7 +102,10 @@ public class MesDbService implements IMesDBService {
 		}
 		return false;
 	}
-	
+	/**
+	 * @return true if Lots were canceled correctly
+	 * @param orderno the order number you want to cancel the lots from 
+	 */
 	@Override
 	public boolean cancelLots(String orderno) {
 		String sql = "";
@@ -103,8 +122,10 @@ public class MesDbService implements IMesDBService {
 		}
 		return false;
 	}
-	
-	
+	/**
+	 * @param orderNo the order you want to know the number of lots from
+	 * @return the number of lots for a order 
+	 */
 	public int getLotCount(String orderNo){
 		String sql = "";
 		PreparedStatement stmt = null;
@@ -126,7 +147,7 @@ public class MesDbService implements IMesDBService {
 	
 	/**
 	 *
-	 * @param orderNo
+	 * @param orderNo the order you want to get the information from
 	 * @return count of lots, which are not in state 'RDY'
 	 */
 	@Override
@@ -152,8 +173,8 @@ public class MesDbService implements IMesDBService {
 
 	/**
 	 * 
-	 * @param orderno
-	 * @return
+	 * @param orderNo the order you want to get the information from
+	 * @return the latest start date of a lot from a order
 	 */
 	@Override
 	public LocalDate getLatestStartDate(String orderno)
@@ -174,7 +195,9 @@ public class MesDbService implements IMesDBService {
 		}
 		return result;
 	}
-	
+	/**
+	 * 
+	 */
 	@Override
 	public int getDayWorkload(java.util.Date date) {
 		PreparedStatement stmt = null;
@@ -193,7 +216,10 @@ public class MesDbService implements IMesDBService {
 		}
 		return workload;
 	}
-	
+	/**
+	 * @param lot the lot you want to add
+	 * @return true if the lot was added successfully
+	 */
 	@Override
 	public boolean addLot(Lot lot) {
 		String sql = "";
@@ -224,7 +250,10 @@ public class MesDbService implements IMesDBService {
 		}
 		return false;
 	}
-	
+	/**
+	 * @return 
+	 * @param product
+	 */
 	public String getRoute(String product){
 		String sql = "";
 		PreparedStatement stmt = null;
@@ -241,7 +270,11 @@ public class MesDbService implements IMesDBService {
 		}
 		return "";
 	}
-	
+	/**
+	 * 
+	 * @param route
+	 * @return
+	 */
 	public String getOper(String route){
 		String sql = "";
 		PreparedStatement stmt = null;
@@ -258,6 +291,10 @@ public class MesDbService implements IMesDBService {
 		}
 		return "";
 	}
+	/**
+	 * @return all products from the table prodflow
+	 * 
+	 */
 	@Override
 	public List<String> getProductList() {
 		String sql = "";
@@ -277,6 +314,11 @@ public class MesDbService implements IMesDBService {
 		}
 		return productList;
 	}
+	/**
+	 * @return 
+	 * @param orderno
+	 * @param product
+	 */
 	public List<Route> getRouteList(String orderno,String product){
 		String sql = "";
 		List<Route> routeList = new ArrayList<>();
@@ -311,7 +353,12 @@ public class MesDbService implements IMesDBService {
 		 
 		 */
 	}
-	
+	/**
+	 * 
+	 * @param orderno
+	 * @param route
+	 * @return
+	 */
 	public List<Operation> getOperationList(String orderno,String route){
 		String sql = "";
 		List<Operation> operList = new ArrayList<>();

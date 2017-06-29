@@ -24,7 +24,7 @@ public class PomDbService implements IPomDbService {
 
 	 * @param cust - Instance of type Customer
 	 * @return boolean for success or failure
-	 * @author Markus Höfgen
+	 * @author Markus Hï¿½fgen
 	 * @version 1.0
 	 */
 	@Override
@@ -117,7 +117,7 @@ public class PomDbService implements IPomDbService {
 	 * The function also handles added or deleted Addresses, Contacts or Bankaccounts.
 	 * @param cust - Instance of type Customer
 	 * @return boolean for success or failure
-	 * @author Markus Höfgen
+	 * @author Markus Hï¿½fgen
 	 * @version 1.0
 	 */
 	@Override
@@ -275,6 +275,7 @@ public class PomDbService implements IPomDbService {
 	/**
 	 * Returns a List of all Customers in Database without the related Addresses, Contacts, Bankaccounts
 	 * @return List of Customers
+	 * @param stmt the SQL statement to get all lines from the table Customer
 	 * @version 1.0
 	 */
 	@Override
@@ -296,8 +297,10 @@ public class PomDbService implements IPomDbService {
 		}
 		return custList;
 	}
-
-	
+/**
+ * 
+ * @return if the connection opened successfully
+ */
 	private boolean openConnection(){
 		try{
 			 Class.forName("org.postgresql.Driver");
@@ -330,7 +333,7 @@ public class PomDbService implements IPomDbService {
 	 * @version 1.0
 	 * @param id - (String) Id of the Customer
 	 * @return boolean for success or failure
-	 * @author Markus Höfgen
+	 * @author Markus Hï¿½fgen
 	 */
 	@Override
 	public boolean deleteCustomer(String id) { 
@@ -391,7 +394,8 @@ public class PomDbService implements IPomDbService {
 
 	/**
 	 * @returns List of all addresses of a Customer 
-	 * 
+	 * @param stmt the SQL statement
+	 * @param custId the customer u want to get the address from
 	 */
 	public List<Address> getAddressList(String custId){
 		List<Address> addressList = new ArrayList<Address>();
@@ -415,6 +419,8 @@ public class PomDbService implements IPomDbService {
 	}
 	/**
 	 * @returns List of all contacts of a Customer 
+	 * @param stmt the SQL statement
+	 * @param custId the customer you want to get the contact details from
 	 * 
 	 */
 	public List<Contact> getContactList(String custId){
@@ -439,6 +445,8 @@ public class PomDbService implements IPomDbService {
 	}
 	/**
 	 * @returns List of all bank accounts of a Customer 
+	 * @param stmt the SQL statement
+	 * @param custId the customer you want to get the bank accounts from
 	 * 
 	 */
 	public List<BankAccount> getBankAccountList(String custId){
@@ -463,6 +471,8 @@ public class PomDbService implements IPomDbService {
 	}
 	/**
 	 * @returns List of all orders of a Customer 
+	 * @param stmt the SQL statement
+	 * @param rs the param how holds SQL answer
 	 * 
 	 */
 	
@@ -502,7 +512,12 @@ public class PomDbService implements IPomDbService {
 		}
 		return orderList;
 	}	
-	
+	/**
+	 * 
+	 * @param rs the param how holds the SQL answer  
+	 * @param columnName 
+	 * @return
+	 */
 	private LocalDate getNullDate(ResultSet rs, String columnName){
 		try {
 			if(rs.getDate(columnName) == null){
@@ -516,7 +531,12 @@ public class PomDbService implements IPomDbService {
 			return emptyDate;
 		}
 	}
-
+/**
+ * 
+ * @param stmt
+ * @param index
+ * @param d
+ */
 	private void setNullDate(PreparedStatement stmt, int index, LocalDate d){
 		try{
 			if(d == null){
@@ -528,7 +548,11 @@ public class PomDbService implements IPomDbService {
 			ErrorLog.write(e);
 		}
 	}
-	
+	/**
+	 * @return The order list of a customer
+	 * @param stmt the SQL statement
+	 * @param customerID the customer you want to get the order list from
+	 */
 	public List<Order> getCustomerOrder(String customerID){
 		List<Order> orderList = new ArrayList<Order>();
 			
@@ -566,7 +590,11 @@ public class PomDbService implements IPomDbService {
 			}
 			return orderList;
 	}
-	
+	/**
+	 * @return The historic order list of a customer
+	 * @param stmt the SQL statement
+	 * @param custId the customer you want to get the historic order list from
+	 */
 	public List<Order> getCustomerOrderHistory(String customerID){
 		List<Order> orderList = new ArrayList<Order>();
 			
@@ -606,7 +634,9 @@ public class PomDbService implements IPomDbService {
 	}
 	/**
 	 * Stores an Order Object on Database
-	 * @returns true on success
+	 * @param stmt the SQL statement
+	 * @param order you want to add 
+	 * @return true if order is added
 	 */
 	@Override
 	public boolean addOrder(Order order) {
@@ -646,7 +676,11 @@ public class PomDbService implements IPomDbService {
 		return false;
 	}
 	
-
+/**
+ * @return true if order was updated correctly 
+ * @param stmt the SQL statement
+ * @param order order you want to update
+ */
 	public boolean updateOrder(Order order) {
 		PreparedStatement stmt = null;
 		try {	
@@ -680,8 +714,8 @@ public class PomDbService implements IPomDbService {
 	
 	/**
 	 * Deletes an Order Object from database by orderno
-	 * @param id of order tuple
-	 * @returns true on success
+	 * @param orderno id of order tuple
+	 * @returns true if order was deleted succesfully
 	 */
 	@Override 
 	public boolean deleteOrder(String orderno) {
@@ -701,7 +735,7 @@ public class PomDbService implements IPomDbService {
 	/**
 	 * Returns a Customer from the Database with all related Addresses, Contacts, Bankaccounts
 	 * @return List of Customers
-	 * @author Markus Höfgen
+	 * @author Markus Hï¿½fgen
 	 * @version 1.0
 	 */
 	public Customer getCustomer(String customerId){
@@ -730,7 +764,7 @@ public class PomDbService implements IPomDbService {
 	 * Checks if a Setup Dataset has already been created   
 	 * @version 1.0
 	 * @return boolean - true if Setup existing, false if not
-	 * @author Markus Höfgen
+	 * @author Markus Hï¿½fgen
 	 */
 	public boolean hasSetup(){
 		PreparedStatement stmt = null;
@@ -754,7 +788,7 @@ public class PomDbService implements IPomDbService {
 	 * Returns a Setup Object 
 	 * @version 1.0
 	 * @return Setup - Instance of type Setup
-	 * @author Markus Höfgen
+	 * @author Markus Hï¿½fgen
 	 */
 	public Setup getSetup()
 	{
@@ -782,7 +816,7 @@ public class PomDbService implements IPomDbService {
 	 * @version 1.0
 	 * @param setup - Instance of type Setup
 	 * @return boolean for success or failure 
-	 * @author Markus Höfgen
+	 * @author Markus Hï¿½fgen
 	 */
 	public boolean upsertSetup(Setup setup)
 	{

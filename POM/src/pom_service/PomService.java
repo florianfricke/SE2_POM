@@ -52,7 +52,6 @@ public class PomService {
 	 * Returns a Setup Object 
 	 * @version 1.0
 	 * @return Setup - Instance of type Setup
-	 * @author Markus Höfgen
 	 */
 	public Setup getSetup(){
 		return setup;
@@ -62,7 +61,6 @@ public class PomService {
 	 * @version 1.0
 	 * @param setup - Instance of type Setup
 	 * @return boolean for success or failure 
-	 * @author Markus Höfgen
 	 */
 	public boolean upsertSetup(){
 		return pomPersistance.upsertSetup(this.setup);
@@ -74,7 +72,6 @@ public class PomService {
 	 * @version 1.0
 	 * @param cust - Instance of type Customer
 	 * @return boolean for success or failure
-	 * @author Markus Höfgen
 	 */
 	public boolean addCustomer(Customer cust) {
 		return pomPersistance.addCustomer(cust);
@@ -86,7 +83,6 @@ public class PomService {
 	 * @version 1.0
 	 * @param cust - Instance of type Customer
 	 * @return boolean for success or failure
-	 * @author Markus Höfgen
 	 */
 	public boolean updateCustomer(Customer cust) {
 		if (pomPersistance.updateCustomer(cust)) {
@@ -176,7 +172,6 @@ public class PomService {
 	/**
 	 * Returns a Customer from the Database with all related Addresses, Contacts, Bankaccounts
 	 * @return List of Customers
-	 * @author Markus Höfgen
 	 * @version 1.0
 	 */
 	public Customer getCustomer(String customerId) {
@@ -207,7 +202,6 @@ public class PomService {
 	 * @version 1.0
 	 * @param id - (String) Id of the Customer
 	 * @return boolean for success or failure
-	 * @author Markus Höfgen
 	 */
 	public boolean deleteCustomer(String id) {
 		return pomPersistance.deleteCustomer(id);
@@ -226,7 +220,6 @@ public class PomService {
 	 * Returns a List of all Lots of an Order 
 	 * @return List<Lot> List of Lots
 	 * @param OrderNo Order No. of the Order the Lots are related to
-	 * @author Markus Höfgen
 	 * @version 1.0
 	 */
 	public List<Lot> getLotList(String OrderNo) {
@@ -237,7 +230,6 @@ public class PomService {
 	 * If Volume has been increased, new Lots will be inserted by consideration of Day Capacity. 
 	 * @see #insertLotDayBalanced
 	 * @return boolean for success or failure
-	 * @author Markus Höfgen
 	 * @version 1.0
 	 */
 	public boolean updateLots(Order order) {
@@ -318,7 +310,6 @@ public class PomService {
 	 * @return List of Route
 	 * @param orderno Order No. of the Order the Lots are related to
 	 * @param product which is added to Order
-	 * @author Markus Höfgen
 	 * @version 1.0
 	 */
 	public List<Route> getRouteList(String orderno,String product){
