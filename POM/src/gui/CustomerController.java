@@ -80,7 +80,6 @@ public class CustomerController {
 	 * @version 1.0
 	 * @param mainMenu, Stage 
 	 * @return Nothing
-	 * @author Georg Maurer
 	 */
 	public void init(MainMenu mainMenu, Stage stage) {
         this.mainMenu = mainMenu;
@@ -97,7 +96,6 @@ public class CustomerController {
 	 * 
 	 * @version 1.0
 	 * @param MainMenu, Customer, Stage 
-	 * @author Georg Maurer
 	 */
 	public void init(MainMenu mainMenu, Customer cust, Stage stage) {
         this.mainMenu = mainMenu;
@@ -111,7 +109,6 @@ public class CustomerController {
 	 * Create bindings for TextFields, ComboBox, Address Table, Contact Table, Bank Table for the customer and set values.
 	 * 
 	 * @version 1.0
-	 * @author Georg Maurer
 	 */	
 	private void setTextFields(){
 		tmpCustomer = new Customer(cust);
@@ -198,7 +195,6 @@ public class CustomerController {
 	 * @version 1.0
 	 * @param String - which check
 	 * @return false - if not all fields are filled, true - if all fields are filled
-	 * @author Georg Maurer
 	 */	
 	private boolean fillFields(String action){
 				
@@ -254,7 +250,6 @@ public class CustomerController {
 	 * @version 1.0
 	 *
 	 * @return false - if error is set, true - if no error is set
-	 * @author Georg Maurer
 	 */
 	public boolean writeErrorMessage(){
 		String error= "";
@@ -302,7 +297,6 @@ public class CustomerController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
 	 */	
 	@FXML private void handleShowCurrentOrder(ActionEvent event) {       
 		List<Order> currentOrders = mainMenu.getCustomerOrder(cust.idProperty().get()).stream().filter(p -> p.stateProperty().get() == State.PLANNED.name() || p.stateProperty().get() == State.IN_PROCESS.name() || p.stateProperty().get() == State.COMPLETED.name()).collect(Collectors.toList());
@@ -343,7 +337,6 @@ public class CustomerController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
 	 */	    
 	@FXML private void handleShowOrderHistory(ActionEvent event) {
 		List<Order> historyOrders = mainMenu.getCustomerOrderHistory(cust.idProperty().get()).stream().filter(p -> p.stateProperty().get() == State.FINISHED_IN_TIME.name() || p.stateProperty().get() == State.FINISHED_DELAY.name() || p.stateProperty().get() == State.CANCELED.name()).collect(Collectors.toList());
@@ -384,7 +377,6 @@ public class CustomerController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
 	 */	    
 	@FXML private void handleNewAddress(ActionEvent event) {
     	this.cust.getAddressList().add(new Address());
@@ -396,7 +388,6 @@ public class CustomerController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
 	 */	  
 	@FXML private void handleNewContact(ActionEvent event) {
     	this.cust.getContactList().add(new Contact());
@@ -408,7 +399,6 @@ public class CustomerController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
 	 */	 
 	@FXML private void handleNewBank(ActionEvent event) {
     	this.cust.getBankAccountList().add(new BankAccount());
@@ -421,7 +411,6 @@ public class CustomerController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
 	 */	 
 	@FXML private void handleDelAddress(ActionEvent event) {
 		
@@ -446,7 +435,6 @@ public class CustomerController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
 	 */	 
 	@FXML private void handleDelContact(ActionEvent event) {
 		
@@ -472,7 +460,6 @@ public class CustomerController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
 	 */	 
 	@FXML private void handleDelBank(ActionEvent event) {
 
@@ -488,7 +475,6 @@ public class CustomerController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
 	 */	 
 	@FXML private void handleSave(ActionEvent event) {
 		if(fillFields("save")==false){
@@ -511,7 +497,6 @@ public class CustomerController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
 	 */	 
 	@FXML private void handleCancel(ActionEvent event) {
 		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel?") == true){ 
@@ -529,7 +514,6 @@ public class CustomerController {
 	 * Set listeners to the Textfields, Combobox, Tables in Customer Card
 	 * 
 	 * @version 1.0
-	 * @author Georg Maurer
 	 */
 	private void createEventHandler(){
 		currentStage.setOnCloseRequest(new EventHandler<WindowEvent>() {

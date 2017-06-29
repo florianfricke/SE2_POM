@@ -115,7 +115,6 @@ public class OrderController {
 	 * @version 1.0
 	 * @param mainMenu, Stage 
 	 * @return Nothing
-	 * @author Georg Maurer
 	 */
 	public void init(MainMenu mainMenu, Stage stage) {
         this.mainMenu = mainMenu;
@@ -135,7 +134,6 @@ public class OrderController {
 	 * 
 	 * @version 1.0
 	 * @param MainMenu, Order, Stage 
-	 * @author Georg Maurer
 	 */
 	public void init(MainMenu mainMenu, Order order, Stage stage) {
         this.mainMenu = mainMenu;
@@ -152,7 +150,6 @@ public class OrderController {
 	 * Disable fields in ordercard depending on State
 	 * 
 	 * @version 1.0
-	 * @author Georg Maurer
 	 */
 	private void disableFields(){
         if(order.stateProperty().get().equals(State.PLANNED.name())){
@@ -187,7 +184,6 @@ public class OrderController {
 	 * Set TextFields, ComboBoxes, Datepicker and create the bindings to the order object.
 	 * 
 	 * @version 1.0
-	 * @author Georg Maurer
 	 */
 	private void setTextFields(){
 		tmpOrder = new Order(order);
@@ -317,7 +313,6 @@ public class OrderController {
 	 * @version 1.0
 	 * @param String - which check
 	 * @return false - if not all fields are filled, true - if all fields are filled
-	 * @author Georg Maurer
 	 */
 	
 	private boolean checkFieldsFilled(String action){
@@ -371,8 +366,7 @@ public class OrderController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
-	 */	
+	 * 	 */	
 	@FXML private void handleSave(ActionEvent e) {
 		//Set ComboBoxes
 		if(checkFieldsFilled("save")){
@@ -403,7 +397,6 @@ public class OrderController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
 	 */	
 	@FXML private void handleCancel(ActionEvent event) {
 		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel?") == true){
@@ -430,7 +423,6 @@ public class OrderController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
 	 */	
 	@FXML private void handleRelease(ActionEvent event) {
     	System.out.println("Release Order"); 
@@ -477,7 +469,6 @@ public class OrderController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
 	 */	
 	@FXML private void handleUpdate(ActionEvent event) {
     	System.out.println("Update MES Lots");
@@ -519,7 +510,6 @@ public class OrderController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
 	 */	
 	@FXML private void handleCancelOrder(ActionEvent event){
     	if(order.stateProperty().get().equals(State.IN_PROCESS.toString())){
@@ -559,7 +549,6 @@ public class OrderController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
 	 */	
 	@FXML private void handleFinishOrder(ActionEvent event){
     	if(order.stateProperty().get().equals(State.COMPLETED.toString())){
@@ -593,7 +582,6 @@ public class OrderController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
 	 */	
 	@FXML private void handleTree(ActionEvent event) {
 		 System.out.println("Production Flow");
@@ -621,7 +609,6 @@ public class OrderController {
 	 * 
 	 * @version 1.0
 	 * @param Clickevent
-	 * @author Georg Maurer
 	 */
 	private void closeWindow(ActionEvent e){
     	final Node currStage = (Node)e.getSource();
@@ -635,7 +622,6 @@ public class OrderController {
 	 * @version 1.0
 	 *
 	 * @return false - if error is set, true - if no error is set
-	 * @author Georg Maurer
 	 */
 	public boolean createErrorMessage(){
 		String error = "";
@@ -686,7 +672,6 @@ public class OrderController {
 	 * Get the dates for datepickers and set the values
 	 * 
 	 * @version 1.0
-	 * @author Georg Maurer
 	 */
 	private void getDateFields(){
 		dpkDeliveryDate.setValue(this.order.getActualDeliveryDate());
@@ -698,7 +683,6 @@ public class OrderController {
 	 * Disable date cells in datepicker depending on datepicker and actual date 
 	 * 
 	 * @version 1.0
-	 * @author Georg Maurer
 	 */
 	private void createDateCells(){
 		//New DateCell to disable DateValues before Order Date
@@ -754,7 +738,6 @@ public class OrderController {
 	 * Set listeners to the Textfields, Comboboxes, Datepickers
 	 * 
 	 * @version 1.0
-	 * @author Georg Maurer
 	 */
 	private void createEventHandler(){
 		currentStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
