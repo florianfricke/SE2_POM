@@ -74,7 +74,13 @@ public class MainController{
         this.mainMenu = mainMenu;
     }
     
-    //MouseClick on Row and open Customer Card
+    
+	/**
+	 * Open Customer Card with selected Customer
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */
     @FXML private void handleRowClickCust(MouseEvent click) {
     	if(click.getClickCount() != 2) return; //just Double Click
     	if(customerTable.getSelectionModel().getSelectedItem() == null){
@@ -107,6 +113,14 @@ public class MainController{
         }
     }
     
+    
+	/**
+	 * Handle the event if "New Customer" button is clicked
+	 * Opens empty Customer Card
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */	
     @FXML private void handleNewCust(ActionEvent event) {
     	System.out.println("New");
     	try {
@@ -129,6 +143,14 @@ public class MainController{
         }
     }
     
+    
+	/**
+	 * Handle the event if "Delete Customer" button is clicked
+	 * Try to delete customer if customer object is not used
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */	
     @FXML private void handleDelCust(ActionEvent event) {
    	
     	if(customerTable.getSelectionModel().getSelectedItem() == null){
@@ -157,6 +179,14 @@ public class MainController{
     	}
     }
     
+    
+	/**
+	 * Handle the event if "Show Current Order" button is clicked in customer card
+	 * Open "Current Order" Card with selected customer
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */	
     @FXML private void handleShowCurrentOrder(ActionEvent event) {
     	
     	if(customerTable.getSelectionModel().getSelectedItem() == null){
@@ -205,7 +235,13 @@ public class MainController{
 	    }
 	}
     
-    
+	/**
+	 * Handle the event if "Show open History" button is clicked in customer card
+	 * Open "Order History" Card for selected customer
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */	
 	@FXML private void handleShowOrderHistory(ActionEvent event) {
     	if(customerTable.getSelectionModel().getSelectedItem() == null){
     		Alert alert = new Alert(AlertType.ERROR);
@@ -254,6 +290,13 @@ public class MainController{
     	}
     }
     
+	/**
+	 * Handle the event if "New Order" button is clicked
+	 * Opens empty Order Card
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */	
     @FXML private void handleNewOrder(ActionEvent event) {
     	System.out.println("New Order");
        	try {
@@ -276,6 +319,13 @@ public class MainController{
        	orderTable.refresh();
     }
     
+	/**
+	 * Handle the event if "Delete Order" button is clicked
+	 * Try to delete order if State is PLANNED
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */	
     @FXML private void handleDelOrder(ActionEvent event) {
    	
     	if(orderTable.getSelectionModel().getSelectedItem() == null){
@@ -305,6 +355,15 @@ public class MainController{
 
     }
     
+    
+	/**
+	 * Handle the event if "Cancel Order" button is clicked
+	 * Try to cancel order if order is already IN_PROCESS
+	 * Just possible if all lots have state RDY
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */	
     @FXML private void handleCancelOrder(ActionEvent event){
     	if(orderTable.getSelectionModel().getSelectedItem() == null){
     		Alert alert = new Alert(AlertType.ERROR);
@@ -346,7 +405,14 @@ public class MainController{
     		
     }
     
-    
+	/**
+	 * Handle the event if "Finish" button is clicked
+	 * Try to change state to FINISH
+	 * Just possible if order is COMPLETED
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */	
     @FXML private void handleFinishOrder(ActionEvent event){
     	if(orderTable.getSelectionModel().getSelectedItem() == null){
     		Alert alert = new Alert(AlertType.ERROR);
@@ -380,7 +446,12 @@ public class MainController{
     
     
     
-    
+	/**
+	 * Open Order Card with selected Customer
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */
     @FXML private void handleRowClickOrder(MouseEvent click) {
     	if(click.getClickCount() != 2) return; //just Double Click
     	if(orderTable.getSelectionModel().getSelectedItem() == null){
@@ -432,6 +503,12 @@ public class MainController{
     	mainMenu.changeScene("SetupSubPage.fxml", event);
     }
     
+	/**
+	 * Open User Manual with external PDF Client
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */
    @FXML private void handleHelp(ActionEvent event) {
 	    try {
 	        Desktop desktop = Desktop.getDesktop();
@@ -473,6 +550,12 @@ public class MainController{
         } 
     }
     
+	/**
+	 * If no DB connection is set, open DB Connection Dialog and save settings to txt file
+	 * 
+	 * @version 1.0
+	 * 
+	 */
     public void openDatabaseConnectionDialog(){
     	try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -491,6 +574,13 @@ public class MainController{
         } 
     }
     
+    
+	/**
+	 * Load all customer objects into a table view and set listeners for filter
+	 * 
+	 * @version 1.0
+	 * @return true, if comboBox filter is set
+	 */
     public void loadCustomerTable(){
         customerId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
         customerName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
@@ -547,6 +637,12 @@ public class MainController{
         customerTable.setItems(sortedData);
     }
     
+	/**
+	 * Load all order objects into a table view and set listeners for filter
+	 * 
+	 * @version 1.0
+	 * @return true, if comboBox filter is set
+	 */
     public void loadOrderTable(){
         orderId.setCellValueFactory(cellData -> cellData.getValue().ordernoProperty());
         product.setCellValueFactory(cellData -> cellData.getValue().productProperty());
