@@ -513,7 +513,7 @@ public class OrderController {
 				if(!mainMenu.isDueDateViable(order))
 				{
 	        		Alert alert = new Alert(AlertType.INFORMATION);
-	            	alert.setTitle("Notificaion");
+	            	alert.setTitle("Notification");
 	            	alert.setHeaderText("One or more lots can't be started before due date.\nPlease update due date.");
 	            	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 	            	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -523,7 +523,7 @@ public class OrderController {
 			}
     	}else{
     		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Notificaion");
+        	alert.setTitle("Notification");
         	if(order.stateProperty().get() != State.PLANNED.name()) 
         		errText = "State have to be PLANNED!\n";
         	if(order.getStartDate().isBefore(LocalDate.now()))
@@ -552,7 +552,7 @@ public class OrderController {
     			if(!mainMenu.isDueDateViable(order))
 				{
 	        		Alert alert = new Alert(AlertType.INFORMATION);
-	            	alert.setTitle("Notificaion");
+	            	alert.setTitle("Notification");
 	            	alert.setHeaderText("One or more lots can't be started before due date.\nPlease update due date.");
 	            	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 	            	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -561,7 +561,7 @@ public class OrderController {
     		}
     	}else{
     		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Notificaion");
+        	alert.setTitle("Notification");
         	String errText = "";
         	if(order.stateProperty().get() != State.IN_PROCESS.name()) 
         		errText = "State have to be IN_PROCESS!\n";
@@ -593,7 +593,7 @@ public class OrderController {
     		}
     		else {
     			Alert alert = new Alert(AlertType.ERROR);
-            	alert.setTitle("Notificaion");
+            	alert.setTitle("Notification");
             	alert.setHeaderText("Some lots are already IN PROCESS");
             	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
             	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -603,7 +603,7 @@ public class OrderController {
     		}
     	}else {
     		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Notificaion");
+        	alert.setTitle("Notification");
         	alert.setHeaderText("Order is not IN PROCESS");
         	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -636,7 +636,7 @@ public class OrderController {
     		}
     	}else {
     		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Notificaion");
+        	alert.setTitle("Notification");
         	alert.setHeaderText("Order is not COMPLETED");
         	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));

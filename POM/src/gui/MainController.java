@@ -85,7 +85,7 @@ public class MainController{
     	if(click.getClickCount() != 2) return; //just Double Click
     	if(customerTable.getSelectionModel().getSelectedItem() == null){
     		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Notificaion");
+        	alert.setTitle("Notification");
         	alert.setHeaderText("Select Customer!");
         	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -155,7 +155,7 @@ public class MainController{
    	
     	if(customerTable.getSelectionModel().getSelectedItem() == null){
     		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Notificaion");
+        	alert.setTitle("Notification");
         	alert.setHeaderText("Select Customer!");
         	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -165,7 +165,7 @@ public class MainController{
     	if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete: " +customerTable.getSelectionModel().getSelectedItem().nameProperty().get().toString()) == true){
     	if(mainMenu.deleteCustomer(customerTable.getSelectionModel().getSelectedItem()) == false) {
     		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Notificaion");
+        	alert.setTitle("Notification");
         	alert.setHeaderText("There already existing Orders for this Customer");
         	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -191,7 +191,7 @@ public class MainController{
     	
     	if(customerTable.getSelectionModel().getSelectedItem() == null){
     		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Notificaion");
+        	alert.setTitle("Notification");
         	alert.setHeaderText("Select Customer!");
         	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -205,7 +205,7 @@ public class MainController{
 	    	
     		if(currentOrders.isEmpty() == true ){
 		    	Alert alert = new Alert(AlertType.ERROR);
-		    	alert.setTitle("Notificaion");
+		    	alert.setTitle("Notification");
 		    	alert.setHeaderText("The customer has no PLANNED, IN_PROCESS or COMPLETED order!");
 	        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 	        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -245,7 +245,7 @@ public class MainController{
 	@FXML private void handleShowOrderHistory(ActionEvent event) {
     	if(customerTable.getSelectionModel().getSelectedItem() == null){
     		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Notificaion");
+        	alert.setTitle("Notification");
         	alert.setHeaderText("Select Customer!");
         	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -259,7 +259,7 @@ public class MainController{
     		
     		if(historyOrders.isEmpty() == true ){
 		    	Alert alert = new Alert(AlertType.ERROR);
-		    	alert.setTitle("Notificaion");
+		    	alert.setTitle("Notification");
 		    	alert.setHeaderText("The customer has no FINISHED or CANCELED order!");
 	        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 	        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -330,7 +330,7 @@ public class MainController{
    	
     	if(orderTable.getSelectionModel().getSelectedItem() == null){
     		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Notificaion");
+        	alert.setTitle("Notification");
         	alert.setHeaderText("Select Order!");
         	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -345,7 +345,7 @@ public class MainController{
     		
     	} else {
     		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Notificaion");
+        	alert.setTitle("Notification");
         	alert.setHeaderText("Cannot delete order");
         	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -367,7 +367,7 @@ public class MainController{
     @FXML private void handleCancelOrder(ActionEvent event){
     	if(orderTable.getSelectionModel().getSelectedItem() == null){
     		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Notificaion");
+        	alert.setTitle("Notification");
         	alert.setHeaderText("Select Order!");
         	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -384,7 +384,7 @@ public class MainController{
     		}
     		else {
     			Alert alert = new Alert(AlertType.ERROR);
-            	alert.setTitle("Notificaion");
+            	alert.setTitle("Notification");
             	alert.setHeaderText("Some lots are already IN PROCESS");
             	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
             	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -395,7 +395,7 @@ public class MainController{
 
     	}else {
     		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Notificaion");
+        	alert.setTitle("Notification");
         	alert.setHeaderText("Order is not IN PROCESS");
         	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -416,7 +416,7 @@ public class MainController{
     @FXML private void handleFinishOrder(ActionEvent event){
     	if(orderTable.getSelectionModel().getSelectedItem() == null){
     		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Notificaion");
+        	alert.setTitle("Notification");
         	alert.setHeaderText("Select Order!");
         	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -434,7 +434,7 @@ public class MainController{
     		
     	}else {
     		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Notificaion");
+        	alert.setTitle("Notification");
         	alert.setHeaderText("Order is not COMPLETED");
         	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -456,7 +456,7 @@ public class MainController{
     	if(click.getClickCount() != 2) return; //just Double Click
     	if(orderTable.getSelectionModel().getSelectedItem() == null){
     		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Notificaion");
+        	alert.setTitle("Notification");
         	alert.setHeaderText("Select Order!");
         	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
@@ -518,7 +518,7 @@ public class MainController{
 	        	desktop.open(file);
 	        } else {
 	    		Alert alert = new Alert(AlertType.ERROR);
-	        	alert.setTitle("Notificaion");
+	        	alert.setTitle("Notification");
 	        	alert.setHeaderText("The user manual pdf-file does not exist!");
 	        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 	        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
