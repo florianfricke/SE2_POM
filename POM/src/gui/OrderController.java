@@ -107,6 +107,15 @@ public class OrderController {
             }
         }
     };
+    
+    
+	/**
+	 * Creates a new instance of Order
+	 * 
+	 * @version 1.0
+	 * @param mainMenu, Stage 
+	 * @return Nothing
+	 */
 	public void init(MainMenu mainMenu, Stage stage) {
         this.mainMenu = mainMenu;
         this.order = new Order();
@@ -118,6 +127,14 @@ public class OrderController {
         btnUpdate.setDisable(true);
         btnTree.setDisable(true);
    }
+	
+		
+	/**
+	 * Load an existing Order
+	 * 
+	 * @version 1.0
+	 * @param MainMenu, Order, Stage 
+	 */
 	public void init(MainMenu mainMenu, Order order, Stage stage) {
         this.mainMenu = mainMenu;
         this.order = order;
@@ -126,6 +143,14 @@ public class OrderController {
         disableFields();
         setTextFields();
    }
+	
+	
+	
+	/**
+	 * Disable fields in ordercard depending on State
+	 * 
+	 * @version 1.0
+	 */
 	private void disableFields(){
         if(order.stateProperty().get().equals(State.PLANNED.name())){
         	btnTree.setDisable(true);
@@ -153,6 +178,13 @@ public class OrderController {
         	vboxOrder2.setDisable(true);  
         }
 	}
+	
+	
+	/**
+	 * Set TextFields, ComboBoxes, Datepicker and create the bindings to the order object.
+	 * 
+	 * @version 1.0
+	 */
 	private void setTextFields(){
 		tmpOrder = new Order(order);
 		//ComboBoxen
@@ -273,6 +305,16 @@ public class OrderController {
         dueDate.setCellValueFactory(cellData -> cellData.getValue().dueDateProperty());
         lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
 	}
+	
+	
+	/**
+	 * Check if all necessary fields are filled
+	 * 
+	 * @version 1.0
+	 * @param String - which check
+	 * @return false - if not all fields are filled, true - if all fields are filled
+	 */
+	
 	private boolean checkFieldsFilled(String action){
 		setDateFields();
 		if (action.equals("save")){
@@ -316,7 +358,15 @@ public class OrderController {
 		}
 	return true;
 	}
-	//Button Handler
+	
+	
+	/**
+	 * Handle the event if "Save" button is clicked in order card
+	 * Saves the order object
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 * 	 */	
 	@FXML private void handleSave(ActionEvent e) {
 		//Set ComboBoxes
 		if(checkFieldsFilled("save")){
@@ -340,6 +390,14 @@ public class OrderController {
     	this.order.setStartDate(dpkStartDate.getValue());
     	this.order.setReleaseDate(dpkReleaseDate.getValue());
 	}
+	
+	/**
+	 * Handle the event if "Cancel" button is clicked in order card
+	 * Cancel order object - Does not save it
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */	
 	@FXML private void handleCancel(ActionEvent event) {
 		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel?") == true){
 			if(order.stateProperty().get() == State.IN_PROCESS.name()){
@@ -358,6 +416,14 @@ public class OrderController {
 			}
 	    	closeWindow(event);
 		}
+	
+	/**
+	 * Handle the event if "Release" button is clicked in order card
+	 * Try to change state to IN_PROCESS, creates Lots in MES DB
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */	
 	@FXML private void handleRelease(ActionEvent event) {
     	System.out.println("Release Order"); 
     	String errText = new String();
@@ -396,6 +462,14 @@ public class OrderController {
         	alert.show();
     	}
     }
+	
+	/**
+	 * Handle the event if "Update" button is clicked in order card
+	 * Try to update lots in MES DB if possible
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */	
 	@FXML private void handleUpdate(ActionEvent event) {
     	System.out.println("Update MES Lots");
     	if(!checkFieldsFilled("release")) return;
@@ -428,6 +502,15 @@ public class OrderController {
         	alert.show();
     	}
     }
+	
+	/**
+	 * Handle the event if "Cancel Order" button is clicked in order card
+	 * Try to cancel order if order is already IN_PROCESS
+	 * Just possible if all lots have state RDY
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */	
 	@FXML private void handleCancelOrder(ActionEvent event){
     	if(order.stateProperty().get().equals(State.IN_PROCESS.toString())){
     		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel: order " +order.ordernoProperty().get().toString()) == true){
@@ -458,6 +541,15 @@ public class OrderController {
         	return;
     	}
 	}
+	
+	/**
+	 * Handle the event if "Finish" button is clicked in order card
+	 * Try to change state to FINISH
+	 * Just possible if order is COMPLETED
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */	
 	@FXML private void handleFinishOrder(ActionEvent event){
     	if(order.stateProperty().get().equals(State.COMPLETED.toString())){
     		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to finish: order " +order.ordernoProperty().get().toString()) == true){
@@ -483,6 +575,14 @@ public class OrderController {
         	return;
     	}
 	}
+	
+	/**
+	 * Handle the event if "Production Flow" button is clicked in order card
+	 * Open Production Flow Card
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */	
 	@FXML private void handleTree(ActionEvent event) {
 		 System.out.println("Production Flow");
 	        try {
@@ -503,11 +603,26 @@ public class OrderController {
 	            logger.log(Level.SEVERE, "Failed to create new Window.", e);
 	        	} 
     }
+	
+	/**
+	 * Handle event if window is closed with X
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 */
 	private void closeWindow(ActionEvent e){
     	final Node currStage = (Node)e.getSource();
     	Stage stage = (Stage) currStage.getScene().getWindow();
     	stage.close(); 
 	}
+	
+	/**
+	 * Create error message if no all fields are set right
+	 * 
+	 * @version 1.0
+	 *
+	 * @return false - if error is set, true - if no error is set
+	 */
 	public boolean createErrorMessage(){
 		String error = "";
 		int c = 0;
@@ -552,11 +667,23 @@ public class OrderController {
 		}
 		return true;
 	}
+	
+	/**
+	 * Get the dates for datepickers and set the values
+	 * 
+	 * @version 1.0
+	 */
 	private void getDateFields(){
 		dpkDeliveryDate.setValue(this.order.getActualDeliveryDate());
 		dpkReleaseDate.setValue(this.order.getReleaseDate());
 		txt_state.setText(this.order.stateProperty().get());
 	}
+	
+	/**
+	 * Disable date cells in datepicker depending on datepicker and actual date 
+	 * 
+	 * @version 1.0
+	 */
 	private void createDateCells(){
 		//New DateCell to disable DateValues before Order Date
 		this.startDateCellFactory = 
@@ -606,6 +733,12 @@ public class OrderController {
 	            }
 	        };
 	}
+	
+	/**
+	 * Set listeners to the Textfields, Comboboxes, Datepickers
+	 * 
+	 * @version 1.0
+	 */
 	private void createEventHandler(){
 		currentStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 	    	public void handle(WindowEvent we) {
