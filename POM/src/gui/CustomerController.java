@@ -74,6 +74,14 @@ public class CustomerController {
     private boolean b_ibanProperty, b_bicProperty, b_bankNameProperty;
 
     
+	/**
+	 * Creates a new instance of Customer
+	 * 
+	 * @version 1.0
+	 * @param mainMenu, Stage 
+	 * @return Nothing
+	 * @author Georg Maurer
+	 */
 	public void init(MainMenu mainMenu, Stage stage) {
         this.mainMenu = mainMenu;
         this.cust = new Customer();
@@ -83,6 +91,14 @@ public class CustomerController {
         btn_ShowOrderHistory.setDisable(true);
    }
 	
+	
+	/**
+	 * Load an existing Customer
+	 * 
+	 * @version 1.0
+	 * @param MainMenu, Customer, Stage 
+	 * @author Georg Maurer
+	 */
 	public void init(MainMenu mainMenu, Customer cust, Stage stage) {
         this.mainMenu = mainMenu;
         this.cust = cust;
@@ -90,6 +106,13 @@ public class CustomerController {
         setTextFields();
    }
 	
+	
+	/**
+	 * Create bindings for TextFields, ComboBox, Address Table, Contact Table, Bank Table for the customer and set values.
+	 * 
+	 * @version 1.0
+	 * @author Georg Maurer
+	 */	
 	private void setTextFields(){
 		tmpCustomer = new Customer(cust);
 		
@@ -169,23 +192,16 @@ public class CustomerController {
 		}
 	}
 	
-	
-	
+	/**
+	 * Check filled fields for TextFields, ComboBox, Address Table, Contact Table, Bank Table for the customer.
+	 * 
+	 * @version 1.0
+	 * @param String - which check
+	 * @return false - if not all fields are filled, true - if all fields are filled
+	 * @author Georg Maurer
+	 */	
 	private boolean fillFields(String action){
 				
-		/*for (Address address : this.cust.getAddressList()) {
-			if (address.streetProperty().get().isEmpty() == true || address.houseNoProperty().get().isEmpty() == true || 
-					address.zipCodeProperty().get().isEmpty() == true || address.cityProperty().get().isEmpty() == true 
-					|| address.countryProperty().get().isEmpty() == true){
-							b_streetProperty = address.streetProperty().get().isEmpty();
-							b_houseNoProperty = address.houseNoProperty().get().isEmpty();
-							b_zipCodeProperty = address.houseNoProperty().get().isEmpty();
-							b_cityProperty = address.cityProperty().get().isEmpty();
-							b_countryProperty = address.countryProperty().get().isEmpty();
-						return false;
-			}
-		}*/
-
 		for (Address address : this.cust.getAddressList()) {
 			b_streetProperty = address.streetProperty().get().isEmpty();
 			b_houseNoProperty = address.houseNoProperty().get().isEmpty();
@@ -194,14 +210,6 @@ public class CustomerController {
 			b_countryProperty = address.countryProperty().get().isEmpty();
 		}
 	
-		/*for (Contact contacts : this.cust.getContactList()) {
-			if(contacts.nameProperty().get().isEmpty() == true || contacts.firstNameProperty().get().isEmpty() == true || 
-					contacts.positionProperty().get().isEmpty() == true || contacts.phoneNoProperty().get().isEmpty() == true ||
-					contacts.emailProperty().get().isEmpty() == true){
-				
-						return false;
-			}	
-		}*/
 		for (Contact contacts : this.cust.getContactList()) {
 			b_nameProperty = contacts.nameProperty().get().isEmpty();
 			b_firstNameProperty = contacts.firstNameProperty().get().isEmpty();
@@ -210,15 +218,7 @@ public class CustomerController {
 			b_emailProperty = contacts.emailProperty().get().isEmpty();
 		}
 
-		
-		/*for (BankAccount bankAccount : this.cust.getBankAccountList()) {
-			if (bankAccount.ibanProperty().get().isEmpty() == true || bankAccount.bicProperty().get().isEmpty() == true || 
-					bankAccount.bankNameProperty().get().isEmpty() == true){
-				return false;
-			}
-			
-		}*/
-		
+
 		for (BankAccount bankAccount : this.cust.getBankAccountList()) {
 			b_ibanProperty =  bankAccount.ibanProperty().get().isEmpty();
 			b_bicProperty = bankAccount.bicProperty().get().isEmpty();
@@ -248,6 +248,14 @@ public class CustomerController {
 		}
 	}
 	
+	/**
+	 * Create error message if no all fields are set right
+	 * 
+	 * @version 1.0
+	 *
+	 * @return false - if error is set, true - if no error is set
+	 * @author Georg Maurer
+	 */
 	public boolean writeErrorMessage(){
 		String error= "";
 		int z = 0;
@@ -288,6 +296,14 @@ public class CustomerController {
 		return true;
 	}
 	
+	/**
+	 * Handle the event if "Show Current Order" button is clicked in customer card
+	 * Open "Current Order" Card
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 * @author Georg Maurer
+	 */	
 	@FXML private void handleShowCurrentOrder(ActionEvent event) {       
 		List<Order> currentOrders = mainMenu.getCustomerOrder(cust.idProperty().get()).stream().filter(p -> p.stateProperty().get() == State.PLANNED.name() || p.stateProperty().get() == State.IN_PROCESS.name() || p.stateProperty().get() == State.COMPLETED.name()).collect(Collectors.toList());
     	
@@ -321,7 +337,14 @@ public class CustomerController {
     	}
 	}
     
-    
+	/**
+	 * Handle the event if "Show Order History" button is clicked in customer card
+	 * Open "Order History" Card
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 * @author Georg Maurer
+	 */	    
 	@FXML private void handleShowOrderHistory(ActionEvent event) {
 		List<Order> historyOrders = mainMenu.getCustomerOrderHistory(cust.idProperty().get()).stream().filter(p -> p.stateProperty().get() == State.FINISHED_IN_TIME.name() || p.stateProperty().get() == State.FINISHED_DELAY.name() || p.stateProperty().get() == State.CANCELED.name()).collect(Collectors.toList());
 		
@@ -355,19 +378,51 @@ public class CustomerController {
     	}
     }
 	
+	/**
+	 * Handle the event if "New Address" button is clicked in customer card
+	 * Add a new empty address line
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 * @author Georg Maurer
+	 */	    
 	@FXML private void handleNewAddress(ActionEvent event) {
     	this.cust.getAddressList().add(new Address());
     }
 	
+	/**
+	 * Handle the event if "New Contact" button is clicked in customer card
+	 * Add a new empty contact line
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 * @author Georg Maurer
+	 */	  
 	@FXML private void handleNewContact(ActionEvent event) {
     	this.cust.getContactList().add(new Contact());
     }
 	
+	/**
+	 * Handle the event if "New Bank" button is clicked in customer card
+	 * Add a new empty bank line
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 * @author Georg Maurer
+	 */	 
 	@FXML private void handleNewBank(ActionEvent event) {
     	this.cust.getBankAccountList().add(new BankAccount());
   
     }
 	
+	/**
+	 * Handle the event if "Delete Address" button is clicked in customer card
+	 * Try to delete selected address if address is not used
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 * @author Georg Maurer
+	 */	 
 	@FXML private void handleDelAddress(ActionEvent event) {
 		
 		if(mainMenu.isReferenced(addressTable.getSelectionModel().getSelectedItem()) == true){
@@ -385,6 +440,14 @@ public class CustomerController {
 		}
     }
 	
+	/**
+	 * Handle the event if "Delete Contact" button is clicked in customer card
+	 * Try to delete selected contact if contact is not used
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 * @author Georg Maurer
+	 */	 
 	@FXML private void handleDelContact(ActionEvent event) {
 		
 		if(mainMenu.isReferenced(contactTable.getSelectionModel().getSelectedItem()) == true){
@@ -402,6 +465,15 @@ public class CustomerController {
 		}
     }
 	
+	
+	/**
+	 * Handle the event if "Delete Bank" button is clicked in customer card
+	 * Delete selected bank
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 * @author Georg Maurer
+	 */	 
 	@FXML private void handleDelBank(ActionEvent event) {
 
 		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete?") == true){
@@ -409,7 +481,15 @@ public class CustomerController {
 		}
 		
     }
-		
+	
+	/**
+	 * Handle the event if "Save" button is clicked in customer card
+	 * Try to save customer object in POM DB
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 * @author Georg Maurer
+	 */	 
 	@FXML private void handleSave(ActionEvent event) {
 		if(fillFields("save")==false){
 			Alert alert = new Alert(AlertType.ERROR);
@@ -425,6 +505,14 @@ public class CustomerController {
 		}
     }
 	
+	/**
+	 * Handle the event if "Cancel" button is clicked in customer card
+	 * Cancel customer object, does not save object DB
+	 * 
+	 * @version 1.0
+	 * @param Clickevent
+	 * @author Georg Maurer
+	 */	 
 	@FXML private void handleCancel(ActionEvent event) {
 		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel?") == true){ 
 	    	this.cust.copy(tmpCustomer);
@@ -432,10 +520,17 @@ public class CustomerController {
 		}
     }
 	
+
 	private void closeWindow(ActionEvent e){
     	currentStage.close(); 
 	}
 
+	/**
+	 * Set listeners to the Textfields, Combobox, Tables in Customer Card
+	 * 
+	 * @version 1.0
+	 * @author Georg Maurer
+	 */
 	private void createEventHandler(){
 		currentStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 	    	public void handle(WindowEvent we) {
