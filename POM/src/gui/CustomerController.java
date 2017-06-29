@@ -261,8 +261,8 @@ public class CustomerController {
 				boolean bool = emptyFields[i];
 				if(bool){
 					switch(i){
-					case 0: error += "Name, "; z++; break;
-					case 1: error += "Ranking, "; z++; break;
+					case 0: error += "Name, ";	txt_Name.getStyleClass().add("label_error"); z++; break;
+					case 1: error += "Ranking, "; 	cbxRanking.getStyleClass().add("label_error"); z++; break;
 					case 2: error += "Street, "; z++; break;
 					case 3: error += "House No, "; z++; break;
 					case 4: error += "ZIP Code, "; z++; break;
