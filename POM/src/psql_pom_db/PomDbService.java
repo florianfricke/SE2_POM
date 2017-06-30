@@ -5,9 +5,12 @@ import types.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.postgresql.util.PSQLException;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -309,6 +312,7 @@ public class PomDbService implements IPomDbService {
 	         con = DriverManager.getConnection("jdbc:postgresql://"+cp.getServerAddress()+":"+cp.getPort()+"/"+cp.getDataBase()+"?currentSchema=pom",cp.getUser(),cp.getPassword()); // useres File test.txt
 	         return true;
 		}catch(Exception e){
+			ErrorLog.write(e);
 			Platform.exit();
 			System.exit(0);
 		}
@@ -320,7 +324,6 @@ public class PomDbService implements IPomDbService {
 			System.out.println("Datenbankverbindung geschlossen.");
 		}catch(Exception e){
 			ErrorLog.write(e);
-			System.err.println(e.getClass().getName()+": "+e.getMessage());
 		}
 	}
 	protected void finalize() 
