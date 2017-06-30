@@ -150,19 +150,16 @@ public class MainController{
         	return;
     	}
     	if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete: " +customerTable.getSelectionModel().getSelectedItem().nameProperty().get().toString()) == true){
-    	if(mainMenu.deleteCustomer(customerTable.getSelectionModel().getSelectedItem()) == false) {
-    		Alert alert = new Alert(AlertType.ERROR);
-        	alert.setTitle("Notification");
-        	alert.setHeaderText("There already existing Orders for this Customer");
-        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
-        	alert.show();
-        	return;
-    	} else {
-    		System.out.println("Delete");
-    		mainMenu.deleteCustomer(customerTable.getSelectionModel().getSelectedItem());
-    		}
-    	}
+	    	if(mainMenu.deleteCustomer(customerTable.getSelectionModel().getSelectedItem()) == false) {
+	    		Alert alert = new Alert(AlertType.ERROR);
+	        	alert.setTitle("Notification");
+	        	alert.setHeaderText("There already existing Orders for this Customer");
+	        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+	        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
+	        	alert.show();
+	        	return;
+	    	}
+	    }
     }
 	/**
 	 * Handle the event if "Show Current Order" button is clicked in customer card
