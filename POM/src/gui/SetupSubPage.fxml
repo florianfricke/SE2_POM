@@ -51,7 +51,7 @@
 					<children>
 						<VBox spacing="15.0">
                <children>
-                  <Label alignment="BOTTOM_CENTER" text="Day Capacity" textAlignment="CENTER">
+                  <Label alignment="BOTTOM_CENTER" text="Day Capacity (lots)" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
