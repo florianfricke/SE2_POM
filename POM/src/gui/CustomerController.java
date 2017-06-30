@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,6 +29,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 import types.*;
 
 public class CustomerController {
@@ -135,7 +137,20 @@ public class CustomerController {
 		country.setCellValueFactory(cellData -> cellData.getValue().countryProperty());
 		country.setCellFactory(column -> EditingCell.createStringEditCell());
 		billingAddress.setCellValueFactory(cellData -> cellData.getValue().billingAddressProperty());
-		billingAddress.setCellFactory(CheckBoxTableCell.forTableColumn(billingAddress));
+		//billingAddress.setCellFactory(CheckBoxTableCell.forTableColumn(billingAddress));
+		billingAddress.setCellFactory(CheckBoxTableCell.forTableColumn(new Callback<Integer, ObservableValue<Boolean>>() {
+		    @Override
+		    public ObservableValue<Boolean> call(Integer param) {
+		    	String addrId = billingAddress.getTableView().getItems().get(param).idProperty().get();
+		    	boolean isChecked = billingAddress.getCellObservableValue(param).getValue();
+		    	for (Address addr : billingAddress.getTableView().getItems()) {
+					if(isChecked && !addr.idProperty().get().equals(addrId)){
+						addr.billingAddressProperty().set(false);
+					}
+				}
+		        return billingAddress.getCellObservableValue(param);
+		    }
+		}));
 		if(this.cust.getAddressList().isEmpty()){
 			this.cust.setAddressList(mainMenu.getAddressList(this.cust.idProperty().get()));
 		}
@@ -159,7 +174,20 @@ public class CustomerController {
 		email.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
 		email.setCellFactory(column -> EditingCell.createStringEditCell());
 		defaultContact.setCellValueFactory(cellData -> cellData.getValue().defaultContactProperty());
-		defaultContact.setCellFactory(CheckBoxTableCell.forTableColumn(defaultContact));
+		//defaultContact.setCellFactory(CheckBoxTableCell.forTableColumn(defaultContact));
+		defaultContact.setCellFactory(CheckBoxTableCell.forTableColumn(new Callback<Integer, ObservableValue<Boolean>>() {
+		    @Override
+		    public ObservableValue<Boolean> call(Integer param) {
+		    	String addrId = defaultContact.getTableView().getItems().get(param).idProperty().get();
+		    	boolean isChecked = defaultContact.getCellObservableValue(param).getValue();
+		    	for (Contact contact : defaultContact.getTableView().getItems()) {
+					if(isChecked && !contact.idProperty().get().equals(addrId)){
+						contact.defaultContactProperty().set(false);
+					}
+				}
+		        return defaultContact.getCellObservableValue(param);
+		    }
+		}));
 		if(this.cust.getContactList().isEmpty()){
 			this.cust.setContactList(mainMenu.getContactList(this.cust.idProperty().get()));
 		}
