@@ -39,15 +39,11 @@ public final class ConfirmBox {
         
     	window.getIcons().add(new Image(ConfirmBox.class.getResource("Cinderella_Icon.png").toString()));
 
-        //Font font = new Font("Segoe UI", 18);
         Label label = new Label(message);
-        //label.setFont(font);
         label.setAlignment(Pos.CENTER);
         Button yesButton = new Button("Yes");
-        //yesButton.setFont(font);
         yesButton.setMinWidth(100);
         Button noButton = new Button(("No"));
-        //noButton.setFont(font);
         noButton.setMinWidth(100);
 
         yesButton.setOnAction(event -> {

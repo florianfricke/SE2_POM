@@ -39,10 +39,8 @@ public class MesDbService implements IMesDBService {
 	public void closeDbConn(){
 		try{
 			this.con.close();
-			System.out.println("Datenbankverbindung geschlossen.");
 		}catch(Exception e){
 			ErrorLog.write(e);
-			System.err.println(e.getClass().getName()+": "+e.getMessage()); // Ausgabe auf konsole
 		}
 	}
 	protected void finalize() 
@@ -370,5 +368,29 @@ public class MesDbService implements IMesDBService {
 			ErrorLog.write(e);
 		}
 		return operList;
+	}
+	/**
+	 *Checks whether the preferred BaselotID already exists
+	 * @param baseLotId - String of BaselotId
+	 * @return boolean true if exists or false if not exists
+	 * @version 1.0
+	 */
+	public boolean checkBaseLotIDExists(String baseLotId){
+		String sql = "";
+		PreparedStatement stmt = null;
+		ResultSet rs;
+		try{
+			sql= "Select exists(SELECT * from lot WHERE LEFT(lotid, position( '1' in lotid)) = ?)";
+			stmt = this.con.prepareStatement(sql);
+			stmt.setString(1, baseLotId+"1");
+			rs = stmt.executeQuery();
+			if(rs.next()){
+				return rs.getBoolean("exists");
+			}	
+		}
+		catch(Exception e){
+			ErrorLog.write(e);
+		}
+		return true;
 	}
 }

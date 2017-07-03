@@ -191,7 +191,6 @@ public class OrderController {
 		cbxCustomer.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<CbxItemObservable>() {
            	@Override
 			public void changed(ObservableValue<? extends CbxItemObservable> observable, CbxItemObservable oldValue,CbxItemObservable newValue) {
-            	System.out.println("Changed Customer to"+ newValue.get().getId());
             	addrIdList.clear();
             	contactIdList.clear();
             	Customer cust;
@@ -497,9 +496,15 @@ public class OrderController {
 	   * @param Clickevent
 	   */ 
 	@FXML private void handleRelease(ActionEvent event) {
-    	System.out.println("Release Order"); 
     	String errText = new String();
     	if(!checkFieldsFilled("release")) {return;}
+		if(mainMenu.checkBaseLotIDExists(txt_baseLotID.getText())){
+			txt_baseLotID.getStyleClass().add("label_error");
+			txt_baseLotID.setText("");
+			txt_errorMessage.setVisible(true);
+			txt_errorMessage.setText("This BaseLotId is already in use.");
+			return;
+		}
     	if(order.stateProperty().get() == State.PLANNED.name() && !order.getStartDate().isBefore(LocalDate.now())){
 			handleSave(event);
 			if(mainMenu.releaseOrder(order))
@@ -542,7 +547,6 @@ public class OrderController {
 	   * @param Clickevent
 	   */
 	@FXML private void handleUpdate(ActionEvent event) {
-    	System.out.println("Update MES Lots");
     	if(!checkFieldsFilled("release")) return;
     	if(order.stateProperty().get() == State.IN_PROCESS.name() && !order.getStartDate().isBefore(LocalDate.now())){	
     		if(mainMenu.updateLots(order)){
@@ -584,7 +588,6 @@ public class OrderController {
 	@FXML private void handleCancelOrder(ActionEvent event){
     	if(order.stateProperty().get().equals(State.IN_PROCESS.toString())){
     		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to cancel: order " +order.ordernoProperty().get().toString()) == true){
-        		System.out.println("Cancel");
     		if (mainMenu.cancelOrder(order)){
     			// delete if true
     			lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
@@ -622,7 +625,6 @@ public class OrderController {
 	@FXML private void handleFinishOrder(ActionEvent event){
     	if(order.stateProperty().get().equals(State.COMPLETED.toString())){
     		if(ConfirmBox.display("Confirmation Dialog", "Do you really want to finish: order " +order.ordernoProperty().get().toString()) == true){
-        		System.out.println("Finish Order");
     		if (mainMenu.finishOrder(order)){
     			lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
     			if(order.stateProperty().get() == State.FINISHED_DELAY.name()){
@@ -652,7 +654,6 @@ public class OrderController {
 	   * @param Clickevent
 	   */  
 	@FXML private void handleTree(ActionEvent event) {
-		 System.out.println("Production Flow");
 	        try {
 	        	FXMLLoader fxmlLoader = new FXMLLoader();
 	            fxmlLoader.setLocation(getClass().getResource("ProductionTreeView.fxml"));
@@ -780,7 +781,7 @@ public class OrderController {
 		                            } 
 		                            order.setStartDate(item);
 							} catch (Exception e) {
-								// TODO: handle exception
+								ErrorLog.write(e);
 							}
 	                    }
 	                };
@@ -801,7 +802,7 @@ public class OrderController {
 	                                    setStyle("-fx-background-color: #ffc0cb;");
 	                            	}  
 								} catch (Exception e) {
-									// TODO: handle exception
+									ErrorLog.write(e);
 								}
 	                    }
 	                };
@@ -818,7 +819,7 @@ public class OrderController {
 	    	public void handle(WindowEvent we) {
 	    		if(newOrder){
 					txt_errorMessage.setVisible(true);
-					txt_errorMessage.setText("Please Save Order.");
+					txt_errorMessage.setText("Please Save or Cancel Order manually.");
 					we.consume();
 					return;
 				}
@@ -849,7 +850,7 @@ public class OrderController {
 					 changeValues.volumeProperty().set(Integer.parseInt(newValue));
 					}
 				} catch (Exception e) {
-					// TODO: handle exception
+					ErrorLog.write(e);
 				}				
 			}
 		});
@@ -950,11 +951,28 @@ public class OrderController {
 				}
 			}
 		});
-		txt_baseLotID.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-			if(!newValue){
+		txt_baseLotID.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean unfocus, Boolean focus) {
+				if(focus){
 					txt_baseLotID.getStyleClass().add("reset_label_error");
-					}
-			});
+					txt_errorMessage.setText("");
+					txt_errorMessage.setVisible(false);
+					return;
+				}
+				if(mainMenu.checkBaseLotIDExists(txt_baseLotID.getText())){
+					txt_baseLotID.getStyleClass().add("label_error");
+					txt_baseLotID.setText("");
+					txt_errorMessage.setVisible(true);
+					txt_errorMessage.setText("This BaseLotId is already in use.");
+				}
+			}
+		});
+		/*txt_baseLotID.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+			if(!newValue){
+				txt_baseLotID.getStyleClass().add("reset_label_error");
+			}
+			});*/
 		cbxProduct.focusedProperty().addListener((arg0, oldValue, newValue) -> {
 			if(!newValue){
 				cbxProduct.getStyleClass().add("reset_label_error");

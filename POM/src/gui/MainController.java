@@ -85,7 +85,6 @@ public class MainController{
         	alert.show();
         	return;
     	}
-        System.out.println("clicked on Customer: " + (customerTable.getSelectionModel().getSelectedItem()).idProperty().get());
         Customer cust = customerTable.getSelectionModel().getSelectedItem();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -113,7 +112,6 @@ public class MainController{
 	 * @param Clickevent
 	 */	
     @FXML private void handleNewCust(ActionEvent event) {
-    	System.out.println("New");
     	try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("CustomerCard.fxml"));
@@ -192,7 +190,6 @@ public class MainController{
 	    	}
 	    	else
 	    	{
-		    	System.out.println("CurrentOrder");
 		    	try {
 		            FXMLLoader fxmlLoader = new FXMLLoader();
 		            fxmlLoader.setLocation(getClass().getResource("ShowCurrentOrder.fxml"));
@@ -244,7 +241,6 @@ public class MainController{
 	    	}
 	    	else
 	    	{
-    		System.out.println("OrderHistory");
             try {
             	FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("ShowOrderHistory.fxml"));
@@ -273,7 +269,6 @@ public class MainController{
 	 * @param Clickevent
 	 */	
     @FXML private void handleNewOrder(ActionEvent event) {
-    	System.out.println("New Order");
        	try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("OrderCard.fxml"));
@@ -312,7 +307,6 @@ public class MainController{
     	}
     	if(orderTable.getSelectionModel().getSelectedItem().stateProperty().get().equals(State.PLANNED.toString())){
         	if(ConfirmBox.display("Confirmation Dialog", "Do you really want to delete: order " +orderTable.getSelectionModel().getSelectedItem().ordernoProperty().get().toString()) == true){
-        		System.out.println("Delete");
         		mainMenu.deleteOrder(orderTable.getSelectionModel().getSelectedItem());
         	}
     	} else {
@@ -422,7 +416,6 @@ public class MainController{
         	alert.show();
         	return;
     	}
-    	System.out.println("clicked on Order: " + (orderTable.getSelectionModel().getSelectedItem()).ordernoProperty().get());
         Order order = orderTable.getSelectionModel().getSelectedItem();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -485,7 +478,6 @@ public class MainController{
 	    }
     }
     @FXML private void handleAbout(ActionEvent event){
-    	System.out.println("About");
     	try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("About.fxml"));
@@ -541,7 +533,6 @@ public class MainController{
         txt_searchFieldCustomer.textProperty().addListener((observable, oldValue, newValue) -> {
         	filteredData.setPredicate(customer -> {
                 if (newValue == null || newValue.isEmpty()) {
-                	// If filter text is empty, display all orders.
                     return true;
                 }
                 String lowerCaseFilter = newValue.toLowerCase();
@@ -599,12 +590,10 @@ public class MainController{
         customer.setCellValueFactory(cellData -> cellData.getValue().customeridProperty());
         state.setCellValueFactory(cellData -> cellData.getValue().stateProperty());
         comboBoxSearchListOrder();
-        // Wrap the ObservableList in a FilteredList (initially display all data).
         FilteredList<Order> filteredData = new FilteredList<>(mainMenu.getOrderList(), p -> true);
         txt_searchFieldOrder.textProperty().addListener((observable, oldValue, newValue) -> {
         	filteredData.setPredicate(order -> {
                 if (newValue == null || newValue.isEmpty()) {
-                	// If filter text is empty, display all orders.
                     return true;
                 }
                 String lowerCaseFilter = newValue.toLowerCase();

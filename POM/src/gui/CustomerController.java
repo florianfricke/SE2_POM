@@ -513,7 +513,6 @@ public class CustomerController {
         	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
 	    	alert.show();
 		}else{
-    	System.out.println("Save");
     	mainMenu.saveCustomer(this.cust);
     	closeWindow(event);
 		}

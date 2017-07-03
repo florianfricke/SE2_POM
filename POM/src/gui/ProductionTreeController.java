@@ -48,7 +48,6 @@ public class ProductionTreeController {
         		if(!oper.lotCountProperty().get().equals("0")){
         			route.setExpanded(true);
         			routeLotCount += Integer.parseInt(oper.lotCountProperty().get());
-        			//route.getValue().lotCountProperty().set(oper.lotCountProperty().get());
         			route.getValue().lotCountProperty().set(String.valueOf(routeLotCount));
         		}																													
         		TreeItem<Route> op = new TreeItem<>(new Route("","","",oper.operationProperty().get(),oper.descriptionProperty().get(),oper.lotCountProperty().get(),"","","",""));

@@ -31,7 +31,6 @@ public class Lot {
 		this.operation = new SimpleStringProperty(oper);
 		
 	}
-	//eingefügt um Lot am anfang erstellen zu können
 	public Lot() {
 		this("",0 ,0 ,"","","","",emptyDate,emptyDate,"","");
 	}

@@ -50,7 +50,6 @@ public class JUnitTestCase {
     Customer testCustomer = new Customer("","Test customer","A","");
     pomPersistance.addCustomer(testCustomer);
     String testCustomerID = testCustomer.idProperty().get();
-    System.out.println(testCustomerID);
     //insert one testCustomer's address
     Address testCustomerAddress = new Address( "",
 					    					  testCustomerID, 
@@ -581,12 +580,10 @@ public class JUnitTestCase {
   public void testUpdateCustomer(){
 	  IPomDbService pomPersistance = new PomDbService();
       Customer testCustomer = addTestCustomer();
-      //System.out.println(testCustomer.nameProperty().get());
       String newName="newTest";
       testCustomer.nameProperty().set(newName);
       String testCustomerID = testCustomer.idProperty().get();
       pomPersistance.updateCustomer(testCustomer);
-      //System.out.println(testCustomer.nameProperty().get());
       String realName="";
       try {
         stmt = con.prepareStatement("SELECT * FROM customer Where id ='"+testCustomerID+"'");
@@ -602,7 +599,6 @@ public class JUnitTestCase {
         // TODO Auto-generated catch block
         ErrorLog.write(e);
       }
-      //System.out.println(realName);
       pomPersistance.deleteCustomer(testCustomerID);
       assertEquals(newName,realName);
   }
@@ -621,7 +617,6 @@ public class JUnitTestCase {
       ErrorLog.write(e);
       System.err.println(e.getClass().getName()+": "+e.getMessage());
     }
-    System.out.println("Erfolgreich verbunden!");
     return false;
   }
 }

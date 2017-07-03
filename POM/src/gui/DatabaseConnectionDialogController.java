@@ -71,8 +71,6 @@ public class DatabaseConnectionDialogController{
 	private void createEventHandler(){
 		currentStage.setOnCloseRequest(new EventHandler<WindowEvent>(){
 	    	public void handle(WindowEvent we) {
-	    		System.out.println("Close");
-
 	    		Platform.exit();
 	    		System.exit(0);
 	        }
