@@ -5,9 +5,12 @@ import types.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.postgresql.util.PSQLException;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -46,8 +49,7 @@ public class PomDbService implements IPomDbService {
 			cust.idProperty().set(rs.getString("id"));
 			rs.close();
 		    stmt.close();
-		    System.out.println("Inserted Customer "+ cust.idProperty());
-		    if(!(cust.getAddressList().isEmpty())){ //if adressList was Updated
+		    if(!(cust.getAddressList().isEmpty())){
 		    	for (Address addrr : cust.getAddressList()) {
 					sql = "INSERT INTO pom.address VALUES (DEFAULT,?,?,?,?,?,?,?)";
 					stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);		 	
@@ -96,7 +98,7 @@ public class PomDbService implements IPomDbService {
 			    			"('" + cust.idProperty().get() +"','"+ ba.ibanProperty().get() +"','"+ 
 			    			ba.bicProperty().get() +"','"+ 
 			    			ba.bankNameProperty().get()+"')";
-			    	stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); // ist da seine java methode? wo ist die implemtiert?
+			    	stmt = this.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 					stmt.executeUpdate();
 					rs = stmt.getGeneratedKeys();
 					rs.next();
@@ -108,7 +110,6 @@ public class PomDbService implements IPomDbService {
 		    return true;
 		} catch (SQLException e) {
 			ErrorLog.write(e);
-			//ErrorLog.write(e);
 		}
 		return false;
 	}
@@ -133,13 +134,12 @@ public class PomDbService implements IPomDbService {
 			sql = "UPDATE pom.customer SET companyname=?, ranking=?, comment = ?" + 
 			"WHERE id = ?";
 			stmt = this.con.prepareStatement(sql);
-			stmt.setString(1, cust.nameProperty().get()); // wenn ein Attribut nicht gesetzt wird wird automatisch NULL eingetragen?
+			stmt.setString(1, cust.nameProperty().get());
 			stmt.setString(2, cust.rankingProperty().get());
 			stmt.setString(3, cust.commentProperty().get());
 			stmt.setString(4, cust.idProperty().get());
 			stmt.executeUpdate();
 		    stmt.close();
-		    System.out.println("Updated Customer "+ cust.idProperty());
 		    if(!(cust.getAddressList().equals(dbCustAddressList))){ 
 		    	for (Address addrr : cust.getAddressList()) {
 		    		if(addrr.idProperty().get().isEmpty()){
@@ -173,10 +173,9 @@ public class PomDbService implements IPomDbService {
 					    stmt.close();
 		    		}
 		    	}
-	    		//Zu loeschende Elemente heraussuchen
 	    		for (Address delAddrr : getAddressList(cust.idProperty().get())) { 
 	    			if(!(cust.getAddressList().contains(delAddrr))){
-		    			sql = "DELETE FROM pom.address WHERE id = ?"; // add WHERE customerID, if custID later gets PK
+		    			sql = "DELETE FROM pom.address WHERE id = ?";
 				    	stmt = this.con.prepareStatement(sql);
 		    			stmt.setString(1, delAddrr.idProperty().get());
 				    	stmt.executeUpdate();
@@ -202,7 +201,7 @@ public class PomDbService implements IPomDbService {
 						contact.idProperty().set(rs.getString("id"));
 						rs.close();
 					    stmt.close();
-					}else{ // das else ist wenn?
+					}else{
 				    	sql = "UPDATE pom.contact SET phoneno = ?, name = ?, firstname = ?, mailaddress = ?, position = ?, salutation=?, \"defaultContact\"=?"+ 
 				    			"WHERE id = ? AND customerid = ?";
 				    	stmt = this.con.prepareStatement(sql);
@@ -221,7 +220,7 @@ public class PomDbService implements IPomDbService {
 				}
 				for (Contact delContact : getContactList(cust.idProperty().get())) {
 	    			if(!(cust.getContactList().contains(delContact))){
-		    			sql = "DELETE FROM pom.contact WHERE id = ?"; // add WHERE customerID, if custID later gets PK
+		    			sql = "DELETE FROM pom.contact WHERE id = ?";
 				    	stmt = this.con.prepareStatement(sql);
 		    			stmt.setString(1, delContact.idProperty().get());
 				    	stmt.executeUpdate();
@@ -258,7 +257,7 @@ public class PomDbService implements IPomDbService {
 				}
 				for (BankAccount delBankAccount : getBankAccountList(cust.idProperty().get())) {
 	    			if(!(cust.getBankAccountList().contains(delBankAccount))){
-		    			sql = "DELETE FROM pom.bankaccount WHERE id = ?"; // add WHERE customerID, if custID later gets PK
+		    			sql = "DELETE FROM pom.bankaccount WHERE id = ?";
 				    	stmt = this.con.prepareStatement(sql);
 		    			stmt.setString(1, delBankAccount.idProperty().get());
 				    	stmt.executeUpdate();
@@ -304,11 +303,11 @@ public class PomDbService implements IPomDbService {
 	private boolean openConnection(){
 		try{
 			 Class.forName("org.postgresql.Driver");
-			 //current schema is set as 'pom'
 			 ConnectionParameter cp = OpenConnectionFile.readFile();
 	         con = DriverManager.getConnection("jdbc:postgresql://"+cp.getServerAddress()+":"+cp.getPort()+"/"+cp.getDataBase()+"?currentSchema=pom",cp.getUser(),cp.getPassword()); // useres File test.txt
 	         return true;
 		}catch(Exception e){
+			ErrorLog.write(e);
 			Platform.exit();
 			System.exit(0);
 		}
@@ -317,10 +316,8 @@ public class PomDbService implements IPomDbService {
 	public void closeDbConn(){
 		try{
 			this.con.close();
-			System.out.println("Datenbankverbindung geschlossen.");
 		}catch(Exception e){
 			ErrorLog.write(e);
-			System.err.println(e.getClass().getName()+": "+e.getMessage());
 		}
 	}
 	protected void finalize() 
@@ -341,7 +338,6 @@ public class PomDbService implements IPomDbService {
 		String sql = "";
 		for (Order order : getOrderList()) {
 			if (order.customeridProperty().get().equals(id)){
-				System.out.println("There already existing Orders for Customer " +id);
 				return false;
 			}
 		}
@@ -361,7 +357,7 @@ public class PomDbService implements IPomDbService {
 			
 			if(!delContactList.isEmpty()){
 				for (@SuppressWarnings("unused") Contact delContact : delContactList) {
-					sql = "DELETE FROM pom.contact WHERE customerid = ?"; // add WHERE customerID, if custID later gets PK
+					sql = "DELETE FROM pom.contact WHERE customerid = ?";
 			    	stmt = this.con.prepareStatement(sql);
 					stmt.setString(1, id);
 			    	stmt.executeUpdate();
@@ -371,7 +367,7 @@ public class PomDbService implements IPomDbService {
 			
 			if(!delBankAccountList.isEmpty()){
 				for (@SuppressWarnings("unused") BankAccount delBa : delBankAccountList) {
-					sql = "DELETE FROM pom.bankaccount WHERE customerid = ?"; // add WHERE customerID, if custID later gets PK
+					sql = "DELETE FROM pom.bankaccount WHERE customerid = ?";
 			    	stmt = this.con.prepareStatement(sql);
 					stmt.setString(1, id);
 			    	stmt.executeUpdate();
@@ -526,7 +522,6 @@ public class PomDbService implements IPomDbService {
 				return rs.getDate(columnName).toLocalDate();
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			ErrorLog.write(e);
 			return emptyDate;
 		}
@@ -654,12 +649,12 @@ public class PomDbService implements IPomDbService {
 			stmt.setInt(6, order.volumeProperty().get());
 			stmt.setString(7, order.stateProperty().get().toString());
 			stmt.setString(8, order.baseLotIdProperty().get());
-			setNullDate(stmt, 9, order.getOrderDate());//OrderDate
-			setNullDate(stmt, 10, order.getStartDate());//starDate
-			setNullDate(stmt, 11, order.getReleaseDate());//releaseDate
-			setNullDate(stmt, 12, order.getCompletionDate());//completionDate
-			setNullDate(stmt, 13, order.getDueDate());//DueDate
-			setNullDate(stmt, 14, order.getActualDeliveryDate());//ActualDeliveryDate
+			setNullDate(stmt, 9, order.getOrderDate());
+			setNullDate(stmt, 10, order.getStartDate());
+			setNullDate(stmt, 11, order.getReleaseDate());
+			setNullDate(stmt, 12, order.getCompletionDate());
+			setNullDate(stmt, 13, order.getDueDate());
+			setNullDate(stmt, 14, order.getActualDeliveryDate());
 			stmt.setInt(15, order.lotSizeProperty().get());
 			stmt.setInt(16, order.priorityProperty().get());
 			stmt.setString(17, order.commentProperty().get());
@@ -693,12 +688,12 @@ public class PomDbService implements IPomDbService {
 			stmt.setInt(6, order.volumeProperty().get());
 			stmt.setString(7, order.stateProperty().get());
 			stmt.setString(8, order.baseLotIdProperty().get());
-			setNullDate(stmt, 9, order.getOrderDate());//OrderDate
-			setNullDate(stmt, 10, order.getStartDate());//starDate
-			setNullDate(stmt, 11, order.getReleaseDate());//releaseDate
-			setNullDate(stmt, 12, order.getCompletionDate());//completionDate
-			setNullDate(stmt, 13, order.getDueDate());//DueDate
-			setNullDate(stmt, 14, order.getActualDeliveryDate());//ActualDeliveryDate
+			setNullDate(stmt, 9, order.getOrderDate());
+			setNullDate(stmt, 10, order.getStartDate());
+			setNullDate(stmt, 11, order.getReleaseDate());
+			setNullDate(stmt, 12, order.getCompletionDate());
+			setNullDate(stmt, 13, order.getDueDate());
+			setNullDate(stmt, 14, order.getActualDeliveryDate());
 			stmt.setInt(15, order.lotSizeProperty().get());
 			stmt.setInt(16, order.priorityProperty().get());
 			stmt.setString(17, order.commentProperty().get());
@@ -746,7 +741,7 @@ public class PomDbService implements IPomDbService {
 			stmt.setString(1, customerId);
 			ResultSet rs = stmt.executeQuery();
 			rs.next();
-			customerToReturn = new Customer( rs.getString("id"),  rs.getString("companyname"), rs.getString("ranking"),rs.getString("comment")); // customer erstellen
+			customerToReturn = new Customer( rs.getString("id"),  rs.getString("companyname"), rs.getString("ranking"),rs.getString("comment"));
 			rs.close();
 		    stmt.close();
 		    

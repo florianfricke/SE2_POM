@@ -299,7 +299,6 @@ public class PomService {
 			}
 			c.add(Calendar.DATE, 1);
 			LocalDate d = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-			System.out.println(d.toString());
 			lotTemplate.setStartDate(d);
 		}
 		return success;
@@ -325,6 +324,16 @@ public class PomService {
 	public boolean isDueDateViable(Order order)
 	{
 		return !mesPersistance.getLatestStartDate(order.ordernoProperty().get()).isAfter(order.getDueDate());
+	}
+	
+	/**
+	 *Checks whether the preferred BaselotID already exists
+	 * @param baseLotId - String of BaselotId
+	 * @return boolean true if exists or false if not exists
+	 * @version 1.0
+	 */
+	public boolean checkBaseLotIDExists(String baseLotId){
+		return mesPersistance.checkBaseLotIDExists(baseLotId);
 	}
 
 

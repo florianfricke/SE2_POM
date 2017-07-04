@@ -24,18 +24,13 @@ public class MesDbService implements IMesDBService {
 	 */
 	private boolean openConnection(){
 		try{
-			//String connectionLine = OpenConnectionFile.readFile();
 			 Class.forName("org.postgresql.Driver");
-			// con = DriverManager.getConnection(connectionLine);
-	         //con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/mes","postgres", "0815"); // Uses test.txt
 			 ConnectionParameter cp = OpenConnectionFile.readFile();
 			 con = DriverManager.getConnection("jdbc:postgresql://"+cp.getServerAddress()+":"+cp.getPort()+"/"+cp.getDataBase()+"?currentSchema=public",cp.getUser(),cp.getPassword()); // useres File test
 	         return true;
 		}catch(Exception e){
 			ErrorLog.write(e);
-			System.err.println(e.getClass().getName()+": "+e.getMessage()); // Ausgabe auf konsole
 		}
-		System.out.println("Erfolgreich verbunden!");
 		return false;
 	}
 	/**
@@ -44,10 +39,8 @@ public class MesDbService implements IMesDBService {
 	public void closeDbConn(){
 		try{
 			this.con.close();
-			System.out.println("Datenbankverbindung geschlossen.");
 		}catch(Exception e){
 			ErrorLog.write(e);
-			System.err.println(e.getClass().getName()+": "+e.getMessage()); // Ausgabe auf konsole
 		}
 	}
 	protected void finalize() 
@@ -118,7 +111,7 @@ public class MesDbService implements IMesDBService {
 		    stmt.close();
 		    return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return false;
 	}
@@ -166,7 +159,7 @@ public class MesDbService implements IMesDBService {
 		    	count = rs.getInt(1);
 		    stmt.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return count;
 	}
@@ -345,13 +338,6 @@ public class MesDbService implements IMesDBService {
 			ErrorLog.write(e);
 		}
 		return routeList;
-		/*Join
-		 * SELECT p.seq, p.product, p.route, w.oper, w."DESC",(Select COUNT(*) FROM lot WHERE route = p.route AND oper = w.oper AND "ORDER" = '43   ' ) AS count 
-			FROM prodflow p JOIN workflow w ON (p.route = w.route) 
-			WHERE p.product = '2009MF' 
-			ORDER BY p.seq ASC, w.oper ASC;  
-		 
-		 */
 	}
 	/**
 	 * 
@@ -382,5 +368,29 @@ public class MesDbService implements IMesDBService {
 			ErrorLog.write(e);
 		}
 		return operList;
+	}
+	/**
+	 *Checks whether the preferred BaselotID already exists
+	 * @param baseLotId - String of BaselotId
+	 * @return boolean true if exists or false if not exists
+	 * @version 1.0
+	 */
+	public boolean checkBaseLotIDExists(String baseLotId){
+		String sql = "";
+		PreparedStatement stmt = null;
+		ResultSet rs;
+		try{
+			sql= "Select exists(SELECT * from lot WHERE LEFT(lotid, position( '1' in lotid)) = ?)";
+			stmt = this.con.prepareStatement(sql);
+			stmt.setString(1, baseLotId+"1");
+			rs = stmt.executeQuery();
+			if(rs.next()){
+				return rs.getBoolean("exists");
+			}	
+		}
+		catch(Exception e){
+			ErrorLog.write(e);
+		}
+		return true;
 	}
 }

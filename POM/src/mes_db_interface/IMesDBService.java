@@ -18,4 +18,5 @@ public interface IMesDBService {
 	public boolean cancelLots(String orderno);
 	public int getLotInProcessCount(String orderNo);
 	public LocalDate getLatestStartDate(String orderno);
+	public boolean checkBaseLotIDExists(String baseLotId);
 }
