@@ -1,0 +1,5 @@
+localhost
+5432
+mes
+postgres
+0815

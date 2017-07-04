@@ -1,0 +1,5 @@
+package types;
+
+public enum State {
+	PLANNED, IN_PROCESS, COMPLETED, FINISHED_IN_TIME, FINISHED_DELAY, CANCELED
+}

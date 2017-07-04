@@ -1,0 +1,73 @@
+.border {
+  -fx-border-radius: 5;
+  -fx-padding: 15;
+  -fx-border-color: #a3ccdf;
+}
+
+.table-view .column-header .label {
+    -fx-alignment: center_left;
+    -fx-padding: 0 0 0 5;
+}
+
+.table-cell {
+  -fx-padding: 0 0 0 5;
+}
+
+.tree-table-view .column-header .label {
+    -fx-alignment: center_left;
+    -fx-padding: 0 0 0 5;
+}
+
+.tree-table-cell {
+  -fx-padding: 0 0 0 5;
+}
+
+.label_error {
+  -fx-border-color: #ff0707;
+  -fx-border-radius: 5;
+}
+
+.label_error:focused {
+  -fx-border-color: transparent;
+  -fx-border: none;
+}
+
+.reset_label_error {
+  -fx-border-color: #a49ea4;
+  -fx-border-radius: 5;
+}
+
+.menu_button {
+  -fx-background-radius: 0;
+  -fx-effect: innershadow(three-pass-box, transparent, 10, 0, 0, 0);
+  -fx-border-color: #b5b5b5;
+  -fx-border-width: 0 1 0 1;
+  -fx-focus-color: transparent;
+  -fx-faint-focus-color:transparent;
+}
+
+.menu_button:focused {
+  -fx-border-width: 1 1 1 1;
+}
+.combo-box:disabled .list-cell 
+{
+	-fx-opacity: 1;
+}
+.text-field:disabled
+{
+	-fx-opacity: 1;
+/* 	-fx-background-color: #e5e5e5;*/
+}
+/* For date-picker */
+.date-picker:disabled {
+     -fx-opacity: 1;
+}
+
+/* For date-picker textfield */
+.date-picker > .date-picker-display-node:disabled {
+    -fx-opacity: 1;
+}
+.combo-box:disabled, .combo-box:disabled > * {
+  -fx-opacity: 1 ;
+}
+
