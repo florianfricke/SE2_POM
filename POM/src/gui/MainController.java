@@ -523,7 +523,8 @@ public class MainController{
 	 * @version 1.0
 	 * @return true, if comboBox filter is set
 	 */
-    public void loadCustomerTable(){
+    @SuppressWarnings("unchecked")
+	public void loadCustomerTable(){
         customerId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
         customerName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         customerRanking.setCellValueFactory(cellData -> cellData.getValue().rankingProperty());
@@ -583,7 +584,8 @@ public class MainController{
 	 * @version 1.0
 	 * @return true, if comboBox filter is set
 	 */
-    public void loadOrderTable(){
+    @SuppressWarnings("unchecked")
+	public void loadOrderTable(){
         orderId.setCellValueFactory(cellData -> cellData.getValue().ordernoProperty());
         product.setCellValueFactory(cellData -> cellData.getValue().productProperty());
         priority.setCellValueFactory(cellData -> cellData.getValue().priorityProperty());

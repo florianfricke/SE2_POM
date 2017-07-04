@@ -16,7 +16,6 @@ import java.util.List;
 import org.junit.Test;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import psql_pom_db.*;
 import types.*;
 
@@ -149,7 +148,6 @@ public class JUnitTestCase {
   public void testDeleteCustomer(){
     IPomDbService pomPersistance = new PomDbService();
     Customer testCustomer = addTestCustomer();
-    PreparedStatement stmt = null;
     String customerToDeleteID = testCustomer.idProperty().get();
     boolean result = pomPersistance.deleteCustomer(customerToDeleteID);
     assertEquals(true,result);

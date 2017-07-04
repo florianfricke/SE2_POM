@@ -5,12 +5,9 @@ import types.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.postgresql.util.PSQLException;
-
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 
-import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -828,7 +825,6 @@ public class PomDbService implements IPomDbService {
 		    stmt.close();
 		    return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			ErrorLog.write(e);
 		}
 		return false;
@@ -857,7 +853,7 @@ public class PomDbService implements IPomDbService {
 		    	result = rs.getBoolean(1);
 		    stmt.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLog.write(e);
 		}
 		return result;
 	}
