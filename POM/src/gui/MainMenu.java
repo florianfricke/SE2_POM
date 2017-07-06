@@ -41,7 +41,6 @@ public class MainMenu extends Application {
 
 		} else {		
 	    	try {
-	    		System.out.println("Open Database Connection Dialog");
 	            FXMLLoader fxmlLoader = new FXMLLoader();
 	            fxmlLoader.setLocation(getClass().getResource("DatabaseConnectionDialog.fxml"));
 	            Parent root = fxmlLoader.load();
@@ -70,11 +69,9 @@ public class MainMenu extends Application {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("DashboardSubPage.fxml"));
 			root = loader.load();
 			mc = (MainController) loader.getController();
-			System.out.println("FXML wurde geladen.");
 			mc.setMainApp(this);
 		} catch (IOException e) {
 			ErrorLog.write(e);
-			System.out.println("Das war wohl nix.");
 		}
 
 		Scene scene = new Scene(root);
@@ -203,7 +200,6 @@ public class MainMenu extends Application {
   			
 			MainController mc = (MainController) loader.getController();
 			mc.setMainApp(this);
-			System.out.println(((Button) event.getSource()).getId());
 			if (((Button) event.getSource()).getId().equals("btnCustomers")) {
 				mc.loadCustomerTable();
 			}
@@ -214,7 +210,6 @@ public class MainMenu extends Application {
 				mc.loadSetupPage();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			ErrorLog.write(e);
 		}
 	}
@@ -262,6 +257,10 @@ public class MainMenu extends Application {
 
 	public boolean isDueDateViable(Order order) {
 		return pomService.isDueDateViable(order);
+	}
+	
+	public boolean checkBaseLotIDExists(String baseLotId){
+		return pomService.checkBaseLotIDExists(baseLotId);
 	}
 
 }

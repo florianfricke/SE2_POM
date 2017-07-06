@@ -15,14 +15,8 @@ import javafx.util.StringConverter;
 
 
 public class EditingCell<S, T> extends TableCell<S, T> {
-
-    // Text field for editing
-    // TODO: allow this to be a plugable control.
     private final TextField textField = new TextField();
-    
-    // Converter for converting the text in the text field to the user type, and vice-versa:
     private final StringConverter<T> converter ;
-    
     public EditingCell(StringConverter<T> converter) {
         this.converter = converter ;
 
@@ -36,7 +30,6 @@ public class EditingCell<S, T> extends TableCell<S, T> {
         this.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                 //System.out.println("cell clicked!");
             }
         });
         
@@ -100,9 +93,6 @@ public class EditingCell<S, T> extends TableCell<S, T> {
     public static <S> EditingCell<S, String> createStringEditCell() {
         return new EditingCell<S, String>(IDENTITY_CONVERTER);
     }
-    
-
-    // set the text of the text field and display the graphic
     @Override
     public void startEdit() {
         super.startEdit();
@@ -110,21 +100,13 @@ public class EditingCell<S, T> extends TableCell<S, T> {
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         textField.requestFocus();   
     }
-
-    // revert to text display
     @Override
     public void cancelEdit() {
         super.cancelEdit();
         setContentDisplay(ContentDisplay.TEXT_ONLY);
     }
-
-    // commits the edit. Update property if possible and revert to text display
     @Override
     public void commitEdit(T item) {
-        
-        // This block is necessary to support commit on losing focus, because the baked-in mechanism
-        // sets our editing state to false before we can intercept the loss of focus.
-        // The default commitEdit(...) method simply bails if we are not editing...
         if (! isEditing() && ! item.equals(getItem())) {
             TableView<S> table = getTableView();
             if (table != null) {
@@ -135,10 +117,7 @@ public class EditingCell<S, T> extends TableCell<S, T> {
                 Event.fireEvent(column, event);
             }
         }
-
         super.commitEdit(item);
-        
         setContentDisplay(ContentDisplay.TEXT_ONLY);
     }
-
 }

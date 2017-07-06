@@ -98,6 +98,11 @@
                                     <PropertyValueFactory property="dueDate" />
                                  </cellValueFactory>
                               </TableColumn>
+                              <TableColumn fx:id="actualDeliveryDate" prefWidth="75.0" text="Actual Delivery Date">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="actualDeliveryDate" />
+                                 </cellValueFactory>
+                              </TableColumn>
                            </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -157,7 +162,7 @@
                                     <PropertyValueFactory property="actualDeliveryDate" />
                                  </cellValueFactory>
                               </TableColumn>
-                              <TableColumn fx:id="delay" prefWidth="75.0" text="Delay (days)">
+                              <TableColumn fx:id="delay" prefWidth="75.0" text="Delivery Delay (days)">
                                  <cellValueFactory>
                                     <PropertyValueFactory property="delay" />
                                  </cellValueFactory>

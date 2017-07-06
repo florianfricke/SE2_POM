@@ -56,6 +56,7 @@
 .text-field:disabled
 {
 	-fx-opacity: 1;
+/* 	-fx-background-color: #e5e5e5;*/
 }
 /* For date-picker */
 .date-picker:disabled {

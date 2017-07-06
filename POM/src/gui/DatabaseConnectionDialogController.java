@@ -13,14 +13,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import types.ErrorLog;
-import types.State;
 
 public class DatabaseConnectionDialogController{
 	
@@ -71,8 +68,6 @@ public class DatabaseConnectionDialogController{
 	private void createEventHandler(){
 		currentStage.setOnCloseRequest(new EventHandler<WindowEvent>(){
 	    	public void handle(WindowEvent we) {
-	    		System.out.println("Close");
-
 	    		Platform.exit();
 	    		System.exit(0);
 	        }

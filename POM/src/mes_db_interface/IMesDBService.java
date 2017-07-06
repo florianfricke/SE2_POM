@@ -1,6 +1,5 @@
 package mes_db_interface;
 
-import java.sql.Array;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -18,4 +17,5 @@ public interface IMesDBService {
 	public boolean cancelLots(String orderno);
 	public int getLotInProcessCount(String orderNo);
 	public LocalDate getLatestStartDate(String orderno);
+	public boolean checkBaseLotIDExists(String baseLotId);
 }
