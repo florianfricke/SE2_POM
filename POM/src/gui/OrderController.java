@@ -289,7 +289,9 @@ public class OrderController {
         orderNo.setCellValueFactory(cellData -> cellData.getValue().orderNoProperty());
         startDate.setCellValueFactory(cellData -> cellData.getValue().startDateProperty());
         dueDate.setCellValueFactory(cellData -> cellData.getValue().dueDateProperty());
-        lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
+        if(!(order.stateProperty().get() == State.PLANNED.name())){
+        	lotTable.setItems(mainMenu.getLotList(order.ordernoProperty().get()));
+        }
 	}
 	  /**
 	   * Check if all necessary fields are filled
@@ -497,6 +499,16 @@ public class OrderController {
 	   */ 
 	@FXML private void handleRelease(ActionEvent event) {
     	String errText = new String();
+    	if(!(order.stateProperty().get() == State.PLANNED.name())){
+    		Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Notification");
+        	errText = "State have to be PLANNED!\n";
+        	alert.setHeaderText(errText);
+        	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
+        	alert.show();
+    		return;
+    	}
     	if(!checkFieldsFilled("release")) {return;}
 		if(mainMenu.checkBaseLotIDExists(txt_baseLotID.getText())){
 			txt_baseLotID.getStyleClass().add("label_error");
@@ -505,7 +517,7 @@ public class OrderController {
 			txt_errorMessage.setText("This BaseLotId is already in use.");
 			return;
 		}
-    	if(order.stateProperty().get() == State.PLANNED.name() && !order.getStartDate().isBefore(LocalDate.now())){
+    	if(!order.getStartDate().isBefore(LocalDate.now())){
 			handleSave(event);
 			if(mainMenu.releaseOrder(order))
 			{
@@ -529,10 +541,7 @@ public class OrderController {
     	}else{
     		Alert alert = new Alert(AlertType.ERROR);
         	alert.setTitle("Notification");
-        	if(order.stateProperty().get() != State.PLANNED.name()) 
-        		errText = "State have to be PLANNED!\n";
-        	if(order.getStartDate().isBefore(LocalDate.now()))
-        		errText += "Start date is in the past.";
+        	errText += "Start date is in the past.";
         	alert.setHeaderText(errText);
         	Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         	stage.getIcons().add(new Image("file:src/gui/Cinderella_Icon.png"));
