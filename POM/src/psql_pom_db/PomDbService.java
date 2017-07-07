@@ -21,10 +21,8 @@ public class PomDbService implements IPomDbService {
 	}
 	/**
 	 * Inserts a Customer into the Database and all related Address-, Contact- or Bank account data
-
 	 * @param cust - Instance of type Customer
 	 * @return boolean for success or failure
-	 * @author Markus H�fgen
 	 * @version 1.0
 	 */
 	@Override
@@ -115,7 +113,6 @@ public class PomDbService implements IPomDbService {
 	 * The function also handles added or deleted Addresses, Contacts or Bankaccounts.
 	 * @param cust - Instance of type Customer
 	 * @return boolean for success or failure
-	 * @author Markus H�fgen
 	 * @version 1.0
 	 */
 	@Override
@@ -327,7 +324,6 @@ public class PomDbService implements IPomDbService {
 	 * @version 1.0
 	 * @param id - (String) Id of the Customer
 	 * @return boolean for success or failure
-	 * @author Markus H�fgen
 	 */
 	@Override
 	public boolean deleteCustomer(String id) { 
@@ -727,7 +723,6 @@ public class PomDbService implements IPomDbService {
 	/**
 	 * Returns a Customer from the Database with all related Addresses, Contacts, Bankaccounts
 	 * @return List of Customers
-	 * @author Markus H�fgen
 	 * @version 1.0
 	 */
 	public Customer getCustomer(String customerId){
@@ -756,7 +751,6 @@ public class PomDbService implements IPomDbService {
 	 * Checks if a Setup Dataset has already been created   
 	 * @version 1.0
 	 * @return boolean - true if Setup existing, false if not
-	 * @author Markus H�fgen
 	 */
 	public boolean hasSetup(){
 		PreparedStatement stmt = null;
@@ -780,7 +774,6 @@ public class PomDbService implements IPomDbService {
 	 * Returns a Setup Object 
 	 * @version 1.0
 	 * @return Setup - Instance of type Setup
-	 * @author Markus H�fgen
 	 */
 	public Setup getSetup()
 	{
@@ -808,7 +801,6 @@ public class PomDbService implements IPomDbService {
 	 * @version 1.0
 	 * @param setup - Instance of type Setup
 	 * @return boolean for success or failure 
-	 * @author Markus H�fgen
 	 */
 	public boolean upsertSetup(Setup setup)
 	{

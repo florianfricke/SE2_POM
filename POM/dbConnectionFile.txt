@@ -1,5 +1,5 @@
-localhost
+141.56.131.60
 5432
-mes
-postgres
-0815
+vwp
+mesadmin
+adm@HTW
